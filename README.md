@@ -1,6 +1,6 @@
 # Sitebender Studio
 
-A declarative DSL for building enterprise applications using only TSX.
+A declarative DSL for building enterprise applications using only TSX components.
 
 ## Table of Contents
 
@@ -98,19 +98,19 @@ You're declaring data that describes your application:
 
 ```tsx
 <Essay>
-  <Heading>
-    <Title>Understanding Semantic Architecture</Title>
-    <Author>The Architect</Author>
-  </Heading>
-  <Section>
-    <Heading>
-      <Title>Why Data First?</Title>
-    </Heading>
-    <Paragraph>
-      Because data can be queried, reasoned about, and transformed.
-    </Paragraph>
-  </Section>
-</Essay>;
+	<Heading>
+		<Title>Understanding Semantic Architecture</Title>
+		<Author>The Architect</Author>
+	</Heading>
+	<Section>
+		<Heading>
+			<Title>Why Data First?</Title>
+		</Heading>
+		<Paragraph>
+			Because data can be queried, reasoned about, and transformed.
+		</Paragraph>
+	</Section>
+</Essay>
 ```
 
 This compiles to RDF triples, persists in Oxigraph (a high-performance triple
@@ -139,17 +139,17 @@ Sitebender's Toolsmith library provides **precision types enforced at runtime**:
 
 ```typescript
 type Integer = Tagged<"Integer"> & {
-  readonly value: bigint;
+	readonly value: bigint;
 };
 
 type Fraction = Tagged<"Fraction"> & {
-  readonly numerator: bigint;
-  readonly denominator: bigint;
+	readonly numerator: bigint;
+	readonly denominator: bigint;
 };
 
 type PrecisionNumber = Tagged<"PrecisionNumber"> & {
-  readonly value: bigint;
-  readonly decimalPlaces: bigint;
+	readonly value: bigint;
+	readonly decimalPlaces: bigint;
 };
 ```
 
@@ -213,7 +213,7 @@ The **same definition** drives:
 - Database constraints — identical rules in storage
 
 ```tsx
-<ConceptForm of="Person" />;
+<ConceptForm of="Person" />
 ```
 
 This generates a complete form from the `Person` shape. Change the shape once,
@@ -434,21 +434,25 @@ As a Sitebender consumer, you write this:
 
 ```tsx
 <Recipe>
-  <RecipeTitle>Grandmother's Apple Pie</RecipeTitle>
-  <PrepTime duration="PT30M" />
-  <CookTime duration="PT45M" />
-  <Ingredients>
-    <Ingredient amount="2" unit="cup">flour</Ingredient>
-    <Ingredient amount="1" unit="cup">butter, cold</Ingredient>
-    <Ingredient amount="6">apples, peeled and sliced</Ingredient>
-  </Ingredients>
-  <Instructions>
-    <Step>Cut butter into flour until crumbly</Step>
-    <Step>Press into pie dish</Step>
-    <Step>Fill with apples and top with second crust</Step>
-    <Step>Bake at 375°F for 45 minutes</Step>
-  </Instructions>
-</Recipe>;
+	<RecipeTitle>Grandmother's Apple Pie</RecipeTitle>
+	<PrepTime duration="PT30M" />
+	<CookTime duration="PT45M" />
+	<Ingredients>
+		<Ingredient amount="2" unit="cup">
+			flour
+		</Ingredient>
+		<Ingredient amount="1" unit="cup">
+			butter, cold
+		</Ingredient>
+		<Ingredient amount="6">apples, peeled and sliced</Ingredient>
+	</Ingredients>
+	<Instructions>
+		<Step>Cut butter into flour until crumbly</Step>
+		<Step>Press into pie dish</Step>
+		<Step>Fill with apples and top with second crust</Step>
+		<Step>Bake at 375°F for 45 minutes</Step>
+	</Instructions>
+</Recipe>
 ```
 
 Step order is automatic — child position in TSX becomes `schema:position` in
