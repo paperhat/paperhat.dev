@@ -1,6 +1,34 @@
 # Sitebender Studio
 
-A declarative DSL for building enterprise applications using only TSX/JSX.
+A declarative DSL for building enterprise applications using only TSX.
+
+## Table of Contents
+
+- [The Paradigm Shift](#the-paradigm-shift)
+- [Democratizing Web Development](#democratizing-web-development)
+- [Everything Is Data](#everything-is-data)
+- [Runtime Types That Actually Work](#runtime-types-that-actually-work)
+- [The Three-Path Pattern](#the-three-path-pattern)
+- [Schema-Driven Everything](#schema-driven-everything)
+- [Structural Validation](#structural-validation)
+- [Help, Don't Scold](#help-dont-scold)
+- [The Library Ecosystem](#the-library-ecosystem)
+  - [Foundation Layer](#foundation-layer)
+  - [Rendering Layer](#rendering-layer)
+  - [Data Layer](#data-layer)
+  - [Application Layer](#application-layer)
+  - [Quality Layer](#quality-layer)
+  - [Communication Layer](#communication-layer)
+  - [Tooling Layer](#tooling-layer)
+- [Quality Enforcement Pipeline](#quality-enforcement-pipeline)
+- [Three Rendering Modes](#three-rendering-modes)
+- [Progressive Enhancement](#progressive-enhancement)
+- [High Availability and Disaster Recovery](#high-availability-and-disaster-recovery)
+- [What You Actually Write](#what-you-actually-write)
+- [Installation](#installation)
+- [License](#license)
+
+<a id="the-paradigm-shift"></a>
 
 ## The Paradigm Shift
 
@@ -13,11 +41,55 @@ behavior, validation — exists as queryable semantic data in a triple store.**
 The rendered interface is just one projection of the underlying knowledge graph.
 
 ```
-TSX/JSX → IR → Turtle Triples → Oxigraph → SPARQL → JSON → render → HTML/DOM
+TSX → IR → Turtle Triples → Oxigraph → SPARQL → JSON → render → HTML/DOM
 ```
 
 This isn't an implementation detail. It's the foundation that enables
 capabilities impossible with traditional approaches.
+
+<a id="democratizing-web-development"></a>
+
+## Democratizing Web Development
+
+Sitebender lowers the bar for building powerful, accessible,
+standards-compliant, robust, scalable, distributed, and offline-capable web
+applications.
+
+**You don't need to understand everything at once.**
+
+| Stage | Libraries                | Skills Required                    | What You Build                |
+| ----- | ------------------------ | ---------------------------------- | ----------------------------- |
+| 1     | Architect, Quartermaster | Follow templates, domain knowledge | Static sites                  |
+| 2     | + Pathfinder, Artificer  | Basic arithmetic, domain logic     | Dynamic sites with validation |
+| 3     | + Custodian, Operator    | State and events concepts          | Interactive applications      |
+| 4     | + Exchequer, Reckoner    | Commerce understanding             | E-commerce                    |
+| 5     | + Agent                  | P2P and CRDT concepts              | Distributed, offline-capable  |
+
+Toolsmith types and functions are used throughout. Sentinel handles security.
+You add complexity as you need it.
+
+**Semantic components match domains.** `<Recipe>`, `<Song>`, `<Invoice>` are
+self-describing. Understand recipes? Build a recipe site. Domain expertise
+matters more than programming skill.
+
+**Templates and tooling smooth the path.** Quartermaster scaffolds working apps.
+Tutorials guide progression. Visual editors are coming.
+
+**The audience:**
+
+- Kids with domain expertise building something real
+- Designers prototyping without developers
+- Small businesses with real e-commerce needs
+- Communities wanting privacy-respecting apps
+- Anyone not afraid of a little "code" (which is really just semantic
+  composition)
+
+**AI makes it even easier** — but it's not the primary story. The same
+properties that make Sitebender human-understandable (semantic components,
+queryable data, structural validation) also make it AI-friendly. Human-first
+with AI compatibility, not AI-first with human readability.
+
+<a id="everything-is-data"></a>
 
 ## Everything Is Data
 
@@ -26,19 +98,19 @@ You're declaring data that describes your application:
 
 ```tsx
 <Essay>
-	<Heading>
-		<Title>Understanding Semantic Architecture</Title>
-		<Author>The Architect</Author>
-	</Heading>
-	<Section>
-		<Heading>
-			<Title>Why Data First?</Title>
-		</Heading>
-		<Paragraph>
-			Because data can be queried, reasoned about, and transformed.
-		</Paragraph>
-	</Section>
-</Essay>
+  <Heading>
+    <Title>Understanding Semantic Architecture</Title>
+    <Author>The Architect</Author>
+  </Heading>
+  <Section>
+    <Heading>
+      <Title>Why Data First?</Title>
+    </Heading>
+    <Paragraph>
+      Because data can be queried, reasoned about, and transformed.
+    </Paragraph>
+  </Section>
+</Essay>;
 ```
 
 This compiles to RDF triples, persists in Oxigraph (a high-performance triple
@@ -55,6 +127,8 @@ metadata — all determined automatically by context.
 - Federate data from multiple sources at query time
 - Let inference engines derive facts you didn't explicitly program
 
+<a id="runtime-types-that-actually-work"></a>
+
 ## Runtime Types That Actually Work
 
 TypeScript provides compile-time safety. But TypeScript types vanish at runtime.
@@ -65,17 +139,17 @@ Sitebender's Toolsmith library provides **precision types enforced at runtime**:
 
 ```typescript
 type Integer = Tagged<"Integer"> & {
-	readonly value: bigint;
+  readonly value: bigint;
 };
 
 type Fraction = Tagged<"Fraction"> & {
-	readonly numerator: bigint;
-	readonly denominator: bigint;
+  readonly numerator: bigint;
+  readonly denominator: bigint;
 };
 
 type PrecisionNumber = Tagged<"PrecisionNumber"> & {
-	readonly value: bigint;
-	readonly decimalPlaces: bigint;
+  readonly value: bigint;
+  readonly decimalPlaces: bigint;
 };
 ```
 
@@ -96,6 +170,8 @@ financial, scientific, or simply correct — you get them.
 The numeric type hierarchy provides lossless conversions up and explicit
 rounding modes down. Mixed-type operations promote to the appropriate common
 type automatically.
+
+<a id="the-three-path-pattern"></a>
 
 ## The Three-Path Pattern
 
@@ -122,6 +198,8 @@ emailAddress(success("user@example.com")); // → Validation<Helps, EmailAddress
 Same validation logic, three execution strategies. The constructor validates,
 normalizes, brands, and returns the same monad type you provided.
 
+<a id="schema-driven-everything"></a>
+
 ## Schema-Driven Everything
 
 Your validation rules ARE your data model.
@@ -135,7 +213,7 @@ The **same definition** drives:
 - Database constraints — identical rules in storage
 
 ```tsx
-<ConceptForm of="Person" />
+<ConceptForm of="Person" />;
 ```
 
 This generates a complete form from the `Person` shape. Change the shape once,
@@ -153,7 +231,9 @@ Widget selection happens automatically based on type:
 SHACL constraints (`minInclusive`, `maxInclusive`, `pattern`) become client-side
 validation automatically.
 
-## AI-Safe Architecture
+<a id="structural-validation"></a>
+
+## Structural Validation
 
 The ontology defines what CAN exist:
 
@@ -171,9 +251,11 @@ Proposed change → SHACL validation → Pass? Save. Fail? Reject.
 Invalid changes never persist. There's no "invalid state that slipped through."
 If it doesn't fit the ontology, it doesn't exist in the triple store.
 
-This matters because AI systems (and humans) make mistakes. Documentation gets
-ignored. Conventions get forgotten. But structural validation at the data layer
-cannot be bypassed.
+Everyone makes mistakes — humans forget conventions, AI assistants hallucinate,
+copy-paste errors happen. But structural validation at the data layer cannot be
+bypassed. The same guardrails protect everyone.
+
+<a id="help-dont-scold"></a>
 
 ## Help, Don't Scold
 
@@ -194,84 +276,128 @@ SEVERITY.critical; // "MAYDAY!" — must fix to proceed
 Issue codes never blame: `TEXT_NOT_UNDERSTOOD` not `INVALID_TEXT`. The
 limitation is ours, not theirs.
 
+<a id="the-library-ecosystem"></a>
+
 ## The Library Ecosystem
+
+<a id="foundation-layer"></a>
 
 ### Foundation Layer
 
-| Library       | Purpose                                                        |
-| ------------- | -------------------------------------------------------------- |
-| **Toolsmith** | Runtime type system, precision arithmetic, monads, Help system |
-| **Arborist**  | SWC-based AST parsing for JSX transformation                   |
+| Library       | Purpose                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Toolsmith** | Runtime type system, precision arithmetic, monads, Help system, utility functions                          |
+| **Arborist**  | The ONLY parser integration — SWC and deno_ast WASM; one parser, many consumers (Envoy, Auditor, Quarrier) |
+
+<a id="rendering-layer"></a>
 
 ### Rendering Layer
 
-| Library       | Purpose                                                                         |
-| ------------- | ------------------------------------------------------------------------------- |
-| **Architect** | Semantic authoring language that compiles to HTML via the triple store pipeline |
-| **Artificer** | Reactive behaviors as data: calculations, validation, conditional display       |
+| Library       | Purpose                                                                                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Architect** | Context-aware semantic TSX compiling to HTML via RDF/SPARQL — 1000+ type-safe components with automatic accessibility and guaranteed WHATWG compliance |
+| **Artificer** | Reactive behaviors as declarative TSX — calculations, validation, conditional display, schema-driven forms via SHACL                                   |
+
+<a id="data-layer"></a>
 
 ### Data Layer
 
-| Library        | Purpose                                                |
-| -------------- | ------------------------------------------------------ |
-| **Pathfinder** | Triple store integration, SPARQL queries, named graphs |
-| **Custodian**  | State management that respects web architecture        |
-| **Quarrier**   | Test data generation respecting validation constraints |
+| Library        | Purpose                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Pathfinder** | Triple store integration — SPARQL queries, named graphs, vector similarity search                             |
+| **Custodian**  | State management respecting web architecture — URL-encoded state, idempotent operations, signed continuations |
+| **Quarrier**   | Property-based testing — SHACL-aware generators, metamorphic testing, lazy shrink trees                       |
+
+<a id="application-layer"></a>
 
 ### Application Layer
 
-| Library        | Purpose                                                             |
-| -------------- | ------------------------------------------------------------------- |
-| **Formulator** | Expression parsing and evaluation                                   |
-| **Exchequer**  | Commerce primitives: products, orders, payments as declarative data |
-| **Linguist**   | Internationalization where translations are RDF triples             |
-| **Sentinel**   | Authentication, authorization, security policies as data            |
+| Library        | Purpose                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Formulator** | Bidirectional formula parsing — human notation to Artificer IR with MathML output                               |
+| **Exchequer**  | Commerce primitives: products, orders, payments, returns, gift cards, quotes with exact decimal arithmetic      |
+| **Reckoner**   | Pricing transformations: promotions, discounts, refund policies, loyalty programs, credit management            |
+| **Linguist**   | Internationalization as declarative data — translations as triples with ICU MessageFormat and RTL support       |
+| **Sentinel**   | Security as queryable triples — OAuth2, WebAuthn, DID Auth, RBAC/ABAC, capability tokens, mock auth for testing |
+
+<a id="quality-layer"></a>
 
 ### Quality Layer
 
-| Library     | Purpose                                                  |
-| ----------- | -------------------------------------------------------- |
-| **Steward** | Code style enforcement (deterministic, non-configurable) |
-| **Warden**  | Architectural governance via ontology validation         |
-| **Auditor** | Formal verification of validation logic                  |
+| Library     | Purpose                                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------------------- |
+| **Steward** | Code style enforcement (deterministic, non-configurable)                                                      |
+| **Warden**  | Import boundary enforcement and SHACL validation — guards library boundaries and component compositions       |
+| **Auditor** | Formal verification via Z3 theorem proving — mathematical proofs of correctness and automated test generation |
+
+<a id="communication-layer"></a>
 
 ### Communication Layer
 
-| Library          | Purpose                                                           |
-| ---------------- | ----------------------------------------------------------------- |
-| **Operator**     | Pub/sub event system scaling from local DOM to distributed global |
-| **Orchestrator** | Workflow coordination                                             |
-| **Agent**        | Distributed data synchronization via CRDTs                        |
-| **Envoy**        | Structured logging and observability                              |
+| Library          | Purpose                                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------------------- |
+| **Operator**     | Pub/sub as triples — channels, transport layers, event sourcing, projections with Warden validation       |
+| **Orchestrator** | Workflow automation as triples — n8n-style pipelines with TSX or visual editing, distributed execution    |
+| **Agent**        | Local-first P2P sync via CRDTs, DIDs for identity, E2E encryption — no servers to maintain                |
+| **Envoy**        | Structured logging and observability — codebase as knowledge graph, SPARQL queries, time-travel debugging |
+
+<a id="tooling-layer"></a>
 
 ### Tooling Layer
 
-| Library           | Purpose                               |
-| ----------------- | ------------------------------------- |
-| **Quartermaster** | Application scaffolding and templates |
+| Library           | Purpose                                                                 |
+| ----------------- | ----------------------------------------------------------------------- |
+| **Quartermaster** | Application generator — `bend new` creates working apps from blueprints |
+
+**Available blueprints:** minimal, blog, dashboard, form-builder, e-commerce,
+collaborative-doc, knowledge-base.
+
+<a id="quality-enforcement-pipeline"></a>
+
+## Quality Enforcement Pipeline
+
+Code quality is enforced through a strict pipeline:
+
+```
+Author writes code → Steward → deno fmt → Warden → Commit
+```
+
+1. **Steward** normalizes code shape (formatting, naming, one-function-per-file)
+   with safe autofixes
+2. **deno fmt** finalizes formatting to canonical form
+3. **Warden** validates relationships (import boundaries, SHACL compositions)
+
+Steward answers: "Is this well-formed?" Warden answers: "Is this allowed?"
+
+Invalid code is rejected before it reaches the repository. The pipeline runs on
+every commit and in CI.
+
+<a id="three-rendering-modes"></a>
 
 ## Three Rendering Modes
 
 **Development** — Fast iteration, skip the triple store:
 
 ```
-JSX → IR → JSON → render → HTML
+TSX → IR → JSON → render → HTML
 ```
 
 **Integration** — Full pipeline with ephemeral Oxigraph, verifies invariants:
 
 ```
-JSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML
+TSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML
 ```
 
 **Production** — Full pipeline with persistent storage:
 
 ```
-JSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML
+TSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML
 ```
 
 All three modes produce identical JSON. Integration mode catches pipeline bugs
 before production.
+
+<a id="progressive-enhancement"></a>
 
 ## Progressive Enhancement
 
@@ -286,54 +412,79 @@ Three layers compose the experience:
 
 Enhancement improves the experience but never enables it.
 
+<a id="high-availability-and-disaster-recovery"></a>
+
 ## High Availability and Disaster Recovery
 
-An unexpected consequence of "everything is data": enterprise-grade resilience
-emerges naturally from the architecture.
+When your entire application lives as queryable RDF triples, HADR stops being a
+feature you add and becomes a property you inherit. One source of truth means
+one backup strategy. Stateless rendering means instant failover. Named graphs
+enable per-category replication policies.
 
-Traditional applications scatter state across application memory, database rows,
-file systems, caches, and browser storage. Recovering from failure means
-coordinating N different backup strategies, hoping nothing falls through the
-cracks. Teams bolt on HADR as an afterthought, fighting their own architecture
-every step of the way.
+See [docs/hadr.md](./docs/hadr.md) for comprehensive details.
 
-Sitebender's triple store foundation inverts this. When your entire
-application—structure, content, behavior, state—lives as queryable RDF triples,
-HADR stops being a feature you add and becomes a property you inherit:
+<a id="what-you-actually-write"></a>
 
-- **One source of truth** → one backup strategy, one recovery procedure
-- **Stateless rendering pipeline** → any node can serve any request, instant
-  failover
-- **Named graphs** → per-category replication policies without multiple
-  databases
-- **Browser-side Oxigraph** → offline operation with automatic conflict
-  resolution
-- **Immutable event log** → point-in-time recovery with complete audit trail
-- **SHACL validation** → automatic integrity verification after restoration
+## What You Actually Write
 
-The architecture doesn't _support_ HADR. It _embodies_ it.
+The library ecosystem above is **internal infrastructure**. You don't interact
+with it directly.
 
-See [HADR.md](./HADR.md) for comprehensive details.
-
-## Getting Started
-
-```bash
-deno add @sitebender/architect @sitebender/artificer @sitebender/toolsmith
-```
+As a Sitebender consumer, you write this:
 
 ```tsx
-import Essay from "@sitebender/architect/documents/Essay/index.tsx";
-import Heading from "@sitebender/architect/documents/Heading/index.tsx";
-import Title from "@sitebender/architect/documents/Title/index.tsx";
-
-<Essay>
-	<Heading>
-		<Title>My First Sitebender Application</Title>
-	</Heading>
-</Essay>;
+<Recipe>
+  <RecipeTitle>Grandmother's Apple Pie</RecipeTitle>
+  <PrepTime duration="PT30M" />
+  <CookTime duration="PT45M" />
+  <Ingredients>
+    <Ingredient amount="2" unit="cup">flour</Ingredient>
+    <Ingredient amount="1" unit="cup">butter, cold</Ingredient>
+    <Ingredient amount="6">apples, peeled and sliced</Ingredient>
+  </Ingredients>
+  <Instructions>
+    <Step>Cut butter into flour until crumbly</Step>
+    <Step>Press into pie dish</Step>
+    <Step>Fill with apples and top with second crust</Step>
+    <Step>Bake at 375°F for 45 minutes</Step>
+  </Instructions>
+</Recipe>;
 ```
 
-Direct imports. No barrel files. The path IS the documentation.
+Step order is automatic — child position in TSX becomes `schema:position` in
+triples. No manual numbering. Reorder by moving elements.
+
+That's it. Semantic TSX with plain English component names and props. No
+abbreviations. No framework jargon. No direct interaction with monads, SPARQL,
+or triple stores.
+
+**To start a new project:**
+
+```bash
+bend new my-recipe-site --template=blog
+cd my-recipe-site
+bend dev
+```
+
+Quartermaster scaffolds a working application. You modify semantic components to
+match your domain. The 20 libraries handle type safety, validation, rendering,
+state, persistence, and everything else — invisibly.
+
+The complexity documented above exists so yours doesn't have to.
+
+<a id="installation"></a>
+
+## Installation
+
+No barrel files. Import directly from source files. Functions are default
+exports; types and constants are named exports.
+
+```typescript
+import Essay from "@sitebender/architect/documents/Essay/index.tsx";
+import type { EssayProps } from "@sitebender/architect/documents/Essay/index.tsx";
+```
+
+<a id="license"></a>
 
 ## License
 

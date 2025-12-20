@@ -234,7 +234,7 @@ The three rendering modes map to graceful degradation:
 ### Level 0: Full Operation (Production)
 
 ```
-JSX → IR → Triples → Oxigraph (Primary) → SPARQL → JSON → HTML
+TSX → IR → Triples → Oxigraph (Primary) → SPARQL → JSON → HTML
 ```
 
 All features available. Real-time data. Full write capability.
@@ -242,7 +242,7 @@ All features available. Real-time data. Full write capability.
 ### Level 1: Degraded (Integration)
 
 ```
-JSX → IR → Triples → Oxigraph (Replica) → SPARQL → JSON → HTML
+TSX → IR → Triples → Oxigraph (Replica) → SPARQL → JSON → HTML
 ```
 
 Read operations work. Writes queued or rejected. Data may be slightly stale
@@ -251,7 +251,7 @@ within RPO.
 ### Level 2: Emergency (Development)
 
 ```
-JSX → IR → JSON (Cached) → HTML
+TSX → IR → JSON (Cached) → HTML
 ```
 
 Triple store bypassed. Serve from CDN/cache. Static content only.

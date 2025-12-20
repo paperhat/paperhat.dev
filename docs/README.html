@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Sitebender Studio</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Sitebender Studio</h1>
+</header>
+<h1 id="sitebender-studio">Sitebender Studio</h1>
+<p>A declarative DSL for building enterprise applications using only
+TSX.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#the-paradigm-shift">The Paradigm Shift</a></li>
+<li><a href="#democratizing-web-development">Democratizing Web
+Development</a></li>
+<li><a href="#everything-is-data">Everything Is Data</a></li>
+<li><a href="#runtime-types-that-actually-work">Runtime Types That
+Actually Work</a></li>
+<li><a href="#the-three-path-pattern">The Three-Path Pattern</a></li>
+<li><a href="#schema-driven-everything">Schema-Driven
+Everything</a></li>
+<li><a href="#structural-validation">Structural Validation</a></li>
+<li><a href="#help-dont-scold">Help, Don’t Scold</a></li>
+<li><a href="#the-library-ecosystem">The Library Ecosystem</a>
+<ul>
+<li><a href="#foundation-layer">Foundation Layer</a></li>
+<li><a href="#rendering-layer">Rendering Layer</a></li>
+<li><a href="#data-layer">Data Layer</a></li>
+<li><a href="#application-layer">Application Layer</a></li>
+<li><a href="#quality-layer">Quality Layer</a></li>
+<li><a href="#communication-layer">Communication Layer</a></li>
+<li><a href="#tooling-layer">Tooling Layer</a></li>
+</ul></li>
+<li><a href="#quality-enforcement-pipeline">Quality Enforcement
+Pipeline</a></li>
+<li><a href="#three-rendering-modes">Three Rendering Modes</a></li>
+<li><a href="#progressive-enhancement">Progressive Enhancement</a></li>
+<li><a href="#high-availability-and-disaster-recovery">High Availability
+and Disaster Recovery</a></li>
+<li><a href="#what-you-actually-write">What You Actually Write</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<p><a id="the-paradigm-shift"></a></p>
+<h2 id="the-paradigm-shift">The Paradigm Shift</h2>
+<p>Most web frameworks treat code as code. You write functions, manage
+state in closures, and hope your types survive until runtime. Your
+application exists as source files that must be parsed, compiled, and
+executed.</p>
+<p>Sitebender inverts this model. <strong>Your entire application —
+structure, content, behavior, validation — exists as queryable semantic
+data in a triple store.</strong> The rendered interface is just one
+projection of the underlying knowledge graph.</p>
+<pre><code>TSX → IR → Turtle Triples → Oxigraph → SPARQL → JSON → render → HTML/DOM</code></pre>
+<p>This isn’t an implementation detail. It’s the foundation that enables
+capabilities impossible with traditional approaches.</p>
+<p><a id="democratizing-web-development"></a></p>
+<h2 id="democratizing-web-development">Democratizing Web
+Development</h2>
+<p>Sitebender lowers the bar for building powerful, accessible,
+standards-compliant, robust, scalable, distributed, and offline-capable
+web applications.</p>
+<p><strong>You don’t need to understand everything at once.</strong></p>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 26%" />
+<col style="width: 36%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Libraries</th>
+<th>Skills Required</th>
+<th>What You Build</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Architect, Quartermaster</td>
+<td>Follow templates, domain knowledge</td>
+<td>Static sites</td>
+</tr>
+<tr>
+<td>2</td>
+<td>+ Pathfinder, Artificer</td>
+<td>Basic arithmetic, domain logic</td>
+<td>Dynamic sites with validation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>+ Custodian, Operator</td>
+<td>State and events concepts</td>
+<td>Interactive applications</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+ Exchequer, Reckoner</td>
+<td>Commerce understanding</td>
+<td>E-commerce</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+ Agent</td>
+<td>P2P and CRDT concepts</td>
+<td>Distributed, offline-capable</td>
+</tr>
+</tbody>
+</table>
+<p>Toolsmith types and functions are used throughout. Sentinel handles
+security. You add complexity as you need it.</p>
+<p><strong>Semantic components match domains.</strong>
+<code>&lt;Recipe&gt;</code>, <code>&lt;Song&gt;</code>,
+<code>&lt;Invoice&gt;</code> are self-describing. Understand recipes?
+Build a recipe site. Domain expertise matters more than programming
+skill.</p>
+<p><strong>Templates and tooling smooth the path.</strong> Quartermaster
+scaffolds working apps. Tutorials guide progression. Visual editors are
+coming.</p>
+<p><strong>The audience:</strong></p>
+<ul>
+<li>Kids with domain expertise building something real</li>
+<li>Designers prototyping without developers</li>
+<li>Small businesses with real e-commerce needs</li>
+<li>Communities wanting privacy-respecting apps</li>
+<li>Anyone not afraid of a little “code” (which is really just semantic
+composition)</li>
+</ul>
+<p><strong>AI makes it even easier</strong> — but it’s not the primary
+story. The same properties that make Sitebender human-understandable
+(semantic components, queryable data, structural validation) also make
+it AI-friendly. Human-first with AI compatibility, not AI-first with
+human readability.</p>
+<p><a id="everything-is-data"></a></p>
+<h2 id="everything-is-data">Everything Is Data</h2>
+<p>When you write Sitebender components, you’re not writing code that
+executes. You’re declaring data that describes your application:</p>
+<pre class="tsx"><code>&lt;Essay&gt;
+  &lt;Heading&gt;
+    &lt;Title&gt;Understanding Semantic Architecture&lt;/Title&gt;
+    &lt;Author&gt;The Architect&lt;/Author&gt;
+  &lt;/Heading&gt;
+  &lt;Section&gt;
+    &lt;Heading&gt;
+      &lt;Title&gt;Why Data First?&lt;/Title&gt;
+    &lt;/Heading&gt;
+    &lt;Paragraph&gt;
+      Because data can be queried, reasoned about, and transformed.
+    &lt;/Paragraph&gt;
+  &lt;/Section&gt;
+&lt;/Essay&gt;;</code></pre>
+<p>This compiles to RDF triples, persists in Oxigraph (a
+high-performance triple store that runs in browsers via WASM or servers
+via native Rust), and renders to semantic HTML with proper heading
+levels, ARIA attributes, and Schema.org metadata — all determined
+automatically by context.</p>
+<p><strong>What this enables:</strong></p>
+<ul>
+<li>Query your application semantically: “Find all recipes under 30
+minutes with no dairy” is a SPARQL query, not a text search</li>
+<li>Apply cross-cutting changes via SPARQL UPDATE, not code
+modifications</li>
+<li>Version content with named graphs — semantic diffs, not text
+diffs</li>
+<li>Federate data from multiple sources at query time</li>
+<li>Let inference engines derive facts you didn’t explicitly
+program</li>
+</ul>
+<p><a id="runtime-types-that-actually-work"></a></p>
+<h2 id="runtime-types-that-actually-work">Runtime Types That Actually
+Work</h2>
+<p>TypeScript provides compile-time safety. But TypeScript types vanish
+at runtime. Your carefully typed <code>EmailAddress</code> parameter
+becomes just a string the moment external data arrives.</p>
+<p>Sitebender’s Toolsmith library provides <strong>precision types
+enforced at runtime</strong>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Integer <span class="op">=</span> Tagged<span class="op">&lt;</span><span class="st">&quot;Integer&quot;</span><span class="op">&gt;</span> <span class="op">&amp;</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">readonly</span> value<span class="op">:</span> <span class="dt">bigint</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Fraction <span class="op">=</span> Tagged<span class="op">&lt;</span><span class="st">&quot;Fraction&quot;</span><span class="op">&gt;</span> <span class="op">&amp;</span> {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">readonly</span> numerator<span class="op">:</span> <span class="dt">bigint</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">readonly</span> denominator<span class="op">:</span> <span class="dt">bigint</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> PrecisionNumber <span class="op">=</span> Tagged<span class="op">&lt;</span><span class="st">&quot;PrecisionNumber&quot;</span><span class="op">&gt;</span> <span class="op">&amp;</span> {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">readonly</span> value<span class="op">:</span> <span class="dt">bigint</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">readonly</span> decimalPlaces<span class="op">:</span> <span class="dt">bigint</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>The <code>Tagged</code> pattern provides runtime discrimination via
+<code>_tag</code> for pattern matching. String newtypes like
+<code>EmailAddress</code> use <code>Brand</code> for compile-time-only
+safety.</p>
+<p><strong>Two-mechanism safety:</strong></p>
+<ol type="1">
+<li><strong>Tagged types / Brands</strong> prevent bypassing validation
+in source code (compile-time)</li>
+<li><strong>Type guards</strong> validate external data at system
+boundaries (runtime)</li>
+</ol>
+<p><strong>Precision arithmetic means precision arithmetic.</strong> No
+floating-point errors. No <code>0.1 + 0.2 = 0.30000000000000004</code>.
+When you need exact calculations — financial, scientific, or simply
+correct — you get them.</p>
+<p>The numeric type hierarchy provides lossless conversions up and
+explicit rounding modes down. Mixed-type operations promote to the
+appropriate common type automatically.</p>
+<p><a id="the-three-path-pattern"></a></p>
+<h2 id="the-three-path-pattern">The Three-Path Pattern</h2>
+<p>Error handling uses three monads, each for a specific purpose:</p>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 12%" />
+<col style="width: 20%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr>
+<th>Monad</th>
+<th>Success</th>
+<th>Failure</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Maybe</strong></td>
+<td><code>Just&lt;T&gt;</code></td>
+<td><code>Nothing</code></td>
+<td>Optional values — you don’t need error details</td>
+</tr>
+<tr>
+<td><strong>Result</strong></td>
+<td><code>Ok&lt;T&gt;</code></td>
+<td><code>Help&lt;H&gt;</code></td>
+<td>Sequential operations — fail fast on first problem</td>
+</tr>
+<tr>
+<td><strong>Validation</strong></td>
+<td><code>Success&lt;T&gt;</code></td>
+<td><code>Failure&lt;[H, ...]&gt;</code></td>
+<td>Parallel/tree operations — accumulate ALL problems</td>
+</tr>
+</tbody>
+</table>
+<p>The critical distinction: <strong>Result</strong> short-circuits
+(first error stops everything). <strong>Validation</strong> accumulates
+(collect every error). Choose deliberately based on whether you want
+fail-fast or full feedback.</p>
+<p>Smart constructors accept input wrapped in any of these three
+monads:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emailAddress</span>(<span class="fu">just</span>(<span class="st">&quot;user@example.com&quot;</span>))<span class="op">;</span> <span class="co">// → Maybe&lt;EmailAddress&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emailAddress</span>(<span class="fu">ok</span>(<span class="st">&quot;user@example.com&quot;</span>))<span class="op">;</span> <span class="co">// → Result&lt;Help, EmailAddress&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emailAddress</span>(<span class="fu">success</span>(<span class="st">&quot;user@example.com&quot;</span>))<span class="op">;</span> <span class="co">// → Validation&lt;Helps, EmailAddress&gt;</span></span></code></pre></div>
+<p>Same validation logic, three execution strategies. The constructor
+validates, normalizes, brands, and returns the same monad type you
+provided.</p>
+<p><a id="schema-driven-everything"></a></p>
+<h2 id="schema-driven-everything">Schema-Driven Everything</h2>
+<p>Your validation rules ARE your data model.</p>
+<p>SHACL shapes in the triple store define types, constraints, and
+relationships. The <strong>same definition</strong> drives:</p>
+<ul>
+<li>Form generation — which fields, which widgets</li>
+<li>Client validation — rules execute in the browser</li>
+<li>Server validation — identical rules on the server</li>
+<li>Database constraints — identical rules in storage</li>
+</ul>
+<pre class="tsx"><code>&lt;ConceptForm of=&quot;Person&quot; /&gt;;</code></pre>
+<p>This generates a complete form from the <code>Person</code> shape.
+Change the shape once, everything updates. No duplicate validation
+logic. No client/server divergence.</p>
+<p>Widget selection happens automatically based on type:</p>
+<ul>
+<li><code>Integer</code> → BigInt input (arbitrary precision)</li>
+<li><code>Fraction</code> → Fraction input (configurable display)</li>
+<li><code>PrecisionNumber</code> → Decimal input (exact,
+currency-ready)</li>
+<li><code>Boolean</code> → Checkbox or toggle</li>
+<li><code>Member</code> → Radio buttons or select (threshold
+configurable)</li>
+<li><code>Subset</code> → Checkbox buttons or multiselect (threshold
+configurable)</li>
+</ul>
+<p>SHACL constraints (<code>minInclusive</code>,
+<code>maxInclusive</code>, <code>pattern</code>) become client-side
+validation automatically.</p>
+<p><a id="structural-validation"></a></p>
+<h2 id="structural-validation">Structural Validation</h2>
+<p>The ontology defines what CAN exist:</p>
+<ul>
+<li>Valid components</li>
+<li>Valid compositions (what can contain what)</li>
+<li>Type constraints</li>
+<li>Accessibility requirements (WCAG as SHACL shapes)</li>
+</ul>
+<p>Validation happens at the data layer:</p>
+<pre><code>Proposed change → SHACL validation → Pass? Save. Fail? Reject.</code></pre>
+<p>Invalid changes never persist. There’s no “invalid state that slipped
+through.” If it doesn’t fit the ontology, it doesn’t exist in the triple
+store.</p>
+<p>Everyone makes mistakes — humans forget conventions, AI assistants
+hallucinate, copy-paste errors happen. But structural validation at the
+data layer cannot be bypassed. The same guardrails protect everyone.</p>
+<p><a id="help-dont-scold"></a></p>
+<h2 id="help-dont-scold">Help, Don’t Scold</h2>
+<p>When something goes wrong, it’s the system’s fault for not making
+success obvious. Every Help object:</p>
+<ul>
+<li>Uses friendly language — “hit a snag” not “ERROR”</li>
+<li>Takes responsibility — the system fumbled, not the user</li>
+<li>Provides a path forward — suggestions, not just complaints</li>
+<li>Accumulates all issues — fix everything in one pass</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SEVERITY<span class="op">.</span><span class="at">help</span><span class="op">;</span> <span class="co">// &quot;tip&quot; — suggestion, everything works</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>SEVERITY<span class="op">.</span><span class="at">warning</span><span class="op">;</span> <span class="co">// &quot;heads-up&quot; — may not behave as intended</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>SEVERITY<span class="op">.</span><span class="at">critical</span><span class="op">;</span> <span class="co">// &quot;MAYDAY!&quot; — must fix to proceed</span></span></code></pre></div>
+<p>Issue codes never blame: <code>TEXT_NOT_UNDERSTOOD</code> not
+<code>INVALID_TEXT</code>. The limitation is ours, not theirs.</p>
+<p><a id="the-library-ecosystem"></a></p>
+<h2 id="the-library-ecosystem">The Library Ecosystem</h2>
+<p><a id="foundation-layer"></a></p>
+<h3 id="foundation-layer">Foundation Layer</h3>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Toolsmith</strong></td>
+<td>Runtime type system, precision arithmetic, monads, Help system,
+utility functions</td>
+</tr>
+<tr>
+<td><strong>Arborist</strong></td>
+<td>The ONLY parser integration — SWC and deno_ast WASM; one parser,
+many consumers (Envoy, Auditor, Quarrier)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rendering-layer"></a></p>
+<h3 id="rendering-layer">Rendering Layer</h3>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 92%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Context-aware semantic TSX compiling to HTML via RDF/SPARQL — 1000+
+type-safe components with automatic accessibility and guaranteed WHATWG
+compliance</td>
+</tr>
+<tr>
+<td><strong>Artificer</strong></td>
+<td>Reactive behaviors as declarative TSX — calculations, validation,
+conditional display, schema-driven forms via SHACL</td>
+</tr>
+</tbody>
+</table>
+<p><a id="data-layer"></a></p>
+<h3 id="data-layer">Data Layer</h3>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 88%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pathfinder</strong></td>
+<td>Triple store integration — SPARQL queries, named graphs, vector
+similarity search</td>
+</tr>
+<tr>
+<td><strong>Custodian</strong></td>
+<td>State management respecting web architecture — URL-encoded state,
+idempotent operations, signed continuations</td>
+</tr>
+<tr>
+<td><strong>Quarrier</strong></td>
+<td>Property-based testing — SHACL-aware generators, metamorphic
+testing, lazy shrink trees</td>
+</tr>
+</tbody>
+</table>
+<p><a id="application-layer"></a></p>
+<h3 id="application-layer">Application Layer</h3>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 88%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Formulator</strong></td>
+<td>Bidirectional formula parsing — human notation to Artificer IR with
+MathML output</td>
+</tr>
+<tr>
+<td><strong>Exchequer</strong></td>
+<td>Commerce primitives: products, orders, payments, returns, gift
+cards, quotes with exact decimal arithmetic</td>
+</tr>
+<tr>
+<td><strong>Reckoner</strong></td>
+<td>Pricing transformations: promotions, discounts, refund policies,
+loyalty programs, credit management</td>
+</tr>
+<tr>
+<td><strong>Linguist</strong></td>
+<td>Internationalization as declarative data — translations as triples
+with ICU MessageFormat and RTL support</td>
+</tr>
+<tr>
+<td><strong>Sentinel</strong></td>
+<td>Security as queryable triples — OAuth2, WebAuthn, DID Auth,
+RBAC/ABAC, capability tokens, mock auth for testing</td>
+</tr>
+</tbody>
+</table>
+<p><a id="quality-layer"></a></p>
+<h3 id="quality-layer">Quality Layer</h3>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 90%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Steward</strong></td>
+<td>Code style enforcement (deterministic, non-configurable)</td>
+</tr>
+<tr>
+<td><strong>Warden</strong></td>
+<td>Import boundary enforcement and SHACL validation — guards library
+boundaries and component compositions</td>
+</tr>
+<tr>
+<td><strong>Auditor</strong></td>
+<td>Formal verification via Z3 theorem proving — mathematical proofs of
+correctness and automated test generation</td>
+</tr>
+</tbody>
+</table>
+<p><a id="communication-layer"></a></p>
+<h3 id="communication-layer">Communication Layer</h3>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Operator</strong></td>
+<td>Pub/sub as triples — channels, transport layers, event sourcing,
+projections with Warden validation</td>
+</tr>
+<tr>
+<td><strong>Orchestrator</strong></td>
+<td>Workflow automation as triples — n8n-style pipelines with TSX or
+visual editing, distributed execution</td>
+</tr>
+<tr>
+<td><strong>Agent</strong></td>
+<td>Local-first P2P sync via CRDTs, DIDs for identity, E2E encryption —
+no servers to maintain</td>
+</tr>
+<tr>
+<td><strong>Envoy</strong></td>
+<td>Structured logging and observability — codebase as knowledge graph,
+SPARQL queries, time-travel debugging</td>
+</tr>
+</tbody>
+</table>
+<p><a id="tooling-layer"></a></p>
+<h3 id="tooling-layer">Tooling Layer</h3>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr>
+<th>Library</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quartermaster</strong></td>
+<td>Application generator — <code>bend new</code> creates working apps
+from blueprints</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Available blueprints:</strong> minimal, blog, dashboard,
+form-builder, e-commerce, collaborative-doc, knowledge-base.</p>
+<p><a id="quality-enforcement-pipeline"></a></p>
+<h2 id="quality-enforcement-pipeline">Quality Enforcement Pipeline</h2>
+<p>Code quality is enforced through a strict pipeline:</p>
+<pre><code>Author writes code → Steward → deno fmt → Warden → Commit</code></pre>
+<ol type="1">
+<li><strong>Steward</strong> normalizes code shape (formatting, naming,
+one-function-per-file) with safe autofixes</li>
+<li><strong>deno fmt</strong> finalizes formatting to canonical
+form</li>
+<li><strong>Warden</strong> validates relationships (import boundaries,
+SHACL compositions)</li>
+</ol>
+<p>Steward answers: “Is this well-formed?” Warden answers: “Is this
+allowed?”</p>
+<p>Invalid code is rejected before it reaches the repository. The
+pipeline runs on every commit and in CI.</p>
+<p><a id="three-rendering-modes"></a></p>
+<h2 id="three-rendering-modes">Three Rendering Modes</h2>
+<p><strong>Development</strong> — Fast iteration, skip the triple
+store:</p>
+<pre><code>TSX → IR → JSON → render → HTML</code></pre>
+<p><strong>Integration</strong> — Full pipeline with ephemeral Oxigraph,
+verifies invariants:</p>
+<pre><code>TSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML</code></pre>
+<p><strong>Production</strong> — Full pipeline with persistent
+storage:</p>
+<pre><code>TSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML</code></pre>
+<p>All three modes produce identical JSON. Integration mode catches
+pipeline bugs before production.</p>
+<p><a id="progressive-enhancement"></a></p>
+<h2 id="progressive-enhancement">Progressive Enhancement</h2>
+<p>Every component functions without JavaScript. This is mandatory.</p>
+<p>Three layers compose the experience:</p>
+<ol type="1">
+<li><strong>Semantic HTML</strong> — Works everywhere: screen readers,
+reading modes, minimal browsers</li>
+<li><strong>CSS Styling</strong> — Visual enhancements with graceful
+degradation</li>
+<li><strong>JavaScript Enhancement</strong> — Opt-in via
+<code>data-§-enhance</code> attributes</li>
+</ol>
+<p>Enhancement improves the experience but never enables it.</p>
+<p><a id="high-availability-and-disaster-recovery"></a></p>
+<h2 id="high-availability-and-disaster-recovery">High Availability and
+Disaster Recovery</h2>
+<p>When your entire application lives as queryable RDF triples, HADR
+stops being a feature you add and becomes a property you inherit. One
+source of truth means one backup strategy. Stateless rendering means
+instant failover. Named graphs enable per-category replication
+policies.</p>
+<p>See <a href="./docs/hadr.md">docs/hadr.md</a> for comprehensive
+details.</p>
+<p><a id="what-you-actually-write"></a></p>
+<h2 id="what-you-actually-write">What You Actually Write</h2>
+<p>The library ecosystem above is <strong>internal
+infrastructure</strong>. You don’t interact with it directly.</p>
+<p>As a Sitebender consumer, you write this:</p>
+<pre class="tsx"><code>&lt;Recipe&gt;
+  &lt;RecipeTitle&gt;Grandmother&#39;s Apple Pie&lt;/RecipeTitle&gt;
+  &lt;PrepTime duration=&quot;PT30M&quot; /&gt;
+  &lt;CookTime duration=&quot;PT45M&quot; /&gt;
+  &lt;Ingredients&gt;
+    &lt;Ingredient amount=&quot;2&quot; unit=&quot;cup&quot;&gt;flour&lt;/Ingredient&gt;
+    &lt;Ingredient amount=&quot;1&quot; unit=&quot;cup&quot;&gt;butter, cold&lt;/Ingredient&gt;
+    &lt;Ingredient amount=&quot;6&quot;&gt;apples, peeled and sliced&lt;/Ingredient&gt;
+  &lt;/Ingredients&gt;
+  &lt;Instructions&gt;
+    &lt;Step&gt;Cut butter into flour until crumbly&lt;/Step&gt;
+    &lt;Step&gt;Press into pie dish&lt;/Step&gt;
+    &lt;Step&gt;Fill with apples and top with second crust&lt;/Step&gt;
+    &lt;Step&gt;Bake at 375°F for 45 minutes&lt;/Step&gt;
+  &lt;/Instructions&gt;
+&lt;/Recipe&gt;;</code></pre>
+<p>Step order is automatic — child position in TSX becomes
+<code>schema:position</code> in triples. No manual numbering. Reorder by
+moving elements.</p>
+<p>That’s it. Semantic TSX with plain English component names and props.
+No abbreviations. No framework jargon. No direct interaction with
+monads, SPARQL, or triple stores.</p>
+<p><strong>To start a new project:</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bend</span> new my-recipe-site <span class="at">--template</span><span class="op">=</span>blog</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> my-recipe-site</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bend</span> dev</span></code></pre></div>
+<p>Quartermaster scaffolds a working application. You modify semantic
+components to match your domain. The 20 libraries handle type safety,
+validation, rendering, state, persistence, and everything else —
+invisibly.</p>
+<p>The complexity documented above exists so yours doesn’t have to.</p>
+<p><a id="installation"></a></p>
+<h2 id="installation">Installation</h2>
+<p>No barrel files. Import directly from source files. Functions are
+default exports; types and constants are named exports.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Essay <span class="im">from</span> <span class="st">&quot;@sitebender/architect/documents/Essay/index.tsx&quot;</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="im">type</span> { EssayProps } <span class="im">from</span> <span class="st">&quot;@sitebender/architect/documents/Essay/index.tsx&quot;</span><span class="op">;</span></span></code></pre></div>
+<p><a id="license"></a></p>
+<h2 id="license">License</h2>
+<p>MIT</p>
+</body>
+</html>
