@@ -1,6 +1,10 @@
 # Sitebender Studio
 
-A declarative DSL for building enterprise applications using only TSX components.
+A declarative TSX DSL for semantic web applications via a pipeline:
+
+```
+TSX → IR → Triples → Oxigraph → SPARQL → JSON → render → HTML
+```
 
 ## Table of Contents
 
