@@ -1,0 +1,96 @@
+{
+	"compilerOptions": {
+		// Strict TypeScript Settings
+		"strict": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitOverride": true,
+
+		// FP-Focused Strictness
+		"exactOptionalPropertyTypes": true,
+		"noUncheckedIndexedAccess": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
+
+		// Code Quality
+		"noFallthroughCasesInSwitch": true,
+
+		// Module Resolution
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+
+		// Additional FP Helpers
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true
+	},
+	"description": "Sitebender Studio — POC for FP-first routing with Toolsmith monads.",
+	"exports": {},
+	"fmt": {
+		"exclude": [
+			"**/dist/",
+			"**/temp/",
+			"**/static/",
+			"**/node_modules/",
+			"**/coverage/"
+		],
+		"include": ["src/", "repl/"],
+		"indentWidth": 2,
+		"lineWidth": 80,
+		"newLineKind": "lf",
+		"proseWrap": "preserve",
+		"semiColons": false,
+		"singleQuote": false,
+		"useTabs": true
+	},
+	"importMap": "./import_map.jsonc",
+	"license": "MIT",
+	"lint": {
+		"exclude": [
+			"**/dist/",
+			"**/temp/",
+			"**/static/",
+			"**/node_modules/",
+			"**/coverage/"
+		],
+		"include": ["src/", "repl/"],
+		"rules": {
+			"exclude": ["no-unused-vars"],
+			"include": [
+				"ban-untagged-todo",
+				"camelcase",
+				"eqeqeq",
+				"no-async-promise-executor",
+				"no-await-in-loop",
+				"no-const-assign",
+				"no-explicit-any",
+				"no-eval",
+				"no-non-null-assertion",
+				"no-unreachable",
+				"no-sparse-arrays",
+				"no-throw-literal",
+				"no-var",
+				"prefer-as-const",
+				"prefer-const",
+				"require-await"
+			],
+			"tags": ["recommended"]
+		}
+	},
+	"lock": false,
+	"name": "@sitebender/studio",
+	"nodeModulesDir": "auto",
+	"tasks": {
+		"check": "deno check src/**/*.ts",
+		"fmt": "deno fmt",
+		"fmt:check": "deno fmt --check",
+		"lint": "deno lint",
+		"repl": "deno run --watch --allow-read repl/index.ts",
+		"test": "deno test --allow-none --coverage=coverage/",
+		"test:watch": "deno test --watch --allow-none"
+	},
+	"version": "0.1.0-alpha"
+}
