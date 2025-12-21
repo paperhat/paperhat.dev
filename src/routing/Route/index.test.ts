@@ -2,13 +2,13 @@ import { assertEquals } from "@std/assert"
 import * as fc from "fast-check"
 
 import Route from "./index.ts"
-import type { PageFn } from "../types/index.ts"
+import type { PageFunction } from "../types/index.ts"
 
 Deno.test("Route", async function RouteTests(t) {
 	await t.step(
 		"creates a RouteRecord with path and load",
 		function createsRouteRecord() {
-			function mockLoad(): Promise<PageFn> {
+			function mockLoad(): Promise<PageFunction> {
 				return Promise.resolve(function mockPage() {
 					return { _tag: "text" as const, content: "test" }
 				})
@@ -35,13 +35,13 @@ Deno.test("Route", async function RouteTests(t) {
 		function partialApplicationWorks() {
 			const withPath = Route("/users")
 
-			function load1(): Promise<PageFn> {
+			function load1(): Promise<PageFunction> {
 				return Promise.resolve(function page1() {
 					return { _tag: "text" as const, content: "1" }
 				})
 			}
 
-			function load2(): Promise<PageFn> {
+			function load2(): Promise<PageFunction> {
 				return Promise.resolve(function page2() {
 					return { _tag: "text" as const, content: "2" }
 				})
@@ -60,15 +60,15 @@ Deno.test("Route", async function RouteTests(t) {
 	await t.step(
 		"load function is callable and returns Promise",
 		async function loadIsCallable() {
-			function mockLoad(): Promise<PageFn> {
+			function mockLoad(): Promise<PageFunction> {
 				return Promise.resolve(function mockPage() {
 					return { _tag: "text" as const, content: "loaded" }
 				})
 			}
 
 			const route = Route("/test")(mockLoad)
-			const pageFn = await route.load()
-			const result = pageFn({
+			const pageFunction = await route.load()
+			const result = pageFunction({
 				url: new URL("http://localhost/test"),
 				params: {},
 				mode: "string",
@@ -82,7 +82,7 @@ Deno.test("Route", async function RouteTests(t) {
 Deno.test("Route - property: path is preserved", function pathPreserved() {
 	fc.assert(
 		fc.property(fc.string(), function checkPathPreserved(path: string) {
-			function mockLoad(): Promise<PageFn> {
+			function mockLoad(): Promise<PageFunction> {
 				return Promise.resolve(function mockPage() {
 					return { _tag: "text" as const, content: "" }
 				})
@@ -100,7 +100,7 @@ Deno.test(
 	function loadPreserved() {
 		fc.assert(
 			fc.property(fc.string(), function checkLoadPreserved(path: string) {
-				function mockLoad(): Promise<PageFn> {
+				function mockLoad(): Promise<PageFunction> {
 					return Promise.resolve(function mockPage() {
 						return { _tag: "text" as const, content: "" }
 					})

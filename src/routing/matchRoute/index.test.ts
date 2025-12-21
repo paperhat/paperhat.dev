@@ -6,11 +6,11 @@ import isNothing from "@sitebender/toolsmith/monads/maybe/guards/isNothing/index
 
 import matchRoute from "./index.ts"
 import Route from "../Route/index.ts"
-import type { PageFn, RouteRecord } from "../types/index.ts"
+import type { PageFunction, RouteRecord } from "../types/index.ts"
 
 //++ Helper to create a mock route
 function mockRoute(path: string): RouteRecord {
-	return Route(path)(function mockLoad(): Promise<PageFn> {
+	return Route(path)(function mockLoad(): Promise<PageFunction> {
 		return Promise.resolve(function mockPage() {
 			return { _tag: "text" as const, content: path }
 		})
