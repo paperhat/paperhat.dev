@@ -89,7 +89,7 @@
 		"fmt:check": "deno fmt --check",
 		"lint": "deno lint",
 		"repl": "deno run --watch --allow-read repl/index.ts",
-		"test": "deno test --allow-none --coverage=coverage/",
+		"test": "deno test --allow-read --coverage=coverage/",
 		"test:watch": "deno test --watch --allow-none"
 	},
 	"version": "0.1.0-alpha"
