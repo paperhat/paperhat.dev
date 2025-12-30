@@ -25,9 +25,9 @@
 		"strictNullChecks": true,
 		"strictFunctionTypes": true,
 		"strictBindCallApply": true,
-		"strictPropertyInitialization": true
+		"strictPropertyInitialization": true,
 	},
-	"description": "Sitebender Studio — POC for FP-first routing with Toolsmith monads.",
+	"description": "Sitebender Codex — POC for FP-first routing with Toolsmith monads.",
 	"exports": {},
 	"fmt": {
 		"exclude": [
@@ -35,7 +35,7 @@
 			"**/temp/",
 			"**/static/",
 			"**/node_modules/",
-			"**/coverage/"
+			"**/coverage/",
 		],
 		"include": ["src/", "repl/"],
 		"indentWidth": 2,
@@ -44,7 +44,7 @@
 		"proseWrap": "preserve",
 		"semiColons": false,
 		"singleQuote": false,
-		"useTabs": true
+		"useTabs": true,
 	},
 	"importMap": "./import_map.jsonc",
 	"license": "MIT",
@@ -54,7 +54,7 @@
 			"**/temp/",
 			"**/static/",
 			"**/node_modules/",
-			"**/coverage/"
+			"**/coverage/",
 		],
 		"include": ["src/", "repl/"],
 		"rules": {
@@ -75,13 +75,13 @@
 				"no-var",
 				"prefer-as-const",
 				"prefer-const",
-				"require-await"
+				"require-await",
 			],
-			"tags": ["recommended"]
-		}
+			"tags": ["recommended"],
+		},
 	},
 	"lock": false,
-	"name": "@sitebender/studio",
+	"name": "@sitebender/codex",
 	"nodeModulesDir": "auto",
 	"tasks": {
 		"check": "deno check src/**/*.ts",
@@ -90,7 +90,7 @@
 		"lint": "deno lint",
 		"repl": "deno run --watch --allow-read repl/index.ts",
 		"test": "deno test --allow-read --coverage=coverage/",
-		"test:watch": "deno test --watch --allow-none"
+		"test:watch": "deno test --watch --allow-none",
 	},
-	"version": "0.1.0-alpha"
+	"version": "0.1.0-alpha",
 }

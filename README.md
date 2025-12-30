@@ -1,4 +1,4 @@
-# Sitebender Studio
+# Sitebender Codex
 
 A declarative TSX DSL for semantic web applications via a pipeline:
 

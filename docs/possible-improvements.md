@@ -1,6 +1,6 @@
 # Possible README Improvements
 
-This document tracks potential improvements to the Studio README for future
+This document tracks potential improvements to the Codex README for future
 consideration.
 
 ## Getting Started Section

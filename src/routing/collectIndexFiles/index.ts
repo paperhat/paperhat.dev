@@ -1,3 +1,4 @@
+import type { WalkEntry } from "@std/fs"
 import type { BaseHelp } from "@sitebender/toolsmith/help/types/index.ts"
 import type { AsyncIoResult } from "@sitebender/toolsmith/monads/io/types/index.ts"
 import type { Result } from "@sitebender/toolsmith/monads/result/types/index.ts"
@@ -7,6 +8,7 @@ import asyncIoResult from "@sitebender/toolsmith/monads/io/asyncIoResult/index.t
 import createHelp from "@sitebender/toolsmith/help/createHelp/index.ts"
 import help from "@sitebender/toolsmith/monads/result/help/index.ts"
 import isString from "@sitebender/toolsmith/guards/type/isString/index.ts"
+import not from "@sitebender/toolsmith/logic/not/index.ts"
 import ok from "@sitebender/toolsmith/monads/result/ok/index.ts"
 import { walk } from "@std/fs"
 
@@ -14,6 +16,7 @@ import isHidden from "../isHidden/index.ts"
 import { COLLECT_INDEX_FILES_CODE } from "./constants/index.ts"
 import type { CollectIndexFilesHelpCode } from "./types/index.ts"
 
+//++ [EXCEPTION] Uses Array.from, filter, and map methods inside async IO boundary
 //++ Collects all non-hidden index.ts files from a directory
 export default function collectIndexFiles(
 	root: unknown,
@@ -24,23 +27,27 @@ export default function collectIndexFiles(
 				Result<BaseHelp<CollectIndexFilesHelpCode>, ReadonlyArray<string>>
 			> {
 				try {
-					const files: Array<string> = []
+					const walkIterable = walk(root, {
+						exts: [".ts"],
+						match: [/index\.ts$/],
+					})
 
-					for await (
-						const entry of walk(root, {
-							exts: [".ts"],
-							match: [/index\.ts$/],
-						})
-					) {
-						if (isHidden(entry.path)) {
-							continue
-						}
+					const entries: Array<WalkEntry> = []
 
-						files.push(entry.path)
+					for await (const entry of walkIterable) {
+						entries.push(entry)
 					}
 
-					return ok(files)
-				} catch (error) {
+					const paths = entries
+						.filter(function filterVisible(entry: WalkEntry): boolean {
+							return not(isHidden(entry.path))
+						})
+						.map(function extractPath(entry: WalkEntry): string {
+							return entry.path
+						})
+
+					return ok(paths)
+				} catch (_err) {
 					return help(
 						createHelp(COLLECT_INDEX_FILES_CODE.walkFailed)(
 							"Failed to walk directory",

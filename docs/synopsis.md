@@ -1,4 +1,4 @@
-# Sitebender Studio Synopsis
+# Sitebender Codex Synopsis
 
 A comprehensive analysis based on reading all 20 library READMEs line by line.
 
@@ -150,7 +150,7 @@ This aims to make building distributed, offline-capable, accessible,
 standards-compliant web applications as simple as writing semantic TSX. If it
 works, it democratizes capabilities currently requiring large teams.
 
-## Studio README Audit Findings
+## Codex README Audit Findings
 
 ### What Is Correct
 
