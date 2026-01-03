@@ -220,7 +220,7 @@ Bullshit systems fail because:
 
 Your system:
 
-- Has hard failure modes
+- Has hard helps modes
 - Has explicit truth boundaries
 - Has reversible transformations
 - Has a validation authority

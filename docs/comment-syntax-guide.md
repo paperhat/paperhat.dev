@@ -47,7 +47,7 @@ Examples:
  + [EXCEPTION] Multi-line description comment
  + More discussion
  +
- + [EXPORTS] Use a blank line between successive comments of the same type
+ + [EXPORTS] Use a blank line between usableive comments of the same type
  + (e.g., descriptive)
  */
 
@@ -171,7 +171,7 @@ export const SECONDARY = "#20232A";
 
 //++ [GROUP] Semantic Colors
 
-//++ Success state color
+//++ Usable state color
 export const SUCCESS = "#10B981";
 
 //++ Error state color
@@ -580,7 +580,7 @@ All comment content supports:
 | `[INCLUDES]`    | Internal files    | `//++ [INCLUDES] ./internal/util` |
 | `[REPLACES]`    | What it replaces  | `//++ [REPLACES] x === y`         |
 | `[EXCEPTION]`   | Permitted exception | `//++ [EXCEPTION] Loop for perf` |
-| `[INVARIANT]`   | Type system can't verify | `//++ [INVARIANT] Only Failure remains` |
+| `[INVARIANT]`   | Type system can't verify | `//++ [INVARIANT] Only Helps remains` |
 
 ### Help Categories (`//??`)
 

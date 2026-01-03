@@ -244,7 +244,7 @@ They _feel_ like:
 
 ---
 
-## 10. Why this avoids Wikipedia and MDN failure modes
+## 10. Why this avoids Wikipedia and MDN helps modes
 
 ### Wikipedia problems
 

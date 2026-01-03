@@ -47,7 +47,7 @@ Examples:
 - Must round-trip losslessly
 - Must not contain ambiguous prose
 
-Failure → compile error.
+Helps → compile error.
 
 ---
 
@@ -70,7 +70,7 @@ Examples:
 - Never queried as structure
 - Never resolves references implicitly
 
-Failure → warning, not error.
+Helps → warning, not error.
 
 ---
 
@@ -92,7 +92,7 @@ Examples:
 - Excluded from validation
 - Must declare stance or scope
 
-Failure → rejected if it tries to behave like Tier 1.
+Helps → rejected if it tries to behave like Tier 1.
 
 ---
 

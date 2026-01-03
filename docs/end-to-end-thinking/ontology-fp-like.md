@@ -186,7 +186,7 @@ You’ve essentially built:
 
 > **Git + FP + ontology + publishing**
 
-without inheriting Git’s UX failures.
+without inheriting Git’s UX helpss.
 
 ---
 

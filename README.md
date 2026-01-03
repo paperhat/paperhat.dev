@@ -181,11 +181,11 @@ type automatically.
 
 Error handling uses three monads, each for a specific purpose:
 
-| Monad          | Success      | Failure             | Use Case                                           |
+| Monad          | Usable      | Helps             | Use Case                                           |
 | -------------- | ------------ | ------------------- | -------------------------------------------------- |
 | **Maybe**      | `Just<T>`    | `Nothing`           | Optional values — you don't need error details     |
 | **Result**     | `Ok<T>`      | `Help<H>`           | Sequential operations — fail fast on first problem |
-| **Validation** | `Success<T>` | `Failure<[H, ...]>` | Parallel/tree operations — accumulate ALL problems |
+| **Validation** | `Usable<T>` | `Helps<[H, ...]>` | Parallel/tree operations — accumulate ALL problems |
 
 The critical distinction: **Result** short-circuits (first error stops
 everything). **Validation** accumulates (collect every error). Choose
@@ -196,7 +196,7 @@ Smart constructors accept input wrapped in any of these three monads:
 ```typescript
 emailAddress(just("user@example.com")); // → Maybe<EmailAddress>
 emailAddress(ok("user@example.com")); // → Result<Help, EmailAddress>
-emailAddress(success("user@example.com")); // → Validation<Helps, EmailAddress>
+emailAddress(usable("user@example.com")); // → Validation<Helps, EmailAddress>
 ```
 
 Same validation logic, three execution strategies. The constructor validates,
@@ -263,7 +263,7 @@ bypassed. The same guardrails protect everyone.
 
 ## Help, Don't Scold
 
-When something goes wrong, it's the system's fault for not making success
+When something goes wrong, it's the system's fault for not making usable
 obvious. Every Help object:
 
 - Uses friendly language — "hit a snag" not "ERROR"

@@ -38,7 +38,7 @@ The single source of truth. HADR here is HADR everywhere.
 #### Synchronous Replication (Zero RPO)
 
 ```
-Write Request → Primary Oxigraph → Replicate → Secondary Acknowledges → Return Success
+Write Request → Primary Oxigraph → Replicate → Secondary Acknowledges → Return Usable
 ```
 
 Every write confirmed on N nodes before acknowledgment. Guarantees zero data
@@ -49,7 +49,7 @@ unacceptable.
 #### Asynchronous Replication (Near-Zero RPO)
 
 ```
-Write Request → Primary Oxigraph → Return Success → Background Replication
+Write Request → Primary Oxigraph → Return Usable → Background Replication
 ```
 
 Write acknowledged immediately, replicated in background. RPO equals replication
@@ -287,7 +287,7 @@ resolve conflicts. Events replicate bidirectionally.
 ### Active-Passive
 
 Primary region handles all writes. Secondary regions receive replicated data.
-Failover promotes secondary to primary on failure.
+Failover promotes secondary to primary on helps.
 
 ## Backup Strategies
 

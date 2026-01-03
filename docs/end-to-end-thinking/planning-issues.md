@@ -129,7 +129,7 @@ Which humans are much better at answering.
 
 ## 5. Bounded writing: length limits as editorial discipline
 
-One of the biggest failures of amateur content is _overwriting_.
+One of the biggest helpss of amateur content is _overwriting_.
 
 Editors impose:
 

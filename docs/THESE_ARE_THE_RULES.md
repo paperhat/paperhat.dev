@@ -5,14 +5,14 @@
 1. **No classes** - Pure functions only
 2. **No mutations** - `ReadonlyArray<T>` everywhere
 3. **No loops** - Use native methods internally
-4. **No exceptions** - NEVER throw. Return monadic failures. Use try/catch ONLY to wrap user-provided callbacks and convert their exceptions to Help/Failure
+4. **No exceptions** - NEVER throw. Return monadic helpss. Use try/catch ONLY to wrap user-provided callbacks and convert their exceptions to Help/Helps
 5. **Never null** - Use `undefined` for absent values
 6. **One function per file** - `index.ts` + `index.test.ts`
 7. **Pure functions** - Same input → same output
 8. **No arrow functions** - Use `function` keyword in implementations
 9. **Fully curried** - EXACTLY one parameter per function level. Curried does **NOT** mean _returns a function_. That is higher-order. A curried function has exactly ONE parameter, no more, no fewer, no optional parameters, no default values and can return ANYTHING except void.
 10. **100% test coverage** - All tests must pass, no unreachable code
-11. **Happy path pattern** - Nest positive conditionals; success case innermost, return help as you exit each level
+11. **Happy path pattern** - Nest positive conditionals; usable case innermost, return help as you exit each level
 12. **No negation operators** - NEVER use `!` in conditionals; use positive predicates (e.g., `isNonEmptyArray` not `!isEmpty`)
 13. **Accumulate helps** - Validation path MUST check ALL validatable params even when one fails, to collect all helps
 14. **Private naming** - Functions in `_folder/` MUST have underscore prefix: `_functionName`
@@ -35,11 +35,11 @@ From `strict-implementation.md` lines 106-116:
 
 ## The Three Monads
 
-| Monad          | Success      | Failure                         | Purpose                    |
+| Monad          | Usable      | Helps                         | Purpose                    |
 | -------------- | ------------ | ------------------------------- | -------------------------- |
 | **Maybe**      | `Just<T>`    | `Nothing`                       | Optional values, no errors |
 | **Result**     | `Ok<T>`      | `Help<E>`                       | Fail-fast with rich errors |
-| **Validation** | `Success<T>` | `Failure<readonly [H, ...H[]]>` | Accumulates ALL errors     |
+| **Validation** | `Usable<T>` | `Helps<readonly [H, ...H[]]>` | Accumulates ALL errors     |
 
 ### Critical Difference
 
