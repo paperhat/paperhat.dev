@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-A **Work Packet** is the smallest _authoritative unit of execution_ delegated to a less-capable LLM within the Sitebender Codex system.
+A **Work Packet** is the smallest _authoritative unit of execution_ delegated to a less-capable LLM within the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -202,7 +202,7 @@ There is no partial credit and no silent recovery.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any system component, human or automated, that violates this specification is **non-compliant with Sitebender Codex**.
+Any system component, human or automated, that violates this specification is **non-compliant with Paperhat Codex**.
 
 ---
 

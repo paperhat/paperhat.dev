@@ -1,8 +1,8 @@
-# Sitebender Runtime Engine Contract
+# Paperhat Runtime Engine Contract
 
 ## Canonical Execution Engine Semantics (LOCKED)
 
-This document defines the **runtime engine** responsible for executing compiled Sitebender applications in both client and server environments.
+This document defines the **runtime engine** responsible for executing compiled Paperhat applications in both client and server environments.
 
 It refines the **Runtime Contract** by specifying **how execution is scheduled, triggered, delegated, and coordinated**.
 
@@ -12,7 +12,7 @@ This document is **normative**.
 
 ## 1. Role of the Runtime Engine
 
-The runtime engine is the **only imperative system** in Sitebender.
+The runtime engine is the **only imperative system** in Paperhat.
 
 It is responsible for:
 

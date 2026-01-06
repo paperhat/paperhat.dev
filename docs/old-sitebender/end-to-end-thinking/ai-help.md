@@ -557,7 +557,7 @@ The AI’s role here is **traffic cop**, not judge.
 
 ---
 
-# 3. Incremental `.bend` Emission
+# 3. Incremental `.pph` Emission
 
 _(how the AI actually writes files without lying)_
 

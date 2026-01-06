@@ -75,7 +75,7 @@ They solved:
 - Round-tripping
 - Structural rigor + expressive freedom
 
-Your instinct to invent `.bend` is **correct**.
+Your instinct to invent `.pph` is **correct**.
 XML failed socially, not technically.
 
 ---

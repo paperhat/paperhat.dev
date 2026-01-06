@@ -1,6 +1,6 @@
 # Ownership and Responsibility Map (LOCKED)
 
-This document defines **hard ownership boundaries** between Sitebender libraries.
+This document defines **hard ownership boundaries** between Paperhat libraries.
 
 Each responsibility has exactly one owner.
 

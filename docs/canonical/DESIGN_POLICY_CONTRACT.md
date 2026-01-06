@@ -1,6 +1,6 @@
 # DESIGN_POLICY_CONTRACT (CANONICAL)
 
-This document defines the **exclusive responsibilities, boundaries, and guarantees** of **Design Policy** in Sitebender Codex.
+This document defines the **exclusive responsibilities, boundaries, and guarantees** of **Design Policy** in Paperhat Codex.
 
 Design Policy governs **how semantic projections are presented**, without altering meaning, structure, or correctness.
 

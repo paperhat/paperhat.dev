@@ -1,6 +1,6 @@
 # High Availability and Disaster Recovery (HADR)
 
-Sitebender's "everything is data" architecture transforms HADR from an
+Paperhat's "everything is data" architecture transforms HADR from an
 operational bolt-on into a first-class design principle. When your entire
 application — structure, content, behavior, validation — lives as queryable RDF
 triples, recovery becomes straightforward: recover the graph, recover
@@ -12,12 +12,12 @@ Traditional web applications scatter state across application memory, database
 rows, file systems, external services, and browser state. Coordinating recovery
 across N systems requires N strategies.
 
-Sitebender collapses all state into one queryable knowledge graph. One backup
+Paperhat collapses all state into one queryable knowledge graph. One backup
 strategy. One recovery procedure. One source of truth.
 
 ```
 Traditional: State lives in N places → coordinate N recovery strategies
-Sitebender:  State lives in triples → recover the graph, recover everything
+Paperhat:  State lives in triples → recover the graph, recover everything
 ```
 
 ## RPO and RTO by Data Category
@@ -62,19 +62,19 @@ RDF's named graphs enable per-graph replication policies:
 
 ```turtle
 # Critical: Synchronous replication, zero RPO
-GRAPH <urn:sitebender:auth> {
+GRAPH <urn:paperhat:auth> {
   :session123 :belongsTo :user456 ;
               :expiresAt "2025-12-16T23:00:00Z"^^xsd:dateTime .
 }
 
 # Important: Async replication, 5-second RPO
-GRAPH <urn:sitebender:content> {
+GRAPH <urn:paperhat:content> {
   :article789 :title "Understanding HADR" ;
               :author :user456 .
 }
 
 # Deferrable: Eventual consistency acceptable
-GRAPH <urn:sitebender:analytics> {
+GRAPH <urn:paperhat:analytics> {
   :pageView999 :page :article789 ;
                :timestamp "2025-12-16T12:00:00Z"^^xsd:dateTime .
 }
@@ -308,7 +308,7 @@ Query only graphs modified since last backup:
 ```sparql
 CONSTRUCT { GRAPH ?g { ?s ?p ?o } }
 WHERE {
-  GRAPH <urn:sitebender:metadata> {
+  GRAPH <urn:paperhat:metadata> {
     ?g :lastModified ?modified .
     FILTER(?modified > "2025-12-15T00:00:00Z"^^xsd:dateTime)
   }
@@ -344,13 +344,13 @@ Architecture ensures invalid states are immediately detectable.
 Graph naming encodes replication policy:
 
 ```turtle
-<urn:sitebender:critical:auth>         # Sync replicated
-<urn:sitebender:important:content>     # Async, 1-min max lag
-<urn:sitebender:standard:social>       # Async, 5-min max lag
-<urn:sitebender:deferrable:analytics>  # Eventually consistent
+<urn:paperhat:critical:auth>         # Sync replicated
+<urn:paperhat:important:content>     # Async, 1-min max lag
+<urn:paperhat:standard:social>       # Async, 5-min max lag
+<urn:paperhat:deferrable:analytics>  # Eventually consistent
 
-GRAPH <urn:sitebender:meta:replication> {
-  <urn:sitebender:critical:auth>
+GRAPH <urn:paperhat:meta:replication> {
+  <urn:paperhat:critical:auth>
     :replicationPolicy :synchronous ;
     :replicas ( <urn:node:us-east-1> <urn:node:us-west-2> ) ;
     :lastSync "2025-12-16T12:00:00.000Z"^^xsd:dateTime .
@@ -360,11 +360,11 @@ GRAPH <urn:sitebender:meta:replication> {
 ## Backup Metadata as Triples
 
 ```turtle
-GRAPH <urn:sitebender:meta:backups> {
+GRAPH <urn:paperhat:meta:backups> {
   <urn:backup:2025-12-16T00:00:00Z>
     :timestamp "2025-12-16T00:00:00Z"^^xsd:dateTime ;
     :type :full ;
-    :location "s3://sitebender-backups/2025-12-16/full.nq.zst" ;
+    :location "s3://paperhat-backups/2025-12-16/full.nq.zst" ;
     :tripleCount 1234567 ;
     :compressedSize 52428800 ;
     :checksum "sha256:abc123..." ;
@@ -377,7 +377,7 @@ GRAPH <urn:sitebender:meta:backups> {
 Operational procedures stored in the knowledge graph:
 
 ```turtle
-GRAPH <urn:sitebender:runbooks> {
+GRAPH <urn:paperhat:runbooks> {
   :primaryFailover a :Runbook ;
     :trigger "primary_unreachable_5min" ;
     :steps ( :verifyPrimaryDown :promoteReplica :updateDNS :notifyOncall ) ;
@@ -387,7 +387,7 @@ GRAPH <urn:sitebender:runbooks> {
 
 ## Summary
 
-| Traditional                                  | Sitebender                       |
+| Traditional                                  | Paperhat                         |
 | -------------------------------------------- | -------------------------------- |
 | State scattered across app, DB, cache, files | State unified in triple store    |
 | Coordinate N backup strategies               | One backup strategy              |

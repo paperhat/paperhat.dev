@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Orchestration Contract** defines the authority, responsibilities, and constraints of orchestration within the Sitebender Codex system.
+The **Orchestration Contract** defines the authority, responsibilities, and constraints of orchestration within the Paperhat Codex system.
 
 Orchestration is the **only locus of coordination**.
 All sequencing, delegation, validation, and escalation occur here.
@@ -249,7 +249,7 @@ Undocumented decisions are invalid.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any orchestration behavior inconsistent with this contract is **non-compliant with Sitebender Codex**.
+Any orchestration behavior inconsistent with this contract is **non-compliant with Paperhat Codex**.
 
 ---
 

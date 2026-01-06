@@ -22,8 +22,8 @@ used to retrieve graph data for shaping into a ViewModel.
 ## Set the ontology prefixes
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 ````
 
 ## Choose the recipe
@@ -37,8 +37,8 @@ BIND(recipe:spaghetti-aglio-e-olio AS ?recipe)
 ## Query A: Header (Title, Summary, Source)
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 
 SELECT ?title ?summary ?source
 WHERE {
@@ -60,8 +60,8 @@ Shaping rule: `single row -> direct fields`.
 ## Query B: QuickFacts (Servings, PreparationTime, CookingTime)
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 
 SELECT ?servingsAmount ?servingsUnit ?prepMinutes ?cookMinutes
 WHERE {
@@ -85,8 +85,8 @@ Shaping rule: `single row -> create a QuickFacts group with label/value entries`
 ## Query C: Ingredients list
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 
 SELECT
   ?ingredient
@@ -130,8 +130,8 @@ Shaping rule: `each row → one IngredientRow in the ViewModel list`:
 ## Query D: Equipment list
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 
 SELECT ?equipmentItem
 WHERE {
@@ -151,8 +151,8 @@ Shaping rule: `ordered rows -> list of strings`.
 ## Query E: Steps list
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 
 SELECT ?tag
 WHERE {
@@ -176,8 +176,8 @@ Shaping rule: `ordered rows → numbered list items`:
 ## Query F: Tags
 
 ```sparql
-PREFIX ex:     <https://sitebender.example/demo/>
-PREFIX recipe: <https://sitebender.example/demo/recipe/>
+PREFIX ex:     <https://paperhat.example/demo/>
+PREFIX recipe: <https://paperhat.example/demo/recipe/>
 
 SELECT ?tag
 WHERE {

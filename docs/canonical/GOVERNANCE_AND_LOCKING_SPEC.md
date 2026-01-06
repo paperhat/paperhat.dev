@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Governance and Locking Specification** defines how authority, stability, and immutability are established and preserved within the Sitebender Codex system.
+The **Governance and Locking Specification** defines how authority, stability, and immutability are established and preserved within the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -237,7 +237,7 @@ Violation of any invariant constitutes system failure.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any governance, locking, or change-handling behavior inconsistent with this specification is **non-compliant with Sitebender Codex**.
+Any governance, locking, or change-handling behavior inconsistent with this specification is **non-compliant with Paperhat Codex**.
 
 ---
 

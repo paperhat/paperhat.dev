@@ -22,10 +22,10 @@ Turtle is just a readable way to write down that graph.
 Below is the same recipe, now expressed as an RDF graph using Turtle.
 
 ```turtle
-@prefix ex:    <https://sitebender.example/demo/> .
-@prefix recipe:<https://sitebender.example/demo/recipe/> .
-@prefix ing:   <https://sitebender.example/demo/ingredient/> .
-@prefix step:  <https://sitebender.example/demo/step/> .
+@prefix ex:    <https://paperhat.example/demo/> .
+@prefix recipe:<https://paperhat.example/demo/recipe/> .
+@prefix ing:   <https://paperhat.example/demo/ingredient/> .
+@prefix step:  <https://paperhat.example/demo/step/> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 # --- Recipe (subject) ---

@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Document Style and Tone Specification** defines the mandatory stylistic, tonal, and grammatical constraints for all Canonical Specifications and Contracts within the Sitebender Codex corpus.
+The **Document Style and Tone Specification** defines the mandatory stylistic, tonal, and grammatical constraints for all Canonical Specifications and Contracts within the Paperhat Codex corpus.
 
 Its purpose is to:
 
@@ -225,7 +225,7 @@ No role may waive stylistic compliance.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any canonical artifact that violates this specification is **non-compliant with Sitebender Codex**.
+Any canonical artifact that violates this specification is **non-compliant with Paperhat Codex**.
 
 ---
 

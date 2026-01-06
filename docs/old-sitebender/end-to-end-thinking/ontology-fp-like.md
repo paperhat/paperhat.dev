@@ -14,7 +14,7 @@ In FP, an expression is referentially transparent if:
 
 > It can be replaced by its value without changing program behavior.
 
-In Sitebender Codex terms:
+In Paperhat Codex terms:
 
 > A `<Recipe>` (or any Concept instance) can be replaced by its **canonical representation** without changing:
 >
@@ -194,7 +194,7 @@ without inheriting Git’s UX helpss.
 
 If this statement is true, you’re fully aligned:
 
-> “A published recipe in Sitebender Codex is a value, not a document.”
+> “A published recipe in Paperhat Codex is a value, not a document.”
 
 If that matches your intent — then yes:
 you are doing referential transparency, _for real_, not metaphorically.

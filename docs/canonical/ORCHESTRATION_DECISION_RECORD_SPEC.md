@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Orchestration Decision Record Specification** defines the mandatory structure and constraints for recording decisions made during orchestration within the Sitebender Codex system.
+The **Orchestration Decision Record Specification** defines the mandatory structure and constraints for recording decisions made during orchestration within the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -240,7 +240,7 @@ ODRs are records, not rules.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any orchestration decision made without a conforming Orchestration Decision Record is **non-compliant with Sitebender Codex**.
+Any orchestration decision made without a conforming Orchestration Decision Record is **non-compliant with Paperhat Codex**.
 
 ---
 

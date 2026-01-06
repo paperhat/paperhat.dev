@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Library Registry Specification** defines the authoritative set of Sitebender libraries and their **normative responsibility boundaries**.
+The **Library Registry Specification** defines the authoritative set of Paperhat libraries and their **normative responsibility boundaries**.
 
 Its purpose is to:
 
@@ -59,11 +59,11 @@ This structure is mandatory and uniform.
 
 ---
 
-## 5. Sitebender Codex
+## 5. Paperhat Codex
 
 ### 5.1 Primary Responsibility
 
-Sitebender Codex defines the **governing semantic, execution, and authority framework** for the entire Sitebender ecosystem.
+Paperhat Codex defines the **governing semantic, execution, and authority framework** for the entire Paperhat ecosystem.
 
 It is the system of record for **what rules exist, who may act, and how meaning is preserved**.
 
@@ -83,7 +83,7 @@ It is the system of record for **what rules exist, who may act, and how meaning 
 
 ### 5.3 Explicit Non-Responsibilities
 
-Sitebender Codex does **not**:
+Paperhat Codex does **not**:
 
 - implement application logic
 - define runtime behavior
@@ -118,7 +118,7 @@ Codex governs; it does not execute.
 
 ### 6.1 Primary Responsibility
 
-Toolsmith provides **foundational functional abstractions** used across Sitebender libraries, with a strong emphasis on **determinism, composability, and explicit semantics**.
+Toolsmith provides **foundational functional abstractions** used across Paperhat libraries, with a strong emphasis on **determinism, composability, and explicit semantics**.
 
 ---
 
@@ -196,7 +196,7 @@ Scribe executes the pipeline; it does not govern it.
 
 ### 8.1 Primary Responsibility
 
-Architect defines a **semantic language for encoding data and views on that data**, used as a foundational abstraction layer across Sitebender libraries.
+Architect defines a **semantic language for encoding data and views on that data**, used as a foundational abstraction layer across Paperhat libraries.
 
 ---
 
@@ -215,7 +215,7 @@ Architect does **not**:
 - own the CDX language
 - govern execution
 - define application state management
-- replace higher-level Sitebender libraries
+- replace higher-level Paperhat libraries
 
 Architect enables expression; it does not own the system.
 
@@ -257,4 +257,4 @@ Existing entries MUST NOT be weakened or blurred.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any reasoning, implementation, or execution behavior that violates the boundaries defined here is **non-compliant with Sitebender Codex**.
+Any reasoning, implementation, or execution behavior that violates the boundaries defined here is **non-compliant with Paperhat Codex**.

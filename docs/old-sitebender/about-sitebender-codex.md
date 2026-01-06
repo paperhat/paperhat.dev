@@ -1,8 +1,8 @@
-# Sitebender
+# Paperhat
 
-Sitebender is a Deno TypeScript CDX web framework that uses CDX components as a declarative DSL for constructing powerful, scalable, robust, versatile, standards-compliant, accessible, offline-capable, distributed web sites and applications. The entire application can be constructed in CDX components.
+Paperhat is a Deno TypeScript CDX web framework that uses CDX components as a declarative DSL for constructing powerful, scalable, robust, versatile, standards-compliant, accessible, offline-capable, distributed web sites and applications. The entire application can be constructed in CDX components.
 
-There are 20 libraries in the Sitebender project. Each provides key functionality. These are the current names and simple descriptions:
+There are 20 libraries in the Paperhat project. Each provides key functionality. These are the current names and simple descriptions:
 
 ## Toolsmith
 
@@ -69,7 +69,7 @@ Operator provides a pub/sub event system where events are triples. Publish, subs
 
 ## Quartermaster
 
-Quartermaster is the application generator for Sitebender. Like `rails new`, but for the Sitebender ecosystem. It creates a complete, working Sitebender application. Starts the HTTPS dev server. Opens your browser. Opens your editor. All automatically.
+Quartermaster is the application generator for Paperhat. Like `rails new`, but for the Paperhat ecosystem. It creates a complete, working Paperhat application. Starts the HTTPS dev server. Opens your browser. Opens your editor. All automatically.
 
 Choose from a selection of "blueprints" (templates): blog, dashboard, form-builder, e-commerce, etc. Infinitely configurable (choose your libraries). Works by CLI or plugins to popular IDEs and code editors (VSCode, Zed, etc.)/
 
@@ -126,9 +126,9 @@ positions.
 
 ## Pathfinder
 
-Triple store integration for Sitebender. SPARQL queries, named graphs, vector similarity search.
+Triple store integration for Paperhat. SPARQL queries, named graphs, vector similarity search.
 
-Pathfinder is the persistence layer. Every library that needs to store or query data uses Pathfinder. Pathfinder provides both Oxigraph and Qdrant data stores and APIs for creating and querying them. All with CDX components (as with every Sitebender library).
+Pathfinder is the persistence layer. Every library that needs to store or query data uses Pathfinder. Pathfinder provides both Oxigraph and Qdrant data stores and APIs for creating and querying them. All with CDX components (as with every Paperhat library).
 
 Features:
 
@@ -143,13 +143,13 @@ Features:
 
 ## Orchestrator
 
-Workflow automation as triples. Think n8n, but declarative CDX that compiles to RDF, executes across distributed systems, and integrates with the Sitebender ecosystem.
+Workflow automation as triples. Think n8n, but declarative CDX that compiles to RDF, executes across distributed systems, and integrates with the Paperhat ecosystem.
 
 ## Sentinel
 
 > **Authentication and authorization as declarative data, not imperative code**
 
-Sentinel brings authentication, authorization, and security policies into the Sitebender ecosystem. No more auth libraries, no more middleware, no more confusion about who can do what.
+Sentinel brings authentication, authorization, and security policies into the Paperhat ecosystem. No more auth libraries, no more middleware, no more confusion about who can do what.
 
 **Security is not a feature. It's a property of the data model.**
 
@@ -165,7 +165,7 @@ While traditional auth systems bolt security onto applications as an afterthough
 
 > **Distributed, local-first applications through declarative components**
 
-Agent is the bridge between Sitebender's pure functional world and the decentralized web. Write declarative components, get a distributed application. No servers to run, no backends to maintain, no corporate middlemen.
+Agent is the bridge between Paperhat's pure functional world and the decentralized web. Write declarative components, get a distributed application. No servers to run, no backends to maintain, no corporate middlemen.
 
 **Everything distributed should be as simple as everything local.**
 

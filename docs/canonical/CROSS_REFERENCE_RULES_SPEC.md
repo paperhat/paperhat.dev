@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Cross-Reference Rules Specification** defines the mandatory rules governing how artifacts within the Sitebender Codex corpus may reference one another.
+The **Cross-Reference Rules Specification** defines the mandatory rules governing how artifacts within the Paperhat Codex corpus may reference one another.
 
 Its purpose is to:
 
@@ -187,7 +187,7 @@ Untraceable references are invalid.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any artifact containing non-compliant cross-references is **non-compliant with Sitebender Codex**.
+Any artifact containing non-compliant cross-references is **non-compliant with Paperhat Codex**.
 
 ---
 

@@ -7,7 +7,7 @@
 		"@std/testing": "jsr:@std/testing@^1.0.15",
 		"@std/testing/bdd": "jsr:@std/testing@^1.0.15/bdd",
 		"fast-check": "https://esm.sh/fast-check@4.1.1",
-		"@sitebender/toolsmith/": "../toolsmith/src/",
-		"@sitebender/architect/": "../architect/src/"
+		"@paperhat/toolsmith/": "../toolsmith/src/",
+		"@paperhat/architect/": "../architect/src/"
 	}
 }

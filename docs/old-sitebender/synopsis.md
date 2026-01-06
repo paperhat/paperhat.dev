@@ -1,4 +1,4 @@
-# Sitebender Codex Synopsis
+# Paperhat Codex Synopsis
 
 A comprehensive analysis based on reading all 20 library READMEs line by line.
 
@@ -98,13 +98,13 @@ A comprehensive analysis based on reading all 20 library READMEs line by line.
 
 ### Tooling Layer
 
-20. **Quartermaster** - `bend new` application generator. Blueprints: minimal,
+20. **Quartermaster** - `pph new` application generator. Blueprints: minimal,
     blog, dashboard, form-builder, e-commerce, collaborative-doc,
     knowledge-base. HTTPS dev server. Editor integration.
 
-## What Sitebender Actually Is
+## What Paperhat Actually Is
 
-Sitebender is a deeply opinionated, radically ambitious attempt to rebuild web
+Paperhat is a deeply opinionated, radically ambitious attempt to rebuild web
 development from first principles. The core insight is genuine: if your entire
 application exists as semantic data (RDF triples) in a queryable store
 (Oxigraph), capabilities emerge that are impossible with traditional approaches:

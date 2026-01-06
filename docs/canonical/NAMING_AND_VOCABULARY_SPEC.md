@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Naming and Vocabulary Specification** defines the **authoritative terminology** permitted within the Sitebender Codex corpus.
+The **Naming and Vocabulary Specification** defines the **authoritative terminology** permitted within the Paperhat Codex corpus.
 
 Its purpose is to:
 
@@ -222,7 +222,7 @@ Undocumented vocabulary deviations are invalid.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any artifact using non-compliant terminology is **non-compliant with Sitebender Codex**.
+Any artifact using non-compliant terminology is **non-compliant with Paperhat Codex**.
 
 ---
 

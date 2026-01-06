@@ -1,17 +1,17 @@
 # CODEX_SYSTEM_CONTRACT (CANONICAL)
 
-This document defines the **foundational nature, scope, and invariants** of **Sitebender Codex**.
+This document defines the **foundational nature, scope, and invariants** of **Paperhat Codex**.
 
-It supersedes any interpretation of Sitebender as a “framework” or “toolkit”.
+It supersedes any interpretation of Paperhat as a “framework” or “toolkit”.
 
 This document is **CANONICAL**.
 It is governed by global Change Control.
 
 ---
 
-## 1. What Sitebender Codex Is
+## 1. What Paperhat Codex Is
 
-**Sitebender Codex is a language.**
+**Paperhat Codex is a language.**
 
 It is a **declarative, semantic authoring language** for describing:
 
@@ -22,7 +22,7 @@ It is a **declarative, semantic authoring language** for describing:
 - presentation policy
 - bindings to environments
 
-Sitebender Codex is **not**:
+Paperhat Codex is **not**:
 
 - a web framework
 - a UI framework
@@ -68,7 +68,7 @@ If it is authored by a human, it is CDX.
 
 ### 2.2 Target Users (Critical)
 
-Sitebender Codex is designed for **non-developers**.
+Paperhat Codex is designed for **non-developers**.
 
 Authors may include:
 
@@ -96,7 +96,7 @@ Developer convenience is never a justification for authoring complexity.
 
 ## 3. Closed World Assumption (Hard)
 
-Sitebender Codex operates as a **closed declarative system**.
+Paperhat Codex operates as a **closed declarative system**.
 
 This means:
 
@@ -164,7 +164,7 @@ Opaque behavior is forbidden.
 
 ## 6. Separation of Responsibility (Hard)
 
-Sitebender Codex enforces strict separation:
+Paperhat Codex enforces strict separation:
 
 - **Architect and domain libraries** define meaning
 - **Constraints** define validity
@@ -181,7 +181,7 @@ No library may assume responsibilities owned by another.
 
 ## 7. Non-JavaScript Correctness (Hard)
 
-All Sitebender Codex applications MUST be correct **without JavaScript**.
+All Paperhat Codex applications MUST be correct **without JavaScript**.
 
 This means:
 
@@ -196,7 +196,7 @@ JavaScript MAY enhance experience, but MUST NOT enable correctness.
 
 ## 8. Referential Transparency (Hard)
 
-All authoritative semantics in Sitebender Codex MUST be referentially transparent.
+All authoritative semantics in Paperhat Codex MUST be referentially transparent.
 
 - constraints depend only on the semantic graph
 - calculations depend only on declared inputs
@@ -208,7 +208,7 @@ Runtime-only sources (cookies, clocks, APIs, UI state) MUST NOT affect semantic 
 
 ## 9. Multi-Target First Principle
 
-Sitebender Codex is **target-agnostic by design**.
+Paperhat Codex is **target-agnostic by design**.
 
 The same CDX may be rendered to:
 
@@ -226,7 +226,7 @@ No authoring construct may assume a specific target.
 
 ## 10. Change Discipline (Hard)
 
-Any change to Sitebender Codex MUST:
+Any change to Paperhat Codex MUST:
 
 1. be proposed as a textual change to a canonical document
 2. preserve existing guarantees explicitly
@@ -238,7 +238,7 @@ Implementation follows documentation, never the reverse.
 
 ## 11. Summary
 
-Sitebender Codex is:
+Paperhat Codex is:
 
 > **A language for describing reality, not a toolkit for building websites.**
 

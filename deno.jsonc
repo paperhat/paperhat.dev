@@ -27,7 +27,7 @@
 		"strictBindCallApply": true,
 		"strictPropertyInitialization": true,
 	},
-	"description": "Sitebender Codex — POC for FP-first routing with Toolsmith monads.",
+	"description": "Paperhat Codex — POC for FP-first routing with Toolsmith monads.",
 	"exports": {},
 	"fmt": {
 		"exclude": [
@@ -81,7 +81,7 @@
 		},
 	},
 	"lock": false,
-	"name": "@sitebender/codex",
+	"name": "@paperhat/codex",
 	"nodeModulesDir": "auto",
 	"tasks": {
 		"check": "deno check src/**/*.ts",

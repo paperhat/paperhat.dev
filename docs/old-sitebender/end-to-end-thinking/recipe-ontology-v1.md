@@ -6,7 +6,7 @@ This is the **minimum complete, composable core**.
 
 ---
 
-# 📘 Sitebender Codex — Recipe Ontology v1 (Frozen Core)
+# 📘 Paperhat Codex — Recipe Ontology v1 (Frozen Core)
 
 This is a **closed-world, algebraic ontology** designed for:
 

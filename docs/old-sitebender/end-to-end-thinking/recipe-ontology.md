@@ -17,7 +17,7 @@ I’ll also explicitly show:
 
 - where the AI is constrained
 - where it asks instead of assumes
-- how `.bend` grows incrementally
+- how `.pph` grows incrementally
 
 No React. No magic. No silent knowledge.
 

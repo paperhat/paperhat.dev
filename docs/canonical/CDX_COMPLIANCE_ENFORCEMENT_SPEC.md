@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **CDX Compliance Enforcement Specification** defines the uniform rules for detecting, classifying, and enforcing compliance with CDX constraints across the Sitebender Codex system.
+The **CDX Compliance Enforcement Specification** defines the uniform rules for detecting, classifying, and enforcing compliance with CDX constraints across the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -252,7 +252,7 @@ Undocumented enforcement actions are invalid.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any compliance enforcement behavior inconsistent with this specification is **non-compliant with Sitebender Codex**.
+Any compliance enforcement behavior inconsistent with this specification is **non-compliant with Paperhat Codex**.
 
 ---
 

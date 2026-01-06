@@ -1,4 +1,4 @@
-# Sitebender Codex & Scribe
+# Paperhat Codex & Scribe
 
 ## Canonical Architecture, Routing, and Source-of-Truth Contract (LOCKED)
 
@@ -16,7 +16,7 @@ This document is **normative**.
 
 ## 1. Core Goals
 
-Sitebender exists to:
+Paperhat exists to:
 
 1. **Minimize cognitive load** for application developers
 2. Make the **human-authored artifacts** the source of truth
@@ -64,7 +64,7 @@ The developer never authors application data by editing triples.
 
 ## 3. Libraries as Sources of Truth (Semantic Level)
 
-Sitebender libraries (Architect, Artificer, Custodian, Operator, Exchequer, etc.) are **also sources of truth**, but for a different class of knowledge:
+Paperhat libraries (Architect, Artificer, Custodian, Operator, Exchequer, etc.) are **also sources of truth**, but for a different class of knowledge:
 
 - Ontologies (OWL2)
 - Constraints (SHACL)

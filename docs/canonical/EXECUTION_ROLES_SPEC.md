@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Execution Roles Specification** defines the fixed set of roles permitted to participate in execution within the Sitebender Codex system.
+The **Execution Roles Specification** defines the fixed set of roles permitted to participate in execution within the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -37,7 +37,7 @@ In the event of conflict, this document yields to earlier LOCKED contracts.
 
 ## 3. Role Model Overview
 
-Execution within Sitebender Codex is strictly role-based.
+Execution within Paperhat Codex is strictly role-based.
 
 A role defines:
 
@@ -262,7 +262,7 @@ Failures are never attributed to role ambiguity.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any execution behavior that violates these role definitions is **non-compliant with Sitebender Codex**.
+Any execution behavior that violates these role definitions is **non-compliant with Paperhat Codex**.
 
 ---
 

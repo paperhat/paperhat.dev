@@ -1,10 +1,10 @@
 # Codex System Contract (LOCKED)
 
-This document defines the **global, non-negotiable invariants** of the Sitebender Codex system.
+This document defines the **global, non-negotiable invariants** of the Paperhat Codex system.
 
 It applies to:
 
-- all Sitebender libraries
+- all Paperhat libraries
 - all generated applications
 - all tooling
 - all LLM implementers
@@ -15,7 +15,7 @@ This document is **normative**.
 
 **IMPORTANT:**
 
-**Sitebender Codex is not a web framework.**
+**Paperhat Codex is not a web framework.**
 
 _It is a declarative language and compilation system for encoding meaning, constraints, behavior, and configuration, with the web as just one possible projection target._
 

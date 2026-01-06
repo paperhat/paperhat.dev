@@ -9,9 +9,9 @@ The Installation section is minimal. Consider adding a complete quickstart
 showing:
 
 ```bash
-bend new myapp --template=blog
+pph new myapp --template=blog
 cd myapp
-bend dev
+pph dev
 ```
 
 With a brief walkthrough of what gets generated and how to make a first
@@ -19,7 +19,7 @@ modification.
 
 ## Performance Characteristics
 
-For users evaluating Sitebender for production use, consider documenting:
+For users evaluating Paperhat for production use, consider documenting:
 
 - Bundle size impact of Oxigraph WASM in browser deployments
 - Compile-time vs runtime characteristics (clarify that the pipeline runs at
@@ -28,7 +28,7 @@ For users evaluating Sitebender for production use, consider documenting:
 
 ## Honest Limitations
 
-Consider adding a section on what Sitebender is NOT ideal for:
+Consider adding a section on what Paperhat is NOT ideal for:
 
 - What use cases are better served by simpler tools?
 - Where are the current rough edges?
@@ -49,12 +49,12 @@ glossary entries.
 Experienced developers will ask: "Why this over React + Zod + Prisma? Over
 SolidStart? Over Remix?"
 
-Consider a brief comparison highlighting what trade-offs Sitebender makes and
+Consider a brief comparison highlighting what trade-offs Paperhat makes and
 what capabilities it enables that alternatives cannot provide.
 
 ## Name Origin
 
-"Sitebender" is unexplained. Consider a brief note on the name's meaning or
+"Paperhat" is unexplained. Consider a brief note on the name's meaning or
 origin for the curious.
 
 ## Concrete Examples for Abstractions

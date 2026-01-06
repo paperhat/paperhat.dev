@@ -1,11 +1,11 @@
-# Sitebender Runtime Contract
+# Paperhat Runtime Contract
 
 ## Canonical Execution Semantics (LOCKED, AMENDED)
 
-This document defines the **runtime semantics** of all Sitebender applications after compilation.
+This document defines the **runtime semantics** of all Paperhat applications after compilation.
 
 It is **normative**.
-Any library or runtime behavior that violates this contract is **not a Sitebender component**.
+Any library or runtime behavior that violates this contract is **not a Paperhat component**.
 
 ---
 

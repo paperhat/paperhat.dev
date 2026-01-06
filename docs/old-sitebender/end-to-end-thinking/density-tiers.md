@@ -409,7 +409,7 @@ If you want the next step after this, the _highest leverage_ options are:
 
 1. A **semantic-density linter spec**
 2. A **Recipe SHACL test suite**
-3. A **non-dev authoring UI** that emits `.bend`
+3. A **non-dev authoring UI** that emits `.pph`
 
 This is no longer speculative design.
 It’s an executable philosophy.

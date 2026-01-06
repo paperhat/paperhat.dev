@@ -2,7 +2,7 @@
 
 This document defines the **exclusive responsibilities of Toolsmith** and the **strict rules by which other libraries may extend it**.
 
-Toolsmith is the **kernel** of the Sitebender system.
+Toolsmith is the **kernel** of the Paperhat system.
 
 This document is **normative**.
 
@@ -10,7 +10,7 @@ This document is **normative**.
 
 ## 1. Role of Toolsmith (Hard)
 
-Toolsmith provides the **foundational computational substrate** for all Sitebender libraries.
+Toolsmith provides the **foundational computational substrate** for all Paperhat libraries.
 
 It is intentionally:
 

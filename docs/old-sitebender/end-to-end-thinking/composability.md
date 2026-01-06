@@ -10,7 +10,7 @@ I’ll do this in three layers:
 
 ---
 
-## 1. What “composable” means in Sitebender Codex terms
+## 1. What “composable” means in Paperhat Codex terms
 
 In FP, composability means:
 

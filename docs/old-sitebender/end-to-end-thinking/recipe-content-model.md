@@ -1,11 +1,11 @@
 # Recipe content model
 
-Recipes are _deceptively_ hard — they look like “content,” but they’re actually **procedures with structured resources, variants, and constraints**. Which makes them ideal for Sitebender + filesystem pedagogy.
+Recipes are _deceptively_ hard — they look like “content,” but they’re actually **procedures with structured resources, variants, and constraints**. Which makes them ideal for Paperhat + filesystem pedagogy.
 
 We'll use the same three-layer way:
 
 1. **Content primitives for recipes (what exists)**
-2. **Filesystem + routing (how Sitebender sees it)**
+2. **Filesystem + routing (how Paperhat sees it)**
 3. **Non-developer contribution, shopping lists, feedback**
 
 And keep it concrete and boring-on-purpose.
@@ -148,7 +148,7 @@ No comments embedded in canon.
 
 ---
 
-# II. Sitebender routing & features
+# II. Paperhat routing & features
 
 Now the fun part: what this enables _automatically_.
 
@@ -243,7 +243,7 @@ This alone makes the site _useful_, not just pretty.
 
 # III. Non-developer contribution (this matters)
 
-Here’s where Sitebender + filesystem shine.
+Here’s where Paperhat + filesystem shine.
 
 ---
 

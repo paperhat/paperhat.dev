@@ -1,6 +1,6 @@
 # CONSTRAINTS_AND_BEHAVIORS (CANONICAL)
 
-This document defines the canonical separation between **Constraints**, **Behaviors**, and **Bindings** in Sitebender Codex, including their compilation, enforcement, and target-specific resolution.
+This document defines the canonical separation between **Constraints**, **Behaviors**, and **Bindings** in Paperhat Codex, including their compilation, enforcement, and target-specific resolution.
 
 This document is **CANONICAL**.
 
@@ -8,7 +8,7 @@ This document is **CANONICAL**.
 
 ## 1. Purpose
 
-Sitebender Codex must support:
+Paperhat Codex must support:
 
 - authoritative semantic validity, independent of rendering
 - optional runtime enhancement, dependent on render target and environment
@@ -451,7 +451,7 @@ All symbols (`x`, `a`, `b`, `c`, `d`) are variables.
 
 ## 13. Summary
 
-Sitebender Codex enforces a strict separation:
+Paperhat Codex enforces a strict separation:
 
 - **Constraints** define validity.
 - **Behaviors** enhance interaction.

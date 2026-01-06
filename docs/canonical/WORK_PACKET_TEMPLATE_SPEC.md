@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Work Packet Template Specification** defines the **mandatory structural form** of all Work Packets issued within the Sitebender Codex system.
+The **Work Packet Template Specification** defines the **mandatory structural form** of all Work Packets issued within the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -253,7 +253,7 @@ Executors are not responsible for detecting template violations.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any Work Packet not conforming exactly to this template is **non-compliant with Sitebender Codex**.
+Any Work Packet not conforming exactly to this template is **non-compliant with Paperhat Codex**.
 
 ---
 

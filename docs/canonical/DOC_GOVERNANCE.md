@@ -55,7 +55,7 @@ If multiple documents exist for the same topic:
 Archived docs are stored under:
 
 - `codex/docs/old-docs/`
-- `<library>/docs/old-sitebender/` (temporary staging during cleanup)
+- `<library>/docs/old-paperhat/` (temporary staging during cleanup)
 
 Archived docs are read-only by convention.
 

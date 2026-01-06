@@ -1,6 +1,6 @@
 # End-to-end Recipe walkthrough
 
-# End-to-End Recipe Demo (Sitebender Codex)
+# End-to-End Recipe Demo (Paperhat Codex)
 
 We will walk **one recipe** through the full pipeline:
 
@@ -27,7 +27,7 @@ No UI yet. Just meaning.
 This is **the entire authoring artifact**.
 No imports. No helpers. No runtime code.
 
-### 📄 `modules/recipes/grandmas-apple-pie/content.bend`
+### 📄 `modules/recipes/grandmas-apple-pie/content.pph`
 
 ```tsx
 <Recipe>

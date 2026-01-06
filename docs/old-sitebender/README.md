@@ -1,4 +1,4 @@
-# Sitebender Codex
+# Paperhat Codex
 
 A declarative CDX DSL for semantic web applications via a pipeline:
 
@@ -40,7 +40,7 @@ Most web frameworks treat code as code. You write functions, manage state in
 closures, and hope your types survive until runtime. Your application exists as
 source files that must be parsed, compiled, and executed.
 
-Sitebender inverts this model. **Your entire application — structure, content,
+Paperhat inverts this model. **Your entire application — structure, content,
 behavior, validation — exists as queryable semantic data in a triple store.**
 The rendered interface is just one projection of the underlying knowledge graph.
 
@@ -55,7 +55,7 @@ capabilities impossible with traditional approaches.
 
 ## Democratizing Web Development
 
-Sitebender lowers the bar for building powerful, accessible,
+Paperhat lowers the bar for building powerful, accessible,
 standards-compliant, robust, scalable, distributed, and offline-capable web
 applications.
 
@@ -89,7 +89,7 @@ Tutorials guide progression. Visual editors are coming.
   composition)
 
 **AI makes it even easier** — but it's not the primary story. The same
-properties that make Sitebender human-understandable (semantic components,
+properties that make Paperhat human-understandable (semantic components,
 queryable data, structural validation) also make it AI-friendly. Human-first
 with AI compatibility, not AI-first with human readability.
 
@@ -97,7 +97,7 @@ with AI compatibility, not AI-first with human readability.
 
 ## Everything Is Data
 
-When you write Sitebender components, you're not writing code that executes.
+When you write Paperhat components, you're not writing code that executes.
 You're declaring data that describes your application:
 
 ```tsx
@@ -139,7 +139,7 @@ TypeScript provides compile-time safety. But TypeScript types vanish at runtime.
 Your carefully typed `EmailAddress` parameter becomes just a string the moment
 external data arrives.
 
-Sitebender's Toolsmith library provides **precision types enforced at runtime**:
+Paperhat's Toolsmith library provides **precision types enforced at runtime**:
 
 ```typescript
 type Integer = Tagged<"Integer"> & {
@@ -349,9 +349,9 @@ limitation is ours, not theirs.
 
 ### Tooling Layer
 
-| Library           | Purpose                                                                 |
-| ----------------- | ----------------------------------------------------------------------- |
-| **Quartermaster** | Application generator — `bend new` creates working apps from blueprints |
+| Library           | Purpose                                                                |
+| ----------------- | ---------------------------------------------------------------------- |
+| **Quartermaster** | Application generator — `pph new` creates working apps from blueprints |
 
 **Available blueprints:** minimal, blog, dashboard, form-builder, e-commerce,
 collaborative-doc, knowledge-base.
@@ -434,7 +434,7 @@ See [docs/hadr.md](./docs/hadr.md) for comprehensive details.
 The library ecosystem above is **internal infrastructure**. You don't interact
 with it directly.
 
-As a Sitebender consumer, you write this:
+As a Paperhat consumer, you write this:
 
 ```tsx
 <Recipe>
@@ -469,9 +469,9 @@ or triple stores.
 **To start a new project:**
 
 ```bash
-bend new my-recipe-site --template=blog
+pph new my-recipe-site --template=blog
 cd my-recipe-site
-bend dev
+pph dev
 ```
 
 Quartermaster scaffolds a working application. You modify semantic components to
@@ -488,8 +488,8 @@ No barrel files. Import directly from source files. Functions are default
 exports; types and constants are named exports.
 
 ```typescript
-import Essay from "@sitebender/architect/documents/Essay/index.tsx";
-import type { EssayProps } from "@sitebender/architect/documents/Essay/index.tsx";
+import Essay from "@paperhat/architect/documents/Essay/index.tsx";
+import type { EssayProps } from "@paperhat/architect/documents/Essay/index.tsx";
 ```
 
 <a id="license"></a>

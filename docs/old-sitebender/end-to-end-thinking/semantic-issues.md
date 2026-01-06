@@ -264,7 +264,7 @@ No conflict. No hacks.
 
 You’re right: filenames are mostly noise.
 
-The _only_ reason not to use `index.bend` everywhere is:
+The _only_ reason not to use `index.pph` everywhere is:
 
 - diff clarity
 - human navigation

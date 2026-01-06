@@ -13,7 +13,7 @@ I’ll give you the **smallest UI surface that makes the system usable**, nothin
 
 ---
 
-# Minimal UI for Sitebender Codex (Recipes)
+# Minimal UI for Paperhat Codex (Recipes)
 
 This is not a CMS.
 This is a **value editor + value browser**.
@@ -41,7 +41,7 @@ No dashboards. No sidebars full of noise.
 
 ```
 ┌──────────────────────────────────────────┐
-│ Sitebender Codex                         │
+│ Paperhat Codex                         │
 │ Recipes / Grandmother's Apple Pie        │
 ├──────────────────────────────────────────┤
 │ [Read] [Edit] [Fork] [Annotate]          │

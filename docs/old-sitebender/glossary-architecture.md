@@ -1,6 +1,6 @@
 # Glossary Architecture
 
-Sitebender uses a centralized glossary for terminology management, abbreviation
+Paperhat uses a centralized glossary for terminology management, abbreviation
 enforcement, and internationalization.
 
 ## Data Flow
@@ -81,7 +81,7 @@ Whitelisted abbreviations (examples):
 
 ## Authoring
 
-Glossary terms are authored in CDX like everything else in Sitebender.
+Glossary terms are authored in CDX like everything else in Paperhat.
 
 ```tsx
 <Glossary>

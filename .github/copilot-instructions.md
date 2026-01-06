@@ -1,6 +1,6 @@
-# Copilot Instructions for Sitebender Codex
+# Copilot Instructions for Paperhat Codex
 
-Use these instructions when working in these Sitebender Codex:
+Use these instructions when working in these Paperhat Codex:
 
 1. Agent
 2. Arborist
@@ -31,7 +31,7 @@ Use these instructions when working in these Sitebender Codex:
 - **Types**: Use `type`, never `interface` or enums. PascalCase names; acronyms as words; no abbreviations without approval. Prefer descriptive generics. Export on declaration. Types live in `types/index.ts` (LCA); discriminated unions use `_tag` with PascalCase tags. Component props are the exception—export `Props` in the same CDX file.
 - **Constants**: No magic values; SCREAMING_SNAKE_CASE names, camelCase object keys. Export on declaration. Constants live in `constants/index.ts` (LCA).
 - **Folders & Files**: Function folders camelCase; components PascalCase; private underscore; category folders lowercase single words. In `src/`, all files are `index.*`; tests co-located as `index.test.ts`. `mod.ts` exists only for Envoy module comments, never as a barrel.
-- **Imports**: Always include file extensions. Type imports use `import type { Foo } from "..."` (type keyword outside braces). Use aliases (`@sitebender/...`) for public/local exports; relative paths only for private underscore helpers. Never import from barrels. Sort case-sensitively and group per Rule Matrix; add a blank line before code. Re-export aliases with two lines (import then export default).
+- **Imports**: Always include file extensions. Type imports use `import type { Foo } from "..."` (type keyword outside braces). Use aliases (`@paperhat/...`) for public/local exports; relative paths only for private underscore helpers. Never import from barrels. Sort case-sensitively and group per Rule Matrix; add a blank line before code. Re-export aliases with two lines (import then export default).
 - **Error & Messaging**: Never throw. Use the Help system with friendly, blame-free language and actionable guidance. Result short-circuits, Validation accumulates, Maybe for optional. Discriminated unions require guards/accessors (`isOk`, `fold`, `getOrElse`); do not reach in or duplicate `_tag` checks. No unreachable code; 100% coverage expected.
 - **Newtypes & Guards**: Branded runtime-validated types under `src/newtypes`; construct via smart constructors, validate boundaries with guards, unwrap only through provided helpers.
 - **Monads & Effects**: Core monads under `src/monads` (Maybe/Result/Validation/Either/Io/Reader/Writer/etc.). Keep side effects deferred via Io/Future; choose control flow operators consistent with fail-fast vs accumulate vs branch.

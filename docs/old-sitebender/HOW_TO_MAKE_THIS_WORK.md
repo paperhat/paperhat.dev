@@ -65,12 +65,12 @@ Practical approach:
 - Inside: `docs/canonical/`
 - Only docs inside `docs/canonical/` are considered authoritative
 - Everything else is either:
-  - `docs/old-sitebender/` (archived)
+  - `docs/old-paperhat/` (archived)
   - or library-local `docs/CONTRACT.md` that is linked from canonical
 
 Also add a simple rule:
 
-- **No new docs** without placing them in either `docs/canonical/` or `docs/old-sitebender/`.
+- **No new docs** without placing them in either `docs/canonical/` or `docs/old-paperhat/`.
 - Library README files become either:
   - a short pointer to the canonical contract, or
   - are archived and replaced with a minimal “this library is governed by CONTRACT.md”.
@@ -84,7 +84,7 @@ Since you said “Let’s do it,” the immediate deliverables should be:
 1. `docs/canonical/CODEX_SYSTEM_CONTRACT.md`
 2. `docs/canonical/OWNERSHIP.md`
 
-And then: 3. `docs/canonical/TOOLSMITH_EXTENSION_POLICY.md` 4. `@sitebender/<lib>/docs/CONTRACT.md` for the spine libraries (in the order we listed)
+And then: 3. `docs/canonical/TOOLSMITH_EXTENSION_POLICY.md` 4. `@paperhat/<lib>/docs/CONTRACT.md` for the spine libraries (in the order we listed)
 
 You said “another session” for generating the new canonical set, and that’s sensible—but we can still agree on the **file layout and rules** now so you can start moving docs immediately without risking another mess.
 
@@ -102,7 +102,7 @@ Library-level:
 
 Archive:
 
-- `docs/old-sitebender/**` (everything outdated goes here)
+- `docs/old-paperhat/**` (everything outdated goes here)
 
 ## 8) One extra rule to kill drift (LLMs love breaking this)
 

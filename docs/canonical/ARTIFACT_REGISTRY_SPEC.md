@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Artifact Registry Specification** defines the authoritative classes of artifacts within the Sitebender Codex system and the rules governing their creation, immutability, reference, and authority.
+The **Artifact Registry Specification** defines the authoritative classes of artifacts within the Paperhat Codex system and the rules governing their creation, immutability, reference, and authority.
 
 Its purpose is to:
 
@@ -37,7 +37,7 @@ In the event of conflict, this document yields to earlier LOCKED contracts.
 
 ## 3. Definition
 
-An **Artifact** is any discrete, reviewable output produced, referenced, or governed by the Sitebender Codex system.
+An **Artifact** is any discrete, reviewable output produced, referenced, or governed by the Paperhat Codex system.
 
 Artifacts are immutable units of meaning.
 They may be superseded, but never altered.
@@ -282,7 +282,7 @@ Anonymous or ambiguous artifacts are invalid.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any artifact handling or reference behavior inconsistent with this specification is **non-compliant with Sitebender Codex**.
+Any artifact handling or reference behavior inconsistent with this specification is **non-compliant with Paperhat Codex**.
 
 ---
 

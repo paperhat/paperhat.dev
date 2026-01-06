@@ -2,7 +2,7 @@
 
 **Three passes that interlock**:
 
-1. **Map to your filesystem-driven routing (Sitebender-style)**
+1. **Map to your filesystem-driven routing (Paperhat-style)**
 2. **Embed just-in-time learning without breaking the spine**
 3. **Enable forking, remixing, and argument _without entropy_**
 

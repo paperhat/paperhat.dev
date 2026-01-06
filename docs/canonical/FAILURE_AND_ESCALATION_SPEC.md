@@ -9,7 +9,7 @@
 
 ## 1. Purpose
 
-The **Failure and Escalation Specification** defines the system-wide rules for identifying, classifying, handling, and escalating failures within the Sitebender Codex system.
+The **Failure and Escalation Specification** defines the system-wide rules for identifying, classifying, handling, and escalating failures within the Paperhat Codex system.
 
 Its purpose is to:
 
@@ -255,7 +255,7 @@ Termination is a valid outcome.
 
 This document is **CANONICAL** and **LOCKED**.
 
-Any failure handling or escalation behavior inconsistent with this specification is **non-compliant with Sitebender Codex**.
+Any failure handling or escalation behavior inconsistent with this specification is **non-compliant with Paperhat Codex**.
 
 ---
 

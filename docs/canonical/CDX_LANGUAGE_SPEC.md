@@ -1,6 +1,6 @@
 # CDX_LANGUAGE_SPEC (CANONICAL)
 
-This document defines the **CDX language** used by Sitebender Codex.
+This document defines the **CDX language** used by Paperhat Codex.
 
 CDX is a **human-first declarative language** for expressing meaning, constraints, behavior, presentation policy, and bindings.
 
@@ -20,7 +20,7 @@ It is designed to be:
 - precise enough for formal compilation
 - expressive without hidden complexity
 
-CDX is the **only** authoring language in Sitebender Codex.
+CDX is the **only** authoring language in Paperhat Codex.
 
 ---
 

@@ -1,6 +1,6 @@
 # Codex Canon Index (LOCKED)
 
-This folder contains the **single authoritative global canon** for all Sitebender libraries and generated applications.
+This folder contains the **single authoritative global canon** for all Paperhat libraries and generated applications.
 
 - **Authoritative global canon lives here:** `codex/docs/canonical/`
 - **Library-local canon lives in each repo:** `docs/canonical/CONTRACT.md`
