@@ -67,7 +67,7 @@ If a construct would confuse a careful, intelligent non-programmer, it is invali
 
 ### 4.1 Full Names Are Canonical
 
-Canonical CDX element names MUST:
+Canonical CDX concept names MUST:
 
 - be written in full
 - use plain English
@@ -95,8 +95,8 @@ Aliases MAY exist, but documentation and examples MUST use canonical names.
 
 ### 4.2 Case and Form
 
-- Element names use **PascalCase**
-- Attribute names use **camelCase**
+- Concept names use **PascalCase**
+- Trait names use **camelCase**
 - Text content is freeform unless otherwise constrained
 
 ---
@@ -122,7 +122,7 @@ There are:
 
 **Order is derived from authoring order.**
 
-If elements appear in sequence, that sequence is meaningful.
+If concepts appear in sequence, that sequence is meaningful.
 
 CDX MUST NOT include explicit ordering markers such as:
 
@@ -136,11 +136,11 @@ If order matters, authors express it by placement.
 
 ---
 
-## 7. Attributes vs Child Elements
+## 7. Traits vs Child Concepts
 
-### 7.1 Attributes
+### 7.1 Traits
 
-Attributes are used for:
+Traits are used for:
 
 - simple scalar values
 - units
@@ -156,9 +156,9 @@ Example:
 
 ---
 
-### 7.2 Child Elements
+### 7.2 Child Concepts
 
-Child elements are used for:
+Child concepts are used for:
 
 - complex structure
 - grouping

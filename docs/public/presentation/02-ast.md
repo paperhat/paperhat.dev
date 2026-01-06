@@ -18,8 +18,8 @@ The AST exists so that the rest of the pipeline can operate on **structure**, no
 
 Below is a simplified AST representation corresponding to parts of the recipe CDX.
 Each node records:
-- the element type (`t`)
-- its attributes (`a`)
+- the concept type (`t`)
+- its traits (`a`)
 - its children (`c`)
 
 ```ts
@@ -85,8 +85,8 @@ Each node records:
 
 This is still *your recipe* — just written in a way that removes ambiguity.
 
-* Every element becomes a node.
-* Every attribute is captured exactly.
+* Every concept becomes a node.
+* Every trait is captured exactly.
 * Every piece of text is preserved.
 * The nesting structure is made explicit.
 
