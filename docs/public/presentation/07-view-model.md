@@ -1,14 +1,30 @@
 # ViewModel
 
-The ViewModel is the stable contract between the language (CDX) and all renderers.
+The **ViewModel** is an internal structure created by the system.
 
-Renderers take a ViewModel and decide:
+It is **not written by users**, **not edited**, and **not normally seen**.
+The ViewModel is produced automatically by **Scribe** by combining:
+
+- **data CDX** (what exists and is true), and
+- **view CDX** (what someone wants to see, grouped and ordered).
+
+The ViewModel is the stable contract between authored intent and rendering.
+
+Renderers do not query data and do not interpret meaning.
+They receive a ViewModel and decide only:
 
 - how to lay it out,
 - how to style it,
 - how to make it interactive (if at all).
 
-This keeps meaning, structure, and presentation cleanly separated — and lets non-technical authors describe systems once, then reuse them everywhere.
+This separation allows authors to describe systems once, and reuse them everywhere,
+without needing to think about technical details.
+
+---
+
+## Example
+
+Below is an example ViewModel produced for the recipe view.
 
 ```json
 {
@@ -141,16 +157,76 @@ This keeps meaning, structure, and presentation cleanly separated — and lets n
     }
   ]
 }
+````
 
-```
+---
 
-It is created by Scribe by combining:
+## How to read this (non-technical)
 
-- data (what exists and is true), and
-- a view definition (what someone wants to see, grouped and ordered in a certain way).
+You never write this structure yourself.
 
-The ViewModel answers the question:
+The system creates it so that everything you wrote can be shown correctly,
+in the right order, every time.
 
-“What should be shown, in what order, with what values?” — but it does not answer how it should look on screen, in print, or when spoken aloud.
+Think of the ViewModel as a **prepared script behind the scenes**:
 
-Because the ViewModel is target-neutral, the same ViewModel can be rendered to a web page, a PDF, a voice interface, or any other output without changing the original data or view definition.
+* you write the content,
+* you describe how it should be grouped,
+* the system prepares a clean, complete version for presentation.
+
+Because of this, you don’t need to worry about formatting rules,
+layout decisions, or technical edge cases.
+Those decisions happen later.
+
+---
+
+## For technical readers
+
+The ViewModel is a **target-neutral, policy-free presentation data structure**.
+
+### What the ViewModel is
+
+* created automatically by Scribe
+* derived from data CDX + view CDX
+* ordered, explicit, and complete
+* safe for renderers to consume directly
+
+### What the ViewModel is not
+
+* not authored by users
+* not persisted as a source of truth
+* not a configuration API
+* not responsible for layout, styling, or interaction
+
+---
+
+### View vs ViewModel vs Presentation Plan
+
+This separation is intentional:
+
+* **View (CDX)**
+  Declares *what* is conceptually presented and how it is grouped.
+
+* **ViewModel**
+  Is the concrete, ordered result of combining a view with data.
+
+* **Presentation Plan**
+  Decides *how* that ViewModel should be arranged for a specific medium
+  (screen, print, voice, etc.), using Design Policy.
+
+Each step narrows possibilities without mixing concerns.
+
+---
+
+### Why this matters
+
+Because the ViewModel is stable and invisible to authors:
+
+* non-technical users don’t have to think like programmers
+* designers can change presentation without touching data
+* renderers stay simple and interchangeable
+* the system remains explainable end to end
+
+The next page introduces Design Policy — the declarative rules that describe how content should be presented in general, without changing its meaning.
+
+These policies are later applied to a ViewModel and a target context to produce a concrete Presentation Plan.

@@ -1,8 +1,8 @@
 # ORCHESTRATION_DECISION_RECORD_SPEC
 
-**Status:** CANONICAL
-**Lock State:** LOCKED
-**Audience:** Orchestrators, Validators, Human Authorities
+**Status:** CANONICAL  
+**Lock State:** LOCKED  
+**Audience:** Orchestrators, Validators, Human Authorities  
 **Non-Audience:** Work Packet Executors, Runtime Systems
 
 ---

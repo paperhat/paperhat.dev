@@ -1,8 +1,8 @@
 # ARTIFACT_REGISTRY_SPEC
 
-**Status:** CANONICAL
-**Lock State:** LOCKED
-**Audience:** Orchestrators, Validators, Human Authorities
+**Status:** CANONICAL  
+**Lock State:** LOCKED  
+**Audience:** Orchestrators, Validators, Human Authorities  
 **Non-Audience:** Runtime engines, application developers
 
 ---

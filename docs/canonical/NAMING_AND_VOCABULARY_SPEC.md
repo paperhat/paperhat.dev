@@ -1,8 +1,8 @@
 # NAMING_AND_VOCABULARY_SPEC
 
-**Status:** CANONICAL
-**Lock State:** LOCKED
-**Audience:** All Codex Participants
+**Status:** CANONICAL  
+**Lock State:** LOCKED  
+**Audience:** All Codex Participants  
 **Non-Audience:** Runtime engines, application developers
 
 ---

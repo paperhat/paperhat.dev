@@ -1,6 +1,26 @@
-# AST
+# AST (Abstract Syntax Tree)
 
-The Codex (.cdx) files are parsed into an Abstract Syntax Tree (AST) to facilitate further processing and rendering. The AST represents the hierarchical structure of the data, making it easier to manipulate and transform.
+Once a Codex (`.cdx`) file is read, the first thing Paperhat does is **parse it into an Abstract Syntax Tree (AST)**.
+
+The AST is not a new interpretation of your data.
+It is the **same information**, rewritten into a precise, unambiguous structure that a computer can work with safely.
+
+At this stage:
+- nothing is inferred
+- nothing is validated beyond structure
+- nothing is “understood” semantically yet
+
+The AST exists so that the rest of the pipeline can operate on **structure**, not text.
+
+---
+
+## Example
+
+Below is a simplified AST representation corresponding to parts of the recipe CDX.
+Each node records:
+- the element type (`t`)
+- its attributes (`a`)
+- its children (`c`)
 
 ```ts
 { t: "Servings", a: { amount: "2", unit: "persons" }, c: [] },
@@ -57,5 +77,92 @@ The Codex (.cdx) files are parsed into an Abstract Syntax Tree (AST) to facilita
 },
 
 { t: "Source", a: {}, c: ["Personal recipe"] }
+````
 
-```
+---
+
+## How to read this (non-technical)
+
+This is still *your recipe* — just written in a way that removes ambiguity.
+
+* Every element becomes a node.
+* Every attribute is captured exactly.
+* Every piece of text is preserved.
+* The nesting structure is made explicit.
+
+Nothing has been interpreted yet.
+This step exists so the system cannot “misread” what you wrote.
+
+Think of the AST as a **faithful transcript** of the CDX file, prepared for further processing.
+
+---
+
+## For technical readers
+
+The AST is a **lossless structural representation** of the authored CDX.
+
+### Why an AST exists at all
+
+Working directly on source text is fragile:
+
+* whitespace matters accidentally
+* ordering is ambiguous
+* errors are hard to localize
+* transformations become ad hoc
+
+The AST solves this by:
+
+* making structure explicit
+* separating parsing from interpretation
+* providing stable node shapes for downstream phases
+
+Every later step in the pipeline depends on this discipline.
+
+---
+
+### What the AST does *not* do
+
+At this stage, the AST:
+
+* does **not** normalize structure
+* does **not** resolve identity
+* does **not** validate against ontology
+* does **not** attach meaning
+* does **not** infer relationships
+
+It reflects *author intent*, not semantic truth.
+
+This is why AST is distinct from the next phase (IR).
+
+---
+
+### Provenance and source location
+
+In the real system, AST nodes also carry:
+
+* source file identity
+* character offsets
+* line and column numbers
+
+This information is preserved so that:
+
+* diagnostics can point back to authored CDX
+* later transformations remain explainable
+* round-tripping is possible
+
+Nothing downstream is allowed to “forget where it came from”.
+
+---
+
+### Why this separation matters
+
+By isolating parsing into a dedicated AST phase, Paperhat ensures that:
+
+* syntax errors are caught early
+* semantics are applied consistently
+* later transformations are deterministic
+* rendering never depends on string tricks
+
+This strict separation is what makes the rest of the pipeline predictable.
+
+The next step builds on this structure to create a **canonical internal representation**.

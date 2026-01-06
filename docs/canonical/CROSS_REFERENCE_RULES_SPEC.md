@@ -1,8 +1,8 @@
 # CROSS_REFERENCE_RULES_SPEC
 
-**Status:** CANONICAL
-**Lock State:** LOCKED
-**Audience:** Orchestrators, Validators, Human Authorities
+**Status:** CANONICAL  
+**Lock State:** LOCKED  
+**Audience:** Orchestrators, Validators, Human Authorities  
 **Non-Audience:** Work Packet Executors, Runtime Systems, Application Developers
 
 ---

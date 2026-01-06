@@ -1,8 +1,8 @@
 # DOCUMENT_STYLE_AND_TONE_SPEC
 
-**Status:** CANONICAL
-**Lock State:** LOCKED
-**Audience:** All Codex Participants
+**Status:** CANONICAL  
+**Lock State:** LOCKED  
+**Audience:** All Codex Participants  
 **Non-Audience:** Runtime engines, application developers
 
 ---
@@ -81,6 +81,7 @@ The following modal verbs are permitted and MUST be used precisely:
 - **MUST** — mandatory requirement
 - **MUST NOT** — absolute prohibition
 - **MAY** — optional permission
+- **SHOULD** — strongly encouraged but not required
 
 No other modal verbs are permitted.
 
@@ -90,7 +91,6 @@ No other modal verbs are permitted.
 
 The following are explicitly forbidden:
 
-- should
 - could
 - might
 - would
