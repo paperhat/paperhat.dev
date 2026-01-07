@@ -44,10 +44,11 @@ Parse Errors occur when the input cannot be read into a syntactic structure.
 
 Examples:
 
-- malformed tags
+- malformed Concept markers
 - invalid quoting
 - broken indentation
 - unterminated Concepts
+- unterminated annotations
 
 Parse Errors halt processing immediately.
 
@@ -84,20 +85,60 @@ Formatting Errors include (non-exhaustive):
 - invalid casing of Concept or Trait names
 - multiple blank lines where forbidden
 - blank lines in invalid positions
-- non-canonical attribute ordering
+- non-canonical Trait ordering
 - invalid line continuations
+- **misplaced or malformed annotations**
 
 Each violation is a **formatting error**, not a schema error.
 
 ---
 
-## 6. Formatter Behavior (Normative)
+## 6. Annotation Formatting Errors (Normative)
+
+The following are **formatting errors** related to annotations:
+
+### 6.1 Structural Errors
+
+- Unterminated editorial annotation (`[` without matching `]`)
+- Nested editorial annotations
+- Editorial annotation appearing inside Content
+- Editorial annotation appearing inside a Concept marker
+- Editorial annotation appearing inside a Trait name or value
+
+These are **fatal errors**.
+
+---
+
+### 6.2 Canonicalization Errors
+
+- Annotation placement that cannot be deterministically attached to a target Concept
+- Ambiguous attachment caused by invalid whitespace or structure
+- Editorial annotation that splits a syntactic unit (e.g. between a marker name and its Traits)
+
+If deterministic attachment cannot be established, normalization MUST fail.
+
+---
+
+### 6.3 Typed Annotation Errors
+
+- Editorial annotation with a malformed type prefix (e.g. missing colon)
+- `<Annotation>` Concept with an invalid or non-canonical `kind` Trait value
+- `<Annotation>` Concept missing required structure defined by schema
+
+Unrecognized editorial prefixes are **not errors**; they are treated as plain text.
+Invalid `<Annotation>` Concepts are schema errors, not formatting errors.
+
+---
+
+## 7. Formatter Behavior (Normative)
 
 Codex formatters:
 
 - MUST produce canonical output
+- MUST preserve all annotations
+- MUST preserve annotation attachment targets
 - MUST NOT reorder Concepts or collections
-- MUST NOT invent or remove Concepts or Traits
+- MUST NOT invent or remove Concepts, Traits, or annotations
 - MUST NOT infer missing structure
 - MUST NOT depend on source offsets
 
@@ -105,7 +146,7 @@ Formatting is purely mechanical.
 
 ---
 
-## 7. Normalization Failures
+## 8. Normalization Failures
 
 A **normalization failure** occurs when:
 
@@ -119,10 +160,11 @@ Examples:
 - ambiguous indentation
 - conflicting sectioning rules
 - invalid but unfixable whitespace patterns
+- annotation attachment ambiguity
 
 ---
 
-## 8. Formatting vs Schema Errors
+## 9. Formatting vs Schema Errors
 
 The following distinctions are mandatory:
 
@@ -135,7 +177,7 @@ Tools MUST NOT report schema errors when the true cause is formatting.
 
 ---
 
-## 9. Error Reporting Requirements
+## 10. Error Reporting Requirements
 
 Formatting error reports SHOULD include:
 
@@ -148,7 +190,7 @@ Exact wording and UI presentation are tool-defined.
 
 ---
 
-## 10. Prohibited Behaviors (Normative)
+## 11. Prohibited Behaviors (Normative)
 
 Codex tools MUST NOT:
 
@@ -156,12 +198,13 @@ Codex tools MUST NOT:
 - auto-correct formatting errors without reporting them
 - accept multiple canonical forms
 - treat formatting errors as warnings
+- discard annotations during formatting
 
 If formatting is wrong, the document is invalid.
 
 ---
 
-## 11. Non-Goals
+## 12. Non-Goals
 
 This contract does **not**:
 
@@ -175,10 +218,11 @@ It strictly defines **error classification and enforcement**.
 
 ---
 
-## 12. Summary
+## 13. Summary
 
 - Canonical formatting is mandatory
 - Formatting errors are distinct from parse and schema errors
+- Annotations are formatting-relevant and must be preserved
 - Normalization must be deterministic or fail
 - No heuristic or silent correction is permitted
 - Codex formatting is mechanical and enforceable

@@ -83,7 +83,81 @@ If the system needs to reason about something, it must be expressed as **Traits 
 
 ---
 
-## 5. “Why can’t I rely on order here?”
+## 5. “Why did my comment disappear from the output?”
+
+Because **annotations are not always rendered**.
+
+Codex supports **annotations**, not code-style comments:
+
+- Editorial annotations (`[ ... ]`) are for authors and tooling
+- Output annotations (`<Annotation>`) are for intentional downstream visibility
+
+By default:
+
+- `[ ... ]` annotations are preserved for round-tripping but **ignored by HTML, PDF, or voice renderers**
+- `<Annotation>` Concepts may be rendered or spoken, depending on the target
+
+If you want something to appear in rendered output, use an explicit `<Annotation>` Concept.
+
+---
+
+## 6. “Why didn’t this `[ ... ]` annotation show up in my CDX?”
+
+It did — just not where you expected.
+
+Editorial annotations:
+
+- attach to the **next Concept**, not the previous one
+- are ignored inside Content
+- are not inline markup
+
+They behave like **editorial margin notes**, not inline text.
+
+If you need precise attachment or output visibility, use `<Annotation>`.
+
+---
+
+## 7. “Why didn’t Codex recognize my annotation type?”
+
+Because annotation kinds are **enumerated**.
+
+In an editorial annotation:
+
+```
+[todo: verify cooking time]
+```
+
+The prefix (`todo`) is treated as a kind **only if it is recognized by schema**.
+
+If the prefix is not recognized:
+
+```
+[bob says: this sucks]
+```
+
+The entire annotation is treated as plain text, not as a typed annotation.
+
+This avoids accidental or ambiguous typing.
+
+---
+
+## 8. “Why can’t I put annotations inside text?”
+
+Because **Content is opaque**.
+
+Inside Content:
+
+- `[ ... ]` is just text
+- `<Annotation>` has no meaning
+- nothing is parsed or interpreted
+
+This prevents inline markup and avoids HTML-style confusion.
+
+Annotations belong **between Concepts**, not inside prose.
+
+---
+
+## 9. “Why can’t I rely on order here?”
 
 Because **ordering is explicit**.
 
@@ -101,19 +175,7 @@ If order matters, the schema will say so.
 
 ---
 
-## 6. “Why can’t I reuse this Concept name elsewhere?”
-
-You usually can — but **meaning is contextual**.
-
-- Names do not have global meaning
-- Context and schema define semantics
-- The same name can mean different things in different contexts
-
-Do not assume that a Concept name carries meaning outside its schema-defined context.
-
----
-
-## 7. “Why does formatting matter so much?”
+## 10. “Why does formatting matter so much?”
 
 Because Codex is **canonical**.
 
@@ -125,7 +187,7 @@ If formatting is wrong, the document is invalid — even if the meaning seems ob
 
 ---
 
-## 8. “Why won’t Codex ‘just fix it’?”
+## 11. “Why won’t Codex ‘just fix it’?”
 
 Because silent correction destroys trust.
 
@@ -137,7 +199,7 @@ Every change must be explicit and visible.
 
 ---
 
-## 9. “Why is Codex so strict?”
+## 12. “Why is Codex so strict?”
 
 Because strictness is what makes everything else possible:
 
@@ -157,6 +219,7 @@ Relaxed rules here would create chaos downstream.
 - Identity, meaning, and structure are intentional
 - Schemas own semantics; authors provide facts
 - Prose is preserved but not interpreted
+- Annotations are preserved but selectively rendered
 - Canonical form is non-negotiable
 
 If Codex rejects something, it is protecting the system — not being pedantic.

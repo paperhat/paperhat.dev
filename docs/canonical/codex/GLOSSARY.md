@@ -1,7 +1,3 @@
-Here you go — **the full Glossary document**, complete and ready to drop in.
-
----
-
 # Codex Glossary (DRAFT)
 
 ## Status
@@ -157,6 +153,70 @@ It does not imply action or wiring.
 
 ---
 
+## Annotation Terms
+
+### Annotation
+
+An **Annotation** is a non-normative, author-supplied textual note preserved through the Codex pipeline.
+
+Annotations:
+
+- do **not** affect validation
+- do **not** alter domain semantics
+- are intentionally preserved for round-tripping, tooling, and inspection
+
+Annotations are **not comments** and are not disposable.
+
+---
+
+### Editorial Annotation
+
+An **Editorial Annotation** is an annotation intended for authors and tooling.
+
+Editorial Annotations:
+
+- are authored using bracket syntax (`[ ... ]`) in the surface form
+- attach to the **next Concept** in document order
+- are preserved through IR and triple storage
+- are ignored by default in rendered outputs (HTML, PDF, voice)
+
+They function like editorial margin notes.
+
+---
+
+### Output Annotation
+
+An **Output Annotation** is an annotation explicitly authored as a Concept.
+
+Output Annotations:
+
+- are authored using the `<Annotation>` Concept
+- attach to their **parent Concept**
+- carry opaque Content
+- MAY be rendered or spoken by downstream targets
+
+Output visibility is explicit and intentional.
+
+---
+
+### Annotation Kind
+
+An **Annotation Kind** is a schema-defined classification describing the intent of an annotation.
+
+Typical kinds include:
+
+- `note`
+- `warning`
+- `todo`
+- `rationale`
+- `question`
+- `example`
+- `provenance`
+
+Annotation kinds do not affect domain semantics.
+
+---
+
 ## Structural and Semantic Terms
 
 ### Structural Concept
@@ -230,8 +290,12 @@ The following terms must not be used to describe Codex constructs:
 - attribute
 - field
 - parameter
+- comment
+- code comment
+- HTML comment
+- XML comment
 
-Use **Concept** and **Trait** instead.
+Use **Concept**, **Trait**, and **Annotation** instead.
 
 ---
 

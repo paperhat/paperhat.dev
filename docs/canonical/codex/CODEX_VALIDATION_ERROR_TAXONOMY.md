@@ -67,6 +67,8 @@ Parse Errors occur when a `.cdx` file cannot be parsed into a syntactic structur
 - invalid quoting
 - malformed Traits
 - invalid indentation
+- **unterminated editorial annotation (`[` without matching `]`)**
+- **nested editorial annotations**
 
 Parse Errors are **fatal**.
 
@@ -90,6 +92,10 @@ Surface Form Errors occur when a file parses but violates the **Codex Surface Fo
 - invalid casing in names
 - forbidden whitespace
 - multiple roots in a file
+- **editorial annotation appearing inside Content**
+- **editorial annotation appearing inside a Concept marker**
+- **annotation placement that cannot be deterministically attached**
+- **annotation splitting a syntactic unit**
 
 Surface Form Errors are **fatal**.
 
@@ -113,6 +119,8 @@ Schema Errors occur when parsed Codex violates schema-defined rules.
 - missing required Trait
 - unknown Concept name
 - invalid Trait Value type
+- **invalid or unauthorized `<Annotation>` Concept**
+- **invalid `kind` value on an `<Annotation>` Concept**
 
 Schema Errors are **fatal**.
 
@@ -135,6 +143,7 @@ Identity Errors occur when identity rules are violated.
 - missing required `id`
 - duplicate identifiers in the same scope
 - invalid identifier form
+- **`id` declared on an annotation where identity is not authorized**
 
 Identity Errors are **fatal**.
 
@@ -157,6 +166,7 @@ Reference Errors occur when reference Traits are invalid or inconsistent.
 - reference to a non-Entity Concept
 - violation of the reference singleton rule
 - reference to an Entity of an unauthorized Concept type
+- **annotation provenance referencing an invalid or non-addressable target**
 
 Reference Errors are **fatal**.
 
@@ -179,6 +189,7 @@ Collection Errors occur when domain collection rules are violated.
 - invalid ordering for an unordered collection
 - missing required members
 - duplicate membership where forbidden
+- **annotation collections violating schema-defined membership rules**
 
 Collection Errors are **fatal**.
 
@@ -200,6 +211,8 @@ Context Errors occur when Concepts or Traits are used outside their valid schema
 - using a structural Concept outside its defining context
 - using a Trait whose meaning is not defined in the current context
 - assuming Codex module semantics outside a Module context
+- **using `<Annotation>` outside a schema-defined annotation context**
+- **assuming annotation rendering semantics in a non-rendering context**
 
 Context Errors are **fatal**.
 
@@ -222,6 +235,7 @@ Constraint Errors occur when schema-defined constraints are violated beyond basi
 - invalid combinations of Traits
 - value ranges violated
 - domain-specific rules broken
+- **annotation constraints violated (e.g. forbidden combinations of annotation kinds)**
 
 Constraint Errors are **fatal**.
 
@@ -271,6 +285,7 @@ It defines **what kind of error occurred**, not how it is shown.
 
 - Every validation failure has exactly one primary error class
 - Error classes are finite and closed
+- Annotations introduce **no new error classes**
+- Annotation errors are classified using existing categories
 - Errors are deterministic and fatal
-- Classification is consistent across tools
 - Validation is mechanical, not heuristic

@@ -40,6 +40,23 @@ These terms are defined in the Naming Contract and Glossary.
 
 ---
 
+### Annotation Terms
+
+The following terms are canonical for non-normative author notes.
+
+- **Annotation** — a non-normative, author-supplied textual note preserved through the Codex pipeline
+- **Editorial Annotation** — an annotation intended for authors and tooling, not for default rendering
+- **Output Annotation** — an annotation explicitly intended for possible downstream rendering or narration
+- **Annotation Kind** — a schema-defined classification describing the intent of an annotation (e.g. `note`, `warning`, `todo`)
+
+Annotations:
+
+- do **not** alter domain semantics
+- do **not** affect validation
+- are **preserved intentionally**, not treated as disposable comments
+
+---
+
 ## 3. Forbidden Vocabulary (Normative)
 
 The following terms MUST NOT be used to describe Codex constructs, either in documentation, tooling, or LLM output.
@@ -70,6 +87,21 @@ The following terms MUST NOT be used to describe Codex constructs, either in doc
 - close tag
 
 Use **marker** instead.
+
+---
+
+### Forbidden Annotation Terminology
+
+The following terms MUST NOT be used to describe Codex annotations:
+
+- comment
+- code comment
+- inline comment
+- XML comment
+- HTML comment
+
+Codex does **not** have comments.
+Codex has **annotations**.
 
 ---
 
@@ -141,11 +173,13 @@ When generating Codex-related output, LLMs MUST:
 - avoid forbidden vocabulary
 - respect casing and abbreviation rules
 - distinguish semantic Concepts from syntactic markers
+- distinguish **annotations** from Content and Concepts
 - avoid introducing new terms unless explicitly instructed
 
 LLMs MUST NOT:
 
 - substitute legacy terms for Codex terms
+- refer to annotations as comments
 - infer semantics from surface syntax
 - invent Concepts or Traits not defined by schema
 - conflate Concepts with markers
@@ -182,7 +216,8 @@ It exists solely to lock **language discipline**.
 
 - Codex terminology is closed and intentional
 - Canonical terms are mandatory
-- Legacy vocabulary is forbidden
+- Legacy and code-derived vocabulary is forbidden
+- **Annotations are not comments**
 - Casing and abbreviation rules are strict
 - Context determines meaning
 - Guardrails exist primarily for LLM correctness

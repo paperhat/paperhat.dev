@@ -19,7 +19,7 @@ You do not invent structure in CDX. You **use documented concepts and traits** t
 
 In `/modules/recipes/_data/spaghetti-aglio-e-olio.cdx`:
 
-```tsx
+```cdx
 <Recipe title="Spaghetti Aglio e Olio">
 	<Summary>A quick pasta with garlic, olive oil, chili, and parsley.</Summary>
 

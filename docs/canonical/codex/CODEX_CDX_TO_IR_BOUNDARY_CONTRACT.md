@@ -34,6 +34,7 @@ CDX is responsible for:
 - validating against schema
 - enforcing identity, reference, collection, and context rules
 - producing a deterministic semantic structure
+- preserving all author-intended annotations
 
 CDX describes **what exists**, not how it is rendered, stored, or executed.
 
@@ -63,6 +64,7 @@ A valid CDX document guarantees that:
 - all references point to valid Entities
 - all collections obey schema-defined semantics
 - all context-sensitive meanings are resolved
+- all annotations are fully captured and attached
 
 The IR MUST NOT need to re-validate CDX semantics.
 
@@ -88,6 +90,7 @@ Any such assumptions belong **after** the IR boundary.
 The transformation from CDX to IR MUST be:
 
 - **lossless** with respect to semantic meaning
+- **lossless** with respect to annotations
 - **deterministic**
 - **independent of surface formatting**
 - **independent of file layout or ordering**
@@ -99,6 +102,9 @@ The IR MUST preserve:
 - collection membership and ordering (when semantic)
 - explicit relationships and references
 - declared provenance
+- all annotations, including their type, kind, text, and attachment target
+
+Nothing intentionally authored in CDX may be discarded at the boundary.
 
 ---
 
@@ -116,7 +122,34 @@ Downstream systems MAY choose to interpret Content, but only **after** the IR.
 
 ---
 
-## 8. Identity and References
+## 8. Annotations (Normative)
+
+Annotations are **first-class, non-normative semantic artifacts**.
+
+At the CDX → IR boundary:
+
+- All annotations MUST be preserved
+- Annotation text MUST be preserved verbatim
+- Annotation attachment targets MUST be explicit in the IR
+- Annotation kinds MUST be preserved as typed values
+
+Annotations:
+
+- do **not** affect validation
+- do **not** alter semantic meaning
+- do **not** participate in inference
+- MAY be used by downstream systems for rendering, tooling, diagnostics, or provenance
+
+The IR MUST distinguish, at minimum:
+
+- **Editorial annotations** (originating from `[ ... ]`)
+- **Output annotations** (originating from `<Annotation>` Concepts)
+
+This distinction MUST be preserved across the boundary.
+
+---
+
+## 9. Identity and References
 
 At the CDX → IR boundary:
 
@@ -128,7 +161,7 @@ The IR MUST NOT invent identity or relationships.
 
 ---
 
-## 9. Error Responsibility
+## 10. Error Responsibility
 
 All errors in the following categories MUST be resolved **before** IR generation:
 
@@ -144,7 +177,7 @@ The IR MUST assume **error-free input**.
 
 ---
 
-## 10. Non-Goals
+## 11. Non-Goals
 
 This contract does **not**:
 
@@ -158,10 +191,10 @@ It defines **responsibility boundaries**, not implementations.
 
 ---
 
-## 11. Summary
+## 12. Summary
 
-- CDX is authoritative for semantics
+- CDX is authoritative for semantics **and annotations**
 - IR is authoritative for downstream processing
 - The boundary is strict and explicit
-- Semantics must be fully resolved before IR
+- Semantics and annotations must be fully resolved before IR
 - Downstream systems must not reinterpret CDX

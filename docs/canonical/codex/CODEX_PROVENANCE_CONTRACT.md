@@ -25,7 +25,7 @@ This contract governs **what provenance is and how it is named**, not how tools 
 
 ## 2. What Provenance Is
 
-**Provenance** describes the **origin, authorship, and derivation** of Codex Concepts and Entities.
+**Provenance** describes the **origin, authorship, and derivation** of Codex Concepts, Entities, and Annotations.
 
 Provenance:
 
@@ -34,7 +34,7 @@ Provenance:
 - does **not** affect domain semantics
 - is intended for inspection, auditing, and tooling
 
-Provenance never changes the meaning of the Concept it describes.
+Provenance never changes the meaning of the Concept or Annotation it describes.
 
 ---
 
@@ -57,8 +57,9 @@ Provenance MAY apply to:
 - an entire `Module`
 - a specific Entity within a Module
 - a derived Concept or plan
+- an **Annotation** (editorial or output)
 
-Schemas MUST define which Concepts may carry provenance.
+Schemas MUST define which Concepts and Annotations may carry provenance.
 
 Provenance MUST NOT be attached implicitly.
 
@@ -86,6 +87,7 @@ These names are **contextual** and have meaning only within the module provenanc
 - Its purpose is attribution, not permission
 - It MAY reference a human, organization, or agent Entity
 - Multiple authors MAY be declared
+- It MAY apply to Concepts **or Annotations**
 
 Plain English reading:
 
@@ -97,11 +99,12 @@ Plain English reading:
 
 ### `GeneratedBy`
 
-`GeneratedBy` declares the tool or agent that generated a Concept.
+`GeneratedBy` declares the tool or agent that generated a Concept or Annotation.
 
 - It is declarative
 - It does not imply determinism or reproducibility
 - It does not imply endorsement or correctness
+- It MAY distinguish between human-authored and machine-generated annotations
 
 Plain English reading:
 
@@ -115,7 +118,7 @@ Plain English reading:
 
 `DerivedFrom` declares lineage.
 
-- It references another Entity
+- It references another Entity or Annotation
 - It asserts derivation, not equivalence
 - It does not encode transformation steps
 
@@ -125,17 +128,36 @@ Plain English reading:
 
 ---
 
-## 9. Reference Semantics
+## 9. Annotations and Provenance (Normative)
 
-Provenance Concepts use **reference Traits** to identify Entities.
+Annotations are **first-class artifacts** for the purposes of provenance.
 
-- References MUST point to valid Entities
+- Editorial annotations (`[ ... ]`)
+- Output annotations (`<Annotation>`)
+
+MAY carry provenance metadata.
+
+Provenance attached to annotations:
+
+- describes **who authored or generated the annotation**
+- may describe **derivation** (e.g. copied, summarized, translated)
+- does **not** affect the meaning of the annotated Concept
+
+Annotations MUST NOT inherit provenance implicitly from the Concepts they annotate unless schema explicitly defines such inheritance.
+
+---
+
+## 10. Reference Semantics
+
+Provenance Concepts use **reference Traits** to identify Entities or Annotations.
+
+- References MUST point to valid Entities or Annotations
 - Provenance references MUST NOT form cycles unless explicitly allowed by schema
 - The reference singleton rule applies unless schema permits otherwise
 
 ---
 
-## 10. Identity Rules
+## 11. Identity Rules
 
 By default:
 
@@ -151,7 +173,7 @@ Absent explicit authorization, assigning an `id` to a provenance Concept is a va
 
 ---
 
-## 11. Ordering
+## 12. Ordering
 
 If multiple provenance entries appear:
 
@@ -160,7 +182,7 @@ If multiple provenance entries appear:
 
 ---
 
-## 12. Non-Goals
+## 13. Non-Goals
 
 This contract does **not**:
 
@@ -174,10 +196,11 @@ It defines **Codex-native provenance only**.
 
 ---
 
-## 13. Summary
+## 14. Summary
 
 - Provenance in Codex is declarative and descriptive
 - It records authorship, generation, and derivation
+- It may apply to Concepts **and Annotations**
 - It never alters domain semantics
 - Its meaning is contextual and schema-defined
 - Provenance is inspectable, not executable
