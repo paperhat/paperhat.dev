@@ -94,6 +94,47 @@ Developer convenience is never a justification for authoring complexity.
 
 ---
 
+### 2.3 Inline Content Enrichment: Patch (Hard)
+
+Within CDX **content elements**, inline enrichment is expressed using the **Patch language**.
+
+**Patch is a language.**
+It is not formatting, styling, or presentation.
+
+Patch exists to allow authors to **annotate, qualify, and reference meaning inside content**, without breaking declarative purity or introducing target assumptions.
+
+Patch:
+
+- operates _only_ inside content-bearing elements
+- is fully declarative
+- is parseable and round-trippable
+- produces structured semantic data, not decorated strings
+
+Patch is used to express, for example:
+
+- emphasis and semantic weight
+- references to declared resources or identifiers
+- annotations that participate in meaning, not appearance
+
+Patch is **not**:
+
+- HTML
+- Markdown
+- rich text
+- a styling language
+- a presentation instruction system
+
+Patch does **not** define how something looks.
+It defines **what something is**, semantically, within authored content.
+
+All Patch constructs compile into internal semantic structures and remain subject to:
+
+- determinism
+- validation
+- target-agnostic rendering
+
+---
+
 ## 3. Closed World Assumption (Hard)
 
 Paperhat Codex operates as a **closed declarative system**.
@@ -107,13 +148,15 @@ This means:
 
 If something is not declared, it does not exist.
 
+This applies equally to CDX structure and to Patch-enriched content.
+
 ---
 
 ## 4. Internal Representations (Non-Authoring)
 
 ### 4.1 Compilation Is Mandatory
 
-All CDX is compiled into internal representations, including:
+All CDX, including Patch-enriched content, is compiled into internal representations, including:
 
 - abstract syntax structures
 - intermediate representations
@@ -135,7 +178,7 @@ Authors MUST NEVER see or write these representations.
 
 ### 4.2 Naming and Abbreviation Rule
 
-- **CDX uses full, plain-English names**
+- **CDX and Patch use full, plain-English names**
 - **Internal representations may use abbreviated names freely**
 
 Abbreviations are permitted only where humans do not see them.
@@ -158,6 +201,8 @@ The system MUST be able to explain:
 - why something is hidden
 - why something is ordered or grouped
 
+This applies equally to structure, content, and Patch-derived semantics.
+
 Opaque behavior is forbidden.
 
 ---
@@ -175,6 +220,9 @@ Paperhat Codex enforces strict separation:
 - **Warden** enforces validity
 - **Renderers** emit target-specific output
 
+Patch contributes semantic data only.
+It may not assume responsibilities owned by Design Policy or Renderers.
+
 No library may assume responsibilities owned by another.
 
 ---
@@ -190,6 +238,8 @@ This means:
 - persistence does not depend on JS
 - constraint enforcement does not depend on JS
 
+Patch semantics MUST remain correct in non-JavaScript environments.
+
 JavaScript MAY enhance experience, but MUST NOT enable correctness.
 
 ---
@@ -203,6 +253,8 @@ All authoritative semantics in Paperhat Codex MUST be referentially transparent.
 - no hidden state may influence correctness
 
 Runtime-only sources (cookies, clocks, APIs, UI state) MUST NOT affect semantic truth.
+
+This includes semantics derived from Patch.
 
 ---
 
@@ -220,7 +272,7 @@ The same CDX may be rendered to:
 - Voice systems
 - Future targets not yet defined
 
-No authoring construct may assume a specific target.
+No authoring construct — including Patch — may assume a specific target.
 
 ---
 
@@ -249,7 +301,11 @@ It prioritizes:
 - meaning over mechanics
 - humans over machines
 
-If something cannot be expressed clearly in CDX, it does not belong in the system.
+Structure is authored in CDX.
+Inline meaning is enriched with Patch.
+Presentation is decided elsewhere.
+
+If something cannot be expressed clearly and declaratively in CDX and Patch, it does not belong in the system.
 
 ---
 

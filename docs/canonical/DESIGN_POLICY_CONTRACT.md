@@ -31,7 +31,7 @@ Design Policy is **data**, not code.
 
 ## 2. Scope (Hard)
 
-Design Policy governs **presentation-level interpretation** of semantic projections, including:
+Design Policy governs **presentation-level interpretation** of semantic projections and content semantics, including:
 
 - grouping interpretation
 - ordering and flow
@@ -61,7 +61,7 @@ Design Policy never defines meaning.
 
 Design Policy:
 
-- **consumes** semantic projections and ViewModels
+- **consumes** semantic projections, ViewModels, and Patch-derived semantics
 - **does not** alter semantic truth
 - **does not** invent structure
 - **does not** introduce new data
@@ -71,27 +71,37 @@ Design Policy:
 Canonical separation:
 
 - **Architect** defines meaning
+- **Surveyor** defines projections
+- **Patch** enriches inline content semantics
 - **Scribe** orchestrates the pipeline
 - **Design Policy** defines appearance
 - **Renderers** implement targets
 
 ---
 
-## 4. Relationship to Semantic Projections
+## 4. Relationship to Semantic Projections and Patch
 
-Design Policy operates on **semantic groupings**, not on markup or layout boxes.
+Design Policy operates on **semantic groupings and distinctions**, not on markup or layout boxes.
 
-Examples of semantic groupings:
+Sources of semantic input include:
+
+- ViewModels derived from Surveyor projections
+- Patch-derived semantic distinctions embedded in Content
+
+Examples of semantic groupings and distinctions:
 
 - Concept groups
-- Field groups (from Form IR)
+- Field groups
 - Sections
 - Lists
 - Steps
 - Narratives
 - Hierarchies declared at the meaning level
+- Inline semantic emphasis or references expressed via Patch
 
-Design Policy interprets these groupings **by policy**, not by inference.
+Design Policy interprets these semantics **by policy**, not by inference.
+
+Design Policy MAY respond differently to Patch-derived semantics (e.g. emphasis, reference, annotation) across targets, but MUST NOT reinterpret or redefine their meaning.
 
 ---
 
@@ -101,7 +111,7 @@ Design Policy is:
 
 - authored by site or application owners
 - expressed exclusively in **CDX**
-- owned by the application, not by Architect
+- owned by the application, not by Architect or Surveyor
 - consumed by Scribe and renderers
 
 End users may author or modify Design Policy without writing code.
@@ -154,7 +164,7 @@ Design Policy MAY encode rules such as:
 - summarization vs expansion
 - pagination or wizard transitions
 
-Rules operate on **semantic nodes and groups**, not on layout primitives.
+Rules operate on **semantic nodes, groups, and Patch-derived distinctions**, not on layout primitives.
 
 Viewport size, shape, and medium characteristics may be considered.
 
@@ -178,6 +188,8 @@ Hidden content remains:
 - valid
 - persistent
 
+This includes content enriched via Patch.
+
 ---
 
 ## 10. Relationship to Behavior
@@ -190,6 +202,8 @@ Design Policy is **not behavior**.
 
 Design Policy MAY declare **presentation affordances** that renderers and behaviors can respond to, but it does not define the behavior itself.
 
+Patch semantics MUST NOT be treated as behavior triggers.
+
 ---
 
 ## 11. Compilation and Use
@@ -197,8 +211,8 @@ Design Policy MAY declare **presentation affordances** that renderers and behavi
 Design Policy is:
 
 - parsed from CDX
-- compiled by Scribe into a presentation plan
-- combined with a ViewModel
+- compiled by Scribe into a Presentation Plan
+- combined with a ViewModel and Patch-derived semantics
 - consumed by renderers
 
 Compilation is deterministic.
@@ -218,6 +232,7 @@ Design Policy MUST NOT include:
 - runtime bindings
 - references to storage, APIs, or clocks
 - HTML, CSS, or platform-specific constructs
+- reinterpretation of Patch semantics
 
 If it affects correctness, it is not Design Policy.
 
@@ -232,6 +247,7 @@ The system must be able to answer questions such as:
 - “Why is this shown first?”
 - “Why is this grouped here?”
 - “Why did this collapse on a small screen?”
+- “Why is this emphasized differently here?”
 - “Why is this summarized instead of expanded?”
 
 Opaque or implicit behavior is forbidden.

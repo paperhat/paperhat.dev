@@ -71,19 +71,51 @@ If something is not documented by a schema, it is not valid Codex.
 
 ## 4. “Why doesn’t Codex understand my prose?”
 
-Because prose is **Content**, not data.
+Because prose is **Content**, not schema-defined data.
 
-- Content is preserved verbatim
-- Content is not interpreted
+- Content expresses human meaning
 - Content is not used for inference
+- Content does not implicitly create entities, traits, or constraints
 
-This prevents accidental semantics leaking out of natural language.
-
-If the system needs to reason about something, it must be expressed as **Traits or Concepts**, not prose.
+If the system needs to reason about something, it must be expressed as **Concepts or Traits**, not as prose.
 
 ---
 
-## 5. “Why did my comment disappear from the output?”
+## 5. “But I _can_ do things inside text — what’s going on?”
+
+Because Content supports **Patch**.
+
+Inside Content, Codex recognizes **Patch language constructs**.
+
+Patch allows authors to:
+
+- add semantic emphasis
+- reference declared entities or resources
+- annotate meaning inline
+
+However:
+
+- Patch is **not styling**
+- Patch does **not** create new Concepts or Traits
+- Patch does **not** affect validity unless explicitly defined to do so by schema
+
+Patch enriches meaning inside Content without turning prose into structure.
+
+---
+
+## 6. “Why didn’t my inline thing affect layout or appearance?”
+
+Because **Patch is not presentation**.
+
+- Patch expresses _what something is_
+- Design Policy decides _how it appears_
+- Renderers decide _how that policy manifests per target_
+
+If you are trying to force layout, spacing, decoration, or visual effects from inside text, you are using the wrong layer.
+
+---
+
+## 7. “Why did my comment disappear from the output?”
 
 Because **annotations are not always rendered**.
 
@@ -101,23 +133,22 @@ If you want something to appear in rendered output, use an explicit `<Annotation
 
 ---
 
-## 6. “Why didn’t this `[ ... ]` annotation show up in my CDX?”
+## 8. “Why didn’t this `[ ... ]` annotation show up where I expected?”
 
-It did — just not where you expected.
-
-Editorial annotations:
+Because editorial annotations:
 
 - attach to the **next Concept**, not the previous one
+- are **not inline text**
 - are ignored inside Content
-- are not inline markup
 
-They behave like **editorial margin notes**, not inline text.
+They behave like **editorial margin notes**, not inline markup.
 
-If you need precise attachment or output visibility, use `<Annotation>`.
+If you need precise attachment or inline semantics, use Patch.
+If you need visible output, use `<Annotation>`.
 
 ---
 
-## 7. “Why didn’t Codex recognize my annotation type?”
+## 9. “Why didn’t Codex recognize my annotation type?”
 
 Because annotation kinds are **enumerated**.
 
@@ -141,23 +172,7 @@ This avoids accidental or ambiguous typing.
 
 ---
 
-## 8. “Why can’t I put annotations inside text?”
-
-Because **Content is opaque**.
-
-Inside Content:
-
-- `[ ... ]` is just text
-- `<Annotation>` has no meaning
-- nothing is parsed or interpreted
-
-This prevents inline markup and avoids HTML-style confusion.
-
-Annotations belong **between Concepts**, not inside prose.
-
----
-
-## 9. “Why can’t I rely on order here?”
+## 10. “Why can’t I rely on order here?”
 
 Because **ordering is explicit**.
 
@@ -167,7 +182,7 @@ Because **ordering is explicit**.
 
 Never encode order using:
 
-- numbers
+- numbers in prose
 - implicit conventions
 - identifiers
 
@@ -175,7 +190,7 @@ If order matters, the schema will say so.
 
 ---
 
-## 10. “Why does formatting matter so much?”
+## 11. “Why does formatting matter so much?”
 
 Because Codex is **canonical**.
 
@@ -187,7 +202,7 @@ If formatting is wrong, the document is invalid — even if the meaning seems ob
 
 ---
 
-## 11. “Why won’t Codex ‘just fix it’?”
+## 12. “Why won’t Codex ‘just fix it’?”
 
 Because silent correction destroys trust.
 
@@ -199,7 +214,7 @@ Every change must be explicit and visible.
 
 ---
 
-## 12. “Why is Codex so strict?”
+## 13. “Why is Codex so strict?”
 
 Because strictness is what makes everything else possible:
 
@@ -218,7 +233,8 @@ Relaxed rules here would create chaos downstream.
 - Codex is strict by design
 - Identity, meaning, and structure are intentional
 - Schemas own semantics; authors provide facts
-- Prose is preserved but not interpreted
+- Content carries human meaning, not inferred data
+- Patch enriches meaning inline without becoming presentation
 - Annotations are preserved but selectively rendered
 - Canonical form is non-negotiable
 
