@@ -65,6 +65,32 @@ There are no entity encodings (`&lt;`, `&amp;`, etc.) in Codex.
 
 ## 4. Concepts and Structure
 
+### Concept Markers
+
+Codex uses **markers** to denote the boundaries of Concept instances in the surface form.
+
+A **marker** is a purely syntactic construct. Markers have **no semantic meaning**.
+
+There are three kinds of Concept markers:
+
+- **Opening Concept marker**  
+  Begins a Concept instance  
+  Example: `<Recipe>`
+
+- **Closing Concept marker**  
+  Ends a Concept instance  
+  Example: `</Recipe>`
+
+- **Self-closing Concept marker**  
+  Represents an empty Concept instance  
+  Example: `<Title />`
+
+Markers are not Concepts.
+
+A Concept is a semantic construct; markers merely delimit where a Concept instance begins and ends in the surface form.
+
+Malformed, mismatched, or invalid Concept markers result in **parse errors**.
+
 ### Single root
 
 - Each `.cdx` file has **exactly one root concept**.
@@ -127,6 +153,18 @@ Examples of semantic numeric types include (non-exhaustive):
 - Imaginary / complex (future-capable)
 
 The canonical printer may normalize numeric literals, but semantic typing is enforced by schema validation.
+
+### Boolean Traits
+
+Traits whose schema-defined value type is boolean MAY be written either:
+
+- as a bare trait name, indicating true, or
+- with an explicit =true value.
+
+The canonical surface form for boolean traits is presence-only.
+
+Boolean traits MUST NOT be written with =false.  
+Absence of a trait indicates that it is unspecified.
 
 ---
 
