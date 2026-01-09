@@ -1,4 +1,4 @@
-# Paperhat Semantic System
+# Paperhat Semantic Authoring System
 
 This repository publishes the **canonical system documentation** for **Paperhat**.
 
