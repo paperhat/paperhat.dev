@@ -1,6 +1,6 @@
-Status: NORMATIVE
-Lock State: LOCKED
-Version: 0.2
+Status: NORMATIVE  
+Lock State: LOCKED  
+Version: 0.3  
 Editor: Charles F. Munat
 
 # Scribe Library Contract
@@ -15,12 +15,14 @@ Scribe is the **authoritative semantic processing pipeline** of the **Paperhat S
 
 This contract exists to:
 
-* define Scribe’s **exclusive ownership** of the Paperhat processing pipeline
-* formalize strict **phase separation**, **purity**, and **IO boundaries**
-* guarantee **determinism**, **explainability**, and **round-trippability**
-* prevent semantic drift, partial ingestion, or framework-like behavior
+* define Scribe’s exclusive ownership of the Paperhat processing pipeline
+* enforce strict separation between **semantic truth**, **projection**, and **planning**
+* guarantee determinism, inspectability, and round-trippability
+* prevent epistemic contamination between authored artifact classes
+* ensure that all derived artifacts are reproducible and non-authoritative
 
-Scribe is authoritative for **processing**, not for **meaning**.
+Scribe processes authored meaning.
+It does not define meaning.
 
 ---
 
@@ -29,23 +31,25 @@ Scribe is authoritative for **processing**, not for **meaning**.
 This contract governs:
 
 * compilation of Codex (`.cdx`) artifacts
-* semantic normalization and emission
+* semantic normalization and RDF emission
 * interaction with the triple store (via Pathfinder)
-* shaping, planning, and rendering phases
-* guarantees around determinism and round-trip behavior
+* multi-graph storage and querying
+* ViewModel derivation
+* Design Policy application
+* rendering to targets
 
 This contract does **not** govern:
 
-* semantic meaning or vocabularies (Architect)
+* semantic vocabularies or meaning (Architect)
 * ontology constraints (Warden)
-* tooling and orchestration (Quartermaster)
-* runtime behavior or workflows
+* tooling, scaffolding, or orchestration (Quartermaster)
+* application workflows or runtime behavior
 
 ---
 
 ## 3. Pipeline Ownership (Exclusive)
 
-Scribe exclusively owns the following pipeline:
+Scribe exclusively owns the following conceptual pipeline:
 
 1. **Compilation** — CDX → AST → IR → RDF/Turtle (pure)
 2. **Storage** — RDF → triple store (IO via Pathfinder)
@@ -58,11 +62,64 @@ No other library may redefine, bypass, or collapse these phases.
 
 ---
 
-## 4. Compilation Responsibilities (Hard)
+## 4. Artifact Classes and Epistemic Separation (Hard)
+
+Scribe recognizes three **distinct classes of authored Codex artifacts**:
+
+1. **Domain Data**
+
+   * authored in `data.cdx`
+   * asserts semantic truth
+   * defines entities, relationships, values, and identity
+
+2. **View Definitions**
+
+   * authored in `view.cdx`
+   * define projection, selection, grouping, ordering, and information architecture
+   * do **not** assert semantic truth
+
+3. **Design Policy**
+
+   * authored in `design.cdx`
+   * defines planning and realization policy
+   * does **not** assert semantic truth
+
+These classes are **epistemically distinct** and MUST NOT be conflated.
+
+---
+
+## 5. Multi-Graph Storage Model (Hard)
+
+Scribe MUST store compiled artifacts in **separate graphs**, each with its own ontology and SHACL validation.
+
+At minimum:
+
+* **Domain Graph**
+
+  * populated exclusively from `data.cdx`
+  * contains semantic truth
+
+* **View Graph**
+
+  * populated exclusively from `view.cdx`
+  * contains projection and information-architecture definitions
+
+* **Design Graph**
+
+  * populated exclusively from `design.cdx`
+  * contains planning and realization policy
+
+Graphs MUST NOT be merged.
+
+No graph may depend on another for semantic correctness.
+
+---
+
+## 6. Compilation Responsibilities (Hard)
 
 Scribe exclusively owns:
 
-* CDX grammar and syntax
+* Codex grammar and syntax
 * lexical validation
 * AST node definitions
 * IR shape and normalization rules
@@ -73,172 +130,165 @@ No other library may parse CDX or define an alternative CDX compiler.
 
 ---
 
-## 5. Determinism and Canonical Form (Hard)
+## 7. Canonical Form and Determinism (Hard)
 
 Scribe MUST enforce:
 
-* a **single canonical surface form** for Codex documents
+* a single canonical surface form for Codex documents
 * deterministic AST, IR, and RDF emission for equivalent inputs
 * stable identifiers and ordering for equivalent semantic inputs
 
-Formatting is **canonical and mandatory**.
+Formatting is mandatory and non-optional.
 
 ---
 
-## 6. Module Ingestion and Atomicity (Hard)
+## 8. Module Revision Atomicity (Hard)
 
 Scribe processes **Modules atomically**.
 
-* A Module MUST either compile and store **in full**, or **not at all**.
-* Partial ingestion of a Module is prohibited.
-* If any artifact in a Module fails compilation or validation, **no data from that Module revision is stored**.
+For a given Module revision:
 
-Scribe MUST treat each successful ingestion as a **module revision**.
+* all Domain, View, and Design artifacts MUST compile successfully
+* all corresponding graphs MUST validate successfully
+* only then may the Module revision become active
 
----
+If any required artifact fails:
 
-## 7. Provenance and Revision Identity (Normative)
+* **no graph is updated**
+* partial ingestion is prohibited
 
-For each successful Module ingestion, Scribe MUST establish:
-
-* a stable **Module identifier**
-* a **Module Revision identifier** (e.g. hash or equivalent)
-* identifiers for each source artifact
-
-These identifiers are **provenance metadata**, not source coordinates.
+Module revisions are all-or-nothing.
 
 ---
 
-## 8. Source Location Policy (Hard)
+## 9. Provenance and Revision Identity (Normative)
 
-Scribe MAY track:
+For each successful Module revision, Scribe MUST establish:
 
-* UTF-16 offsets
-* line numbers
-* column numbers
+* Module identifier
+* Module Revision identifier
+* Artifact identifiers for each source document
 
-**Only** for:
+These identifiers are provenance metadata only and do not affect semantic meaning.
+
+---
+
+## 10. Source Location Policy (Hard)
+
+Scribe MAY track line numbers, columns, and offsets **only** for:
 
 * diagnostics
 * Help generation
 * tooling feedback
 
-Source locations:
+Source-location metadata:
 
-* MUST NOT be stored in the triple store
+* MUST NOT be stored in any graph
 * MUST NOT affect semantic identity
 * MUST NOT be required for round-trip reconstruction
 
 ---
 
-## 9. Ordering and Structural Preservation (Hard)
+## 11. Ordering and Structural Preservation (Hard)
 
 To enable structural round-tripping, Scribe MUST emit explicit ordering metadata.
 
-* Ordered collections MUST be represented using an explicit ordering predicate (e.g. `cdx:orderIndex`).
-* Ordering applies wherever source order must be preserved, including:
+* Ordered collections MUST use an explicit ordering predicate (e.g. `cdx:orderIndex`)
+* Ordering metadata is stored **in the graph to which the artifact belongs**
 
-  * sibling Concepts
-  * list items
-  * artifact ordering within a Module
+  * Domain ordering → Domain Graph
+  * View ordering → View Graph
+  * Design ordering → Design Graph
 
-Ordering metadata is **structural**, not semantic.
+Ordering is structural, not semantic.
 
 ---
 
-## 10. Round-Trip Guarantees (Hard)
+## 12. Round-Trip Guarantees (Hard)
 
 Scribe defines two round-trip modes:
 
-### 10.1 Semantic Round-Trip
+### 12.1 Semantic Round-Trip
 
 * CDX → RDF → CDX
-* Resulting document is **semantically equivalent**
-* Canonically formatted
-* Ordering MAY differ unless explicitly required by schema
+* semantic meaning preserved
+* canonical formatting applied
+* ordering preserved only where semantically required
 
-### 10.2 Structural Round-Trip
+### 12.2 Structural Round-Trip
 
 * CDX → RDF → CDX
-* Semantic meaning preserved
-* **Lexical ordering preserved** via ordering metadata
-* Canonical formatting applied
+* semantic meaning preserved
+* lexical ordering preserved via ordering metadata
+* canonical formatting applied
 
 Scribe MUST support both modes.
 
 ---
 
-## 11. Storage and Query (Hard)
+## 13. Query and Shaping (Hard)
 
-Scribe:
+Scribe derives a **ViewModel** by:
 
-* emits RDF/Turtle deterministically
-* performs all IO through Pathfinder
-* assumes a replaceable triple store backend
-
-Triple store choice is **not normative**, provided the public API contract is honored.
-
----
-
-## 12. ViewModel Shaping (Hard)
-
-Scribe shapes SPARQL results into a **ViewModel**.
+* interpreting View definitions from the **View Graph**
+* querying the **Domain Graph**
+* combining results deterministically
 
 The ViewModel is:
 
+* derived
 * structural
-* deterministic
 * target-neutral
-* independent of Design Policy and rendering
-
-Scribe shapes **structure only**.
-Semantic meaning remains external.
+* deterministic
+* non-authoritative
 
 ---
 
-## 13. Design Policy Application (Hard)
+## 14. ViewModel Lifecycle (Hard)
 
-Scribe exclusively owns **application** of Design Policy.
+The ViewModel:
+
+* exists only within the pipeline
+* is not stored as a persistence boundary
+* may be serialized for debugging or testing only
+* MUST be fully reproducible from stored graphs
+
+---
+
+## 15. Design Policy Application (Hard)
+
+Scribe exclusively owns application of Design Policy.
 
 Design Policy:
 
-* is authored in Codex
-* is declarative configuration
-* introduces no ontology facts
+* is declarative
+* introduces no semantic facts
 * performs no IO
-* modifies no semantic truth
+* modifies no domain truth
 
-The result is a **Presentation Plan** that is:
-
-* pure
-* deterministic
-* target-neutral
+The result is a **Presentation Plan** that is pure, deterministic, and target-neutral.
 
 ---
 
-## 14. Rendering (Hard)
+## 16. Rendering (Hard)
 
-Rendering is:
+Rendering is a pure function of:
 
-* a pure function of:
+* Presentation Plan
+* render target
+* render configuration
 
-  * Presentation Plan
-  * render target
-  * render configuration
-* deterministic
-* non-semantic
-
-Rendering realizes plans; it does not invent structure or meaning.
+Rendering invents no structure and asserts no meaning.
 
 ---
 
-## 15. Validation and Help (Hard)
+## 17. Validation and Help (Hard)
 
 Across all phases:
 
 * no exceptions are thrown
 * no `null` / `undefined`
-* all failures are represented as **Help**
+* all failures are represented as Help
 
 Scribe validates:
 
@@ -248,13 +298,13 @@ Scribe validates:
 
 Scribe does **not** validate:
 
-* ontology constraints
-* business rules
-* workflows
+* domain semantics (Architect)
+* ontology constraints (Warden)
+* workflows or behavior
 
 ---
 
-## 16. Toolsmith Usage (Hard)
+## 18. Toolsmith Usage (Hard)
 
 Scribe MUST:
 
@@ -268,20 +318,18 @@ Imperative code exists **only inside Toolsmith**.
 
 ---
 
-## 17. Non-Ownership (Hard)
+## 19. Non-Ownership (Hard)
 
 Scribe does **not** own:
 
 * semantic meaning (Architect)
-* constraints (Warden)
+* constraint enforcement (Warden)
 * tooling or orchestration (Quartermaster)
-* state, workflows, or execution semantics
-
-Scribe MAY invoke other libraries but MUST NOT subsume their responsibilities.
+* application state or workflows
 
 ---
 
-## 18. Authority and Precedence
+## 20. Authority and Precedence
 
 This contract is subordinate to:
 
@@ -290,37 +338,38 @@ This contract is subordinate to:
 And authoritative over:
 
 * Scribe implementations
-* Scribe-dependent tooling
+* Scribe-dependent tooling behavior
 
-In case of conflict, higher-authority documents prevail.
+Higher-authority documents prevail in case of conflict.
 
 ---
 
-## 19. Change Control
+## 21. Change Control
 
 This document is **LOCKED**.
 
 Changes require:
 
-* version increment
+* explicit version increment
 * documented rationale
-* review against System Contract and dependent specs
+* review against the Paperhat System Contract and dependent specifications
 
 ---
 
-## 20. Summary
+## 22. Summary
 
 Scribe is:
 
 * the authoritative Paperhat processing pipeline
-* deterministic, pure where required
-* atomic at the Module level
-* explicitly ordered for round-trip
-* non-semantic by design
+* deterministic and explainable
+* multi-graph by design
+* atomic at the Module revision level
+* explicit about ordering and round-tripping
+* hostile to semantic ambiguity
 
 Scribe processes authored meaning.
 It does not define it.
 
 ---
 
-**End of Scribe Library Contract v0.2**
+**End of Scribe Library Contract v0.3**
