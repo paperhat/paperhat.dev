@@ -12,10 +12,10 @@
 	</Importance>
 
 	<Ordering>
-		<PreserveOrder node="Steps" />
+		<PreserveOrder node="StepsList" />
 	</Ordering>
 
-	<Group>
+	<Grouping>
 		<Group tightly=true>
 			<Member node="Title" />
 			<Member node="Summary" />
@@ -28,7 +28,7 @@
 		<Group>
 			<Member node="Steps" />
 		</Group>
-	</Group>
+	</Grouping>
 
 	<Density>
 		<Compact node="Ingredients" />
@@ -37,26 +37,14 @@
 
 	<Responsive>
 		<When target="voice">
-			<Summarize
-				node="Summary"
-				strategy=$Sentence
-				maxLength=1
-			/>
-
-			<Enumerate node="Steps" />
-
-			<Mark
-				flag="Optional"
-				verbally=true
-			/>
+			<Summarize node="Summary" strategy=$Sentence maxLength=1 />
+			<Enumerate node="StepsList" />
+			<Mark flag="Optional" verbally=true />
+			<DisallowProgressiveDisclosure />
 		</When>
 	</Responsive>
 
 	<NegativeSpace>
-		<AvoidWithin node="Ingredient" />
+		<AvoidWithin node="IngredientsItem" />
 	</NegativeSpace>
-
-	<Constraints>
-		<DisallowProgressiveDisclosure />
-	</Constraints>
 </DesignPolicy>

@@ -16,7 +16,7 @@
 	<Importance>
 		<Primary node="Title" />
 		<Secondary node="Section" />
-		<Tertiary node="ListItem" />
+		<Tertiary node="Item" />
 	</Importance>
 
 	<Grouping>
@@ -36,7 +36,7 @@
 	</Grouping>
 
 	<Ordering>
-		<PreserveOrder node="Steps" />
+		<PreserveOrder node="StepsList" />
 	</Ordering>
 
 	<Density>
@@ -45,7 +45,7 @@
 	</Density>
 
 	<Proximity>
-		<Close node="Ingredient" />
+		<Close node="IngredientsItem" />
 		<Separate node="Section" />
 	</Proximity>
 
@@ -67,13 +67,13 @@
 
 		<When target="voice">
 			<Summarize node="Summary" strategy=$Sentence maxLength=1 />
-			<Enumerate node="Steps" />
+			<Enumerate node="StepsList" />
 			<Mark flag="Optional" verbally=true />
 		</When>
 	</Responsive>
 
 	<NegativeSpace>
 		<AllowBetween node="Section" />
-		<AvoidWithin node="Ingredient" />
+		<AvoidWithin node="IngredientsItem" />
 	</NegativeSpace>
 </DesignPolicy>

@@ -98,6 +98,38 @@ No other Codex file is required at the Module root.
 
 ---
 
+### 6.1 Module Role Declarations (Normative)
+
+A Module MAY declare the following **role marker Concepts** inside `module.cdx`:
+
+* `<Data />`
+* `<Views />`
+* `<Designs />`
+
+These Concepts:
+
+* declare which **artifact classes** are present in the Module
+* provide a location for **role-specific defaults** (for example `idBase`)
+* are **declarative markers**, not structural containers
+
+The <Data />, <Views />, and <Designs /> Concepts in module.cdx declare role availability and defaults only; they do not wrap or contain artifacts and do not imply structural hierarchy.
+
+Role marker Concepts:
+
+* MUST NOT be interpreted as wrapping, containing, or scoping artifacts
+* MUST NOT imply filesystem hierarchy
+* MUST NOT replace or duplicate the function of `data/`, `views/`, or `designs/` directories
+
+Artifact discovery and assembly remain **filesystem-based**, as defined in §§9–11.
+
+Role marker Concepts exist solely to:
+
+* declare participation
+* declare defaults
+* make Module intent explicit and machine-inspectable
+
+---
+
 ## 7. Reserved Structural Directories (Normative)
 
 A Module root MAY contain the following reserved structural directories:
@@ -189,8 +221,8 @@ modules/
 View Codex is the **exclusive location** for:
 
 * information architecture
-* navigation structure (including URL mappings, if any)
-* projections and selection rules
+* projection and selection rules
+* structural organization of domain data
 
 Filesystem paths MUST NOT imply information architecture.
 
@@ -215,7 +247,7 @@ modules/
   Recipe/
     designs/
       design.cdx
-      special/
+      voice/
         design.cdx
 ```
 
@@ -267,12 +299,12 @@ Nesting expresses **packaging and ownership**, not information architecture.
 
 Data artifacts MUST NOT embed per-target information architecture.
 
-Custom views or design policies that apply to specific data artifacts MUST be expressed in:
+Custom Views or Design Policies that apply to specific data artifacts MUST be expressed in:
 
 * View Codex (under `views/`)
 * Design Policy Codex (under `designs/`)
 
-Applicability MUST be established through **explicit semantic linkage** (e.g. references or selectors) declared in the Codex content.
+Applicability MUST be established through **explicit semantic linkage** declared in Codex content.
 
 Filesystem coincidence MUST NOT be the sole determinant of applicability.
 
@@ -332,6 +364,7 @@ A Paperhat project:
 
 * stores authored Modules under `modules/`
 * represents Modules as PascalCase directories with `module.cdx`
+* uses `<Data />`, `<Views />`, and `<Designs />` as declarative role markers
 * separates concerns via reserved directories:
 
   * `data/` → `data.cdx`
@@ -344,4 +377,4 @@ A Paperhat project:
 
 ---
 
-**End of Paperhat Module Filesystem Assembly Specification v0.1**
+**End of Paperhat Module Filesystem Assembly Specification v0.2**

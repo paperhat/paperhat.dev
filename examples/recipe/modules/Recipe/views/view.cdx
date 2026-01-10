@@ -1,68 +1,71 @@
 <View id="recipe:default">
-	<Title source="Title" />
-	<Summary source="Summary" />
+	<Text source="Title" />
+	<Text source="Summary" />
 
-	<Section>
+	<Section name="QuickFacts">
 		<Heading>
 			Quick Facts
 		</Heading>
 
-		<Group>
+		<Group name="QuickFactsItems">
 			<Item source="Servings" />
 			<Item source="PreparationTime" />
 			<Item source="CookingTime" />
 		</Group>
 	</Section>
 
-	<Section>
+	<Section name="Ingredients">
 		<Heading>
 			Ingredients
 		</Heading>
 
-		<UnorderedList source="Ingredients">
-			<Item>
-				<Text source="Ingredient.name" />
-				<Text source="Ingredient.amount" />
-				<Text source="Ingredient.unit" />
-				<Text source="Ingredient.preparation" />
+		<UnorderedList
+			name="IngredientsList"
+			source="Ingredients"
+		>
+			<Item name="IngredientsItem">
+				<Text source="name" />
+				<Text source="amount" />
+				<Text source="unit" />
+				<Text source="preparation" />
 
-				<Flag
-					name="Optional"
-					when="Ingredient.optional"
-				/>
+				<Flag name="Optional" when="optional" />
 			</Item>
 		</UnorderedList>
 	</Section>
 
-	<Section>
+	<Section name="Equipment">
 		<Heading>
 			Equipment
 		</Heading>
 
-		<UnorderedList source="Equipment">
-			<Item>
+		<UnorderedList
+			name="EquipmentList"
+			source="Equipment"
+		>
+			<Item name="EquipmentItem">
 				<Text source="Item" />
 			</Item>
 		</UnorderedList>
 	</Section>
 
-	<Section>
+	<Section name="Steps">
 		<Heading>
 			Steps
 		</Heading>
 
-		<OrderedList source="Steps">
-			<Item>
+		<OrderedList
+			name="StepsList"
+			source="Steps"
+		>
+			<Item name="StepsItem">
 				<Text source="Step" />
 
-				<Flag
-					name="Optional"
-					when="Step.optional"
-				/>
+				<Flag name="Optional" when="optional" />
 			</Item>
 		</OrderedList>
 	</Section>
 
 	<Tags source="Tags" />
-	<Source source="Source" />
+	<Text source="Source" />
 </View>

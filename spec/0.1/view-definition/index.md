@@ -1,28 +1,31 @@
+Status: NORMATIVE  
+Version: 0.1  
+Editor: Charles F. Munat
+
 # Codex View Definition Specification
 
-Status: **NORMATIVE**
-Lock State: **LOCKED**
-Version: **0.2**
-Editor: **Charles F. Munat**
+This specification defines **Views** in Codex: what they are, what they may contain, how they bind to domain data, and how they participate in the Paperhat processing pipeline.
+
+This document governs **View authoring and semantics only**.
+It does not define rendering, layout, styling, interactivity, or target-specific behavior.
+
+This document is **Normative**.
 
 ---
 
 ## 1. Purpose
 
-This specification defines **Views** in Codex: what they are, how they are authored, how they bind to domain data, and how they participate in the Paperhat processing pipeline.
+Views define:
 
-This document governs **View authoring and semantics only**.
+* **what information** is included from domain data
+* **how that information is structurally organized**
+* **the meaningful order** of included information
 
-It explicitly does **not** define:
+Views exist to separate:
 
-* rendering
-* layout
-* styling
-* interaction
-* target-specific behavior
-* Design Policy
-
-This document is **Normative**.
+* **information architecture** (Views)
+  from
+* **realization decisions** (Design Policy + renderers)
 
 A View answers one question only:
 
@@ -34,19 +37,19 @@ A View answers one question only:
 
 This specification governs:
 
-* the structure of View documents
-* allowed Concepts and Traits in a View
-* data binding via `source`
-* semantic signaling via `Flag`
-* compilation of Views into the View Graph and ViewModel
+* View documents authored in Codex
+* the allowed View Concepts and Traits
+* how Views bind to domain data
+* how `source` paths are interpreted
+* how Views compile into the View Graph and contribute to ViewModel creation
 
 This specification does **not** govern:
 
-* schema or ontology design
-* query languages
-* rendering targets
-* adaptive behavior (Design Policy)
-* filesystem layout beyond module scoping
+* presentation, layout, typography, styling
+* behavior or interaction
+* target selection
+* Design Policy
+* rendering
 
 ---
 
@@ -56,14 +59,11 @@ This specification does **not** govern:
 
 A **View** is a declarative specification that:
 
-* selects information from domain data
+* selects information from the Domain Graph
 * organizes that information structurally
-* defines grouping and ordering
-* exposes semantic signals for downstream reasoning
+* is target-independent
 
-A View expresses **authorial intent**.
-
-A View is **target-independent**.
+A View is authored in Codex and compiled into a **View Graph**.
 
 ---
 
@@ -73,7 +73,7 @@ The **View Graph** is the semantic graph representation of authored Views.
 
 * It is distinct from the Domain (Data) Graph.
 * It is validated using a View ontology and SHACL constraints.
-* It is persisted and queryable.
+* It is stored and queryable.
 
 ---
 
@@ -83,293 +83,321 @@ The **ViewModel** is a derived, ephemeral structure produced by combining:
 
 * the Domain Graph
 * the View Graph
-* resolved bindings
+* resolved selection bindings
 
 The ViewModel is:
 
 * deterministic
 * target-neutral
 * not persisted
-* consumed by Design Policy
 
 ---
 
-## 4. Module Scope and Files (Normative)
+## 4. Module Scope (Normative)
 
-### 4.1 Module Containment
+### 4.1 Containment
 
 All Views are **module-scoped**.
 
-A View MUST be authored within a module’s `views/` directory.
+A View MUST be authored within a module’s `views/` folder as `view.cdx`.
 
-Views MUST NOT be global or shared across modules.
-
----
-
-### 4.2 One View per File (Hard)
-
-Each View document:
-
-* MUST contain exactly one `<View>` root Concept
-* MUST reside in its own folder
-* MUST be named `view.cdx`
-
-Views MUST NOT be grouped in a single file.
+Views MUST NOT be global.
 
 ---
 
-### 4.3 Identity
+### 4.2 Identity
 
-A View MAY declare an `id` Trait.
+A View MUST declare an `id` Trait.
 
-If present, the View `id` is resolved using the module’s `idBase` per the Codex ID Resolution Specification.
+The View `id` is resolved using the module’s active `idBase` according to the Codex ID Resolution Specification.
 
----
-
-## 5. View Root (Normative)
-
-### 5.1 Root Concept
-
-A View document MUST have a single root Concept:
+Example (Illustrative):
 
 ```cdx
-<View>
-	…
+<View id="recipe:default">
+	...
 </View>
 ```
 
-No wrapper Concepts (e.g. `<Views>`) are permitted.
+---
+
+## 5. View Root and Binding (Normative)
+
+### 5.1 Root Concept
+
+A View document MUST have exactly one root Concept: `<View>`.
 
 ---
 
-## 6. Structural Concepts (Normative)
+### 5.2 Binding Context
 
-Structural Concepts define **information architecture only**.
+A View is evaluated against a **current binding context**.
 
-They MUST NOT encode presentation, layout, or target behavior.
+* At the top level, the binding context is the **bound domain entity** selected by the pipeline (selection rules are governed elsewhere).
+* Certain View constructs change the binding context (notably lists and items).
 
 ---
+
+## 6. Allowed View Concepts (Normative)
+
+A View MAY contain the following structural concepts.
+
+These concepts express **structure only**.
 
 ### 6.1 Section
 
-`<Section>` groups related content.
+`<Section>` groups related material.
 
-* Defines hierarchy
-* Defines conceptual separation
-* Does not imply layout
+Traits:
+
+* `name` — optional string token used for deterministic node addressing by Design Policy
+
+Rules:
+
+* If `name` is present, it MUST be unique within the View.
 
 ---
 
 ### 6.2 Heading
 
-`<Heading>` provides a human-readable label for a structural region.
+`<Heading>` is a structural label for a section.
 
-* Content only
-* No styling or level implied
+* Heading Content is opaque text Content.
+* Heading does not prescribe typography, size, or styling.
 
 ---
 
 ### 6.3 Group
 
-`<Group>` defines a semantic grouping.
+`<Group>` groups a set of sibling elements as a logical unit.
 
-Groups exist to support:
+Traits:
 
-* reasoning
-* omission
-* reordering
-* density control
+* `name` — optional string token used for deterministic node addressing by Design Policy
 
-Groups have no visual meaning.
+Rules:
+
+* If `name` is present, it MUST be unique within the View.
 
 ---
 
 ### 6.4 OrderedList
 
-`<OrderedList>` asserts that **order is semantically meaningful**.
+`<OrderedList>` asserts that sequence is semantically meaningful.
 
-* Sequence matters
-* Rendering style is undefined
+Traits:
+
+* `source` — required relative path selecting a collection from the current binding context
+* `name` — optional string token for policy addressing
 
 ---
 
 ### 6.5 UnorderedList
 
-`<UnorderedList>` asserts that **order is not semantically meaningful**.
+`<UnorderedList>` asserts that order is not semantically meaningful.
+
+Traits:
+
+* `source` — required relative path selecting a collection from the current binding context
+* `name` — optional string token for policy addressing
 
 ---
 
 ### 6.6 Item
 
-`<Item>` defines structure applied to each element of a list.
-
-Rules:
-
-* MUST appear only inside a list
-* Establishes a new binding context
-
----
-
-## 7. Data Binding (Normative)
-
-### 7.1 `source` Trait
-
-The `source` Trait binds a View node to domain data.
-
-Rules:
-
-* `source` values MUST be relative paths
-* Paths are schema-governed
-* No absolute paths
-* No SPARQL, SQL, or expressions
-* No filesystem or URL semantics
-
-Example:
-
-```cdx
-<Text source="Ingredient.name" />
-```
-
----
-
-### 7.2 Binding Context
-
-Each list `<Item>` establishes a new binding context.
-
-Nested paths are resolved relative to that context.
-
----
-
-## 8. Text Projection (Normative)
-
-### 8.1 Text
-
-`<Text>` projects opaque content from the domain graph.
-
-* No transformation
-* No formatting
-* No interpretation
-
----
-
-## 9. Semantic Signaling (Normative)
-
-### 9.1 Flag
-
-`<Flag>` elevates a boolean domain value to a **semantic signal**.
+`<Item>` defines the structure applied to each element of a list.
 
 Traits:
 
-* `name` — semantic signal identifier
-* `when` — relative path resolving to a boolean
+* `name` — optional string token for policy addressing
 
 Rules:
 
-* Flags do NOT prescribe presentation
-* Flags exist solely for reasoning by Design Policy
-* Flags MUST reference schema-authorized boolean values
+* `<Item>` MUST appear only as a direct child of `OrderedList` or `UnorderedList`.
+* `<Item>` establishes a new binding context: the current list element.
 
-Example:
+---
+
+### 6.7 Text
+
+`<Text>` projects a value from the current binding context into the ViewModel.
+
+Traits:
+
+* `source` — required relative path selecting a value or concept from the current binding context
+
+Rules:
+
+* `<Text>` performs no transformation.
+* `<Text>` does not interpret Content.
+* If the selected value is absent, handling is Help-driven (see §10).
+
+---
+
+### 6.8 Flag
+
+`<Flag>` elevates a boolean value to a semantic signal for policy reasoning.
+
+Traits:
+
+* `name` — required string token naming the signal (example: `"Optional"`)
+* `when` — required relative path selecting a boolean value from the current binding context
+
+Rules:
+
+* `when` MUST resolve to a boolean.
+* `<Flag>` does not prescribe presentation.
+* Flags are emitted into the ViewModel as structural signals.
+
+Example (Illustrative):
 
 ```cdx
-<Flag
-	name="Optional"
-	when="Ingredient.optional"
-/>
+<Flag name="Optional" when="optional" />
 ```
 
 ---
 
-## 10. Path Semantics (Normative)
+### 6.9 Tags
 
-* Paths are declarative references only
-* Views MUST NOT:
+`<Tags>` is a structural projection for tag collections.
 
-  * compute
-  * filter
-  * aggregate
-  * invent meaning
-* All interpretation is deferred
+Traits:
+
+* `source` — required relative path selecting the tags collection
+
+(Exact tag structure is schema-defined; Views do not define tag semantics.)
 
 ---
 
-## 11. Non-Goals (Hard)
+## 7. Path Semantics (Normative)
+
+### 7.1 Relative only
+
+All `source` and `when` values MUST be **relative paths**.
+
+Forbidden:
+
+* absolute IRIs
+* filesystem paths
+* URLs
+* SPARQL, SQL, or embedded query languages
+* computed expressions
+
+---
+
+### 7.2 Binding-relative resolution
+
+Paths are resolved relative to the current binding context.
+
+* At top level: relative to the bound domain entity.
+* Inside `<Item>`: relative to the list element.
+
+---
+
+### 7.3 Schema-governed meaning
+
+Path validity and meaning are governed by the domain schema/ontology.
+
+Views do not invent semantics.
+
+---
+
+## 8. Design Policy Addressability (Normative)
+
+Design Policy operates on ViewModel structure.
+To enable deterministic policy application, Views MAY name structural nodes using `name`.
+
+Rules:
+
+* `name` is structural only.
+* `name` must not encode target behavior.
+* Policies MUST reference node names that exist in the ViewModel derived from the View.
+
+---
+
+## 9. Non-Goals (Normative)
 
 Views MUST NOT:
 
-* encode target logic
-* reference screen, print, voice, etc.
-* specify layout, typography, or widgets
-* include adaptive rules
+* reference targets (`screen`, `print`, `voice`, etc.)
+* encode presentation (layout, typography, styling)
+* encode interaction or behavior
 * perform computation
 * perform IO
-
-If it answers **“how should this adapt?”**, it is not a View.
-
----
-
-## 12. Compilation and Pipeline Integration (Normative)
-
-### 12.1 Compilation
-
-Views are compiled by Scribe into the View Graph.
-
-* Pure
-* Deterministic
-* Validated via SHACL
+* embed executable logic or queries
 
 ---
 
-### 12.2 ViewModel Creation
+## 10. Errors and Help (Normative)
 
-At execution time:
-
-1. Domain Graph is queried
-2. View Graph is applied
-3. A ViewModel is produced
-
-The ViewModel:
-
-* is ephemeral
-* is not stored
-* is consumed by Design Policy
+* Invalid View structure MUST produce Help and invalidate the View.
+* Invalid paths MUST produce Help.
+* A module run MUST fail (all-or-nothing) if a required View fails validation or compilation.
 
 ---
 
-## 13. Error Handling (Normative)
+## 11. Compilation and Pipeline Integration (Normative)
 
-* Invalid paths → Help
-* Invalid structure → Help
-* Failed View → module execution fails (all-or-nothing)
+### 11.1 Compilation
 
----
+View documents are compiled by Scribe into the View Graph.
 
-## 14. Relationship to Other Specifications (Normative)
+* Compilation is pure and deterministic.
+* Validation occurs against a View ontology and SHACL constraints.
 
-This specification depends on:
+### 11.2 ViewModel Creation
 
-* Codex Naming and Value Specification
-* Codex ID Resolution Specification
-* View and Design Policy Selection Specification
+During execution:
 
-In case of conflict:
+* Views are selected (selection rules governed elsewhere).
+* Domain Graph + View Graph are combined to produce a ViewModel.
 
-* This document governs View semantics
-* Naming governs names and literals
-* ID Resolution governs identity
+The ViewModel is ephemeral and feeds Design Policy application.
 
 ---
 
-## 15. Summary
+## 12. Anti-Examples (Normative)
 
-* Views define **structural projection**
-* Views express **authorial intent**
-* Views are **target-independent**
-* One View per file
-* `source` binds data
-* `Flag` exposes semantic signals
-* No rendering, no adaptation, no behavior
+Invalid (target reference):
+
+```cdx
+<View id="x">
+	<When target="voice">
+		...
+	</When>
+</View>
+```
+
+Invalid (embedded query):
+
+```cdx
+<Text source="SELECT ?x WHERE { ... }" />
+```
+
+Invalid (computed expression):
+
+```cdx
+<Text source="amount * 2" />
+```
+
+Invalid (absolute URL as a path):
+
+```cdx
+<Text source="https://example.test/title" />
+```
 
 ---
 
-**End of Codex View Definition Specification v0.2**
+## 13. Summary
+
+* Views define inclusion, structure, and meaningful order.
+* Views are module-scoped and stored as a separate View Graph.
+* ViewModel is derived and ephemeral.
+* `source` and `when` are relative, binding-context paths.
+* `Text` projects values; `Flag` elevates booleans to signals.
+* Structural nodes may be named for deterministic Design Policy addressing.
+* Views contain no targets, no layout, no behavior.
+
+---
+
+**End of Codex View Definition Specification v0.1**
