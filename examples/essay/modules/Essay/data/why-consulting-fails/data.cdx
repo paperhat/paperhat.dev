@@ -1,0 +1,162 @@
+<Essay id="why-consulting-fails">
+	<FrontMatter>
+		<Title>
+			Why Consulting Engagements Fail
+		</Title>
+
+		<Subtitle>
+			Structural causes, not personal shortcomings
+		</Subtitle>
+
+		<Synopsis>
+			Most consulting failures are not caused by bad advice or poor execution,
+			but by structural mismatches between incentives, authority, and responsibility.
+		</Synopsis>
+
+		<Tags>
+			<Tag>Consulting</Tag>
+			<Tag>Strategy</Tag>
+			<Tag>Organizations</Tag>
+		</Tags>
+	</FrontMatter>
+
+	<Exposition>
+		<Paragraph>
+			When a consulting engagement fails, the blame is usually assigned to people:
+			the consultant was inexperienced, the client was resistant, or the sponsor
+			lacked conviction. These explanations are convenient, but incomplete.
+		</Paragraph>
+
+		<Paragraph>
+			In practice, most failures are structural. They arise from how consulting
+			engagements are commissioned, governed, and evaluated, long before any
+			advice is given.
+		</Paragraph>
+
+		<Section id="misaligned-incentives">
+			<Heading>
+				Misaligned incentives
+			</Heading>
+
+			<Paragraph>
+				Consultants are typically rewarded for producing deliverables, while
+				clients are rewarded for minimizing disruption. This creates a predictable
+				tension between appearance and outcome.
+			</Paragraph>
+
+			<Quote>
+				<Paragraph>
+					The consultant’s job is to recommend change.
+				</Paragraph>
+
+				<Paragraph>
+					The client’s job is to survive it.
+				</Paragraph>
+			</Quote>
+
+			<Paragraph>
+				When incentives are misaligned in this way, success is often defined as
+				“the report was well received,” rather than “the organization changed.”
+			</Paragraph>
+		</Section>
+
+		<Section id="authority-without-ownership">
+			<Heading>
+				Authority without ownership
+			</Heading>
+
+			<Paragraph>
+				Consultants are frequently granted the authority to diagnose problems
+				without the authority to implement solutions. This separation weakens
+				accountability on both sides.
+			</Paragraph>
+
+			<Example>
+				<Paragraph>
+					A consulting team may recommend a restructuring that requires executive
+					sponsorship, but the sponsor may delegate implementation to middle
+					management without providing political cover.
+				</Paragraph>
+
+				<Paragraph>
+					The result is predictable: resistance, delay, and eventual abandonment.
+				</Paragraph>
+			</Example>
+		</Section>
+
+		<Section id="false-consensus">
+			<Heading>
+				False consensus
+			</Heading>
+
+			<Paragraph>
+				Engagements often begin with broad agreement on goals that have not been
+				tested for meaning or feasibility.
+			</Paragraph>
+
+			<PullQuote>
+				<Paragraph>
+					Agreement on words is mistaken for agreement on consequences.
+				</Paragraph>
+			</PullQuote>
+
+			<Paragraph>
+				This false consensus persists until implementation forces trade-offs
+				into the open.{#n1}
+			</Paragraph>
+		</Section>
+
+		<Section id="implications">
+			<Heading>
+				Implications for practice
+			</Heading>
+
+			<OrderedList>
+				<Item>
+					<Paragraph>
+						Define success in terms of changed behavior, not completed deliverables.
+					</Paragraph>
+				</Item>
+
+				<Item>
+					<Paragraph>
+						Align authority, responsibility, and incentives explicitly at the start
+						of the engagement.
+					</Paragraph>
+				</Item>
+
+				<Item>
+					<Paragraph>
+						Test consensus by examining who must give up what for the recommendation
+						to succeed.
+					</Paragraph>
+				</Item>
+			</OrderedList>
+		</Section>
+	</Exposition>
+
+	<BackMatter>
+		<Notes>
+			<Note id="n1">
+				This dynamic is especially visible in large organizations where authority
+				is diffuse and accountability is shared.
+			</Note>
+		</Notes>
+
+		<References>
+			<Reference id="r1">
+				<Title>
+					The Knowing–Doing Gap
+				</Title>
+
+				<Author>
+					Jeffrey Pfeffer
+				</Author>
+
+				<Author>
+					Robert I. Sutton
+				</Author>
+			</Reference>
+		</References>
+	</BackMatter>
+</Essay>

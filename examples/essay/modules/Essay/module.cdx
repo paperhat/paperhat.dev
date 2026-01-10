@@ -1,0 +1,8 @@
+<Module
+	id="module:essay"
+	idBase="https://paperhat.dev/id/examples/essay/"
+>
+	<Data />
+	<Views />
+	<Designs />
+</Module>

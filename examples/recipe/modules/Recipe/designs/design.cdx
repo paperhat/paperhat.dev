@@ -7,10 +7,6 @@
 		<Target>
 			print
 		</Target>
-
-		<Target>
-			voice
-		</Target>
 	</Targets>
 
 	<Importance>
@@ -63,12 +59,6 @@
 		<When target="print">
 			<Expand node="Steps" />
 			<DisallowProgressiveDisclosure />
-		</When>
-
-		<When target="voice">
-			<Summarize node="Summary" strategy=$Sentence maxLength=1 />
-			<Enumerate node="StepsList" />
-			<Mark flag="Optional" verbally=true />
 		</When>
 	</Responsive>
 
