@@ -1,0 +1,23 @@
+<View id="recipe:card">
+	<Title source="Title" />
+	<Summary source="Summary" />
+
+	<Group>
+		<Item source="Servings" />
+		<Item source="PreparationTime" />
+		<Item source="CookingTime" />
+	</Group>
+
+	<UnorderedList source="Ingredients">
+		<Item>
+			<Text source="Ingredient.name" />
+			<Text source="Ingredient.amount" />
+			<Text source="Ingredient.unit" />
+
+			<Flag
+				name="Optional"
+				when="Ingredient.optional"
+			/>
+		</Item>
+	</UnorderedList>
+</View>

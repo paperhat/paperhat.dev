@@ -1,0 +1,79 @@
+<DesignPolicy id="recipe:standard">
+	<Targets>
+		<Target>
+			screen
+		</Target>
+
+		<Target>
+			print
+		</Target>
+
+		<Target>
+			voice
+		</Target>
+	</Targets>
+
+	<Importance>
+		<Primary node="Title" />
+		<Secondary node="Section" />
+		<Tertiary node="ListItem" />
+	</Importance>
+
+	<Grouping>
+		<Group tightly=true>
+			<Member node="Title" />
+			<Member node="Summary" />
+			<Member node="QuickFacts" />
+		</Group>
+
+		<Group>
+			<Member node="Ingredients" />
+		</Group>
+
+		<Group>
+			<Member node="Steps" />
+		</Group>
+	</Grouping>
+
+	<Ordering>
+		<PreserveOrder node="Steps" />
+	</Ordering>
+
+	<Density>
+		<Compact node="Ingredients" />
+		<Comfortable node="Steps" />
+	</Density>
+
+	<Proximity>
+		<Close node="Ingredient" />
+		<Separate node="Section" />
+	</Proximity>
+
+	<Emphasis>
+		<Emphasize node="Title" />
+		<Subdue flag="Optional" />
+	</Emphasis>
+
+	<Responsive>
+		<When target="screen" maxWidth=600>
+			<Collapse node="QuickFacts" />
+			<Move node="QuickFacts" after="Title" />
+		</When>
+
+		<When target="print">
+			<Expand node="Steps" />
+			<DisallowProgressiveDisclosure />
+		</When>
+
+		<When target="voice">
+			<Summarize node="Summary" strategy=$Sentence maxLength=1 />
+			<Enumerate node="Steps" />
+			<Mark flag="Optional" verbally=true />
+		</When>
+	</Responsive>
+
+	<NegativeSpace>
+		<AllowBetween node="Section" />
+		<AvoidWithin node="Ingredient" />
+	</NegativeSpace>
+</DesignPolicy>

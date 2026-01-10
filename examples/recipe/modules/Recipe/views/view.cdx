@@ -1,0 +1,68 @@
+<View id="recipe:default">
+	<Title source="Title" />
+	<Summary source="Summary" />
+
+	<Section>
+		<Heading>
+			Quick Facts
+		</Heading>
+
+		<Group>
+			<Item source="Servings" />
+			<Item source="PreparationTime" />
+			<Item source="CookingTime" />
+		</Group>
+	</Section>
+
+	<Section>
+		<Heading>
+			Ingredients
+		</Heading>
+
+		<UnorderedList source="Ingredients">
+			<Item>
+				<Text source="Ingredient.name" />
+				<Text source="Ingredient.amount" />
+				<Text source="Ingredient.unit" />
+				<Text source="Ingredient.preparation" />
+
+				<Flag
+					name="Optional"
+					when="Ingredient.optional"
+				/>
+			</Item>
+		</UnorderedList>
+	</Section>
+
+	<Section>
+		<Heading>
+			Equipment
+		</Heading>
+
+		<UnorderedList source="Equipment">
+			<Item>
+				<Text source="Item" />
+			</Item>
+		</UnorderedList>
+	</Section>
+
+	<Section>
+		<Heading>
+			Steps
+		</Heading>
+
+		<OrderedList source="Steps">
+			<Item>
+				<Text source="Step" />
+
+				<Flag
+					name="Optional"
+					when="Step.optional"
+				/>
+			</Item>
+		</OrderedList>
+	</Section>
+
+	<Tags source="Tags" />
+	<Source source="Source" />
+</View>

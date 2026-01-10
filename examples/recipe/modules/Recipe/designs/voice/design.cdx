@@ -1,0 +1,62 @@
+<DesignPolicy id="recipe:voice">
+	<Targets>
+		<Target>
+			voice
+		</Target>
+	</Targets>
+
+	<Importance>
+		<Primary node="Title" />
+		<Secondary node="Summary" />
+		<Tertiary node="Steps" />
+	</Importance>
+
+	<Ordering>
+		<PreserveOrder node="Steps" />
+	</Ordering>
+
+	<Group>
+		<Group tightly=true>
+			<Member node="Title" />
+			<Member node="Summary" />
+		</Group>
+
+		<Group>
+			<Member node="Ingredients" />
+		</Group>
+
+		<Group>
+			<Member node="Steps" />
+		</Group>
+	</Group>
+
+	<Density>
+		<Compact node="Ingredients" />
+		<Comfortable node="Steps" />
+	</Density>
+
+	<Responsive>
+		<When target="voice">
+			<Summarize
+				node="Summary"
+				strategy=$Sentence
+				maxLength=1
+			/>
+
+			<Enumerate node="Steps" />
+
+			<Mark
+				flag="Optional"
+				verbally=true
+			/>
+		</When>
+	</Responsive>
+
+	<NegativeSpace>
+		<AvoidWithin node="Ingredient" />
+	</NegativeSpace>
+
+	<Constraints>
+		<DisallowProgressiveDisclosure />
+	</Constraints>
+</DesignPolicy>

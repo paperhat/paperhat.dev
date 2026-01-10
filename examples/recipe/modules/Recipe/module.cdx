@@ -1,0 +1,8 @@
+<Module
+	id="module:recipe"
+	idBase="https://paperhat.dev/id/examples/recipe/"
+>
+	<Data />
+	<Views />
+	<Designs />
+</Module>
