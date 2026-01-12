@@ -11,6 +11,8 @@ Quartermaster is the **developer tooling and orchestration layer** for Paperhat.
 
 It is **non-authoritative** and **non-semantic**.
 
+[Contracts Index](../)
+
 ---
 
 ## 1. Purpose

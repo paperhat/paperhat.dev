@@ -9,6 +9,8 @@ This document defines the **exclusive responsibilities, boundaries, and guarante
 
 Scribe is the **authoritative semantic processing pipeline** of the **Paperhat Semantic Authoring System**.
 
+[Contracts Index](../)
+
 ---
 
 ## 1. Purpose (Hard)

@@ -9,6 +9,8 @@ This document defines the **system-level authority, responsibilities, boundaries
 
 It is the **highest-authority normative document** for the Paperhat system.
 
+[Contracts Index](../)
+
 ---
 
 ## 1. Purpose
