@@ -51,6 +51,9 @@ This specification does **not** govern:
 * Design Policy
 * rendering
 
+This specification also does **not** govern View composition and override constructs such as Slots, Fills, and Use.
+Those semantics are defined by the View Composition specification.
+
 ---
 
 ## 3. Core Terms (Normative)
@@ -143,6 +146,10 @@ A View is evaluated against a **current binding context**.
 A View MAY contain the following structural concepts.
 
 These concepts express **structure only**.
+
+Additional constructs MAY be permitted by other normative Paperhat specifications.
+If present, they MUST be validated and applied according to those specifications.
+In particular, Slots/Fills/Use are governed by the View Composition specification.
 
 ### 6.1 Section
 

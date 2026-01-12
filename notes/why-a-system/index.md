@@ -106,9 +106,9 @@ That is incompatible with a framework classification.
 
 ---
 
-## The Role of Tooling (Quartermaster)
+## The Role of Tooling (Workbench)
 
-Paperhat includes tooling such as **Quartermaster**, which provides:
+Paperhat includes tooling such as **Workbench**, which provides:
 
 * project scaffolding
 * file watching
@@ -121,13 +121,13 @@ This tooling exists for **ergonomics**, not authority.
 
 Critically:
 
-* Quartermaster does **not define meaning**
-* Quartermaster does **not define structure**
-* Quartermaster does **not define lifecycle semantics**
-* Quartermaster does **not own execution**
-* Quartermaster can be replaced without affecting Paperhat
+* Workbench does **not define meaning**
+* Workbench does **not define structure**
+* Workbench does **not define lifecycle semantics**
+* Workbench does **not own execution**
+* Workbench can be replaced without affecting Paperhat
 
-Paperhat remains intact if Quartermaster is removed.
+Paperhat remains intact if Workbench is removed.
 
 That alone disqualifies “framework”.
 

@@ -246,6 +246,32 @@ Targets SHOULD read from projections rather than raw events except for auditing 
 
 ---
 
+## 10.3 CQRS (Normative)
+
+Paperhat requires a CQRS posture.
+
+Rules:
+
+1. Commands (writes) MUST produce facts (events) on durable channels.
+2. Queries (reads) SHOULD be served from derived projections (read models) rather than scanning raw event history.
+3. If a projection is missing or invalid, it MUST be rebuildable deterministically from the durable event log.
+
+This specification does not require a particular storage engine or indexing strategy.
+
+---
+
+## 10.4 Snapshots / Checkpoints (Normative)
+
+To keep replay and projection rebuild bounded as event logs grow, implementations MAY materialize snapshots (checkpoints) of derived projection state.
+
+Rules:
+
+1. A snapshot MUST be treated as a derived artifact, not semantic source of truth.
+2. A snapshot MUST be attributable to a specific event history range and Semantics version.
+3. If a snapshot is missing, Pipeline MUST be able to rebuild the projection from event history.
+
+---
+
 ## 11. Transport and Realization (Non-Semantic)
 
 This specification MUST NOT define:
