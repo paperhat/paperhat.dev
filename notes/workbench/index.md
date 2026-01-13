@@ -20,3 +20,9 @@ Workbench is **not authoritative**.
 - Workbench owns scaffolding and orchestration only.
 
 Paperhat remains valid if Workbench is removed or replaced.
+
+---
+
+## See also
+
+- [Workspace Filesystem Root (Spec 0.1)](../../spec/0.1/workspace-filesystem-root/)

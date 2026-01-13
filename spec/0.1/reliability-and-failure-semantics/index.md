@@ -19,7 +19,7 @@ This document is **Normative**.
 This specification exists to:
 
 * define failures and reliability policy as declarative data
-* enable resilient workflows without embedding runtime mechanisms in Semantics
+* enable resilient workflows without embedding runtime mechanisms in the Kernel
 * support auditable and explainable failure handling
 * preserve determinism of planning and the explicit modeling of external inputs
 
@@ -62,7 +62,7 @@ The following invariants are non-negotiable:
 
 1. **Failures are modeled as data.**
 2. **Policy is declarative.** No imperative retry loops in authored content.
-3. **Planning is deterministic.** Given identical artifacts and inputs, Pipeline MUST emit the same reliability plan.
+3. **Planning is deterministic.** Given identical artifacts and inputs, the Kernel MUST emit the same reliability plan.
 4. **External inputs are explicit.** Time and environment MUST NOT be implicit.
 5. **Auditability.** It MUST be possible to explain and record why a retry, compensation, or dead-letter outcome occurred.
 
@@ -84,7 +84,7 @@ A Failure MUST include:
 
 ### 5.2 Failure Kinds
 
-Semantics MUST support failure kinds suitable for reliable systems.
+The Kernel MUST support failure kinds suitable for reliable systems.
 
 At minimum:
 
@@ -129,7 +129,7 @@ Backoff depends on time, which is an external input.
 
 A **Compensation** is a declarative intent to mitigate effects when a step fails after partial progress.
 
-Compensation MUST be modeled as intent (for example, as a Command request) and evaluated deterministically by Pipeline.
+Compensation MUST be modeled as intent (for example, as a Command request) and evaluated deterministically by the Kernel.
 
 ---
 
@@ -149,7 +149,7 @@ ReliabilityPolicy MAY attach to:
 * external action requests
 * triggers
 
-If attached at multiple levels, Semantics MUST define precedence and composition rules.
+If attached at multiple levels, the Kernel MUST define precedence and composition rules.
 
 ---
 

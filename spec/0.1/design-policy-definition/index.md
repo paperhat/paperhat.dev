@@ -475,7 +475,7 @@ Invalid (renderer API reference):
 Invalid (embedded executable logic):
 
 ```cdx
-<If expr="amount > 3"> ... </If>
+<If expression="amount > 3"> ... </If>
 ```
 
 ---
@@ -486,7 +486,7 @@ This specification must be read in conjunction with:
 
 * Codex View Definition Specification
 * Presentation Plan Definition Specification
-* Scribe Pipeline Contract
+* Kernel Architecture Specification
 
 In case of conflict:
 

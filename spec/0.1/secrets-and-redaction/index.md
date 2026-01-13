@@ -60,8 +60,8 @@ This specification is designed to compose with:
 1. **No embedded secrets.** Authored artifacts MUST NOT embed secret material.
 2. **Secrets are referenced, not copied.** Secret usage MUST be expressed via semantic references.
 3. **Redaction is required.** Run logs and records MUST be redactable and must avoid secret leakage.
-4. **Deterministic planning.** Pipeline MUST be able to validate secrecy constraints deterministically.
-5. **Target independence.** Semantics MUST NOT assume a particular secret store or logging backend.
+4. **Deterministic planning.** The Kernel MUST be able to validate secrecy constraints deterministically.
+5. **Target independence.** The Kernel MUST NOT assume a particular secret store or logging backend.
 
 ---
 

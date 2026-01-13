@@ -200,7 +200,7 @@ Targets MAY restrict which modes they support.
 
 Continuations MUST have integrity protection.
 
-Integrity protection MUST be verifiable by an authority designated by Semantics and bound by Pipeline.
+Integrity protection MUST be verifiable by an authority designated by the Kernel.
 
 The cryptographic mechanism is a realization detail.
 
@@ -208,7 +208,7 @@ The cryptographic mechanism is a realization detail.
 
 ### 9.3 Continuation Validity Constraints
 
-Semantics MUST define validity constraints for continuations, including:
+The Kernel MUST define validity constraints for continuations, including:
 
 * expiry semantics
 * required bindings for resume
@@ -226,7 +226,7 @@ External inputs:
 * MUST have required vs optional semantics
 * MUST be bound explicitly during evaluation
 
-Deterministic hashing and replay rules are a responsibility of the Paperhat Pipeline.
+Deterministic hashing and replay rules are a responsibility of the Paperhat Kernel.
 
 ---
 

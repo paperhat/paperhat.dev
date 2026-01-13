@@ -7,3 +7,5 @@ This section contains non-normative notes and rationale for Paperhat.
 - [Workbench (Tooling)](./workbench/)
 - [Graph Adapter (Library)](./graph-adapter/)
 - [Vector Adapter (Library)](./vector-adapter/)
+- [Paperhat vs. XHTML](./paperhat-vs-xhtml/)
+- [Internal Rationale](./internal-rationale/)

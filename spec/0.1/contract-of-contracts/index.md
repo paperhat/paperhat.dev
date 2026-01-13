@@ -10,8 +10,8 @@ This specification defines the **meta-level invariants** that all Paperhat Contr
 It exists to prevent boundary erosion between:
 
 * languages (Codex, Gloss)
-* semantic authority (the Semantics library)
-* deterministic processing (the Pipeline library)
+* semantic authority (the Paperhat Kernel)
+* deterministic processing (the Paperhat Kernel)
 * target realization (renderers/adapters)
 * non-domain foundational utilities (the Primitives library)
 
@@ -76,9 +76,8 @@ Paperhat is defined as a strict tiered system:
 
 1. **Codex** — semantic authoring language for structured truth and intent
 2. **Gloss** — inline span-binding language for meaning annotation only
-3. **Semantics (@paperhat/semantics)** — canonical semantic authority (ontology + constraints + assembly rules + default policy)
-4. **Pipeline (@paperhat/pipeline)** — deterministic compiler/orchestrator (enforces and computes)
-5. **Primitives (@paperhat/primitives)** — domain-agnostic FP/type utilities used by implementations
+3. **Kernel** — canonical semantic authority and deterministic compiler/orchestrator (ontology + constraints + assembly rules + default policy; enforces and computes)
+4. **Primitives (@paperhat/primitives)** — domain-agnostic FP/type utilities used by implementations
 
 No tier may assume responsibilities owned by another tier.
 
@@ -86,9 +85,9 @@ No tier may assume responsibilities owned by another tier.
 
 ## 5. Authority and Non-Authority (Hard)
 
-### 5.1 Semantics Authority
+### 5.1 Kernel Authority
 
-The Semantics library is the sole authority for:
+The Paperhat Kernel is the sole authority for:
 
 * what Concepts exist
 * what Traits exist and how they type-check
@@ -98,28 +97,28 @@ The Semantics library is the sole authority for:
 * the schema for behavior-as-data (allowed shapes, constraints, typing)
 * default presentation policy per target (policy, not implementation)
 
-Semantics MUST be declarative.
-Semantics MUST NOT require an execution environment.
+The Kernel MUST be declarative.
+The Kernel MUST NOT require an execution environment.
 
-### 5.2 Pipeline Authority
+### 5.2 Kernel Determinism Authority
 
-The Pipeline library is the sole authority for:
+The Paperhat Kernel is the sole authority for:
 
 * deterministic compilation and orchestration of artifacts
-* executing validation as specified by Semantics
+* executing validation as specified by the Kernel
 * evaluation/execution of declarative behavior-as-data
 * assembly and rendering orchestration for one or more targets
 * reproducibility (caching, hashing, dependency tracking)
 
-Pipeline MUST NOT define new meaning.
-Pipeline MUST NOT introduce new Concepts, Traits, composition rules, or defaults.
+The Kernel MUST NOT define new meaning.
+The Kernel MUST NOT introduce new Concepts, Traits, composition rules, or defaults.
 
 ### 5.3 Codex and Gloss Authority
 
 * Codex and Gloss define the authored surface forms.
 * Authored artifacts MAY be invalid.
 
-Validity is determined only by Semantics + Pipeline enforcement.
+Validity is determined only by Kernel enforcement.
 
 Gloss MUST answer one question only:
 
@@ -146,9 +145,9 @@ For any rule that affects:
 * assembly
 * default presentation policy
 
-That rule MUST exist exactly once, in Semantics.
+That rule MUST exist exactly once, in the Kernel.
 
-Pipeline MAY implement evaluation of Semantics-defined rules, but MUST NOT redefine them.
+The Kernel MAY implement evaluation of Kernel-defined rules, but MUST NOT redefine them.
 
 ---
 
@@ -156,12 +155,12 @@ Pipeline MAY implement evaluation of Semantics-defined rules, but MUST NOT redef
 
 Given identical:
 
-* Semantics version and semantic dependencies
+* Kernel version and semantic dependencies
 * Codex and Gloss sources
-* pipeline version and configuration
+* Kernel version and configuration
 * bound external inputs (see §9)
 
-Pipeline outputs MUST be deterministic and reproducible.
+Kernel outputs MUST be deterministic and reproducible.
 
 Any dependency on time, randomness, locale, network, or environment MUST be modeled explicitly as an external input with stable identity and hashing rules.
 
@@ -169,15 +168,15 @@ Any dependency on time, randomness, locale, network, or environment MUST be mode
 
 ## 8. Evaluation Placement (Normative)
 
-Evaluation of behavior-as-data occurs in Pipeline.
+Evaluation of behavior-as-data occurs in the Kernel.
 
 To prevent semantic meaning from leaking into the evaluator:
 
-* Semantics MUST define the allowed computation shapes, typing rules, and constraints for behavior-as-data.
-* Pipeline MUST evaluate only what Semantics allows.
-* Pipeline MUST treat evaluation as deterministic transformation with explicitly bound inputs.
+* The Kernel MUST define the allowed computation shapes, typing rules, and constraints for behavior-as-data.
+* The Kernel MUST evaluate only what the Kernel allows.
+* The Kernel MUST treat evaluation as deterministic transformation with explicitly bound inputs.
 
-Pipeline MUST NOT accept hidden inputs.
+The Kernel MUST NOT accept hidden inputs.
 
 ---
 
@@ -195,7 +194,7 @@ An External Input MUST have:
 * defaulting/absence semantics (if optional)
 * hashing rules for reproducibility
 
-Whether an input is required or optional MUST be specified by Semantics, not inferred by Pipeline.
+Whether an input is required or optional MUST be specified by the Kernel.
 
 ---
 
@@ -203,33 +202,33 @@ Whether an input is required or optional MUST be specified by Semantics, not inf
 
 Default presentation policy:
 
-* MUST live in Semantics
+* MUST live in the Kernel
 * MUST be expressed as target-neutral policy
 * MUST NOT be replaced by renderer-specific ad hoc decisions
 
-If a target cannot realize a Semantics policy:
+If a target cannot realize a Kernel policy:
 
-* Pipeline MUST produce a typed incompatibility failure, OR
-* apply a Semantics-declared fallback rule
+* The Kernel MUST produce a typed incompatibility failure, OR
+* apply a Kernel-declared fallback rule
 
 ---
 
 ## 11. Diagnostics (Normative)
 
-Pipeline MUST be able to explain validation and evaluation failures in authored terms:
+The Kernel MUST be able to explain validation and evaluation failures in authored terms:
 
 * Codex/Gloss source locations (where available)
 * the semantic identifiers involved
-* the Semantics rule violated
+* the Kernel rule violated
 
-Semantics SHOULD provide human-readable rule names and messages.
+The Kernel SHOULD provide human-readable rule names and messages.
 
 ---
 
 ## 12. Versioning (Normative)
 
-Semantics version changes MAY change meaning and therefore outputs.
+Kernel version changes MAY change meaning and therefore outputs.
 
-Pipeline version changes MUST NOT change meaning given identical Semantics and inputs, except where explicitly declared as a breaking change to evaluation semantics.
+Kernel version changes MUST NOT change meaning given identical Kernel inputs, except where explicitly declared as a breaking change to evaluation semantics.
 
 Codex and Gloss versions MUST be pinned for reproducibility.

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperhat.dev/spec/0.1/behavior-program-encoding/schema/behavior-program-encoding.schema.json",
+  "title": "Paperhat Behavior Program Encoding v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "expression"],
+  "properties": {
+    "version": { "const": "0.1" },
+    "expression": { "$ref": "#/$defs/expression" }
+  },
+  "$defs": {
+    "expression": {
+      "type": "object",
+      "required": ["operation"],
+      "additionalProperties": false,
+      "properties": {
+        "operation": { "type": "string", "minLength": 1 },
+        "arguments": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/expression" }
+        },
+        "value": {},
+        "name": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "operation": { "const": "Argument" } }, "required": ["operation"] },
+          "then": {
+            "not": {
+              "anyOf": [
+                { "required": ["arguments"] },
+                { "required": ["value"] },
+                { "required": ["name"] }
+              ]
+            }
+          }
+        },
+        {
+          "if": { "properties": { "operation": { "const": "Variable" } }, "required": ["operation"] },
+          "then": { "required": ["name"] }
+        },
+        {
+          "if": { "properties": { "operation": { "const": "Constant" } }, "required": ["operation"] },
+          "then": { "required": ["value"] }
+        }
+      ]
+    }
+  }
+}

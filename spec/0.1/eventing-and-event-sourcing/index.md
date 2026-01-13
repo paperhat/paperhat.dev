@@ -148,10 +148,10 @@ An Event record MUST have a canonical representation that includes:
 * event name
 * payload values (typed per Event Schema)
 * timestamp (see §9)
-* source (actor identity or a Semantics-permitted absence semantics)
+* source (actor identity or a Kernel-permitted absence semantics)
 * correlation identifiers (such as correlation and causation identifiers)
 
-Semantics MUST define which fields are required and the semantics of absence.
+The Kernel MUST define which fields are required and the semantics of absence.
 
 ---
 
@@ -171,11 +171,11 @@ Each Argument MUST have:
 * a `name`
 * a Value Source (see §8)
 
-Semantics MAY permit explicit coercion rules as a constrained, declarative facility.
+The Kernel MAY permit explicit coercion rules as a constrained, declarative facility.
 
-### 6.3 Evaluation Result (Pipeline Responsibility)
+### 6.3 Evaluation Result (Kernel Responsibility)
 
-Pipeline MUST evaluate publishing deterministically with explicitly bound inputs.
+The Kernel MUST evaluate publishing deterministically with explicitly bound inputs.
 
 * If validation fails: return Help/diagnostics; nothing is appended; nothing is dispatched.
 * If validation succeeds: the event is appended (for durable channels) and becomes available for subscription and projection derivation.
@@ -199,7 +199,7 @@ This specification does not require any specific user interface update mechanism
 
 Value Sources MUST be target-independent.
 
-Semantics MUST define a minimal set of Value Source concepts.
+The Kernel MUST define a minimal set of Value Source concepts.
 
 At minimum:
 
@@ -218,13 +218,13 @@ Those mappings are realization, not semantics.
 
 Time, actor identity, randomness, locale, and environment are external inputs.
 
-* Semantics MUST model such values as explicit inputs.
-* Pipeline MUST require explicit binding for required external inputs.
-* Pipeline MUST define hashing rules for external inputs so builds and replays are reproducible.
+* The Kernel MUST model such values as explicit inputs.
+* The Kernel MUST require explicit binding for required external inputs.
+* The Kernel MUST define hashing rules for external inputs so builds and replays are reproducible.
 
 For durable event sourcing:
 
-* Given an identical event log and identical Semantics, projection results MUST be identical.
+* Given an identical event log and identical Kernel, projection results MUST be identical.
 
 ---
 
@@ -240,7 +240,7 @@ State is derived.
 
 A Projection declares deterministic derivation of a projection state from events.
 
-Pipeline MUST be able to rebuild projections deterministically from the event log.
+The Kernel MUST be able to rebuild projections deterministically from the event log.
 
 Targets SHOULD read from projections rather than raw events except for auditing and inspection.
 
@@ -267,8 +267,8 @@ To keep replay and projection rebuild bounded as event logs grow, implementation
 Rules:
 
 1. A snapshot MUST be treated as a derived artifact, not semantic source of truth.
-2. A snapshot MUST be attributable to a specific event history range and Semantics version.
-3. If a snapshot is missing, Pipeline MUST be able to rebuild the projection from event history.
+2. A snapshot MUST be attributable to a specific event history range and Kernel version.
+3. If a snapshot is missing, the Kernel MUST be able to rebuild the projection from event history.
 
 ---
 
@@ -281,12 +281,12 @@ This specification MUST NOT define:
 * storage engines
 * user interface refresh mechanics
 
-Pipeline MAY emit target plans (for example: endpoint plans, client dispatch plans, progressive enhancement plans), but those plans MUST NOT change event meaning.
+The Kernel MAY emit target plans (for example: endpoint plans, client dispatch plans, progressive enhancement plans), but those plans MUST NOT change event meaning.
 
 ---
 
 ## 12. Summary of Ownership
 
-* **Semantics owns:** the event vocabulary, constraints, scope and guarantee semantics, value source types, and projection language shape.
-* **Pipeline owns:** validation execution, deterministic evaluation, canonical record formation, projection computation, and plan emission.
+* **Kernel owns:** the event vocabulary, constraints, scope and guarantee semantics, value source types, and projection language shape.
+* **Kernel owns:** validation execution, deterministic evaluation, canonical record formation, projection computation, and plan emission.
 * **Targets/adapters own:** transport selection, user interface update mechanisms, protocol details, and storage backend specifics (as long as semantics are preserved).
