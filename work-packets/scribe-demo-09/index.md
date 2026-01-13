@@ -23,7 +23,7 @@ Extend the proven pipeline by adding a second, structurally different domain:
 
 **Recipe → HTML**, using Architect defaults.
 
-Pipeline (similar to Essay, but with Recipe projection):
+Kernel (similar to Essay, but with Recipe projection):
 
 1. Parse Codex → AST (Demo 02)
 2. Lower AST → RDF instance graph (Demo 03)

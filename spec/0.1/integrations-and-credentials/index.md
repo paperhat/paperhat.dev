@@ -118,7 +118,7 @@ Secret Requirements MUST NOT embed secret values.
 
 External action results MUST be bound as explicit results with provenance.
 
-Semantics MUST allow integration operations to declare:
+Kernel MUST allow integration operations to declare:
 
 * what provenance is required
 * what verification constraints apply

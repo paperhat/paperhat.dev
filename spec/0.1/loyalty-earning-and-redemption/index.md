@@ -69,7 +69,7 @@ This specification is designed to compose with:
 2. **Deterministic reckoning.** Earning and redemption outcomes MUST be deterministic given explicit inputs.
 3. **Stable identities.** Programs, rules, and resulting awards MUST have stable identities.
 4. **Auditable outcomes.** Loyalty results MUST be explainable via traces.
-5. **Target independence.** Semantics MUST NOT assume any particular loyalty platform.
+5. **Target independence.** Kernel MUST NOT assume any particular loyalty platform.
 
 ---
 
@@ -138,7 +138,7 @@ A **LoyaltyRedemptionPosition** is a computed output describing:
 
 ## 6. Earning Semantics (Normative)
 
-Pipeline MUST compute awards deterministically from:
+Kernel MUST compute awards deterministically from:
 
 * commerce facts (order/cart facts)
 * member facts
@@ -162,7 +162,7 @@ If tiers exist:
 
 ## 8. Redemption Semantics (Normative)
 
-Pipeline MUST compute redemption outcomes deterministically from explicit inputs.
+Kernel MUST compute redemption outcomes deterministically from explicit inputs.
 
 Redemption MUST support constraints sufficient to express:
 
@@ -198,7 +198,7 @@ Trace records SHOULD compose with provenance/lineage.
 
 ## 11. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+Kernel MUST be able to validate:
 
 * rules are well-formed
 * rule references are valid

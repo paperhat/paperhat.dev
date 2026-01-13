@@ -71,7 +71,7 @@ This specification is designed to compose with:
 2. **Deterministic tax reckoning.** Given identical explicit inputs, tax outputs MUST be identical.
 3. **Declarative classification.** Taxability MUST be expressible via declarative tax classification intents.
 4. **Auditable outputs.** Tax lines and totals MUST be traceable to inputs and policies.
-5. **Target independence.** Semantics MUST NOT require a specific vendor tax engine.
+5. **Target independence.** Kernel MUST NOT require a specific vendor tax engine.
 
 ---
 
@@ -139,7 +139,7 @@ A **TaxTrace** is a structured record explaining:
 
 ## 6. Tax Base and Taxability (Normative)
 
-Pipeline MUST be able to determine the taxable base deterministically from explicit inputs.
+Kernel MUST be able to determine the taxable base deterministically from explicit inputs.
 
 Taxability MUST be representable via tax classification intent and exemption facts.
 
@@ -184,7 +184,7 @@ Tax records SHOULD compose with provenance/lineage.
 
 ## 11. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+Kernel MUST be able to validate:
 
 * required inputs are declared
 * classification intents are well-formed

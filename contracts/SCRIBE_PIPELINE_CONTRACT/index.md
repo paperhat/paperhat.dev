@@ -49,7 +49,7 @@ This contract does **not** govern:
 
 ---
 
-## 3. Pipeline Ownership (Exclusive)
+## 3. Kernel Ownership (Exclusive)
 
 Scribe exclusively owns the following conceptual pipeline:
 

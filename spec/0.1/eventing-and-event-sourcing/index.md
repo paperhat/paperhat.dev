@@ -42,7 +42,7 @@ This specification defines event semantics, not user interface.
 
 ## 3. Concept Vocabulary (Normative)
 
-Semantics MUST define the Concepts and Traits for:
+Kernel MUST define the Concepts and Traits for:
 
 * **Channel**
 

@@ -59,7 +59,7 @@ This specification is designed to compose with:
 
 1. **Tests are artifacts.** Test definitions MUST be representable as declarative artifacts.
 2. **Inputs are explicit.** Any external input required for evaluation MUST be provided as explicit test fixtures.
-3. **Deterministic evaluation.** Given identical artifacts and fixtures, Pipeline MUST produce the same planned results.
+3. **Deterministic evaluation.** Given identical artifacts and fixtures, Kernel MUST produce the same planned results.
 4. **No target coupling.** Tests MUST NOT depend on target-specific mocks or protocol details.
 
 ---

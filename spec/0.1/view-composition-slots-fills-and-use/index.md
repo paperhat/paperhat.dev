@@ -196,9 +196,9 @@ Rules:
 
 ---
 
-## 9. Compilation and Pipeline Integration (Normative)
+## 9. Compilation and Kernel Integration (Normative)
 
-Pipeline MUST:
+Kernel MUST:
 
 - validate composition constructs
 - resolve Slot/Fills deterministically

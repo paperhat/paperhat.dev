@@ -118,9 +118,9 @@ A Session is semantic state.
 
 Paperhat authentication MUST be passwordless.
 
-Semantics MUST support passwordless credential types, including public-key credentials.
+Kernel MUST support passwordless credential types, including public-key credentials.
 
-Semantics MAY support fallback authentication mechanisms, but MUST NOT support passwords.
+Kernel MAY support fallback authentication mechanisms, but MUST NOT support passwords.
 
 ---
 
@@ -136,15 +136,15 @@ Authentication Policy MUST be declarative.
 
 ---
 
-### 5.3 Proof Evaluation (Pipeline Responsibility)
+### 5.3 Proof Evaluation (Kernel Responsibility)
 
-Pipeline MUST evaluate proofs deterministically given:
+Kernel MUST evaluate proofs deterministically given:
 
 * the declared authentication policy
 * the presented proofs
 * explicit external inputs (time, issuer keys, environment)
 
-If proof validation fails, Pipeline MUST return Help/diagnostics outcomes.
+If proof validation fails, Kernel MUST return Help/diagnostics outcomes.
 
 ---
 
@@ -199,13 +199,13 @@ Actor identity and any security-relevant context MUST be modeled as explicit ext
 
 ## 8. Capabilities, Roles, and Permissions (Normative)
 
-Semantics MUST support at least one of the following authorization idioms:
+Kernel MUST support at least one of the following authorization idioms:
 
 * **Capabilities** — explicit delegatable rights
 * **Roles and Permissions** — role membership with permission grants
 * **Attribute-based rules** — policy decisions based on attributes
 
-If multiple idioms are supported, Semantics MUST define precedence and composition rules.
+If multiple idioms are supported, Kernel MUST define precedence and composition rules.
 
 ---
 

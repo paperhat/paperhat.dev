@@ -61,9 +61,9 @@ This specification is designed to compose with:
 
 1. **No embedded binaries.** Authored workflow artifacts MUST NOT embed binary payloads.
 2. **References are explicit.** Artifact and attachment references MUST be explicit values.
-3. **Deterministic planning.** Pipeline MUST be able to plan artifact steps deterministically.
+3. **Deterministic planning.** Kernel MUST be able to plan artifact steps deterministically.
 4. **Provenance is recordable.** It MUST be possible to record where an artifact came from and how it was used.
-5. **Target independence.** Semantics MUST NOT assume a storage backend or protocol.
+5. **Target independence.** Kernel MUST NOT assume a storage backend or protocol.
 
 ---
 

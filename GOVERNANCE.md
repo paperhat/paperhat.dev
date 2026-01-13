@@ -48,7 +48,7 @@ Examples include:
 * Library Contracts
 * Formal Specifications
 * Naming and Assembly Contracts
-* Pipeline and Boundary Definitions
+* Kernel and Boundary Definitions
 
 Normative documents may be marked **LOCKED** or **DRAFT**.
 

@@ -131,7 +131,7 @@ Modules are defined semantically by Codex and assembled physically according to 
 
 ---
 
-## 8. Pipeline (Normative)
+## 8. Kernel (Normative)
 
 Paperhat defines a conceptual processing pipeline with strict phase separation:
 

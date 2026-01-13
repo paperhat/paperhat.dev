@@ -61,7 +61,7 @@ This specification is designed to compose with:
 
 1. **Query intent is data.** Query and indexing intent MUST be representable as declarative artifacts.
 2. **No syntax leakage.** Authored artifacts MUST NOT embed query language syntax.
-3. **Deterministic planning.** Pipeline MUST be able to validate and plan query steps deterministically.
+3. **Deterministic planning.** Kernel MUST be able to validate and plan query steps deterministically.
 4. **Typed results.** Query results MUST be constrained by declared type expectations.
 5. **Auditability.** It MUST be possible to record what was asked and what was returned (as permitted data).
 

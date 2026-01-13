@@ -343,7 +343,7 @@ Views MUST NOT:
 
 ---
 
-## 11. Compilation and Pipeline Integration (Normative)
+## 11. Compilation and Kernel Integration (Normative)
 
 ### 11.1 Compilation
 

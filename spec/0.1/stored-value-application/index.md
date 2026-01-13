@@ -62,7 +62,7 @@ This specification is designed to compose with:
 1. **Deterministic application.** Stored value application MUST be deterministic given explicit inputs.
 2. **No hidden state.** Balance availability used for application MUST be treated as explicit input.
 3. **Auditable outcomes.** Applied amounts and remaining balances MUST be traceable in a reckoning trace.
-4. **Target independence.** Semantics MUST NOT assume any ledger, provider, or persistence technology.
+4. **Target independence.** Kernel MUST NOT assume any ledger, provider, or persistence technology.
 
 ---
 

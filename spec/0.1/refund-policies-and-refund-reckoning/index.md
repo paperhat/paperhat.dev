@@ -68,7 +68,7 @@ This specification is designed to compose with:
 2. **Deterministic refund reckoning.** Refund results MUST be deterministic given explicit inputs.
 3. **Stable identities.** Refund policies and refund outcomes MUST have stable identities.
 4. **Auditable decisions.** Refund eligibility and computed amounts MUST be traceable in a refund trace.
-5. **Target independence.** Semantics MUST NOT assume a particular returns system or payment provider.
+5. **Target independence.** Kernel MUST NOT assume a particular returns system or payment provider.
 
 ---
 
@@ -142,7 +142,7 @@ A **RefundTrace** is a structured record explaining:
 
 ## 6. Eligibility Semantics (Normative)
 
-Pipeline MUST be able to evaluate refund eligibility deterministically using explicit inputs.
+Kernel MUST be able to evaluate refund eligibility deterministically using explicit inputs.
 
 Eligibility SHOULD support rules such as:
 
@@ -198,7 +198,7 @@ Refund records SHOULD compose with provenance/lineage.
 
 ## 10. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+Kernel MUST be able to validate:
 
 * refund policies are well-formed
 * policy references are valid

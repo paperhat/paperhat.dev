@@ -11,12 +11,12 @@ Workbench provides a CLI (`paperhat`) for:
 
 - scaffolding a new workspace from templates (e.g. blog, recipes)
 - generating boilerplate for authoring artifacts (Concepts, Traits, Assemblies, Views)
-- running the Pipeline in dev/watch mode for specific realization targets (HTML app, ebook, PDF, etc.)
+- running the Kernel in dev/watch mode for specific realization targets (HTML app, ebook, PDF, etc.)
 
 Workbench is **not authoritative**.
 
-- Semantics owns meaning (Concepts/Traits and shape validity).
-- Pipeline owns deterministic compilation, evaluation, planning, and realization.
+- Kernel owns meaning (Concepts/Traits and shape validity).
+- Kernel owns deterministic compilation, evaluation, planning, and realization.
 - Workbench owns scaffolding and orchestration only.
 
 Paperhat remains valid if Workbench is removed or replaced.

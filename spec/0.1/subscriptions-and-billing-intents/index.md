@@ -62,7 +62,7 @@ This specification is designed to compose with:
 2. **Billing is explicit.** Billing decisions MUST be represented as explicit billing intents.
 3. **Deterministic evaluation.** Billing intent computation MUST be deterministic given explicit inputs.
 4. **Auditable decisions.** Cycle boundaries, proration, and cancellation effects MUST be traceable.
-5. **Target independence.** Semantics MUST NOT assume a specific provider billing model.
+5. **Target independence.** Kernel MUST NOT assume a specific provider billing model.
 
 ---
 
@@ -130,7 +130,7 @@ This specification does not define workflow execution; it defines the intended e
 
 ## 6. Billing Intent Computation (Normative)
 
-Pipeline MUST be able to compute billing intents deterministically from explicit inputs, including:
+Kernel MUST be able to compute billing intents deterministically from explicit inputs, including:
 
 * subscription facts
 * plan pricing facts
@@ -165,7 +165,7 @@ Records SHOULD compose with provenance/lineage.
 
 ## 9. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+Kernel MUST be able to validate:
 
 * subscription data is well-formed
 * cadence definitions are well-formed

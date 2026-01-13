@@ -61,8 +61,8 @@ This specification is designed to compose with:
 
 1. **Cancellation is data.** Cancellation intent MUST be representable as declarative input.
 2. **Auditability.** It MUST be possible to explain who requested cancellation, when, and why.
-3. **Deterministic planning.** Pipeline MUST be able to plan cancellation handling deterministically.
-4. **No implicit interruption model.** Semantics MUST NOT assume a particular runtime interruption capability.
+3. **Deterministic planning.** Kernel MUST be able to plan cancellation handling deterministically.
+4. **No implicit interruption model.** Kernel MUST NOT assume a particular runtime interruption capability.
 
 ---
 

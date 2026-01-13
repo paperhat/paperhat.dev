@@ -59,7 +59,7 @@ This specification is designed to compose with:
 1. **Entities are declarative.** Commerce entities MUST be representable as declarative data.
 2. **Stable identities.** Entities MUST have stable, IRI-like identities.
 3. **Provider-agnostic payments.** Payment concepts MUST NOT encode provider protocols.
-4. **Deterministic validation.** Pipeline MUST be able to validate entity conformance deterministically.
+4. **Deterministic validation.** Kernel MUST be able to validate entity conformance deterministically.
 5. **Auditability.** Changes and derived decisions SHOULD be explainable via provenance and traces.
 
 ---
@@ -205,7 +205,7 @@ Inventory strategies and event synchronization are out of scope.
 
 ## 6. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+Kernel MUST be able to validate:
 
 * entity identity shape and uniqueness constraints
 * required fields (SKU-like codes, currency identity, etc.)

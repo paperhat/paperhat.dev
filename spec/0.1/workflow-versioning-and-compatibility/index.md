@@ -101,7 +101,7 @@ At minimum, compatibility MUST consider:
 
 A **VersionSelectionPolicy** defines how a version is chosen at call time.
 
-At minimum, Semantics MUST support:
+At minimum, Kernel MUST support:
 
 * exact version pin
 * compatibility-based selection
@@ -124,7 +124,7 @@ MigrationPolicy MUST support:
 
 A workflow version MUST declare input/output contracts.
 
-Compatibility MUST be evaluated deterministically by Pipeline.
+Compatibility MUST be evaluated deterministically by Kernel.
 
 Compatibility evaluation MUST NOT require executing the workflow.
 

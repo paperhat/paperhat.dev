@@ -22,7 +22,7 @@ Outputs:
 
 Wire all prior demo stages into a single deterministic end-to-end build for **Essay → HTML**, using **Architect defaults**.
 
-Pipeline:
+Kernel:
 
 1. Parse Codex → AST (Demo 02)
 2. Lower AST → RDF instance graph (Demo 03)

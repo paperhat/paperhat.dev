@@ -29,7 +29,7 @@ A Design Policy answers one question only:
 
 ---
 
-## 2. Position in the Pipeline
+## 2. Position in the Kernel
 
 Design Policy is applied by Scribe during the pure planning phase:
 

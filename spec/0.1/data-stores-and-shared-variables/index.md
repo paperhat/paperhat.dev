@@ -61,7 +61,7 @@ This specification is designed to compose with:
 
 1. **Store operations are data.** Reads and writes MUST be representable as declarative workflow intent.
 2. **Target independence.** Store semantics MUST NOT assume a concrete database or protocol.
-3. **Deterministic planning.** Pipeline MUST be able to validate and plan store interactions deterministically.
+3. **Deterministic planning.** Kernel MUST be able to validate and plan store interactions deterministically.
 4. **Typed values.** Store values MUST be constrained by type expectations.
 5. **Auditability.** It MUST be possible to record what was attempted, with what semantic identities.
 

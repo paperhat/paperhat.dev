@@ -92,9 +92,9 @@ Renderers:
 
 ---
 
-## 4. Position in the Pipeline (Normative)
+## 4. Position in the Kernel (Normative)
 
-The Presentation Plan occupies a fixed position in the Scribe pipeline:
+The Presentation Plan occupies a fixed position in the Scribe kernel:
 
 1. Domain Graph queried
 2. View Graph applied

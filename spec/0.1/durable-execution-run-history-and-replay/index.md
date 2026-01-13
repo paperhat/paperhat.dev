@@ -44,7 +44,7 @@ A Run Event MUST have:
 - a canonical ordering key (to make “history” a deterministic sequence)
 - timestamp semantics as explicit inputs (per Paperhat determinism rules)
 - correlation identifiers as needed
-- payload typed by Semantics vocabulary
+- payload typed by Kernel vocabulary
 
 More specifically, a Run Event MUST include, at minimum:
 
@@ -58,7 +58,7 @@ If a timestamp is present, it MUST be treated as an explicit input value (record
 
 ### 3.2. Run Event Kinds (Normative)
 
-Semantics MUST define a closed set of Run Event kinds sufficient to model durable execution. At minimum, the vocabulary MUST include kinds representing:
+Kernel MUST define a closed set of Run Event kinds sufficient to model durable execution. At minimum, the vocabulary MUST include kinds representing:
 
 - timer delivery (a timer firing)
 - signal delivery (an external signal being delivered)
@@ -72,7 +72,7 @@ This specification does not mandate a storage engine.
 
 ## 4. Replay Model (Normative)
 
-Pipeline MUST be able to evaluate a Workflow Run by replaying its Run History.
+Kernel MUST be able to evaluate a Workflow Run by replaying its Run History.
 
 Rules:
 
@@ -88,9 +88,9 @@ Rules:
 
 1. If two Run Events for the same `runId` have the same `eventId`, they MUST be treated as the same event.
 2. If a Run Event includes an idempotency key (for example `dedupeKey`), the storage/adapter layer MUST prevent multiple distinct events for the same `runId` and `dedupeKey` from being appended.
-3. If duplicates occur anyway (for example due to eventual consistency), Pipeline MUST handle them deterministically:
-	- if duplicates are byte-for-byte equivalent in normalized form, Pipeline MUST ignore the duplicates
-	- if duplicates conflict in payload for the same identity/idempotency key, Pipeline MUST report a deterministic diagnostic (not consult ambient state to resolve)
+3. If duplicates occur anyway (for example due to eventual consistency), Kernel MUST handle them deterministically:
+	- if duplicates are byte-for-byte equivalent in normalized form, Kernel MUST ignore the duplicates
+	- if duplicates conflict in payload for the same identity/idempotency key, Kernel MUST report a deterministic diagnostic (not consult ambient state to resolve)
 
 ---
 
@@ -113,15 +113,15 @@ Because histories can grow large, implementations MAY create snapshots (checkpoi
 Rules:
 
 1. A snapshot MUST be derived, not authoritative.
-2. A snapshot MUST be attributable to a specific history prefix and Semantics version.
-3. If a snapshot is missing or invalid, Pipeline MUST be able to replay from history.
+2. A snapshot MUST be attributable to a specific history prefix and Kernel version.
+3. If a snapshot is missing or invalid, Kernel MUST be able to replay from history.
 
 Attribution MUST include enough information to verify the snapshot is safe to apply, including at least:
 
 - the `runId`
 - the highest `seq` (or equivalent) included in the snapshot
 - a digest/identifier for the history prefix the snapshot summarizes, OR a provably-unique reference to that prefix
-- a Semantics version/digest
+- a Kernel version/digest
 
 ---
 
@@ -138,8 +138,8 @@ To preserve Paperhat semantics:
 
 ## 8. Ownership Summary
 
-- **Semantics owns:** the vocabulary for Run History and Run Events.
-- **Pipeline owns:** deterministic evaluation and replay semantics.
+- **Kernel owns:** the vocabulary for Run History and Run Events.
+- **Kernel owns:** deterministic evaluation and replay semantics.
 - **Adapters own:** storage/transport realization as long as invariants hold.
 
 ---

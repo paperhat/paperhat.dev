@@ -59,7 +59,7 @@ This specification is designed to compose with:
 
 1. **Limits are declarative.** Limits MUST be expressible as data.
 2. **No implementation leakage.** Limits MUST NOT specify how a target enforces them.
-3. **Deterministic planning.** Pipeline MUST be able to plan with declared limits deterministically.
+3. **Deterministic planning.** Kernel MUST be able to plan with declared limits deterministically.
 4. **Observable enforcement.** Limit exhaustion MUST be representable and recordable.
 
 ---
@@ -115,7 +115,7 @@ Limits MAY attach to:
 * integration operations
 * triggers
 
-If attached at multiple levels, Semantics MUST define precedence and composition.
+If attached at multiple levels, Kernel MUST define precedence and composition.
 
 ---
 

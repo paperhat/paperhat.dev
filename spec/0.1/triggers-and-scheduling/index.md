@@ -61,7 +61,7 @@ The following invariants are non-negotiable:
 
 1. **Triggers are declarative.**
 2. **Trigger evaluation uses explicit inputs.** Time, actor identity, and environment MUST NOT be implicit.
-3. **Deterministic planning.** Given identical facts and inputs, Pipeline MUST emit the same trigger plan.
+3. **Deterministic planning.** Given identical facts and inputs, Kernel MUST emit the same trigger plan.
 4. **Auditability.** Trigger activations MUST be explainable and recordable.
 5. **No protocol semantics.** Triggers must not embed protocol or transport details.
 
@@ -91,7 +91,7 @@ Trigger Activations MUST be attributable to explicit inputs and provenance.
 
 ### 5.3 Trigger Plan
 
-A **Trigger Plan** is an emitted artifact produced by Pipeline that describes how a target can realize triggers and scheduling for a workflow.
+A **Trigger Plan** is an emitted artifact produced by Kernel that describes how a target can realize triggers and scheduling for a workflow.
 
 Plans MUST NOT redefine trigger meaning.
 
@@ -99,7 +99,7 @@ Plans MUST NOT redefine trigger meaning.
 
 ## 6. Trigger Kinds (Normative)
 
-Semantics MUST define allowed trigger kinds.
+Kernel MUST define allowed trigger kinds.
 
 At minimum, trigger kinds MUST include:
 

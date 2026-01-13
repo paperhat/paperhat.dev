@@ -61,7 +61,7 @@ This specification is designed to compose with:
 2. **Deterministic promising.** Promising decisions MUST be deterministic given explicit inputs.
 3. **Declarative intents.** Reservation and promise intents MUST be representable as data.
 4. **Auditable outcomes.** Decisions MUST be traceable.
-5. **Target independence.** Semantics MUST NOT assume a specific warehouse system.
+5. **Target independence.** Kernel MUST NOT assume a specific warehouse system.
 
 ---
 
@@ -115,7 +115,7 @@ Allocation MUST be deterministic and auditable.
 
 ## 6. Promising Semantics (Normative)
 
-Pipeline MUST be able to evaluate promising deterministically from explicit inputs:
+Kernel MUST be able to evaluate promising deterministically from explicit inputs:
 
 * required line items
 * inventory positions
@@ -150,7 +150,7 @@ Trace records SHOULD compose with provenance/lineage.
 
 ## 9. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+Kernel MUST be able to validate:
 
 * required inputs are declared
 * quantity constraints are well-formed

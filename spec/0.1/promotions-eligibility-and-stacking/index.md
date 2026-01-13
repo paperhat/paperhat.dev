@@ -69,7 +69,7 @@ This specification is designed to compose with:
 2. **Deterministic evaluation.** Eligibility and stacking decisions MUST be deterministic given explicit inputs.
 3. **Stable identities.** Policies MUST have stable, IRI-like identities.
 4. **Auditable application.** Applied and rejected policies MUST be explainable via trace records.
-5. **Target independence.** Semantics MUST NOT assume any particular rule engine or datastore.
+5. **Target independence.** Kernel MUST NOT assume any particular rule engine or datastore.
 
 ---
 
@@ -186,7 +186,7 @@ Trace records SHOULD compose with provenance/lineage.
 
 ## 10. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate that:
+Kernel MUST be able to validate that:
 
 * policy identities are well-formed and unique
 * eligibility predicates reference valid inputs

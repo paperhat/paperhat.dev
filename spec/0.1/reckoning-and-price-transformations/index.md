@@ -61,7 +61,7 @@ This specification is designed to compose with:
 2. **Deterministic results.** Given identical inputs, the same outputs MUST be produced.
 3. **Declarative policies.** Eligibility, stacking, and application policies MUST be expressed as data.
 4. **Auditable computation.** Every derived amount MUST be traceable to its inputs and applied policies.
-5. **Target independence.** Semantics MUST NOT assume payment processors, databases, or vendor calculators.
+5. **Target independence.** Kernel MUST NOT assume payment processors, databases, or vendor calculators.
 
 ---
 
@@ -203,7 +203,7 @@ These computations MUST be deterministic and auditable.
 
 ## 11. Validation and Safety (Normative)
 
-Pipeline MUST validate that:
+Kernel MUST validate that:
 
 * all required inputs are declared
 * policies are well-formed and reference valid entities

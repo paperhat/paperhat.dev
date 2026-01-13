@@ -58,7 +58,7 @@ This specification is designed to compose with:
 
 1. **Transformation intent is data.** Transformations MUST be representable as declarative artifacts.
 2. **No code leakage.** Authored artifacts MUST NOT require embedding target code.
-3. **Deterministic planning.** Pipeline MUST be able to validate and plan transformation steps deterministically.
+3. **Deterministic planning.** Kernel MUST be able to validate and plan transformation steps deterministically.
 4. **Explicit inputs.** Any required external inputs MUST be declared explicitly.
 5. **Typed outcomes.** Transformation failures MUST be representable as typed failures.
 
@@ -98,7 +98,7 @@ A Transformation MUST be describable without assuming a specific language or run
 
 A **TypeExpectation** constrains the shape and meaning of values.
 
-Type expectations MUST be validated deterministically by Pipeline.
+Type expectations MUST be validated deterministically by Kernel.
 
 ---
 

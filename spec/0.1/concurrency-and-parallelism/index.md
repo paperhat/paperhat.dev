@@ -58,9 +58,9 @@ This specification is designed to compose with:
 
 ## 4. Core Invariants (Hard)
 
-1. **Planning is deterministic.** Concurrency decisions emitted by Pipeline MUST be reproducible given identical artifacts and inputs.
+1. **Planning is deterministic.** Concurrency decisions emitted by Kernel MUST be reproducible given identical artifacts and inputs.
 2. **Side effects are explicit.** Steps with side effects MUST be modeled such that ordering and retry semantics remain auditable.
-3. **No implicit shared memory.** Semantics MUST NOT assume a shared-memory execution model.
+3. **No implicit shared memory.** Kernel MUST NOT assume a shared-memory execution model.
 4. **Coordination is declarative.** Concurrency control MUST be expressed as data.
 
 ---
@@ -77,7 +77,7 @@ This specification is designed to compose with:
 
 **Parallelism** is concurrency where steps may be evaluated simultaneously.
 
-Semantics does not require that a target evaluates steps in parallel; it requires that parallelism may be planned and preserved where supported.
+Kernel does not require that a target evaluates steps in parallel; it requires that parallelism may be planned and preserved where supported.
 
 ---
 
@@ -116,7 +116,7 @@ MutualExclusion is target-independent and does not imply a concrete locking impl
 
 Workflows MAY declare concurrency using parallel groups.
 
-If parallel groups are declared, Pipeline MUST be able to:
+If parallel groups are declared, Kernel MUST be able to:
 
 * determine which steps are eligible to run concurrently
 * determine which steps are blocked by ordering constraints or barriers
@@ -126,7 +126,7 @@ If parallel groups are declared, Pipeline MUST be able to:
 
 ## 7. Ordering Constraints (Normative)
 
-Semantics MUST support ordering constraints sufficient to express:
+Kernel MUST support ordering constraints sufficient to express:
 
 * strict ordering between two steps
 * group-level ordering (a group must complete before another begins)

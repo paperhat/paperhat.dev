@@ -85,7 +85,7 @@ Paperhat is composed of:
 
   * Semantic assemblies of heterogeneous artifacts
   * The primary unit of composition and reasoning
-* **Pipeline**
+* **Kernel**
 
   * Deterministic compilation, storage, shaping, planning, and rendering
 
