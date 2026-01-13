@@ -60,7 +60,7 @@ This specification is designed to compose with:
 2. **Decisions are explicit inputs.** A workflow MUST NOT assume a decision without an explicit decision response.
 3. **Auditability.** It MUST be possible to record who decided, what they decided, and what evidence was considered.
 4. **Target independence.** Authored approval semantics MUST NOT encode UI or protocol details.
-5. **Deterministic planning.** Pipeline MUST be able to plan approval gates deterministically.
+5. **Deterministic planning.** The Kernel MUST be able to plan approval gates deterministically.
 
 ---
 

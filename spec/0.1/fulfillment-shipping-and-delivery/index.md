@@ -64,7 +64,7 @@ This specification is designed to compose with:
 
 1. **Explicit inputs.** Availability, locations, cutoff times, and carrier/service constraints used for planning MUST be explicit inputs.
 2. **Deterministic planning.** Given identical inputs, fulfillment allocation and shipment planning outputs MUST be identical.
-3. **Target independence.** Semantics MUST NOT require a specific carrier or warehouse system.
+3. **Target independence.** The Kernel MUST NOT require a specific carrier or warehouse system.
 4. **Recordability.** Plans and execution events MUST be representable as data and traceable.
 
 ---
@@ -131,7 +131,7 @@ Milestones MUST be recordable and MUST compose with provenance.
 
 ## 6. Deterministic Fulfillment Planning (Normative)
 
-Pipeline MUST be able to deterministically derive a fulfillment plan from explicit inputs, including:
+The Kernel MUST be able to deterministically derive a fulfillment plan from explicit inputs, including:
 
 * promised availability and constraints
 * eligible fulfillment locations
@@ -171,7 +171,7 @@ These records SHOULD compose with provenance/lineage.
 
 ## 10. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+The Kernel MUST be able to validate:
 
 * required inputs are declared
 * plans reference valid identities and quantities
@@ -186,13 +186,13 @@ Pipeline MUST be able to validate:
 
 * A FulfillmentIntent declares 1 unit of Item A to a destination reference, with partial shipments disallowed.
 * Explicit inputs declare that a single fulfillment location can satisfy the entire quantity.
-* Pipeline deterministically produces one FulfillmentUnit, one AllocationIntent selecting that location, and one ShipmentIntent.
+* The Kernel deterministically produces one FulfillmentUnit, one AllocationIntent selecting that location, and one ShipmentIntent.
 
 ### 11.2 Split Shipment Plan
 
 * A FulfillmentIntent declares 2 units of Item A to a destination reference, with partial shipments allowed.
 * Explicit inputs declare that no single location can satisfy the full quantity before a cutoff, but two locations can satisfy 1 unit each.
-* Pipeline deterministically produces two FulfillmentUnits, two AllocationIntent decisions, and two ShipmentIntent outputs, recording tie-breaks if candidates are equal.
+* The Kernel deterministically produces two FulfillmentUnits, two AllocationIntent decisions, and two ShipmentIntent outputs, recording tie-breaks if candidates are equal.
 
 ### 11.3 Delivery Milestone Recording
 

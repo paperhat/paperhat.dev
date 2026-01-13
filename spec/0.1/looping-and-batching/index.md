@@ -61,8 +61,8 @@ This specification is designed to compose with:
 
 1. **Looping is declarative.** Iteration MUST be representable as data.
 2. **Boundedness is explicit.** Unbounded loops MUST NOT be representable.
-3. **Deterministic planning.** Pipeline MUST be able to plan loop structure deterministically.
-4. **Target independence.** Semantics MUST NOT assume specific runtime collection mechanics.
+3. **Deterministic planning.** The Kernel MUST be able to plan loop structure deterministically.
+4. **Target independence.** The Kernel MUST NOT assume specific runtime collection mechanics.
 5. **Auditability.** Per-item/per-batch attempts MUST be recordable.
 
 ---

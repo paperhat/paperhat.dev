@@ -58,7 +58,7 @@ This specification is designed to compose with:
 
 1. **Conditions are data.** A condition MUST be representable as a declarative artifact.
 2. **No code leakage.** Authored artifacts MUST NOT embed target code or require a specific expression syntax.
-3. **Deterministic planning.** Pipeline MUST be able to validate and plan branching deterministically.
+3. **Deterministic planning.** The Kernel MUST be able to validate and plan branching deterministically.
 4. **Explicit inputs.** Condition inputs MUST be explicit via declared value sourcing.
 5. **Auditable outcomes.** Condition results MUST be recordable.
 

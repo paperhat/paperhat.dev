@@ -28,7 +28,7 @@ This specification exists to:
 
 This specification governs:
 
-* import as a Pipeline action producing a canonical message pack
+* import as a Kernel action producing a canonical message pack
 * mapping from external interchange fields to semantic concepts
 * deterministic normalization and conflict handling
 * validation requirements for imported message content
@@ -69,7 +69,7 @@ This specification is designed to compose with:
 
 An **InterchangeSource** is an external input providing localized message content.
 
-InterchangeSource MUST be treated as an explicit input to Pipeline.
+InterchangeSource MUST be treated as an explicit input to the Kernel.
 
 ---
 
@@ -112,7 +112,7 @@ Supporting an interchange family means defining a deterministic ImportMapping an
 
 ## 7. Determinism and Normalization (Normative)
 
-Pipeline MUST apply deterministic normalization, including:
+The Kernel MUST apply deterministic normalization, including:
 
 * locale tag normalization (when a normalization policy is provided)
 * consistent whitespace and newline normalization for templates (when configured)
@@ -124,7 +124,7 @@ If normalization policies are configurable, they MUST be explicit inputs.
 
 ## 8. Conflict Handling (Normative)
 
-If an import produces multiple entries that target the same (MessageKey, LocaleTag, SelectorSignature), Pipeline MUST apply an explicit, deterministic conflict policy.
+If an import produces multiple entries that target the same (MessageKey, LocaleTag, SelectorSignature), the Kernel MUST apply an explicit, deterministic conflict policy.
 
 Conflict policies MAY include:
 
@@ -142,7 +142,7 @@ Because many interchange formats do not carry parameter typing, a conforming sys
 
 * **SchemaProvided**: ParameterSchema is imported as authoritative
 * **SchemaRequiredByPack**: import is rejected unless the schema is already declared in the target pack
-* **SchemaInferredAsCandidate**: Pipeline infers a candidate schema, but does not treat it as authoritative until accepted into authored artifacts
+* **SchemaInferredAsCandidate**: the Kernel infers a candidate schema, but does not treat it as authoritative until accepted into authored artifacts
 
 Schema strategy MUST be explicit.
 
@@ -150,7 +150,7 @@ Schema strategy MUST be explicit.
 
 ## 10. Validation Requirements (Normative)
 
-Pipeline MUST validate imported content against the message semantics, including:
+The Kernel MUST validate imported content against the message semantics, including:
 
 * keys are valid identities
 * locales are valid tokens
@@ -164,7 +164,7 @@ Validation failures MUST produce structured violations.
 
 ## 11. Provenance and Recordability (Normative)
 
-Pipeline SHOULD record provenance for imported content:
+The Kernel SHOULD record provenance for imported content:
 
 * which interchange source(s) contributed to a message variant
 * the mapping and conflict policies used

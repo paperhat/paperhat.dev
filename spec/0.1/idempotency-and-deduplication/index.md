@@ -58,8 +58,8 @@ This specification is designed to compose with:
 
 1. **Idempotency is semantic, not transport.** Idempotency MUST be defined in authored meaning, not in protocol headers.
 2. **No secret material in keys.** Idempotency identities MUST NOT embed secret material.
-3. **Deterministic planning.** Pipeline MUST be able to validate the presence and shape of idempotency requirements deterministically.
-4. **Target independence.** Semantics MUST NOT require a particular storage or dedup engine.
+3. **Deterministic planning.** The Kernel MUST be able to validate the presence and shape of idempotency requirements deterministically.
+4. **Target independence.** The Kernel MUST NOT require a particular storage or dedup engine.
 5. **Auditable outcomes.** Systems MUST be able to record whether an execution was new, replayed, or rejected.
 
 ---

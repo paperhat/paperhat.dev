@@ -60,9 +60,9 @@ This specification is designed to compose with:
 
 1. **Provenance is semantic.** Provenance MUST refer to semantic concepts (operations, inputs, policies), not target-specific instrumentation.
 2. **No secret disclosure.** Provenance records MUST NOT contain secret material.
-3. **Deterministic description.** Pipeline MUST be able to validate provenance requirements deterministically.
+3. **Deterministic description.** The Kernel MUST be able to validate provenance requirements deterministically.
 4. **Stable identities.** Provenance MUST use stable identities for sources and operations.
-5. **Target independence.** Semantics MUST NOT require a particular tracing or storage technology.
+5. **Target independence.** The Kernel MUST NOT require a particular tracing or storage technology.
 
 ---
 

@@ -62,7 +62,7 @@ This specification is designed to compose with:
 1. **Notification intent is data.** Notifications MUST be representable as declarative artifacts.
 2. **No channel leakage.** Authored artifacts MUST NOT specify delivery channels or protocols.
 3. **Auditability.** It MUST be possible to explain why a notification was emitted.
-4. **Deterministic planning.** Pipeline MUST be able to plan notification emission deterministically.
+4. **Deterministic planning.** The Kernel MUST be able to plan notification emission deterministically.
 5. **No secrets.** Notification intent MUST NOT require embedding secret material.
 
 ---

@@ -33,7 +33,7 @@ This specification governs:
 * workflow definitions (structure, step kinds, transitions)
 * gating and decision semantics
 * workflow inputs and outputs
-* workflow execution plans emitted by Pipeline
+* workflow execution plans emitted by the Kernel
 * auditability and explainability requirements
 
 This specification does **not** govern:
@@ -61,7 +61,7 @@ The following invariants are non-negotiable:
 
 1. **Workflows are data.**
 2. **No imperative control flow in authored content.** Authoring declares structure and constraints, not code.
-3. **Deterministic planning.** Given the same workflow definition, facts, and inputs, Pipeline MUST emit the same plan.
+3. **Deterministic planning.** Given the same workflow definition, facts, and inputs, the Kernel MUST emit the same plan.
 4. **Explicit inputs.** Time, actor identity, environment, and integration results MUST NOT be implicit.
 5. **Auditability.** Workflow decisions and transitions MUST be explainable and recordable.
 
@@ -122,7 +122,7 @@ Conditions MUST be declarative and validated.
 
 ### 5.5 Workflow Plan
 
-A **Workflow Plan** is an emitted, inspectable artifact produced by Pipeline that represents the actionable interpretation of a Workflow for a specific realization target.
+A **Workflow Plan** is an emitted, inspectable artifact produced by the Kernel that represents the actionable interpretation of a Workflow for a specific realization target.
 
 Plans MUST NOT redefine workflow meaning.
 
@@ -137,12 +137,13 @@ A Workflow MUST define:
 * valid transitions
 
 Workflows MAY be cyclic only if Semantics explicitly allows the cycle and defines termination semantics.
+Workflows MAY be cyclic only if the Kernel explicitly allows the cycle and defines termination semantics.
 
 ---
 
 ## 7. Step Kinds (Normative)
 
-Semantics MUST define allowed step kinds.
+The Kernel MUST define allowed step kinds.
 
 At minimum, step kinds SHOULD include:
 
@@ -180,7 +181,7 @@ It MUST NOT:
 * embed credential material or secrets
 * define retry logic, backoff, scheduling, or deployment concerns
 
-Pipeline MAY emit a Workflow Plan that describes how a target can realize the request.
+The Kernel MAY emit a Workflow Plan that describes how a target can realize the request.
 Targets own execution and protocol details.
 Workflow meaning and constraints remain unchanged.
 
@@ -195,7 +196,7 @@ Security gates MUST be defined in terms of:
 * access requests
 * required claims, capabilities, roles, or permissions
 
-Authorization evaluation is owned by Pipeline.
+Authorization evaluation is owned by the Kernel.
 
 ---
 
@@ -215,7 +216,7 @@ Workflows MUST NOT treat mutable target state as authoritative.
 
 Workflow planning and evaluation MUST be deterministic given:
 
-* Semantics version
+* Kernel version
 * Workflow definition
 * authoritative facts (including events)
 * bound external inputs

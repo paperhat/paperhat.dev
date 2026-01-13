@@ -68,9 +68,9 @@ This specification is designed to compose with:
 1. **Messages are data.** Localized messages MUST be authored and processed as declarative data.
 2. **Stable identities.** Message keys MUST have stable, IRI-like identities.
 3. **Typed contracts.** Message parameters MUST have a declared schema contract.
-4. **Deterministic compilation.** Pipeline MUST compile and validate messages deterministically.
+4. **Deterministic compilation.** The Kernel MUST compile and validate messages deterministically.
 5. **Structured rendering.** Rendering MUST be representable as a structured render tree.
-6. **Target independence.** Semantics MUST NOT depend on a UI framework, storage engine, or vendor runtime.
+6. **Target independence.** The Kernel MUST NOT depend on a UI framework, storage engine, or vendor runtime.
 7. **No secret leakage.** Message artifacts and records MUST NOT embed secret material.
 
 ---
@@ -155,7 +155,7 @@ Parameter schemas MAY be produced by tooling assistance, but the authored schema
 
 ## 7. Compilation and Verification (Normative)
 
-Pipeline MUST:
+The Kernel MUST:
 
 * parse authored message definitions into a canonical internal representation
 * validate that every template parameter reference is declared
@@ -164,7 +164,7 @@ Pipeline MUST:
 
 ### 7.1 Optional Inference (Non-normative)
 
-Tooling MAY infer a candidate ParameterSchema from templates or imported data, but Pipeline MUST validate the authored schema as authoritative.
+Tooling MAY infer a candidate ParameterSchema from templates or imported data, but the Kernel MUST validate the authored schema as authoritative.
 
 ---
 

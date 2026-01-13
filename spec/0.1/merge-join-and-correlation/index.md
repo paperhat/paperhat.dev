@@ -60,7 +60,7 @@ This specification is designed to compose with:
 ## 4. Core Invariants (Hard)
 
 1. **Joins are declarative.** Join requirements MUST be representable as data.
-2. **Deterministic planning.** Pipeline MUST be able to plan join structure deterministically.
+2. **Deterministic planning.** The Kernel MUST be able to plan join structure deterministically.
 3. **Explicit correlation.** Correlation MUST be defined via declared keys and sources.
 4. **Time is explicit.** Time windowing depends on time inputs that MUST be explicit execution facts.
 5. **Auditability.** It MUST be possible to explain why a join completed (or did not).

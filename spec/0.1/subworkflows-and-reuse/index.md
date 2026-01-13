@@ -59,7 +59,7 @@ This specification is designed to compose with:
 ## 4. Core Invariants (Hard)
 
 1. **Calls are declarative.** A workflow call MUST be representable as data.
-2. **Deterministic planning.** Pipeline MUST be able to plan workflow calls deterministically.
+2. **Deterministic planning.** The Kernel MUST be able to plan workflow calls deterministically.
 3. **Explicit contracts.** Inputs and outputs MUST have declared type expectations.
 4. **Auditability across boundaries.** It MUST be possible to trace which subworkflow ran, with what inputs, and what outputs were produced.
 5. **Target independence.** Calls MUST NOT assume a transport or deployment mechanism.
@@ -99,7 +99,8 @@ Call outputs MUST be typed and MUST be usable as step outputs in the caller.
 
 A workflow call MUST define how the callee version is selected.
 
-At minimum, Semantics MUST support:
+At minimum, the Kernel MUST support:
+At minimum, the Kernel MUST support:
 
 * exact version pin
 * compatible version range (semantically defined)
@@ -108,7 +109,7 @@ At minimum, Semantics MUST support:
 
 ## 6. Planning Semantics (Normative)
 
-Pipeline planning MUST be able to:
+Kernel planning MUST be able to:
 
 * validate that a callee exists and is compatible
 * validate input mappings against callee expectations
@@ -153,7 +154,7 @@ Reliability policy MAY apply:
 * to the call step
 * within the callee
 
-Semantics MUST preserve auditability about where a retry occurred.
+The Kernel MUST preserve auditability about where a retry occurred.
 
 ---
 

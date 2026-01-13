@@ -57,8 +57,8 @@ This specification is designed to compose with:
 ## 4. Core Invariants (Hard)
 
 1. **Validation is declarative.** Validation requirements MUST be expressed as authored semantic constraints.
-2. **Deterministic planning.** Pipeline MUST be able to validate constraint declarations deterministically.
-3. **Target independence.** Semantics MUST NOT require a particular schema language or validator.
+2. **Deterministic planning.** The Kernel MUST be able to validate constraint declarations deterministically.
+3. **Target independence.** The Kernel MUST NOT require a particular schema language or validator.
 4. **Typed outcomes.** Validation MUST produce a structured outcome distinguishing success from violation.
 5. **No secret disclosure.** Validation records MUST NOT leak secret material.
 
@@ -149,7 +149,7 @@ A conforming system MUST support, at minimum, constraints sufficient to express:
 * value bounds for numeric values
 * cardinality constraints for collections
 
-Additional constraint kinds MAY be defined by Semantics packs.
+Additional constraint kinds MAY be defined by Kernel packs.
 
 ---
 

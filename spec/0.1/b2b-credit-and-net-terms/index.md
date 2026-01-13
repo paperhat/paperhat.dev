@@ -67,7 +67,7 @@ This specification is designed to compose with:
 2. **Deterministic decisions.** Credit decisions MUST be deterministic given explicit inputs.
 3. **Declarative policies.** Net terms and hold policies MUST be representable as data.
 4. **Auditable outcomes.** Enforcement decisions MUST be traceable.
-5. **Target independence.** Semantics MUST NOT assume any ERP, invoicing, or payments provider.
+5. **Target independence.** The Kernel MUST NOT assume any ERP, invoicing, or payments provider.
 
 ---
 
@@ -121,7 +121,7 @@ A **CreditHold** is an enforcement outcome that restricts actions until credit c
 
 ## 6. Credit Evaluation Semantics (Normative)
 
-Pipeline MUST be able to evaluate credit position deterministically from explicit inputs, including:
+The Kernel MUST be able to evaluate credit position deterministically from explicit inputs, including:
 
 * CreditLimit
 * CreditExposure inputs
@@ -136,7 +136,7 @@ The evaluation MUST produce a structured outcome indicating whether credit condi
 
 A conforming system MUST represent net terms eligibility as declarative policy.
 
-If net terms are requested for an obligation, Pipeline MUST be able to produce a decision outcome such as:
+If net terms are requested for an obligation, the Kernel MUST be able to produce a decision outcome such as:
 
 * Approved
 * ApprovedWithHold
@@ -173,7 +173,7 @@ Trace records SHOULD compose with provenance/lineage.
 
 ## 10. Validation Requirements (Normative)
 
-Pipeline MUST be able to validate:
+The Kernel MUST be able to validate:
 
 * required inputs are declared
 * policies are well-formed
