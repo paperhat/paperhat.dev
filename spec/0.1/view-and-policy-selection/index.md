@@ -25,7 +25,7 @@ This specification governs:
 * when to define or select a **View**
 * when to define or select a **Design Policy**
 * how Views and Design Policies interact
-* the default precedence rules used by Scribe
+* the default precedence rules used by Kernel
 * invalid patterns and forbidden mixes
 
 This specification does **not** define:
@@ -184,11 +184,11 @@ Implementations MUST reject Yes/Yes cases.
 
 ## 8. Default Selection Precedence (Normative)
 
-Unless explicitly overridden, Scribe MUST apply selection in the following order.
+Unless explicitly overridden, Kernel MUST apply selection in the following order.
 
 ### 8.1 View Selection Precedence
 
-1. Explicitly requested View (CLI, API, or pipeline input)
+1. Explicitly requested View (CLI, API, or Kernel input)
 2. Module-declared default View
 3. Schema-defined default View (if any)
 4. Error if no View is resolvable

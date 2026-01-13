@@ -13,7 +13,7 @@ This document is **Normative**.
 
 ## 1. Purpose
 
-Paperhat Specs exist as prior art and as implementation contracts.
+Paperhat Specs exist as implementation contracts.
 
 To keep the spec set usable and defensible, Paperhat MUST avoid:
 

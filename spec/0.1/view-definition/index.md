@@ -56,6 +56,18 @@ Those semantics are defined by the View Composition specification.
 
 ---
 
+## 2.1 Dialect and Ontology (Normative)
+
+Views are authored in Codex under the **View dialect**.
+
+Rules:
+
+- The View dialect is governed by a **View ontology** expressed as triples plus declarative constraints.
+- The View ontology is authored in Codex using the **Schema Dialect** and compiled by Kernel.
+- Kernel selects the View dialect based on artifact role during module assembly; shell tooling MUST NOT reinterpret view semantics.
+
+---
+
 ## 3. Core Terms (Normative)
 
 ### 3.1 View
@@ -136,7 +148,7 @@ A View document MUST have exactly one root Concept: `<View>`.
 
 A View is evaluated against a **current binding context**.
 
-* At the top level, the binding context is the **bound domain entity** selected by the pipeline (selection rules are governed elsewhere).
+* At the top level, the binding context is the **bound domain entity** selected by Kernel (selection rules are governed elsewhere).
 * Certain View constructs change the binding context (notably lists and items).
 
 ---
@@ -347,7 +359,7 @@ Views MUST NOT:
 
 ### 11.1 Compilation
 
-View documents are compiled by Scribe into the View Graph.
+View documents are compiled by Kernel into the View Graph.
 
 * Compilation is pure and deterministic.
 * Validation occurs against a View ontology and SHACL constraints.

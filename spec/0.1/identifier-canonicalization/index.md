@@ -42,7 +42,7 @@ This specification does **not** govern:
 ## 3. Definitions
 
 * **Authored ID:** the literal value written by an author in `id="..."`.
-* **Canonical IRI:** the fully-qualified identifier used internally by Scribe and emitted into RDF graphs.
+* **Canonical IRI:** the fully-qualified identifier used internally by Kernel and emitted into semantic graphs (for example RDF).
 * **ID Base:** an absolute IRI prefix used to construct canonical IRIs.
 * **Type Segment:** a path segment derived from the Concept type (e.g. `recipe` for `<Recipe>`).
 * **Relative ID:** an ID value interpreted relative to a parent canonical IRI (e.g. `step/3`).
@@ -55,7 +55,7 @@ This specification does **not** govern:
 
 All entity identity used for storage and cross-reference MUST be represented as a **canonical IRI**.
 
-Scribe MUST operate on canonical IRIs internally and when emitting RDF.
+Kernel MUST operate on canonical IRIs internally and when emitting semantic graphs (for example RDF).
 
 ---
 
@@ -79,7 +79,7 @@ Example (Illustrative):
 
 ### 4.3 Prohibition: No Filesystem-Derived Identity
 
-Scribe MUST NOT derive canonical identity from:
+Kernel MUST NOT derive canonical identity from:
 
 * folder names
 * file paths
@@ -92,7 +92,7 @@ Moving or renaming folders MUST NOT change canonical identity.
 
 ## 5. Authoring Forms
 
-Scribe MUST accept the following authored forms for `id` values.
+Kernel MUST accept the following authored forms for `id` values.
 
 ### 5.1 Absolute IRI
 
@@ -110,7 +110,7 @@ Example (Illustrative):
 
 If an authored `id` is a single token without `/`, it is a **local identifier**.
 
-Scribe MUST construct the canonical IRI as:
+Kernel MUST construct the canonical IRI as:
 
 ```
 canonical = idBase + typeSegment + "/" + localId
@@ -197,7 +197,7 @@ Within a Module revision:
 
 If canonicalization produces a collision:
 
-* Scribe MUST emit Help and MUST fail the Module revision (all-or-nothing).
+* Kernel MUST emit Help and MUST fail the Module revision (all-or-nothing).
 
 Collision resolution is an authoring responsibility (choose a different localId or provide an absolute IRI).
 
@@ -205,20 +205,20 @@ Collision resolution is an authoring responsibility (choose a different localId 
 
 ## 9. Validation
 
-* Canonical IRI formation rules are enforced by Scribe during compilation.
-* Graph-specific identity constraints MAY be enforced by SHACL, but Scribe MUST reject collisions regardless.
+* Canonical IRI formation rules are enforced by Kernel during compilation.
+* Graph-specific identity constraints MAY be enforced by SHACL, but Kernel MUST reject collisions regardless.
 
 ---
 
 ## 10. Round-Trip Expectations
 
-Scribe MUST preserve authored surface IDs as authored where possible.
+Kernel MUST preserve authored surface IDs as authored where possible.
 
-* Canonical IRIs are emitted to RDF.
+* Canonical IRIs are emitted to semantic graphs (for example RDF).
 * Round-tripped CDX MAY preserve the authored form (absolute, local, or relative) provided the canonical IRI would be identical.
 * Canonical formatting applies independently of ID surface form.
 
-This specification does not require Scribe to rewrite authored IDs.
+This specification does not require Kernel to rewrite authored IDs.
 
 ---
 

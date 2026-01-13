@@ -18,7 +18,7 @@ Paperhat Behavior is an expression language authored in Codex (and potentially d
 Behavior MUST compile to a runtime-neutral representation that can be:
 
 - embedded into Presentation Plans
-- evaluated in the Kernel (native Rust)
+- evaluated in the Kernel (native execution)
 - evaluated in the HTML runtime (browser user-agent)
 
 This spec defines the default v0.1 encoding as a **JSON opcode tree**.
@@ -36,7 +36,7 @@ This spec defines the default v0.1 encoding as a **JSON opcode tree**.
 ## 3. Determinism and Safety (Hard)
 
 1. A Behavior Program MUST be pure data.
-2. A Behavior Program MUST NOT embed executable JS/TS functions.
+2. A Behavior Program MUST NOT embed executable code (for example: functions, scripts, bytecode, closures).
 3. A Behavior Program MUST NOT require network access to evaluate.
 4. A Behavior Program MUST be deterministic given:
    - the Program

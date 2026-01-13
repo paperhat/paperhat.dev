@@ -48,7 +48,7 @@ coverage_profile/
 # LCOV files
 *.lcov
 **/lcov.info
-# Legacy/accidental coverage output dir
+# Accidental coverage output dir
 **/cov_profile/
 
 # Logs

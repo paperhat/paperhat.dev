@@ -1,6 +1,6 @@
 Status: NORMATIVE
 Lock State: LOCKED
-Version: 0.1
+Version: 0.1.1
 Editor: Charles F. Munat
 
 # Paperhat System Contract
@@ -157,7 +157,7 @@ Each library:
 
 Examples (non-exhaustive):
 
-* **Scribe** owns the end-to-end pipeline orchestration and compilation
+* **Kernel** owns the end-to-end semantic compilation and deterministic planning pipeline
 * **Architect** owns semantic meaning, vocabularies, and schemas
 * **Warden** owns constraint enforcement
 * **Quartermaster** owns tooling and development ergonomics
@@ -251,6 +251,8 @@ No implementation detail can override this contract.
 
 This document is **LOCKED**.
 
+Rationale (v0.1.1): Remove previous library naming that could misstate authority ownership.
+
 Changes require:
 
 * an explicit version increment
@@ -272,4 +274,4 @@ This contract is the final authority on what Paperhat **is**.
 
 ---
 
-**End of Paperhat System Contract v0.1**
+**End of Paperhat System Contract v0.1.1**

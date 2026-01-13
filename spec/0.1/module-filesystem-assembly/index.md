@@ -48,8 +48,8 @@ This specification does **not** govern:
 * **Role file:** A `.cdx` file whose name indicates artifact role, not identity.
 * **Data Codex:** Codex that asserts semantic facts intended to compile to triples.
 * **View Codex:** Codex that defines projections and information architecture, producing ViewModels.
-* **Design Policy Codex:** Codex that defines declarative planning policy, producing Presentation Plans.
-* **Assets:** Non-Codex files not parsed by Scribe.
+* **DesignPolicy Codex:** Codex that defines declarative planning policy, producing Presentation Plans.
+* **Assets:** Non-Codex files not parsed by Kernel.
 
 ---
 
@@ -104,7 +104,7 @@ A Module MAY declare the following **role marker Concepts** inside `module.cdx`:
 
 * `<Data />`
 * `<Views />`
-* `<Designs />`
+* `<DesignPolicies />`
 
 These Concepts:
 
@@ -112,13 +112,15 @@ These Concepts:
 * provide a location for **role-specific defaults** (for example `idBase`)
 * are **declarative markers**, not structural containers
 
-The <Data />, <Views />, and <Designs /> Concepts in module.cdx declare role availability and defaults only; they do not wrap or contain artifacts and do not imply structural hierarchy.
+The <Data />, <Views />, and <DesignPolicies /> Concepts in module.cdx declare role availability and defaults only; they do not wrap or contain artifacts and do not imply structural hierarchy.
 
 Role marker Concepts:
 
 * MUST NOT be interpreted as wrapping, containing, or scoping artifacts
 * MUST NOT imply filesystem hierarchy
-* MUST NOT replace or duplicate the function of `data/`, `views/`, or `designs/` directories
+* MUST NOT replace or duplicate the function of `data/`, `views/`, or `design-policies/` directories
+
+Note (Normative): Role marker Concepts indicate the **dialect** of authored artifacts that will be assembled from the filesystem (Data dialect, View dialect, DesignPolicy dialect). Dialect selection is performed by Kernel based on artifact role and location.
 
 Artifact discovery and assembly remain **filesystem-based**, as defined in §§9–11.
 
@@ -136,14 +138,14 @@ A Module root MAY contain the following reserved structural directories:
 
 * `data/`
 * `views/`
-* `designs/`
+* `design-policies/`
 * `assets/`
 
 If present, each directory has the following meaning:
 
 * `data/` contains Data Codex artifacts only
 * `views/` contains View Codex artifacts only
-* `designs/` contains Design Policy Codex artifacts only
+* `design-policies/` contains DesignPolicy Codex artifacts only
 * `assets/` contains non-Codex assets only
 
 These directory names are **structural** and have meaning only at the Module root.
@@ -156,7 +158,7 @@ Within a Module root, the following names are reserved and MUST NOT be used for 
 
 * `data`
 * `views`
-* `designs`
+* `design-policies`
 * `assets`
 
 This restriction applies **only** at the Module root level.
@@ -230,25 +232,25 @@ Filesystem paths MUST NOT imply information architecture.
 
 ## 11. Design Policy Assembly (Normative)
 
-If a Module contains a `designs/` directory:
+If a Module contains a `design-policies/` directory:
 
 * The default Design Policy MUST be located at:
 
-  * `designs/design.cdx`
+  * `design-policies/design-policy.cdx`
 * Additional Design Policy variants MUST be stored in subdirectories.
 * Each variant directory MUST contain exactly one file:
 
-  * `design.cdx`
+  * `design-policy.cdx`
 
 Example:
 
 ```
 modules/
   Recipe/
-    designs/
-      design.cdx
+    design-policies/
+      design-policy.cdx
       voice/
-        design.cdx
+        design-policy.cdx
 ```
 
 Design Policy:
@@ -256,7 +258,7 @@ Design Policy:
 * is authored in Codex
 * configures planning, not semantic meaning
 * introduces no ontology facts
-* is applied by Scribe as a pure phase
+* is applied by Kernel as a pure phase
 
 ---
 
@@ -302,7 +304,7 @@ Data artifacts MUST NOT embed per-target information architecture.
 Custom Views or Design Policies that apply to specific data artifacts MUST be expressed in:
 
 * View Codex (under `views/`)
-* Design Policy Codex (under `designs/`)
+* DesignPolicy Codex (under `design-policies/`)
 
 Applicability MUST be established through **explicit semantic linkage** declared in Codex content.
 
@@ -315,11 +317,11 @@ Filesystem coincidence MUST NOT be the sole determinant of applicability.
 The filesystem layout MUST support deterministic compilation.
 
 * `module.cdx` establishes the assembly boundary.
-* Artifact role is determined by file name (`data.cdx`, `view.cdx`, `design.cdx`).
+* Artifact role is determined by file name (`data.cdx`, `view.cdx`, `design-policy.cdx`).
 
 No tool MAY infer semantic meaning from:
 
-* folder names under `data/`, `views/`, or `designs/`
+* folder names under `data/`, `views/`, or `design-policies/`
 * folder ordering
 * filesystem timestamps
 
@@ -364,12 +366,12 @@ A Paperhat project:
 
 * stores authored Modules under `modules/`
 * represents Modules as PascalCase directories with `module.cdx`
-* uses `<Data />`, `<Views />`, and `<Designs />` as declarative role markers
+* uses `<Data />`, `<Views />`, and `<DesignPolicies />` as declarative role markers
 * separates concerns via reserved directories:
 
   * `data/` → `data.cdx`
   * `views/` → `view.cdx`
-  * `designs/` → `design.cdx`
+  * `design-policies/` → `design-policy.cdx`
   * `assets/` → non-Codex files
 * treats filesystem structure as packaging, not meaning
 * requires explicit semantic linkage for overrides
@@ -377,4 +379,4 @@ A Paperhat project:
 
 ---
 
-**End of Paperhat Module Filesystem Assembly Specification v0.2**
+**End of Paperhat Module Filesystem Assembly Specification v0.1**

@@ -31,7 +31,17 @@ A Design Policy answers one question only:
 
 ## 2. Position in the Kernel
 
-Design Policy is applied by Scribe during the pure planning phase:
+## 2.1 Dialect and Ontology (Normative)
+
+Design Policy is authored in Codex under the **DesignPolicy dialect**.
+
+Rules:
+
+- The DesignPolicy dialect is governed by a **DesignPolicy ontology** expressed as triples plus declarative constraints.
+- The DesignPolicy ontology is authored in Codex using the **Schema Dialect** and compiled by Kernel.
+- Kernel selects the DesignPolicy dialect based on artifact role during assembly; shell tooling MUST NOT reinterpret policy semantics.
+
+Design Policy is applied by Kernel during the pure planning phase:
 
 ```
 Domain Graph + View Graph
@@ -139,7 +149,7 @@ Rules:
 
 * Target identifiers are opaque tokens.
 * A policy MAY support multiple targets.
-* Target Context selection is performed by Scribe (not by renderers).
+* Target Context selection is performed by Kernel (not by renderers).
 
 ---
 
@@ -486,7 +496,7 @@ This specification must be read in conjunction with:
 
 * Codex View Definition Specification
 * Presentation Plan Definition Specification
-* Kernel Architecture Specification
+* [Kernel Architecture Specification](../kernel-architecture/)
 
 In case of conflict:
 

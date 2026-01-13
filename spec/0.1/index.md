@@ -9,6 +9,8 @@ This index links the active **Paperhat specifications** for version **0.1**.
 
 Specifications define **canonical formats**, **artifact classes**, and **authoring semantics** that implementations MUST follow.
 
+Conformance rule (Hard): `paperhat.dev` is the sole normative source of truth for the Paperhat specification. Conforming implementations MAY be written in any language, but MUST implement the specified semantics exactly.
+
 ---
 
 ## 1. Purpose
@@ -34,6 +36,7 @@ This spec set is organized by:
 ### 3.1 Foundation
 
 * [Contract of Contracts](contract-of-contracts/)
+* [Kernel Architecture](kernel-architecture/)
 * [Identifier Canonicalization](identifier-canonicalization/)
 * [Workspace Filesystem Root](workspace-filesystem-root/)
 * [Module Filesystem Assembly](module-filesystem-assembly/)
@@ -71,6 +74,8 @@ This spec set is organized by:
 * [Data Transformation and Mapping](data-transformation-and-mapping/)
 * [Artifacts and Attachments](artifacts-and-attachments/)
 * [Search, Indexing, and Query](search-indexing-and-query/)
+* [Graph Store Adapter Contract](graph-store-adapter-contract/)
+* [Vector Store Adapter Contract](vector-store-adapter-contract/)
 * [Provenance and Lineage](provenance-and-lineage/)
 * [Message Pack Imports and Interchange](message-pack-imports-and-interchange/)
 
@@ -82,6 +87,14 @@ This spec set is organized by:
 
 ### 3.6 Operations and Observability
 
+* [Workbench Contract](workbench-contract/)
+* [Workbench Workspace Filesystem Contract](workbench-workspace-filesystem-contract/)
+* [Workbench Workspace Config Format](workbench-workspace-config-format/)
+* [Workbench Template Format](workbench-template-format/)
+* [Workbench Templates and File Plans](workbench-templates-and-file-plans/)
+* [Workbench Dev Watch and Targets](workbench-dev-watch-and-targets/)
+* [Workbench Generators](workbench-generators/)
+* [`paperhat check` Contract](workbench-paperhat-check-contract/)
 * [Run Logs and Observability](run-logs-and-observability/)
 * [Notifications and Alerts](notifications-and-alerts/)
 
@@ -90,6 +103,9 @@ This spec set is organized by:
 * [Design Policy Definition](design-policy-definition/)
 * [Presentation Plan Definition](presentation-plan-definition/)
 * [Presentation Plan Encoding](presentation-plan-encoding/)
+* [HTML Runtime Contract](html-runtime-contract/)
+* [HTML Runtime Data Shapes](html-runtime-data-shapes/)
+* [HTML Runtime DOM Binding Conventions](html-runtime-dom-binding/)
 * [View and Policy Selection](view-and-policy-selection/)
 * [View Definition](view-definition/)
 * [View Composition: Slots, Fills, and Use](view-composition-slots-fills-and-use/)

@@ -45,7 +45,7 @@ Rules:
 
 ## 2.1 See Also (Informative)
 
-- Kernel responsibilities for this step: [ViewModel Construction and Composition Resolution](../../../../../../libraries/pipeline/spec/0.1/viewmodel-construction-and-composition-resolution/)
+- Kernel responsibilities for this step: [Kernel Architecture](../kernel-architecture/)
 
 ---
 

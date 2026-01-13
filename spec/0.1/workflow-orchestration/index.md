@@ -136,7 +136,6 @@ A Workflow MUST define:
 * one or more steps
 * valid transitions
 
-Workflows MAY be cyclic only if Semantics explicitly allows the cycle and defines termination semantics.
 Workflows MAY be cyclic only if the Kernel explicitly allows the cycle and defines termination semantics.
 
 ---

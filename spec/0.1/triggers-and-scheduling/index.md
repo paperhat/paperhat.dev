@@ -179,7 +179,7 @@ Trigger activation recording MUST retain sufficient provenance to:
 * explain why a trigger fired
 * support audit and debugging
 
-Whether trigger activations are replayable depends on trigger kind and Semantics-declared rules.
+Whether trigger activations are replayable depends on trigger kind and Kernel-declared rules.
 
 ---
 

@@ -1,6 +1,6 @@
 Status: NORMATIVE
 Lock State: LOCKED
-Version: 0.1
+Version: 0.1.1
 Editor: Charles F. Munat
 
 # Quartermaster Library Contract
@@ -70,7 +70,7 @@ Quartermaster is subordinate to, and MUST conform to:
 
 1. **Paperhat System Contract**
 2. **Paperhat Module Filesystem Assembly Specification**
-3. **Relevant Library Contracts** (e.g. Scribe)
+3. **Relevant Library Contracts**
 
 In the event of conflict, higher-authority documents prevail.
 
@@ -164,7 +164,7 @@ Quartermaster does **not** own:
 * semantic validation
 * ontology constraints
 
-Those responsibilities are owned by other libraries (e.g. Scribe, Architect, Warden).
+Those responsibilities are owned by other components (e.g. Kernel, Architect, Warden).
 
 ---
 
@@ -232,6 +232,8 @@ Compliance is measured against **behavior**, not feature set.
 
 This document is **LOCKED**.
 
+Rationale (v0.1.1): Remove previous library naming that could misstate authority ownership.
+
 Changes require:
 
 * an explicit version increment
@@ -254,4 +256,4 @@ The Paperhat system does not serve Quartermaster.
 
 ---
 
-**End of Quartermaster Library Contract v0.1**
+**End of Quartermaster Library Contract v0.1.1**

@@ -47,6 +47,20 @@ This specification does **not** govern:
 
 ---
 
+## 2.1 Conformance and Implementation Neutrality (Hard)
+
+Paperhat is specified at `paperhat.dev`.
+
+Rules:
+
+1. `paperhat.dev` specifications are the sole normative source of truth for Paperhat semantics.
+2. To qualify as a **Paperhat Semantic Authoring System**, an implementation MUST follow the `paperhat.dev` specifications exactly.
+3. The Paperhat specifications MUST remain implementation-neutral: they MUST NOT require or assume a particular programming language, runtime, build system, or deployment model.
+4. Individual library specifications (for example under `libraries/`) MAY document implementation choices and mapping strategies for a particular library, but such documents are non-authoritative with respect to Paperhat semantics.
+5. A library specification MAY reference `paperhat.dev` specifications and MUST defer to them in case of conflict.
+
+---
+
 ## 3. Precedence (Normative)
 
 ### 3.1 System Contract Precedence

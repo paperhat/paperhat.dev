@@ -20,7 +20,7 @@ This specification exists to:
 
 * define integration operations as semantic identifiers
 * define how external actions declare required credentials and secrets without embedding them
-* enable state-of-the-art workflow capabilities without collapsing Semantics into an integration framework
+* enable state-of-the-art workflow capabilities without collapsing Kernel into an integration framework
 * preserve target independence by separating meaning from realization
 * ensure auditability and explainability of external action requirements
 

@@ -34,14 +34,15 @@ This specification governs:
 
 * the definition and semantics of Presentation Plans
 * the allowed structural and semantic contents of a Presentation Plan
-* how Presentation Plans are produced by Scribe
+* how Presentation Plans are produced by Kernel
 * how Presentation Plans are consumed by renderers
 
 This specification does **not** govern:
 
 * rendering technologies (HTML, PDF, audio, etc.)
 * layout systems or styling languages
-* interaction, animation, or behavior
+* interaction or animation semantics
+* Behavior Program semantics (owned by the Behavior Dialect specification)
 * application workflows
 * persistence formats
 
@@ -94,7 +95,7 @@ Renderers:
 
 ## 4. Position in the Kernel (Normative)
 
-The Presentation Plan occupies a fixed position in the Scribe kernel:
+The Presentation Plan occupies a fixed position in the Paperhat Kernel:
 
 1. Domain Graph queried
 2. View Graph applied
@@ -136,6 +137,7 @@ Planned Nodes MAY include:
 * emphasis or suppression flags
 * semantic Flags carried forward from the ViewModel
 * target-conditional inclusion markers
+* declarative attachments expressed as Behavior Programs-as-data (for example `Validate`, `ShowIf`, `EnableIf`)
 
 Planned Nodes MUST NOT include:
 
@@ -217,7 +219,7 @@ Given identical inputs:
 * Design Policy
 * execution context
 
-Scribe MUST produce an identical Presentation Plan.
+Kernel MUST produce an identical Presentation Plan.
 
 No randomness, heuristics, or environment-dependent behavior is permitted.
 
@@ -270,13 +272,13 @@ This specification must be read alongside:
 
 * **Codex View Definition Specification**
 * **Design Policy Definition Specification**
-* **Scribe Library Contract**
+* [Kernel Architecture Specification](../kernel-architecture/)
 * **Paperhat System Contract**
 
 In case of conflict:
 
 1. Paperhat System Contract prevails
-2. Scribe Library Contract prevails
+2. Kernel Architecture Specification prevails
 3. This specification governs Presentation Plan semantics
 
 ---
