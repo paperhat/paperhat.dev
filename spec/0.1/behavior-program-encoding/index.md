@@ -78,7 +78,7 @@ No additional fields are permitted unless explicitly defined by this spec.
 
 Implementations SHOULD validate encoded programs against the v0.1 JSON Schema:
 
-- `gh-pages-specs/paperhat.dev/spec/0.1/behavior-program-encoding/schema/behavior-program-encoding.schema.json`
+- `specifications/paperhat.dev/spec/0.1/behavior-program-encoding/schema/behavior-program-encoding.schema.json`
 
 ---
 

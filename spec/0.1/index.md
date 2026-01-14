@@ -100,7 +100,7 @@ This spec set is organized by:
 
 ### 3.7 Presentation and Realization
 
-* [Design Policy Definition](design-policy-definition/)
+* [Design Policy Definition Specification](design-policy-definition/)
 * [Presentation Plan Definition](presentation-plan-definition/)
 * [Presentation Plan Encoding](presentation-plan-encoding/)
 * [HTML Runtime Contract](html-runtime-contract/)
