@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 The following invariants are non-negotiable:
 
@@ -142,7 +142,7 @@ Workflows MUST remain target-independent.
 
 ---
 
-## 9. Target Independence (Hard)
+## 9. Target Independence (Normative)
 
 This specification MUST NOT define:
 

@@ -1,11 +1,13 @@
-Status: NORMATIVE  
-Lock State: LOCKED  
-Version: 0.1  
+Status: NORMATIVE
+Lock State: UNLOCKED
+Version: 0.1
 Editor: Charles F. Munat
 
 # Design Policy Definition Specification
 
 This specification defines **Design Policy** in Paperhat: what it is, what it may contain, and how it deterministically maps a **ViewModel** into a **Presentation Plan**.
+
+Design Policy handles **intent selection**, **context-aware adaptation**, and **structural transforms**.
 
 This document governs **policy authoring and semantics only**.
 It does not define rendering, layout engines, styling systems, or target APIs.
@@ -18,48 +20,44 @@ This document is **Normative**.
 
 Design Policy exists to:
 
-- separate **information architecture** (Views) from **presentation decisions**
-- ensure presentation decisions are **target-aware** while remaining **target-neutral**
-- produce a **deterministic Presentation Plan** from a ViewModel and target context
-- enable reasoning about presentation intent without embedding rendering logic
+* separate **information architecture** (Views) from **presentation decisions**
+* select and layer **DesignIntent sets**
+* consume **context signals** for adaptive behavior
+* apply **structural transforms** (move, collapse, group, summarize, etc.)
+* ensure presentation decisions are **target-aware** while remaining **target-neutral**
+* produce a **deterministic Presentation Plan** from a ViewModel and target context
+
+**Target-aware** means policy MAY branch on target medium and context signals.
+**Target-neutral** means policy produces a Presentation Plan expressed only in Paperhat plan semantics, not target APIs or layout primitives.
 
 A Design Policy answers one question only:
 
-> Given this ViewModel and target context, what presentation intent should be applied?
+> Given this ViewModel, these intent sets, and this context, what should be realized?
 
 ---
 
-## 2. Position in the Kernel
+## 2. Position in the Pipeline
 
-## 2.1 Dialect and Ontology (Normative)
-
-Design Policy is authored in Codex under the **DesignPolicy dialect**.
-
-Rules:
-
-- The DesignPolicy dialect is governed by a **DesignPolicy ontology** expressed as triples plus declarative constraints.
-- The DesignPolicy ontology is authored in Codex using the **Schema Dialect** and compiled by Kernel.
-- Kernel selects the DesignPolicy dialect based on artifact role during assembly; shell tooling MUST NOT reinterpret policy semantics.
-
-Design Policy is applied by Kernel during the pure planning phase:
+Design Policy is applied by Kernel during the planning phase:
 
 ```
-Domain Graph + View Graph
+Data (pure semantics)
 ↓
-ViewModel
+ViewModel (pure structure, with node kinds, flags, slots)
 ↓
-Design Policy
+DesignIntent sets (inert assignments) + DesignPolicy (selection + rules)
 ↓
-Presentation Plan
+Presentation Plan (resolved, target-neutral)
 ↓
 Renderers
 ```
 
 Rules:
 
-- Policy application is **pure** and **deterministic**.
-- Policies do **not** modify semantic truth or domain meaning.
-- Renderers MUST NOT re-run policy logic.
+* Policy application is **pure** and **deterministic**.
+* Policies do **not** modify semantic truth or domain meaning.
+* Policies select intent sets; they do not define or assign intent axes.
+* Renderers MUST NOT re-run policy logic.
 
 ---
 
@@ -69,25 +67,33 @@ Rules:
 
 A **Design Policy** is a declarative policy document that:
 
-- targets one or more render targets (e.g. screen/print/voice)
-- declares presentation intent rules over ViewModel nodes and flags
-- produces a Presentation Plan with explicit intent metadata and derived nodes
+* targets one or more render targets (e.g., screen, print, voice)
+* selects and layers DesignIntent sets
+* consumes context signals for adaptive behavior
+* declares structural transform rules over ViewModel nodes
+* produces a Presentation Plan with explicit plan-level intent metadata and derived nodes
 
 ---
 
 ### 3.2 ViewModel Node
 
 A **ViewModel Node** is a structural node derived from a View applied to domain data.
-Nodes may be addressable by **name** as defined by the View Definition Specification.
+
+Nodes have:
+
+* a **kind** (structural type, e.g., `Section`, `Heading`, `Item`)
+* zero or more **flags** (semantic signals declared by the View)
+* zero or one **slot** identity (if filling a composition slot)
 
 ---
 
-### 3.3 Presentation Plan Intent
+### 3.3 Context Signal
 
-A **Presentation Plan Intent** is declarative metadata attached to Presentation Plan nodes,
-as defined by the Presentation Plan Definition Specification.
+A **Context Signal** is structured, typed, symbolic input provided to DesignPolicy for adaptive behavior.
 
-Design Policy exists to map ViewModel structure into Presentation Plan structure + intent.
+Context signals are external to DesignPolicy; Policy consumes but does not produce them.
+
+Context signals are **not raw measurements** and do not carry implicit units.
 
 ---
 
@@ -95,19 +101,38 @@ Design Policy exists to map ViewModel structure into Presentation Plan structure
 
 Design Policy MUST NOT:
 
-- encode layout geometry (columns, grids, coordinates)
-- encode typography, colors, or styling primitives
-- reference CSS/HTML/PDF constructs
-- encode interaction, navigation, or behavior
-- embed executable logic or queries
-- introduce new domain semantics or ontology facts
+* encode layout geometry (columns, grids, coordinates)
+* encode typography, colors, or styling primitives
+* reference CSS/HTML/PDF constructs
+* encode interaction, navigation, or behavior
+* embed executable logic or queries
+* introduce new domain semantics or ontology facts
+* define or assign **DesignIntent axes** (size, emphasis, density, role)
+* infer or fabricate context signals
 
 Design Policy MAY:
 
-- suppress, collapse, expand, reorder, summarize, enumerate
-- assign importance, density, proximity, emphasis
-- attach intent to flags and named nodes
-- introduce derived nodes (explicitly marked) in the Presentation Plan
+* select and layer DesignIntent sets
+* consume context signals for conditional behavior
+* suppress, collapse, expand, reorder, summarize, enumerate
+* assign grouping, ordering, and structural transforms
+* attach derived nodes (explicitly marked) in the Presentation Plan
+* emit **Presentation Plan intent metadata** (proximity, visibility, ordering, enumeration, spacing, flagTreatment, etc.)
+
+### 4.1 DesignIntent Axes vs Plan Intent Metadata
+
+This specification distinguishes two categories of intent:
+
+| Category                 | Examples                                                             | Defined By        | Assigned By       |
+| ------------------------ | -------------------------------------------------------------------- | ----------------- | ----------------- |
+| **DesignIntent axes**    | size, emphasis, density, role                                        | DesignIntent spec | DesignIntent sets |
+| **Plan intent metadata** | proximity, visibility, ordering, enumeration, spacing, flagTreatment | This spec         | DesignPolicy      |
+
+Rules:
+
+* DesignPolicy MUST NOT assign DesignIntent axes.
+* DesignPolicy MAY emit Plan intent metadata.
+* These namespaces are distinct and MUST NOT overlap.
 
 ---
 
@@ -128,6 +153,19 @@ A Design Policy document MUST have exactly one root Concept:
 A Design Policy MUST declare an `id` Trait.
 
 The `id` is resolved via the active module’s applicable `idBase` according to the Codex ID Resolution Specification.
+
+### 5.3 Location
+
+Design Policy documents are located at:
+
+```
+modules/{ModuleName}/design/policies/{PolicyName}/policy.cdx
+```
+
+Rules:
+
+* `{PolicyName}` folder carries the identifier (names on folders).
+* File MUST be named `policy.cdx` (canonical filename).
 
 ---
 
@@ -153,366 +191,340 @@ Rules:
 
 ---
 
-## 7. Node Addressing (Normative)
+## 7. Intent Selection (Normative)
 
-Policies apply rules to ViewModel nodes addressed by:
+### 7.1 The UseIntent Concept
 
-* structural concept class (e.g., `Section`, `Group`, `Item`)
-* explicit View node `name` values (recommended)
-* flags by `name`
-
-Rules:
-
-* If a policy references a node name, that name MUST exist in the ViewModel for the selected View.
-* If a policy references a concept class, it applies to all nodes of that class in scope.
-* Policies MUST NOT rely on renderer-inferred structure.
-
----
-
-## 8. Policy Vocabulary and Presentation Plan Mapping (Normative)
-
-This section is the **authoritative mapping**: every policy construct MUST map to an explicit Presentation Plan intent and/or an explicit derived node.
-
-### 8.1 Importance → Presentation Plan Importance intent
+The `<UseIntent>` Concept selects a DesignIntent set to be applied.
 
 ```cdx
-<Importance>
-	<Primary node="..." />
-	<Secondary node="..." />
-	<Tertiary node="..." />
-</Importance>
+<UseIntent intent="recipe:base" />
 ```
 
-Mapping:
+Traits:
 
-* Produces `importance=primary|secondary|tertiary` intent on matched nodes.
+* `intent` — required; references a DesignIntent set by `id`
 
 Rules:
 
-* Importance is relative; ties are allowed.
-* Importance MUST NOT imply suppression by itself.
+* `<UseIntent>` MUST NOT assign axes or target nodes directly.
+* `<UseIntent>` selects only; assignment is defined in the referenced intent set.
+* The referenced intent set MUST exist and be valid.
+* Unknown intent set reference is a **compile-time error**.
 
 ---
 
-### 8.2 Grouping → Presentation Plan Grouping intent and derived group nodes
+### 7.2 Intent Layering
+
+Multiple `<UseIntent>` declarations layer intent sets.
+
+```cdx
+<UseIntent intent="base:typography" />
+<UseIntent intent="brand:emphasis" />
+```
+
+Rules:
+
+* All selected intent sets contribute assignments into **one resolution pool**.
+* Layering does NOT create a new precedence tier.
+* Resolution follows the DesignIntent precedence rules.
+* Same-precedence conflicts across sets are **compile-time errors** unless resolved by higher-precedence targeting.
+* Document order does not override precedence or resolve conflicts.
+
+---
+
+### 7.3 The When Concept
+
+The `<When>` Concept expresses a condition over typed context signals.
+
+`<When>` MAY be used for:
+
+* Conditional intent selection
+* Conditional structural transforms
+
+```cdx
+<When targetMedium=$Screen viewportClass=$Compact>
+	<UseIntent intent="recipe:compact" />
+	<Collapse slot="sidebar" />
+</When>
+```
+
+Rules:
+
+* `<When>` MUST use **typed context signal traits**, not raw numeric thresholds.
+* `<When>` MUST NOT include pixel values, breakpoints, or unit-bearing numbers.
+* Context signals are consumed, not fabricated.
+* Unknown context signal values are **compile-time errors**.
+* Multiple conditions on a single `<When>` are AND-combined.
+
+---
+
+## 8. Node Addressing (Normative)
+
+Policies apply structural rules to ViewModel nodes addressed by:
+
+* **kind** — structural node kind
+* **flag** — semantic signal declared by the View
+* **slot** — composition slot name
+* **nodeId** — exceptional explicit identity
+
+### 8.1 Addressing Constraints
+
+Rules:
+
+* All addressing MUST use typed references validated at compile time.
+* Unknown kind, flag, slot, or nodeId is a **compile-time error**.
+* No selector syntax, string-based paths, or wildcards are permitted.
+* Policies MUST NOT rely on renderer-inferred structure.
+
+### 8.2 NodeId Override (Exceptional)
+
+For rare one-off cases, policies MAY address a specific node by `nodeId`.
+
+Rules:
+
+* `nodeId` addressing is **exceptional** and MUST NOT be the default pattern.
+* Unknown `nodeId` is a **compile-time error**.
+
+### 8.3 Addressing Precedence
+
+When multiple address forms match the same node, the more specific address has higher precedence:
+
+```
+nodeId > slot > flag > kind
+```
+
+Rules:
+
+* Addressing precedence is used only for resolving **same-family structural transform conflicts** (see §9.11).
+* Addressing precedence does not modify DesignIntent axis precedence.
+
+---
+
+## 9. Structural Transform Vocabulary (Normative)
+
+Every construct in this section maps to explicit Presentation Plan structure and/or plan-level intent metadata.
+No construct in this section assigns DesignIntent axes.
+
+### 9.1 Grouping
+
+`<Grouping>` creates derived group nodes with proximity intent.
 
 ```cdx
 <Grouping>
 	<Group tightly=true>
-		<Member node="A" />
-		<Member node="B" />
+		<Member kind="Heading" />
+		<Member kind="Text" />
 	</Group>
 </Grouping>
 ```
 
-Mapping:
-
-* Produces `grouping=tight|loose` intent on a derived **group wrapper node** containing the members in order.
-* The derived node MUST reference its member source nodes.
-
-Rules:
-
-* Grouping MUST NOT reorder members unless an Ordering rule also applies.
-* Grouping is structural; it does not prescribe visual layout.
-
 ---
 
-### 8.3 Ordering → Presentation Plan Ordering intent
+### 9.2 Ordering
 
 ```cdx
 <Ordering>
-	<PreserveOrder node="StepsList" />
+	<PreserveOrder kind="OrderedList" />
 </Ordering>
 ```
 
-Mapping:
-
-* Produces `ordering=preserve` intent on matched nodes.
-
-Rules:
-
-* Ordering rules MAY apply to lists, sections, groups, or any named node.
-* Ordering does not prescribe enumeration style.
-
 ---
 
-### 8.4 Density → Presentation Plan Density intent
-
-```cdx
-<Density>
-	<Compact node="Ingredients" />
-	<Comfortable node="Steps" />
-</Density>
-```
-
-Mapping:
-
-* Produces `density=compact|comfortable|spacious` intent on matched nodes.
-
-Rules:
-
-* Density is a planning hint; realization is renderer-specific.
-
----
-
-### 8.5 Proximity → Presentation Plan Proximity intent
+### 9.3 Proximity
 
 ```cdx
 <Proximity>
-	<Close node="IngredientsItem" />
-	<Separate node="Section" />
+	<Close kind="Item" />
+	<Separate kind="Section" />
 </Proximity>
 ```
 
-Mapping:
-
-* Produces `proximity=close|separate` intent on matched nodes or boundaries.
-
-Rules:
-
-* Proximity never encodes measurements.
-* Proximity may influence derived grouping boundaries.
-
 ---
 
-### 8.6 Emphasis → Presentation Plan Emphasis intent (nodes) and Flag handling intent (flags)
-
-```cdx
-<Emphasis>
-	<Emphasize node="Title" />
-	<Subdue flag="Optional" />
-</Emphasis>
-```
-
-Mapping:
-
-* `Emphasize node=...` → `emphasis=emphasize` intent on matched nodes.
-* `Subdue flag=...` → `flagTreatment=subdue` intent for that flag name.
-
-Rules:
-
-* Emphasis MUST NOT prescribe typography, decoration, or styling.
-
----
-
-### 8.7 Negative Space → Presentation Plan spacing intent
+### 9.4 NegativeSpace
 
 ```cdx
 <NegativeSpace>
-	<AllowBetween node="Section" />
-	<AvoidWithin node="IngredientsItem" />
+	<AllowBetween kind="Section" />
+	<AvoidWithin kind="Item" />
 </NegativeSpace>
 ```
 
-Mapping:
+---
 
-* Produces `spacingBetween=allow|avoid` / `spacingWithin=allow|avoid` intent.
+### 9.5 Collapse / Expand
 
-Rules:
-
-* This is intent only; renderers interpret it per target.
+```cdx
+<Collapse slot="sidebar" />
+<Expand kind="Section" />
+```
 
 ---
 
-### 8.8 Responsive → Target-conditional rule application and derived node transforms
+### 9.6 Move
 
 ```cdx
-<Responsive>
-	<When target="screen" maxWidth=600>
-		<Collapse node="QuickFacts" />
-		<Move node="QuickFacts" after="Title" />
-	</When>
-</Responsive>
+<Move slot="quickFacts" after="title" />
 ```
-
-`<When ...>` mapping:
-
-* Selects a rule block based on Target Context.
-* Produces target-specific Presentation Plan structure and intent.
-
-#### 8.8.1 Collapse / Expand → Presentation Plan visibility intent and derived summary nodes
-
-```cdx
-<Collapse node="QuickFacts" />
-<Expand node="Steps" />
-```
-
-Mapping:
-
-* `Collapse` → `visibility=collapsed` intent; MAY introduce a derived collapsed representation node if needed.
-* `Expand` → `visibility=expanded` intent; ensures no collapse is applied.
-
-Rules:
-
-* Collapse MUST be reversible and traceable.
-* Collapse MUST NOT delete semantic content; it may suppress presentation.
-
-#### 8.8.2 Move → Presentation Plan structural reorder
-
-```cdx
-<Move node="QuickFacts" after="Title" />
-```
-
-Mapping:
-
-* Produces a reorder transform in the Presentation Plan structure for the affected siblings.
-
-Rules:
-
-* Move MUST preserve internal subtree order unless separately overridden.
-* Move applies only within a well-defined parent scope (the smallest common ancestor in the ViewModel).
-
-#### 8.8.3 DisallowProgressiveDisclosure → Presentation Plan constraint intent
-
-```cdx
-<DisallowProgressiveDisclosure />
-```
-
-Mapping:
-
-* Produces `progressiveDisclosure=disallowed` intent at policy scope (or within the active When block).
-
-Rules:
-
-* This is a constraint for renderers; it is not UI behavior.
 
 ---
 
-### 8.9 Summarize → Presentation Plan summarization intent and derived summary nodes
+### 9.7 Summarize
 
 ```cdx
-<Summarize node="Summary" strategy=$Sentence maxLength=1 />
+<Summarize kind="Section" strategy=$Sentence maxLength=1 />
 ```
-
-Mapping:
-
-* Produces `summarize=true`, `summaryStrategy=...`, `summaryMaxLength=...` intent on the matched node,
-  and MAY produce a derived summary node if the summarized representation differs structurally.
 
 Rules:
 
-* Summarize MUST NOT call external services.
-* Summarize intent does not mandate a specific algorithm; it mandates that a summary representation is produced deterministically by the pipeline.
+* Summary MUST be deterministic.
+* MUST NOT call external services or models.
 
 ---
 
-### 8.10 Enumerate → Presentation Plan enumeration intent
+### 9.8 Enumerate
 
 ```cdx
-<Enumerate node="StepsList" />
+<Enumerate kind="OrderedList" />
 ```
-
-Mapping:
-
-* Produces `enumeration=required` intent on the matched node.
-
-Rules:
-
-* Enumeration does not specify numbering style.
-* Enumeration indicates that the renderer MUST provide an explicit enumeration affordance for the target (including voice).
 
 ---
 
-### 8.11 Mark (Flag handling) → Presentation Plan flag treatment intent
+### 9.9 Mark
 
 ```cdx
 <Mark flag="Optional" verbally=true />
 ```
 
-Mapping:
+---
 
-* Produces `flagTreatment=mark` intent for the flag name, with parameters (e.g., `verbal=true`).
+### 9.10 DisallowProgressiveDisclosure
+
+```cdx
+<DisallowProgressiveDisclosure />
+```
+
+---
+
+### 9.11 Transform Resolution and Conflicts
+
+Structural transforms are applied after evaluating all `<When>` conditions against the provided context signals.
 
 Rules:
 
-* Mark never specifies the symbol or wording; it specifies that the flag must be expressed for that target.
+* Policy application MUST be deterministic; transform outcomes MUST NOT depend on evaluation order, traversal order, or renderer behavior.
+* Some transforms are **exclusive**: multiple exclusive transforms from the same family MUST NOT apply to the same addressed node.
+
+Exclusive families in v0.1:
+
+* **Collapse/Expand family**: `<Collapse ... />` and `<Expand ... />` are mutually exclusive for the same addressed node.
+* **Move family**: multiple `<Move ... />` transforms that relocate the same addressed node are mutually exclusive.
+
+Conflict rules:
+
+* If two transforms in the same exclusive family apply to the same addressed node and are in conflict, this is a **compile-time error**, unless a higher-precedence address form explicitly overrides the lower-precedence transform according to §8.3.
+* If a higher-precedence transform applies, lower-precedence conflicting transforms in the same family are ignored for that addressed node.
+
+Examples (error):
+
+```cdx
+<Collapse kind="Section" />
+<Expand kind="Section" />
+```
+
+Example (resolved by precedence):
+
+```cdx
+<Collapse kind="Section" />
+<Expand flag="AlwaysExpanded" />
+```
+
+A `Section` with the `AlwaysExpanded` flag MUST be expanded; other `Section` nodes MUST be collapsed.
+
+Document order rules:
+
+* Document order MUST NOT be used to resolve conflicts in an exclusive family.
+* Multiple non-conflicting transforms MAY accumulate when they affect distinct plan metadata and do not produce contradictory structural outcomes.
 
 ---
 
-## 9. Determinism Requirements (Normative)
+## 10. Context Awareness (Normative)
+
+### 10.1 Context Signals
+
+DesignPolicy consumes **typed, symbolic context signals** as structured input.
+
+### 10.2 Policy and Context
+
+DesignPolicy:
+
+* MAY branch on context signals using `<When>`
+* MUST NOT infer context
+* MUST NOT fabricate context signals
+
+The production of context signals is out of scope.
+
+---
+
+## 11. Determinism Requirements (Normative)
 
 Policy application MUST be deterministic with respect to:
 
-* ViewModel content and structure
+* ViewModel structure
+* Selected DesignIntent sets
 * Design Policy document
-* Target Context
-
-No randomization. No time dependence. No external IO.
+* Context signals
+* Target medium
 
 ---
 
-## 10. Validation Requirements (Normative)
-
-A Design Policy MUST be validated against a Design Policy ontology + SHACL.
+## 12. Validation Requirements (Normative)
 
 Validation MUST ensure:
 
-* required structure exists (Targets, etc.)
-* referenced node names are well-formed
-* referenced flags are well-formed
-* enumerated tokens (e.g., strategies) are schema-authorized where applicable
+* referenced intent sets exist and validate
+* referenced kinds, flags, slots, and nodeIds are valid
+* context conditions reference valid signal types
+* no forbidden constructs are used
+* no unresolved exclusive-family transform conflicts exist (see §9.11)
 
-If a policy fails validation, the module run fails atomically (all-or-nothing).
+Failure is atomic.
 
 ---
 
-## 11. Anti-Examples (Normative)
-
-Invalid (layout geometry):
+## 13. Anti-Examples (Normative)
 
 ```cdx
 <Columns count=2 />
-```
-
-Invalid (styling primitive):
-
-```cdx
 <Color value="#ff0000" />
-```
-
-Invalid (behavior):
-
-```cdx
-<OnClick node="Title" action="..." />
-```
-
-Invalid (renderer API reference):
-
-```cdx
-<HtmlTag name="h1" />
-```
-
-Invalid (embedded executable logic):
-
-```cdx
-<If expression="amount > 3"> ... </If>
+<Intent kind="Heading" size=$Large />
+<Collapse node="section.sidebar.title" />
+<When target="screen" maxWidth=600>
 ```
 
 ---
 
-## 12. Relationship to Other Specifications (Normative)
+## 14. Relationship to Other Specifications (Normative)
 
-This specification must be read in conjunction with:
+This specification MUST be read in conjunction with:
 
-* Codex View Definition Specification
+* Design Intent Definition Specification
 * Presentation Plan Definition Specification
-* [Kernel Architecture Specification](../kernel-architecture/)
-
-In case of conflict:
-
-* View structure and selection are governed by the View Definition Specification
-* Presentation intent and plan constraints are governed by the Presentation Plan Definition Specification
-* Policy-to-plan mapping is governed by this specification
+* Kernel Architecture Specification
+* View Definition Specification
+* View Composition Specification
 
 ---
 
-## 13. Summary
+## 15. Summary
 
 * Design Policy is declarative, deterministic, and target-aware.
-* It maps ViewModel structure + flags into a Presentation Plan with explicit intent.
-* It never encodes layout, styling, behavior, or target APIs.
-* Every policy construct maps to a defined Presentation Plan intent and/or derived node.
-* Renderers consume the plan; they do not re-run policy logic.
+* Policy selects DesignIntent sets; it does not define or assign axes.
+* Policy consumes typed context signals.
+* Policy applies structural transforms only.
+* All addressing is typed and statically validated.
+* Renderers consume the Presentation Plan and do not re-run policy logic.
 
 ---
 

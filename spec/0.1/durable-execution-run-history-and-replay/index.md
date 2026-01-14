@@ -21,7 +21,7 @@ Durable execution exists to:
 
 ---
 
-## 2. Core Invariants (Hard)
+## 2. Core Invariants (Normative)
 
 1. **History is append-only.** Durable run history MUST be append-only.
 2. **Replay is deterministic.** Given identical run history and identical Semantics, re-evaluation MUST produce identical outcomes.

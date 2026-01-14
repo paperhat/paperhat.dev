@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Pure transformations.** Each price transformation MUST be a pure function of explicit inputs.
 2. **Deterministic results.** Given identical inputs, the same outputs MUST be produced.
@@ -223,7 +223,7 @@ Records MUST avoid secret material.
 
 ---
 
-## 13. Target Independence (Hard)
+## 13. Target Independence (Normative)
 
 This specification MUST NOT define:
 

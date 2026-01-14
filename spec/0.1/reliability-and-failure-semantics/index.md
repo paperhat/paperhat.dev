@@ -56,7 +56,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 The following invariants are non-negotiable:
 
@@ -208,7 +208,7 @@ Storage and transport are realization details.
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

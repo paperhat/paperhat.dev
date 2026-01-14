@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Limits are declarative.** Limits MUST be expressible as data.
 2. **No implementation leakage.** Limits MUST NOT specify how a target enforces them.
@@ -153,7 +153,7 @@ Run logs MUST be able to record:
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

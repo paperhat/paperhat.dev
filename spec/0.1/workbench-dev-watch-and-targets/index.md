@@ -32,7 +32,7 @@ Rules:
 
 ---
 
-## 3. Watch Loop (Hard)
+## 3. Watch Loop (Normative)
 
 In dev/watch mode, Workbench MUST:
 

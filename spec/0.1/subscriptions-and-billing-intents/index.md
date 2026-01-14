@@ -56,7 +56,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Subscriptions are data.** Subscription agreements MUST be representable as declarative entities.
 2. **Billing is explicit.** Billing decisions MUST be represented as explicit billing intents.
@@ -173,7 +173,7 @@ Kernel MUST be able to validate:
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

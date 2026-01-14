@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Cancellation is data.** Cancellation intent MUST be representable as declarative input.
 2. **Auditability.** It MUST be possible to explain who requested cancellation, when, and why.
@@ -186,7 +186,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

@@ -56,7 +56,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Provenance is semantic.** Provenance MUST refer to semantic concepts (operations, inputs, policies), not target-specific instrumentation.
 2. **No secret disclosure.** Provenance records MUST NOT contain secret material.
@@ -165,7 +165,7 @@ If timestamps are included, they MUST be treated as external inputs.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

@@ -53,7 +53,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Imports preserve meaning.** Import MUST NOT change semantic meaning of message content.
 2. **Deterministic compilation.** Import MUST be deterministic given explicit inputs.
@@ -174,7 +174,7 @@ Records MUST NOT include secret material.
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

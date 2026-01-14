@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **No embedded secrets.** Authored artifacts MUST NOT embed secret material.
 2. **Secrets are referenced, not copied.** Secret usage MUST be expressed via semantic references.
@@ -109,7 +109,7 @@ Redaction intent MUST be target-independent.
 
 ---
 
-## 6. Authoring Constraints (Hard)
+## 6. Authoring Constraints (Normative)
 
 Authored artifacts MUST:
 
@@ -143,7 +143,7 @@ Redaction MUST be applied consistently to any emitted records.
 
 ---
 
-## 9. Target Independence (Hard)
+## 9. Target Independence (Normative)
 
 This specification MUST NOT define:
 

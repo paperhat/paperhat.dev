@@ -49,7 +49,7 @@ Rules:
 
 ---
 
-## 3. Core Invariants (Hard)
+## 3. Core Invariants (Normative)
 
 1. **No semantic truth changes.** Composition MUST NOT introduce or modify semantic facts.
 2. **No target leakage.** Composition MUST NOT reference targets, renderers, or presentation systems.

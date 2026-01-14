@@ -63,7 +63,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Messages are data.** Localized messages MUST be authored and processed as declarative data.
 2. **Stable identities.** Message keys MUST have stable, IRI-like identities.
@@ -220,7 +220,7 @@ Records MUST NOT include secret material.
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

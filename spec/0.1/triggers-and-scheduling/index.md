@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 The following invariants are non-negotiable:
 
@@ -170,7 +170,7 @@ If a trigger requires authorization:
 
 ---
 
-## 11. Determinism and Replay (Hard)
+## 11. Determinism and Replay (Normative)
 
 Trigger planning MUST be deterministic.
 
@@ -183,7 +183,7 @@ Whether trigger activations are replayable depends on trigger kind and Kernel-de
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

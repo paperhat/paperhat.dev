@@ -26,7 +26,7 @@ This spec exists to define the canonical JSON shapes for:
 
 ---
 
-## 2. Diagnostic (Hard)
+## 2. Diagnostic (Normative)
 
 A `Diagnostic` MUST be a JSON object.
 
@@ -59,7 +59,7 @@ Example:
 
 ---
 
-## 3. Validation (Hard)
+## 3. Validation (Normative)
 
 `Validation` is the only runtime result type.
 

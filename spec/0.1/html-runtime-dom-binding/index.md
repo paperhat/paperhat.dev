@@ -37,7 +37,7 @@ This specification does **not** govern:
 
 ---
 
-## 3. Required Data Attribute (Hard)
+## 3. Required Data Attribute (Normative)
 
 HTML Runtime DOM binding MUST be expressed using exactly one attribute:
 
@@ -85,7 +85,7 @@ If an element contains both `node=<...>` and `field=<...>` tokens, the element p
 
 ---
 
-## 4. Attachment Application Semantics (Hard)
+## 4. Attachment Application Semantics (Normative)
 
 ### 4.1 `ShowIf`
 
@@ -120,7 +120,7 @@ Diagnostic rendering mechanism is implementation-defined, but MUST be determinis
 
 ---
 
-## 5. Failure Semantics (Hard)
+## 5. Failure Semantics (Normative)
 
 If required DOM elements cannot be found for a referenced `nodeId` or `fieldId`, the runtime MUST treat the corresponding binding/evaluation as `Invalid(...)`.
 

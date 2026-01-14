@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Explicit inventory inputs.** Availability facts used for decisions MUST be explicit inputs.
 2. **Deterministic promising.** Promising decisions MUST be deterministic given explicit inputs.
@@ -158,7 +158,7 @@ Kernel MUST be able to validate:
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Approvals are data.** Approval requirements MUST be representable as declarative artifacts.
 2. **Decisions are explicit inputs.** A workflow MUST NOT assume a decision without an explicit decision response.
@@ -197,7 +197,7 @@ If a workflow requires an external action to be performed, it MUST use the workf
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

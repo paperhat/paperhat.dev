@@ -23,7 +23,7 @@ It does not define authored semantics content formats.
 
 ---
 
-## 2. Workspace Root (Hard)
+## 2. Workspace Root (Normative)
 
 A Paperhat workspace root operated on by Workbench MUST contain:
 
@@ -40,7 +40,7 @@ See also:
 
 ---
 
-## 3. `modules/` (Hard)
+## 3. `modules/` (Normative)
 
 `modules/` is the root of authored content.
 
@@ -52,7 +52,7 @@ Rules:
 
 ---
 
-## 4. `.paperhat/` (Hard)
+## 4. `.paperhat/` (Normative)
 
 `.paperhat/` is a reserved namespace.
 

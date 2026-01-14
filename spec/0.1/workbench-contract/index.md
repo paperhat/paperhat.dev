@@ -21,7 +21,7 @@ Workbench exists to provide a deterministic, contract-driven way to:
 
 ---
 
-## 2. Authority and Boundaries (Hard)
+## 2. Authority and Boundaries (Normative)
 
 Workbench MUST NOT redefine Paperhat semantics.
 
@@ -32,7 +32,7 @@ Workbench MUST treat Kernel as the semantic authority.
 
 ---
 
-## 3. Filesystem Contract (Hard)
+## 3. Filesystem Contract (Normative)
 
 A Paperhat workspace operated on by Workbench MUST have, at minimum:
 
@@ -54,7 +54,7 @@ See also:
 
 ---
 
-## 4. Determinism and Idempotency (Hard)
+## 4. Determinism and Idempotency (Normative)
 
 Workbench MUST be deterministic and retry-safe.
 

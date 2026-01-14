@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Validation is declarative.** Validation requirements MUST be expressed as authored semantic constraints.
 2. **Deterministic planning.** The Kernel MUST be able to validate constraint declarations deterministically.
@@ -173,7 +173,7 @@ If time influences validation (for example, temporal bounds), time MUST be treat
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

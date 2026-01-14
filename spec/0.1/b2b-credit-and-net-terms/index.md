@@ -61,7 +61,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Explicit inputs.** Credit limits, balances, and obligations used in evaluation MUST be explicit inputs.
 2. **Deterministic decisions.** Credit decisions MUST be deterministic given explicit inputs.
@@ -181,7 +181,7 @@ The Kernel MUST be able to validate:
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

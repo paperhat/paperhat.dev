@@ -62,7 +62,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Policies are data.** Refund policies MUST be representable as declarative data.
 2. **Deterministic refund reckoning.** Refund results MUST be deterministic given explicit inputs.
@@ -207,7 +207,7 @@ Kernel MUST be able to validate:
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

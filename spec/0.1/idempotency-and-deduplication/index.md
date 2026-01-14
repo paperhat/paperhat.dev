@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Idempotency is semantic, not transport.** Idempotency MUST be defined in authored meaning, not in protocol headers.
 2. **No secret material in keys.** Idempotency identities MUST NOT embed secret material.
@@ -158,7 +158,7 @@ Time MAY influence de-duplication window evaluation, and MUST be treated as an e
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

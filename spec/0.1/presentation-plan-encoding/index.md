@@ -43,7 +43,7 @@ This specification does **not** govern:
 
 ---
 
-## 3. Determinism and Safety (Hard)
+## 3. Determinism and Safety (Normative)
 
 1. A Presentation Plan payload MUST be pure JSON data.
 2. A Presentation Plan payload MUST NOT embed executable code.
@@ -52,7 +52,7 @@ This specification does **not** govern:
 
 ---
 
-## 4. Payload Envelope (Hard)
+## 4. Payload Envelope (Normative)
 
 A Presentation Plan payload MUST be a JSON object with:
 
@@ -87,7 +87,7 @@ Example:
 
 ---
 
-## 5. Planned Nodes (Hard)
+## 5. Planned Nodes (Normative)
 
 A `PlannedNode` MUST be a JSON object with:
 
@@ -107,7 +107,7 @@ Rules:
 
 ---
 
-## 6. Attachments (Hard)
+## 6. Attachments (Normative)
 
 An `Attachment` MUST be a JSON object with:
 
@@ -125,7 +125,7 @@ Rules:
 
 ---
 
-## 7. Binding Sources (Hard)
+## 7. Binding Sources (Normative)
 
 A `BindingSource` MUST be a JSON object with:
 
@@ -171,7 +171,7 @@ HTML Runtime MUST interpret attachment results as:
 
 ---
 
-## 9. Versioning and Compatibility (Hard)
+## 9. Versioning and Compatibility (Normative)
 
 - `version` MUST equal `"0.1"`.
 - Unknown `kind` values MUST be rejected.

@@ -18,7 +18,7 @@ This document is **Normative**.
 
 ---
 
-## 2. Deterministic Resolution (Hard)
+## 2. Deterministic Resolution (Normative)
 
 Given identical inputs (template identity, template content, explicit user inputs, and versions), template resolution MUST produce an identical File Plan.
 

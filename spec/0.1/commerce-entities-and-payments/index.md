@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Entities are declarative.** Commerce entities MUST be representable as declarative data.
 2. **Stable identities.** Entities MUST have stable, IRI-like identities.
@@ -225,7 +225,7 @@ Records MUST avoid secret material.
 
 ---
 
-## 8. Target Independence (Hard)
+## 8. Target Independence (Normative)
 
 This specification MUST NOT define:
 

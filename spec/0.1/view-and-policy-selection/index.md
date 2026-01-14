@@ -68,7 +68,7 @@ A Design Policy is **constraint-dependent**.
 
 ---
 
-## 4. Fundamental Separation Rule (Hard)
+## 4. Fundamental Separation Rule (Normative)
 
 > **A View defines what structure exists.**
 > **A Design Policy defines how that structure adapts under constraints.**
@@ -205,7 +205,7 @@ Unless explicitly overridden, Kernel MUST apply selection in the following order
 
 ---
 
-### 8.3 Independence Rule (Hard)
+### 8.3 Independence Rule (Normative)
 
 View selection MUST NOT depend on Design Policy selection.
 Design Policy selection MUST NOT depend on View selection.
@@ -263,7 +263,7 @@ This violates the core separation rule.
 
 ---
 
-## 10. Enforcement Requirements (Hard)
+## 10. Enforcement Requirements (Normative)
 
 Implementations MUST:
 

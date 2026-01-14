@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Deterministic application.** Stored value application MUST be deterministic given explicit inputs.
 2. **No hidden state.** Balance availability used for application MUST be treated as explicit input.
@@ -159,7 +159,7 @@ These records SHOULD compose with provenance/lineage.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

@@ -29,7 +29,7 @@ This spec does not define authored semantics content formats.
 
 ---
 
-## 2. Non-negotiables (Hard)
+## 2. Non-negotiables (Normative)
 
 1. The canonical on-disk unit is a **workspace**.
 2. `modules/` is the only authoring root.
@@ -73,7 +73,7 @@ Recommended (non-binding) file names:
 
 ---
 
-## 5. Compiled Config IR v0.1 (Hard)
+## 5. Compiled Config IR v0.1 (Normative)
 
 Workbench MUST compile config sources into a single JSON document called the **Compiled Config**.
 
@@ -87,7 +87,7 @@ Users MUST NOT be required to hand-edit the Compiled Config.
 
 ---
 
-## 6. Target IDs (Hard)
+## 6. Target IDs (Normative)
 
 Target IDs (the keys under `targets`) MUST be stable identifiers.
 
@@ -103,7 +103,7 @@ Examples:
 
 ---
 
-## 7. Deterministic Compilation Contract (Hard)
+## 7. Deterministic Compilation Contract (Normative)
 
 Compiling configuration sources to the Compiled Config MUST be:
 

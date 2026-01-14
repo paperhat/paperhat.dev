@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Joins are declarative.** Join requirements MUST be representable as data.
 2. **Deterministic planning.** The Kernel MUST be able to plan join structure deterministically.
@@ -192,7 +192,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

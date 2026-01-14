@@ -110,7 +110,7 @@ Continuations MUST NOT require any specific target representation.
 
 ---
 
-## 5. Architectural Boundaries (Hard)
+## 5. Architectural Boundaries (Normative)
 
 ### 5.1 Intent vs Fact
 
@@ -133,7 +133,7 @@ When events are used as facts, state is derived by event-sourced projection rebu
 
 ---
 
-## 6. Idempotent Intent (Hard)
+## 6. Idempotent Intent (Normative)
 
 Commands MUST support idempotent evaluation.
 
@@ -196,7 +196,7 @@ Targets MAY restrict which modes they support.
 
 ---
 
-### 9.2 Continuation Integrity (Hard)
+### 9.2 Continuation Integrity (Normative)
 
 Continuations MUST have integrity protection.
 
@@ -216,7 +216,7 @@ The Kernel MUST define validity constraints for continuations, including:
 
 ---
 
-## 10. External Inputs and Determinism (Hard)
+## 10. External Inputs and Determinism (Normative)
 
 Time, actor identity, randomness, locale, and environment are external inputs.
 
@@ -230,7 +230,7 @@ Deterministic hashing and replay rules are a responsibility of the Paperhat Kern
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT require:
 

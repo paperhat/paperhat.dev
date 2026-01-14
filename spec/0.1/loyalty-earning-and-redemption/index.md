@@ -63,7 +63,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Programs are data.** Loyalty programs and rules MUST be representable as declarative data.
 2. **Deterministic reckoning.** Earning and redemption outcomes MUST be deterministic given explicit inputs.
@@ -207,7 +207,7 @@ Kernel MUST be able to validate:
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

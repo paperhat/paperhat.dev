@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Query intent is data.** Query and indexing intent MUST be representable as declarative artifacts.
 2. **No syntax leakage.** Authored artifacts MUST NOT embed query language syntax.
@@ -183,7 +183,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

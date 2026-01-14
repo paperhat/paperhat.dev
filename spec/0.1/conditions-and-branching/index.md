@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Conditions are data.** A condition MUST be representable as a declarative artifact.
 2. **No code leakage.** Authored artifacts MUST NOT embed target code or require a specific expression syntax.
@@ -161,7 +161,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

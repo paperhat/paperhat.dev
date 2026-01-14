@@ -54,7 +54,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Transformation intent is data.** Transformations MUST be representable as declarative artifacts.
 2. **No code leakage.** Authored artifacts MUST NOT require embedding target code.
@@ -161,7 +161,7 @@ Run logs MUST NOT require recording secret material.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

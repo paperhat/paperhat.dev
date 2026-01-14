@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Tests are artifacts.** Test definitions MUST be representable as declarative artifacts.
 2. **Inputs are explicit.** Any external input required for evaluation MUST be provided as explicit test fixtures.
@@ -153,7 +153,7 @@ Test execution SHOULD be recordable as an artifact, including:
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

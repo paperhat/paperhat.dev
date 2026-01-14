@@ -47,7 +47,7 @@ This spec does not mandate flag names.
 
 ---
 
-## 4. Workspace Root Detection (Hard)
+## 4. Workspace Root Detection (Normative)
 
 `paperhat check` MUST locate a workspace root.
 
@@ -60,7 +60,7 @@ If either directory is missing, Workbench MUST fail with a diagnostic.
 
 ---
 
-## 5. Filesystem Contract Validation (Hard)
+## 5. Filesystem Contract Validation (Normative)
 
 `paperhat check` MUST validate the Workbench Workspace Filesystem Contract.
 
@@ -108,7 +108,7 @@ See also:
 
 ---
 
-## 8. Diagnostics Contract (Hard)
+## 8. Diagnostics Contract (Normative)
 
 When `paperhat check` fails, Workbench MUST provide diagnostics that, at minimum:
 

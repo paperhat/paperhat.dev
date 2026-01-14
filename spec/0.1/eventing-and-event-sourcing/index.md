@@ -25,7 +25,7 @@ This specification exists to:
 
 ---
 
-## 2. Core Invariants (Hard)
+## 2. Core Invariants (Normative)
 
 The following invariants are non-negotiable:
 
@@ -139,7 +139,7 @@ Targets MUST select transports and storage strategies that satisfy these declara
 
 ---
 
-## 5. Event Record Semantics (Hard)
+## 5. Event Record Semantics (Normative)
 
 An Event record MUST have a canonical representation that includes:
 
@@ -214,7 +214,7 @@ Those mappings are realization, not semantics.
 
 ---
 
-## 9. Determinism and External Inputs (Hard)
+## 9. Determinism and External Inputs (Normative)
 
 Time, actor identity, randomness, locale, and environment are external inputs.
 

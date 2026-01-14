@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Workflow identity is stable.** Workflow identity MUST be stable across versions.
 2. **Version selection is explicit.** Any selection/pinning policy MUST be explicit.
@@ -171,7 +171,7 @@ Run logs MUST be able to record:
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

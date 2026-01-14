@@ -30,7 +30,7 @@ This spec does not define:
 
 ---
 
-## 2. Core Principles (Hard)
+## 2. Core Principles (Normative)
 
 1. **Purity:** Behavior evaluation MUST be side-effect free.
 2. **Determinism:** Given the same program and explicit inputs, evaluation MUST produce the same result.
@@ -44,7 +44,7 @@ Clarification (Normative):
 
 ---
 
-## 3. Runtime-Neutral Result Model (Hard)
+## 3. Runtime-Neutral Result Model (Normative)
 
 All Behavior evaluation produces a `Validation`.
 
@@ -77,7 +77,7 @@ Evaluators MAY represent richer internal types, but MUST preserve observable beh
 
 ---
 
-## 5. Reserved Operators (Hard)
+## 5. Reserved Operators (Normative)
 
 The following operators are reserved and their intent is fixed:
 
@@ -95,7 +95,7 @@ Typing rules:
 
 ---
 
-## 6. Environment and Missing Variables (Hard)
+## 6. Environment and Missing Variables (Normative)
 
 If `Variable(name)` is evaluated and `name` is missing in the environment, the result MUST be:
 
@@ -134,7 +134,7 @@ However:
 
 ---
 
-## 7. Operator Application (Hard)
+## 7. Operator Application (Normative)
 
 An operator application node has:
 
@@ -160,7 +160,7 @@ Unless an operator defines short-circuiting semantics, arguments MUST be evaluat
 
 ---
 
-## 9. Logical Operators (Hard)
+## 9. Logical Operators (Normative)
 
 ### 9.1 `Not`
 
@@ -401,7 +401,7 @@ Mapping:
 - `IsNoLongerThan(x,n)` is `len(x) <= n`
 - `IsNoShorterThan(x,n)` is `len(x) >= n`
 
-Special case (Hard):
+Special case (Normative):
 
 For `IsSameLength` and `IsNotSameLength`, the right argument MUST be `Validation<string|array>`, not a number.
 If this is violated, evaluation MUST return `Invalid([...])`.
@@ -647,7 +647,7 @@ Semantics:
 
 ---
 
-## 19. Compile-Time Constructor Concepts (Hard)
+## 19. Compile-Time Constructor Concepts (Normative)
 
 The Behavior Vocabulary includes constructor-like concepts:
 
@@ -664,7 +664,7 @@ If any of these concepts are present as runtime operators in a Behavior Program:
 
 ---
 
-## 20. Operator Inventory (Hard)
+## 20. Operator Inventory (Normative)
 
 This specification defines the complete set of v0.1 Behavior operators.
 

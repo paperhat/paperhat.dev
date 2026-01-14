@@ -33,7 +33,7 @@ This spec defines the default v0.1 encoding as a **JSON opcode tree**.
 
 ---
 
-## 3. Determinism and Safety (Hard)
+## 3. Determinism and Safety (Normative)
 
 1. A Behavior Program MUST be pure data.
 2. A Behavior Program MUST NOT embed executable code (for example: functions, scripts, bytecode, closures).
@@ -44,7 +44,7 @@ This spec defines the default v0.1 encoding as a **JSON opcode tree**.
 
 ---
 
-## 4. Program Envelope (Hard)
+## 4. Program Envelope (Normative)
 
 A Behavior Program MUST be a JSON object with:
 
@@ -62,7 +62,7 @@ Example:
 
 ---
 
-## 5. Expression Node Shape (Hard)
+## 5. Expression Node Shape (Normative)
 
 An Expression node MUST be a JSON object with:
 
@@ -82,7 +82,7 @@ Implementations SHOULD validate encoded programs against the v0.1 JSON Schema:
 
 ---
 
-## 6. Core Reserved Ops (Hard)
+## 6. Core Reserved Ops (Normative)
 
 The following ops are reserved and have encoding defined by this spec:
 
@@ -171,7 +171,7 @@ Rules:
 
 ---
 
-## 9. Versioning and Compatibility (Hard)
+## 9. Versioning and Compatibility (Normative)
 
 - `version` MUST be present and MUST equal `"0.1"` for this spec.
 - Unknown `operation` values MUST be rejected unless a higher-level contract explicitly permits extension.

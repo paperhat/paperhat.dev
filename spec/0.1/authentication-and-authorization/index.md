@@ -46,7 +46,7 @@ This specification does **not** govern:
 
 ---
 
-## 3. Core Invariants (Hard)
+## 3. Core Invariants (Normative)
 
 The following invariants are non-negotiable:
 
@@ -209,7 +209,7 @@ If multiple idioms are supported, Kernel MUST define precedence and composition 
 
 ---
 
-## 9. Auditability (Hard)
+## 9. Auditability (Normative)
 
 Security decisions MUST be auditable.
 
@@ -224,7 +224,7 @@ The representation and storage mechanism is a realization detail.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT require:
 

@@ -13,7 +13,7 @@ Kernel is the **authoritative semantic processing pipeline** of the **Paperhat s
 
 ---
 
-## 1. Purpose (Hard)
+## 1. Purpose (Normative)
 
 This contract exists to:
 
@@ -64,7 +64,7 @@ No other library may redefine, bypass, or collapse these phases.
 
 ---
 
-## 4. Artifact Classes and Epistemic Separation (Hard)
+## 4. Artifact Classes and Epistemic Separation (Normative)
 
 Kernel recognizes three **distinct classes of authored Codex artifacts**:
 
@@ -90,7 +90,7 @@ These classes are **epistemically distinct** and MUST NOT be conflated.
 
 ---
 
-## 5. Multi-Graph Storage Model (Hard)
+## 5. Multi-Graph Storage Model (Normative)
 
 Kernel MUST store compiled artifacts in **separate graphs**, each with its own ontology and SHACL validation.
 
@@ -117,7 +117,7 @@ No graph may depend on another for semantic correctness.
 
 ---
 
-## 6. Compilation Responsibilities (Hard)
+## 6. Compilation Responsibilities (Normative)
 
 Kernel exclusively owns:
 
@@ -132,7 +132,7 @@ No other library may parse CDX or define an alternative CDX compiler.
 
 ---
 
-## 7. Canonical Form and Determinism (Hard)
+## 7. Canonical Form and Determinism (Normative)
 
 Kernel MUST enforce:
 
@@ -144,7 +144,7 @@ Formatting is mandatory and non-optional.
 
 ---
 
-## 8. Module Revision Atomicity (Hard)
+## 8. Module Revision Atomicity (Normative)
 
 Kernel processes **Modules atomically**.
 
@@ -175,7 +175,7 @@ These identifiers are provenance metadata only and do not affect semantic meanin
 
 ---
 
-## 10. Source Location Policy (Hard)
+## 10. Source Location Policy (Normative)
 
 Kernel MAY track line numbers, columns, and offsets **only** for:
 
@@ -191,7 +191,7 @@ Source-location metadata:
 
 ---
 
-## 11. Ordering and Structural Preservation (Hard)
+## 11. Ordering and Structural Preservation (Normative)
 
 To enable structural round-tripping, Kernel MUST emit explicit ordering metadata.
 
@@ -206,7 +206,7 @@ Ordering is structural, not semantic.
 
 ---
 
-## 12. Round-Trip Guarantees (Hard)
+## 12. Round-Trip Guarantees (Normative)
 
 Kernel defines two round-trip modes:
 
@@ -228,7 +228,7 @@ Kernel MUST support both modes.
 
 ---
 
-## 13. Query and Shaping (Hard)
+## 13. Query and Shaping (Normative)
 
 Kernel derives a **ViewModel** by:
 
@@ -246,7 +246,7 @@ The ViewModel is:
 
 ---
 
-## 14. ViewModel Lifecycle (Hard)
+## 14. ViewModel Lifecycle (Normative)
 
 The ViewModel:
 
@@ -257,7 +257,7 @@ The ViewModel:
 
 ---
 
-## 15. Design Policy Application (Hard)
+## 15. Design Policy Application (Normative)
 
 Kernel exclusively owns application of Design Policy.
 
@@ -272,7 +272,7 @@ The result is a **Presentation Plan** that is pure, deterministic, and target-ne
 
 ---
 
-## 16. Rendering (Hard)
+## 16. Rendering (Normative)
 
 Rendering is a pure function of:
 
@@ -284,7 +284,7 @@ Rendering invents no structure and asserts no meaning.
 
 ---
 
-## 17. Validation and Help (Hard)
+## 17. Validation and Help (Normative)
 
 Across all phases:
 
@@ -306,13 +306,13 @@ Kernel does **not** validate:
 
 ---
 
-## 18. Implementation Neutrality (Hard)
+## 18. Implementation Neutrality (Normative)
 
 Kernel MUST NOT embed implementation-specific library requirements into normative pipeline behavior.
 
 ---
 
-## 19. Non-Ownership (Hard)
+## 19. Non-Ownership (Normative)
 
 Kernel does **not** own:
 

@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Looping is declarative.** Iteration MUST be representable as data.
 2. **Boundedness is explicit.** Unbounded loops MUST NOT be representable.
@@ -161,7 +161,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 

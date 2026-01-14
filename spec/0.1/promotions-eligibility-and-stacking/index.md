@@ -63,7 +63,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Policies are data.** Promotions and pricing programs MUST be representable as declarative data.
 2. **Deterministic evaluation.** Eligibility and stacking decisions MUST be deterministic given explicit inputs.
@@ -203,7 +203,7 @@ All ordering-dependent behavior MUST have deterministic tie-breaking.
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

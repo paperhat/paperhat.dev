@@ -9,7 +9,7 @@ This index links the active **Paperhat specifications** for version **0.1**.
 
 Specifications define **canonical formats**, **artifact classes**, and **authoring semantics** that implementations MUST follow.
 
-Conformance rule (Hard): `paperhat.dev` is the sole normative source of truth for the Paperhat specification. Conforming implementations MAY be written in any language, but MUST implement the specified semantics exactly.
+Conformance rule (Normative): `paperhat.dev` is the sole normative source of truth for the Paperhat specification. Conforming implementations MAY be written in any language, but MUST implement the specified semantics exactly.
 
 ---
 

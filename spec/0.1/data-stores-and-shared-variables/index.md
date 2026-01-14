@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Store operations are data.** Reads and writes MUST be representable as declarative workflow intent.
 2. **Target independence.** Store semantics MUST NOT assume a concrete database or protocol.
@@ -170,7 +170,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

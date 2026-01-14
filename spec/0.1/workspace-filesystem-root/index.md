@@ -33,7 +33,7 @@ This spec exists to:
 
 ---
 
-## 3. Workspace Root (Hard)
+## 3. Workspace Root (Normative)
 
 A Paperhat workspace root MUST contain:
 
@@ -50,7 +50,7 @@ If `packs/` is present, it MUST be treated as a reserved directory for ontology 
 
 ---
 
-## 4. Authoring Root (Hard)
+## 4. Authoring Root (Normative)
 
 `modules/` is the canonical authoring root.
 

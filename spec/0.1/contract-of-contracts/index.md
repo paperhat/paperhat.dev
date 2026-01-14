@@ -47,7 +47,7 @@ This specification does **not** govern:
 
 ---
 
-## 2.1 Conformance and Implementation Neutrality (Hard)
+## 2.1 Conformance and Implementation Neutrality (Normative)
 
 Paperhat is specified at `paperhat.dev`.
 
@@ -97,7 +97,7 @@ No tier may assume responsibilities owned by another tier.
 
 ---
 
-## 5. Authority and Non-Authority (Hard)
+## 5. Authority and Non-Authority (Normative)
 
 ### 5.1 Kernel Authority
 
@@ -148,7 +148,7 @@ Primitives MUST NOT define Paperhat meaning, ontology, or policy.
 
 ---
 
-## 6. Single Source of Truth (Hard)
+## 6. Single Source of Truth (Normative)
 
 For any rule that affects:
 
@@ -165,7 +165,7 @@ The Kernel MAY implement evaluation of Kernel-defined rules, but MUST NOT redefi
 
 ---
 
-## 7. Determinism and Reproducibility (Hard)
+## 7. Determinism and Reproducibility (Normative)
 
 Given identical:
 

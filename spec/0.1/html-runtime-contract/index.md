@@ -25,7 +25,7 @@ HTML Runtime MUST be scoped to Paperhat only.
 
 ---
 
-## 2. Authority and Boundaries (Hard)
+## 2. Authority and Boundaries (Normative)
 
 HTML Runtime is NOT authoritative for authored meaning.
 
@@ -46,7 +46,7 @@ See also:
 
 ---
 
-## 3. Inputs (Hard)
+## 3. Inputs (Normative)
 
 HTML Runtime MUST accept:
 
@@ -58,7 +58,7 @@ HTML Runtime MUST NOT depend on ambient network access.
 
 ---
 
-## 4. Behavior Program Execution (Hard)
+## 4. Behavior Program Execution (Normative)
 
 HTML Runtime MUST be able to evaluate Behavior Programs encoded according to:
 
@@ -70,7 +70,7 @@ HTML Runtime MUST treat a missing variable as an invalid result with diagnostics
 
 ---
 
-## 5. Core Runtime Types (Hard)
+## 5. Core Runtime Types (Normative)
 
 HTML Runtime MUST implement the following canonical result types.
 
@@ -112,7 +112,7 @@ HTML Runtime MUST support the following attachment kinds when present in the Pre
 
 Attachment semantics are determined by attachment context.
 
-### 6.1 Conditionals and Invalid Policy (Hard)
+### 6.1 Conditionals and Invalid Policy (Normative)
 
 For `ShowIf` and `EnableIf`, HTML Runtime MUST interpret `Validation<boolean>` as:
 

@@ -56,7 +56,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Planning is deterministic.** Concurrency decisions emitted by Kernel MUST be reproducible given identical artifacts and inputs.
 2. **Side effects are explicit.** Steps with side effects MUST be modeled such that ordering and retry semantics remain auditable.
@@ -182,7 +182,7 @@ A plan MUST be able to explain:
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

@@ -60,7 +60,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Explicit inputs.** Availability, locations, cutoff times, and carrier/service constraints used for planning MUST be explicit inputs.
 2. **Deterministic planning.** Given identical inputs, fulfillment allocation and shipment planning outputs MUST be identical.
@@ -202,7 +202,7 @@ The Kernel MUST be able to validate:
 
 ---
 
-## 12. Target Independence (Hard)
+## 12. Target Independence (Normative)
 
 This specification MUST NOT define:
 

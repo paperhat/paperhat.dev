@@ -65,7 +65,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Explicit inputs.** Tax rates, jurisdiction facts, and exemption facts used for computation MUST be explicit inputs.
 2. **Deterministic tax reckoning.** Given identical explicit inputs, tax outputs MUST be identical.
@@ -215,7 +215,7 @@ Kernel MUST be able to validate:
 
 ---
 
-## 13. Target Independence (Hard)
+## 13. Target Independence (Normative)
 
 This specification MUST NOT define:
 

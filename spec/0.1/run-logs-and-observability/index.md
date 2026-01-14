@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Runs are identifiable.** Each run MUST have a stable run identifier.
 2. **Attempts are observable.** Each step attempt MUST be recordable.
@@ -192,7 +192,7 @@ When a step interacts with an integration or external action:
 
 ---
 
-## 9. Target Independence (Hard)
+## 9. Target Independence (Normative)
 
 This specification MUST NOT define:
 

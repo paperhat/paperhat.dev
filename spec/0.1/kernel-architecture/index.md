@@ -1,13 +1,13 @@
-Status: NORMATIVE  
-Lock State: UNLOCKED  
-Version: 0.1  
+Status: NORMATIVE
+Lock State: UNLOCKED
+Version: 0.1
 Editor: Charles F. Munat
 
 # Paperhat Kernel Architecture Specification
 
-This specification defines the responsibilities, boundaries, and deterministic processing posture of the **Paperhat Kernel**.
+This specification defines the responsibilities, boundaries, and deterministic execution model of the **Paperhat Kernel**.
 
-The Kernel is the semantic authority for Paperhat. It compiles authored meaning, validates it against explicit ontology packs and constraints, and produces deterministic derived artifacts.
+The Kernel is the semantic authority for Paperhat in the sense that it validates, enforces, and deterministically derives artifacts from authored meaning; it does **not** invent or infer meaning.
 
 This document is **Normative**.
 
@@ -17,44 +17,48 @@ This document is **Normative**.
 
 This specification governs:
 
-- Kernel responsibilities and non-responsibilities
-- Kernel inputs and outputs
-- deterministic execution requirements
-- dialect selection and ontology pack loading rules
+* Kernel responsibilities and non-responsibilities
+* Kernel inputs and outputs
+* deterministic execution requirements
+* dialect selection and ontology pack loading rules
 
 This specification does **not** govern:
 
-- any particular programming language or runtime
-- any particular storage backend or network protocol
-- any particular developer tooling UX (CLI flag names, editor integrations)
+* any particular programming language or runtime
+* any particular storage backend or network protocol
+* any particular developer tooling UX (CLI flag names, editor integrations)
 
 ---
 
-## 2. Kernel Responsibilities (Hard)
+## 2. Kernel Responsibilities (Normative)
 
 The Kernel MUST be responsible for:
 
 1. **Compilation** of authored Codex artifacts into canonical internal representations.
-2. **Dialect selection** based on explicit artifact role (for example: Data vs View vs DesignPolicy).
+2. **Dialect selection** based on explicit artifact role (for example: Data vs View vs DesignIntent vs DesignPolicy).
 3. **Validation** against:
-   - the relevant dialect ontology expressed as triples, and
-   - declarative constraints (for example SHACL or equivalent constraint systems).
+
+   * the relevant dialect ontology expressed as triples, and
+   * declarative constraints (for example SHACL or equivalent constraint systems).
 4. **Assembly** of Modules from the filesystem according to the Module Filesystem Assembly specification.
-5. **Deterministic planning**:
-   - View Graph application producing a ViewModel, and
-   - Design Policy application producing a Presentation Plan.
-6. Emission of **Diagnostics** sufficient for author correction and tool integration.
+5. **Deterministic planning**, including:
+
+   * View Graph application producing a ViewModel,
+   * DesignIntent set selection (per Design Policy),
+   * Intent resolution (axis-wise merge with precedence rules), and
+   * Design Policy application (structural transforms) producing a Presentation Plan.
+6. Emission of **diagnostics** sufficient for author correction and tool integration.
 
 ---
 
-## 3. Kernel Non-Responsibilities (Hard)
+## 3. Kernel Non-Responsibilities (Normative)
 
 The Kernel MUST NOT:
 
-- infer meaning from filesystem coincidence beyond what Paperhat specifications define
-- consult ambient time, randomness, or network access to decide semantic results
-- own developer scaffolding, generators, file watching, or preview servers (these are Shell responsibilities)
-- require any particular persistence backend (graph store adapters are separately conformable)
+* infer meaning from filesystem coincidence beyond what Paperhat specifications define
+* consult ambient time, randomness, or network access to decide semantic results
+* own developer scaffolding, generators, file watching, or preview servers (these are Shell responsibilities)
+* require any particular persistence backend (graph store adapters are separately conformable)
 
 ---
 
@@ -66,24 +70,27 @@ Kernel inputs MUST be explicit.
 
 At minimum, a Kernel invocation MUST be able to accept:
 
-- a workspace root (or equivalent assembly root)
-- an explicit ordered set of ontology pack roots (possibly empty)
-- a target context (when producing target-aware derived artifacts such as Presentation Plans)
+* a workspace root (or equivalent assembly root)
+* an explicit ordered set of ontology pack roots (possibly empty)
+* a target context (when producing target-aware derived artifacts such as Presentation Plans)
+* context signals (typed, symbolic inputs for adaptive planning)
+
+Target context and context signals are distinct inputs: the former identifies the realization domain, while the latter supplies typed adaptive conditions.
 
 ### 4.2 Outputs
 
 Kernel outputs MAY include:
 
-- semantic graphs (for example RDF)
-- a ViewModel
-- a Presentation Plan
-- diagnostics
+* semantic graphs (for example RDF)
+* a ViewModel
+* a Presentation Plan
+* diagnostics
 
 No Kernel output is itself semantic truth unless it is explicitly defined by specification as semantic truth.
 
 ---
 
-## 5. Determinism (Hard)
+## 5. Determinism (Normative)
 
 Given identical explicit inputs (including identical ontology packs and their ordered roots), Kernel MUST produce identical semantic results.
 
@@ -95,14 +102,14 @@ Rules:
 
 ---
 
-## 6. Dialects and Ontologies (Hard)
+## 6. Dialects and Ontologies (Normative)
 
 Paperhat uses Codex for multiple distinct purposes. Each such purpose is a **dialect**.
 
 Definitions:
 
-- **Dialect:** A Codex authoring context with its own authorized Concepts/Traits/structure, governed by a dialect ontology and constraints.
-- **Dialect ontology:** A canonical semantic graph (triples) plus declarative constraints that define what is valid for a dialect.
+* **Dialect:** A Codex authoring context with its own authorized Concepts, Traits, and structure, governed by a dialect ontology and constraints.
+* **Dialect ontology:** A canonical semantic graph (triples) plus declarative constraints that define what is valid for a dialect.
 
 Rules:
 
@@ -112,15 +119,16 @@ Rules:
 
 Common dialects (non-exhaustive):
 
-- **Data dialect** — domain facts intended to compile to the Domain Graph.
-- **View dialect** — view definitions intended to compile to the View Graph.
-- **DesignPolicy dialect** — declarative planning policy intended to compile to Presentation Plans.
-- **Behavior dialect** — behavior expressions intended to compile to Behavior Programs.
-- **Schema Dialect** — meta-dialect used to author dialect ontologies themselves.
+* **Data dialect** — domain facts intended to compile to the Domain Graph.
+* **View dialect** — view definitions intended to compile to the View Graph.
+* **DesignIntent dialect** — intent axis assignments intended to be selected by DesignPolicy and resolved into Presentation Plans.
+* **DesignPolicy dialect** — declarative planning policy (intent selection, context conditions, structural transforms) intended to produce Presentation Plans.
+* **Behavior dialect** — behavior expressions intended to compile to Behavior Programs.
+* **Schema Dialect** — meta-dialect used to author dialect ontologies themselves.
 
 ---
 
-## 7. Schema Dialect (Hard)
+## 7. Schema Dialect (Normative)
 
 Dialect ontologies MUST be authored in Codex.
 
@@ -134,22 +142,22 @@ Rules:
 
 ---
 
-## 8. Ontology Packs (Hard)
+## 8. Ontology Packs (Normative)
 
 An **ontology pack** is a versioned directory of Codex artifacts authored in the Schema Dialect.
 
 Ontology packs exist to define and distribute dialect ontologies and domain schemas without baking them into the Kernel.
 
-### 8.1 Pack Identity (Hard)
+### 8.1 Pack Identity (Normative)
 
 Each ontology pack MUST declare, as authored Codex:
 
-- a stable pack identifier
-- an explicit pack version
-- the dialect ontology(ies) and/or schema(s) it provides
-- any dependencies on other packs (by identifier and version)
+* a stable pack identifier
+* an explicit pack version
+* the dialect ontology(ies) and/or schema(s) it provides
+* any dependencies on other packs (by identifier and version)
 
-### 8.2 Pack Roots (Hard)
+### 8.2 Pack Roots (Normative)
 
 Kernel MUST treat ontology packs as explicit inputs.
 
@@ -159,7 +167,7 @@ Rules:
 2. Kernel MUST NOT rely on ambient filesystem iteration order to determine which packs are loaded.
 3. If a pack root is present on disk but not provided as an explicit input, it MUST NOT affect outputs.
 
-### 8.3 Deterministic Resolution (Hard)
+### 8.3 Deterministic Resolution (Normative)
 
 Given identical explicit inputs, including the same ordered pack roots, Kernel MUST resolve the same pack set.
 
@@ -190,11 +198,11 @@ Rules:
 
 A Shell (such as Workbench) MAY provide:
 
-- workspace scaffolding and generators
-- file watching and incremental rebuild orchestration
-- running the Kernel and capturing Diagnostics
-- invoking renderers and writing outputs
-- providing a local preview surface
+* workspace scaffolding and generators
+* file watching and incremental rebuild orchestration
+* running the Kernel and capturing diagnostics
+* invoking renderers and writing outputs
+* providing a local preview surface
 
 Shell tooling MUST treat the Kernel as the semantic authority.
 
@@ -202,4 +210,17 @@ Shell tooling MUST NOT perform its own semantic compilation.
 
 ---
 
+## 11. Relationship to Other Specifications (Normative)
+
+This specification MUST be read in conjunction with:
+
+* [Design Intent Definition Specification](../design-intent-definition/)
+* [Design Policy Definition Specification](../design-policy-definition/)
+* [Presentation Plan Definition Specification](../presentation-plan-definition/)
+* [View Definition Specification](../view-definition/)
+* [View Composition Specification](../view-composition-slots-fills-and-use/)
+
+---
+
 **End of Paperhat Kernel Architecture Specification v0.1**
+(Normative)

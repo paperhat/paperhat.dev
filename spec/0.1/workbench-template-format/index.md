@@ -35,7 +35,7 @@ This spec does not define the internal semantics of Codex artifacts.
 
 ---
 
-## 3. Template Layout (Hard)
+## 3. Template Layout (Normative)
 
 A template MUST be a directory.
 
@@ -47,7 +47,7 @@ All other files within the template directory are template inputs.
 
 ---
 
-## 4. Template Manifest (Hard)
+## 4. Template Manifest (Normative)
 
 The Template Manifest MUST be valid JSON.
 
@@ -82,7 +82,7 @@ Workbench MUST NOT infer template selection from ambient environment.
 
 ---
 
-## 6. Entrypoint and Resolution (Hard)
+## 6. Entrypoint and Resolution (Normative)
 
 A template MUST declare an `entrypoint`.
 
@@ -112,7 +112,7 @@ Rules:
 
 ---
 
-## 8. Output Requirements (Hard)
+## 8. Output Requirements (Normative)
 
 A template intended to create a workspace MUST produce a File Plan that creates, at minimum:
 

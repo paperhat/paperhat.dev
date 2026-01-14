@@ -23,7 +23,7 @@ It does not define the internal formats of authored semantics artifacts.
 
 ---
 
-## 2. Determinism and Idempotency (Hard)
+## 2. Determinism and Idempotency (Normative)
 
 All generators MUST be deterministic and idempotent.
 
@@ -38,7 +38,7 @@ Rules:
 
 ---
 
-## 3. Filesystem Placement (Hard)
+## 3. Filesystem Placement (Normative)
 
 Generators MUST place authored artifacts under `modules/`.
 

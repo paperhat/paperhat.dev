@@ -29,7 +29,7 @@ This taxonomy exists to ensure that:
 
 ---
 
-## 2. Core Rules (Hard)
+## 2. Core Rules (Normative)
 
 1. Paperhat specs MUST be organized into a small, fixed set of categories.
 2. Every spec MUST appear in exactly one category in the version index.
@@ -77,7 +77,7 @@ Specs that define Paperhat’s commerce and transactional domain semantics.
 
 ---
 
-## 4. Anti-Junk-Drawer Tests (Hard)
+## 4. Anti-Junk-Drawer Tests (Normative)
 
 A spec fails taxonomy if any of the following is true:
 

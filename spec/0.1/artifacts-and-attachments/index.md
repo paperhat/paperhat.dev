@@ -57,7 +57,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **No embedded binaries.** Authored workflow artifacts MUST NOT embed binary payloads.
 2. **References are explicit.** Artifact and attachment references MUST be explicit values.
@@ -167,7 +167,7 @@ Records MUST NOT require embedding secrets.
 
 ---
 
-## 11. Target Independence (Hard)
+## 11. Target Independence (Normative)
 
 This specification MUST NOT define:
 

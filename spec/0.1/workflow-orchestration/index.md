@@ -55,7 +55,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 The following invariants are non-negotiable:
 
@@ -211,7 +211,7 @@ Workflows MUST NOT treat mutable target state as authoritative.
 
 ---
 
-## 11. Determinism and External Inputs (Hard)
+## 11. Determinism and External Inputs (Normative)
 
 Workflow planning and evaluation MUST be deterministic given:
 
@@ -237,7 +237,7 @@ Targets MAY realize pending with target-specific representations.
 
 ---
 
-## 13. Auditability (Hard)
+## 13. Auditability (Normative)
 
 It MUST be possible to record:
 
@@ -250,7 +250,7 @@ Storage is a realization detail.
 
 ---
 
-## 14. Target Independence (Hard)
+## 14. Target Independence (Normative)
 
 This specification MUST NOT require:
 

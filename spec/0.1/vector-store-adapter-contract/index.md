@@ -21,7 +21,7 @@ A Vector Store Adapter exists to:
 
 ---
 
-## 2. Source-of-Truth Rule (Hard)
+## 2. Source-of-Truth Rule (Normative)
 
 A vector store MUST NOT be treated as a semantic source of truth.
 

@@ -56,7 +56,7 @@ This specification is designed to compose with:
 
 ---
 
-## 4. Core Invariants (Hard)
+## 4. Core Invariants (Normative)
 
 1. **Calls are declarative.** A workflow call MUST be representable as data.
 2. **Deterministic planning.** The Kernel MUST be able to plan workflow calls deterministically.
@@ -158,7 +158,7 @@ The Kernel MUST preserve auditability about where a retry occurred.
 
 ---
 
-## 10. Target Independence (Hard)
+## 10. Target Independence (Normative)
 
 This specification MUST NOT define:
 
