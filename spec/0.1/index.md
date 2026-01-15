@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: UNLOCKED  
+Lock State: LOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -11,6 +11,8 @@ Specifications define **canonical formats**, **artifact classes**, and **authori
 
 Conformance rule (Normative): `paperhat.dev` is the sole normative source of truth for the Paperhat specification. Conforming implementations MAY be written in any language, but MUST implement the specified semantics exactly.
 
+Note: This index assumes the 0.1 spec folders are organized into category subfolders (e.g. `foundation/`, `behavior/`, `validation/`).
+
 ---
 
 ## 1. Purpose
@@ -20,6 +22,7 @@ This index exists to:
 * provide a single click-through entry point for Paperhat Specs on GH Pages
 * make the 0.1 spec set browsable and stable
 * link only to spec folders (kebab-case) whose document is always `index.md`
+* group specs by category so the set remains navigable as it grows
 
 ---
 
@@ -27,7 +30,7 @@ This index exists to:
 
 This spec set is organized by:
 
-* [Paperhat Spec Taxonomy](spec-taxonomy/)
+* [Paperhat Spec Taxonomy](foundation/spec-taxonomy/)
 
 ---
 
@@ -35,91 +38,120 @@ This spec set is organized by:
 
 ### 3.1 Foundation
 
-* [Contract of Contracts](contract-of-contracts/)
-* [Kernel Architecture](kernel-architecture/)
-* [Identifier Canonicalization](identifier-canonicalization/)
-* [Workspace Filesystem Root](workspace-filesystem-root/)
-* [Module Filesystem Assembly](module-filesystem-assembly/)
+* [Contract of Contracts](foundation/contract-of-contracts/)
+* [Scope, Boundaries, and Non-Goals](foundation/scope-boundaries-and-non-goals/)
+* [Kernel Architecture](foundation/kernel-architecture/)
+* [Identifier Canonicalization](foundation/identifier-canonicalization/)
+* [Workspace Filesystem Root](foundation/workspace-filesystem-root/)
+* [Module Filesystem Assembly](foundation/module-filesystem-assembly/)
 
-### 3.2 Semantics and Validation
+### 3.2 Behavior
 
-* [Behavior Program Encoding](behavior-program-encoding/)
-* [Behavior Dialect](behavior-dialect/)
-* [Data Validation and Shape Constraints](data-validation-and-shape-constraints/)
-* [Localized Messages and Locale Resolution](localized-messages-and-locale-resolution/)
+* [Behavior Dialect](behavior/behavior-dialect/)
+* [Behavior Dialect Semantics](behavior/behavior-dialect-semantics/)
+* [Behavior Vocabulary](behavior/behavior-vocabulary/)
+* [Behavior Program Encoding](behavior/behavior-program-encoding/)
+* [Behavior Program Surface Form](behavior/behavior-program-surface-form/)
 
-### 3.3 Execution and Reliability
+### 3.3 Validation
 
-* [Eventing and Event Sourcing](eventing-and-event-sourcing/)
-* [Durable Execution: Run History and Replay](durable-execution-run-history-and-replay/)
-* [Reliability and Failure Semantics](reliability-and-failure-semantics/)
-* [Concurrency and Parallelism](concurrency-and-parallelism/)
-* [Resource Limits and Rate Limiting](resource-limits-and-rate-limiting/)
-* [Approvals and Human-in-the-Loop](approvals-and-human-in-the-loop/)
-* [Conditions and Branching](conditions-and-branching/)
-* [Looping and Batching](looping-and-batching/)
-* [Merge, Join, and Correlation](merge-join-and-correlation/)
-* [Cancellation and Termination](cancellation-and-termination/)
-* [Subworkflows and Reuse](subworkflows-and-reuse/)
-* [Workflow Versioning and Compatibility](workflow-versioning-and-compatibility/)
-* [Workflow Testing and Simulation](workflow-testing-and-simulation/)
-* [State, Commands, and Continuations](state-commands-and-continuations/)
-* [Triggers and Scheduling](triggers-and-scheduling/)
-* [Workflow Orchestration](workflow-orchestration/)
-* [Idempotency and De-duplication](idempotency-and-deduplication/)
+* [Data Validation and Shape Constraints](validation/data-validation-and-shape-constraints/)
+* [Validation Evaluation and Diagnostics](validation/validation-evaluation-and-diagnostics/)
+* [Regular Expression Profile](validation/regular-expression-profile/)
+* [Diagnostic Messaging and Help Philosophy](validation/diagnostic-messaging-and-help-philosophy/)
+* [Localized Messages and Locale Resolution](validation/localized-messages-and-locale-resolution/)
 
-### 3.4 Data and Interchange
+### 3.4 Workflow
 
-* [Data Stores and Shared Variables](data-stores-and-shared-variables/)
-* [Data Transformation and Mapping](data-transformation-and-mapping/)
-* [Artifacts and Attachments](artifacts-and-attachments/)
-* [Search, Indexing, and Query](search-indexing-and-query/)
-* [Graph Store Adapter Contract](graph-store-adapter-contract/)
-* [Vector Store Adapter Contract](vector-store-adapter-contract/)
-* [Provenance and Lineage](provenance-and-lineage/)
-* [Message Pack Imports and Interchange](message-pack-imports-and-interchange/)
+* [Workflow Orchestration](workflow/workflow-orchestration/)
+* [Workflow Versioning and Compatibility](workflow/workflow-versioning-and-compatibility/)
+* [Workflow Testing and Simulation](workflow/workflow-testing-and-simulation/)
+* [Subworkflows and Reuse](workflow/subworkflows-and-reuse/)
+* [Conditions and Branching](workflow/conditions-and-branching/)
+* [Looping and Batching](workflow/looping-and-batching/)
+* [Triggers and Scheduling](workflow/triggers-and-scheduling/)
+* [Merge, Join, and Correlation](workflow/merge-join-and-correlation/)
+* [Concurrency and Parallelism](workflow/concurrency-and-parallelism/)
+* [Resource Limits and Rate Limiting](workflow/resource-limits-and-rate-limiting/)
+* [Reliability and Failure Semantics](workflow/reliability-and-failure-semantics/)
+* [Idempotency and De-duplication](workflow/idempotency-and-deduplication/)
+* [Approvals and Human-in-the-Loop](workflow/approvals-and-human-in-the-loop/)
+* [Cancellation and Termination](workflow/cancellation-and-termination/)
 
-### 3.5 Security and Identity
+### 3.5 State
 
-* [Authentication and Authorization](authentication-and-authorization/)
-* [Integrations and Credentials](integrations-and-credentials/)
-* [Secrets and Redaction](secrets-and-redaction/)
+* [State, Commands, and Continuations](state/state-commands-and-continuations/)
+* [Durable Execution: Run History and Replay](state/durable-execution-run-history-and-replay/)
 
-### 3.6 Operations and Observability
+### 3.6 Data
 
-* [Workbench Contract](workbench-contract/)
-* [Workbench Workspace Filesystem Contract](workbench-workspace-filesystem-contract/)
-* [Workbench Workspace Config Format](workbench-workspace-config-format/)
-* [Workbench Template Format](workbench-template-format/)
-* [Workbench Templates and File Plans](workbench-templates-and-file-plans/)
-* [Workbench Dev Watch and Targets](workbench-dev-watch-and-targets/)
-* [Workbench Generators](workbench-generators/)
-* [`paperhat check` Contract](workbench-paperhat-check-contract/)
-* [Run Logs and Observability](run-logs-and-observability/)
-* [Notifications and Alerts](notifications-and-alerts/)
+* [Data Stores and Shared Variables](data/data-stores-and-shared-variables/)
+* [Data Transformation and Mapping](data/data-transformation-and-mapping/)
+* [Message Pack Imports and Interchange](data/message-pack-imports-and-interchange/)
+* [Artifacts and Attachments](data/artifacts-and-attachments/)
+* [Provenance and Lineage](data/provenance-and-lineage/)
+* [Search, Indexing, and Query](data/search-indexing-and-query/)
 
-### 3.7 Presentation and Realization
+### 3.7 Events
 
-* [Design Policy Definition Specification](design-policy-definition/)
-* [Presentation Plan Definition](presentation-plan-definition/)
-* [Presentation Plan Encoding](presentation-plan-encoding/)
-* [HTML Runtime Contract](html-runtime-contract/)
-* [HTML Runtime Data Shapes](html-runtime-data-shapes/)
-* [HTML Runtime DOM Binding Conventions](html-runtime-dom-binding/)
-* [View and Policy Selection](view-and-policy-selection/)
-* [View Definition](view-definition/)
-* [View Composition: Slots, Fills, and Use](view-composition-slots-fills-and-use/)
+* [Eventing and Event Sourcing](events/eventing-and-event-sourcing/)
+* [Notifications and Alerts](events/notifications-and-alerts/)
 
-### 3.8 Domain (Commerce)
+### 3.8 Operations
 
-* [Reckoning and Price Transformations](reckoning-and-price-transformations/)
-* [Commerce Entities and Payments](commerce-entities-and-payments/)
-* [Promotions, Eligibility, and Stacking](promotions-eligibility-and-stacking/)
-* [Stored Value Application](stored-value-application/)
-* [Refund Policies and Refund Reckoning](refund-policies-and-refund-reckoning/)
-* [Loyalty Earning and Redemption](loyalty-earning-and-redemption/)
-* [B2B Credit and Net Terms](b2b-credit-and-net-terms/)
-* [Subscriptions and Billing Intents](subscriptions-and-billing-intents/)
-* [Inventory Promising and Availability](inventory-promising-and-availability/)
-* [Tax Intents and Tax Reckoning](tax-intents-and-tax-reckoning/)
-* [Fulfillment, Shipping, and Delivery](fulfillment-shipping-and-delivery/)
+* [Run Logs and Observability](operations/run-logs-and-observability/)
+
+### 3.9 Security
+
+* [Authentication and Authorization](security/authentication-and-authorization/)
+* [Integrations and Credentials](security/integrations-and-credentials/)
+* [Secrets and Redaction](security/secrets-and-redaction/)
+
+### 3.10 Design
+
+* [Design Intent Definition](design/design-intent-definition/)
+* [Design Policy Definition](design/design-policy-definition/)
+* [View and Policy Selection](design/view-and-policy-selection/)
+
+### 3.11 Presentation
+
+* [Presentation Plan Definition](presentation/presentation-plan-definition/)
+* [Presentation Plan Encoding](presentation/presentation-plan-encoding/)
+* [View Definition](presentation/view-definition/)
+* [View Composition: Slots, Fills, and Use](presentation/view-composition-slots-fills-and-use/)
+
+### 3.12 HTML
+
+* [HTML Runtime Contract](html/html-runtime-contract/)
+* [HTML Runtime Data Shapes](html/html-runtime-data-shapes/)
+* [HTML Runtime DOM Binding Conventions](html/html-runtime-dom-binding/)
+
+### 3.13 Workbench
+
+* [Workbench Contract](workbench/workbench-contract/)
+* [Workbench Workspace Filesystem Contract](workbench/workbench-workspace-filesystem-contract/)
+* [Workbench Workspace Config Format](workbench/workbench-workspace-config-format/)
+* [Workbench Template Format](workbench/workbench-template-format/)
+* [Workbench Templates and File Plans](workbench/workbench-templates-and-file-plans/)
+* [Workbench Preview Mode](workbench/workbench-preview-mode/)
+* [Workbench Generators](workbench/workbench-generators/)
+* [`paperhat check` Contract](workbench/workbench-paperhat-check-contract/)
+
+### 3.14 Adapters
+
+* [Graph Store Adapter Contract](adapters/graph-store-adapter-contract/)
+* [Vector Store Adapter Contract](adapters/vector-store-adapter-contract/)
+
+### 3.15 Commerce
+
+* [Commerce Entities and Payments](commerce/commerce-entities-and-payments/)
+* [Reckoning and Price Transformations](commerce/reckoning-and-price-transformations/)
+* [Promotions, Eligibility, and Stacking](commerce/promotions-eligibility-and-stacking/)
+* [Subscriptions and Billing Intents](commerce/subscriptions-and-billing-intents/)
+* [Inventory Promising and Availability](commerce/inventory-promising-and-availability/)
+* [Fulfillment, Shipping, and Delivery](commerce/fulfillment-shipping-and-delivery/)
+* [Tax Intents and Tax Reckoning](commerce/tax-intents-and-tax-reckoning/)
+* [Refund Policies and Refund Reckoning](commerce/refund-policies-and-refund-reckoning/)
+* [Stored Value Application](commerce/stored-value-application/)
+* [Loyalty Earning and Redemption](commerce/loyalty-earning-and-redemption/)
+* [B2B Credit and Net Terms](commerce/b2b-credit-and-net-terms/)

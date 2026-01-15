@@ -5,13 +5,13 @@ Workbench (`@paperhat/workbench`) is Paperhat’s optional **developer tooling**
 A workspace is the on-disk unit that contains:
 
 - `modules/` — authored modules (Concepts, Traits, Assemblies, Views, etc.)
-- `.paperhat/` — Workbench configuration and dev-mode runtime artifacts (reserved namespace)
+- `.paperhat/` — Workbench configuration and runtime artifacts (reserved namespace)
 
 Workbench provides a CLI (`paperhat`) for:
 
 - scaffolding a new workspace from templates (e.g. blog, recipes)
 - generating boilerplate for authoring artifacts (Concepts, Traits, Assemblies, Views)
-- running the Kernel in dev/watch mode for specific realization targets (HTML app, ebook, PDF, etc.)
+- running the Kernel in preview mode for specific realization targets (HTML app, ebook, PDF, etc.)
 
 Workbench is **not authoritative**.
 
