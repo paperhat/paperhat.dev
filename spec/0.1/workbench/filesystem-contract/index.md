@@ -27,6 +27,7 @@ This document is **Normative**.
 This specification governs:
 
 * required workspace directories
+* required workspace files (when specified)
 * reserved namespaces
 * where Workbench may read and write data
 
@@ -44,10 +45,12 @@ A workspace operated on by the Workbench MUST contain:
 
 * `modules/`
 * `.paperhat/`
+* `output/`
+* `documentation/`
 
 Workbench MUST create these directories during workspace creation.
 
-Workbench MUST refuse operation if either directory is missing.
+Workbench MUST refuse operation if any required directory is missing.
 
 ---
 
@@ -76,21 +79,35 @@ Rules:
 * `.paperhat/` MAY contain tool-owned runtime artifacts
 * users MUST NOT be required to hand-edit runtime artifacts
 
+For Workbench-managed workspaces, Workbench MUST create a canonical configuration file at:
+
+* `.paperhat/configuration.cdx`
+
 Workbench MUST NOT place authored Modules under `.paperhat/`.
 
 ---
 
-## 6. Output Directories (Normative)
+## 6. Output and Documentation Directories (Normative)
 
 Build outputs MUST be written to:
 
 * `output/{target}/`
+
+Documentation outputs MUST be written to:
+
+* `documentation/{target}/`
 
 Rules:
 
 * outputs MUST be target-scoped
 * outputs MUST be reproducible
 * outputs MUST NOT contaminate authored content
+
+Additional rules for documentation outputs:
+
+* documentation outputs MUST be derived deterministically from the workspace’s explicit inputs (including `modules/`)
+* documentation outputs MUST NOT be treated as authored content
+* documentation outputs MUST NOT influence Workbench behavior unless explicitly selected as an output destination
 
 Preview artifacts MAY be transient but MUST remain confined to tooling namespaces.
 

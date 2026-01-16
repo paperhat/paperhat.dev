@@ -56,12 +56,11 @@ Workbench MUST NOT infer configuration from ambient environment.
 
 ## 4. Configuration Locations (Normative)
 
-If workspace configuration is used, it MUST reside under:
+Workbench workspace configuration MUST be represented as a single canonical Codex artifact at:
 
-* `.paperhat/config/` — user-authored configuration sources
-* `.paperhat/runtime/` — tool-owned compiled artifacts
+* `.paperhat/configuration.cdx`
 
-Authored configuration sources and compiled configuration MUST be separated.
+This file is the authoritative configuration input for Workbench operations.
 
 ### 4.1 Relationship to the Filesystem Contract (Normative)
 
@@ -71,6 +70,7 @@ In particular:
 
 * `.paperhat/` is a reserved tooling namespace and MUST NOT be treated as authored content
 * build outputs belong under `output/{target}/`
+* documentation outputs belong under `documentation/{target}/`
 
 See: [Paperhat Workbench Workspace Filesystem Contract](../filesystem-contract/).
 
@@ -86,25 +86,24 @@ Configuration sources:
 
 Workbench MUST NOT consult time, randomness, network, or environment when interpreting configuration sources.
 
-### 5.1 Recommended Source Paths (Non-binding)
+### 5.1 Canonical Configuration File (Normative)
 
-Recommended file names and locations:
+The canonical configuration file is:
 
-* `.paperhat/config/config.cdx` — workspace configuration source
-* `.paperhat/config/targets/*.cdx` — target definitions
+* `.paperhat/configuration.cdx`
 
 ---
 
 ## 6. Compiled Configuration (Normative)
 
-Workbench MUST compile configuration sources into a **single canonical configuration artifact**.
+Workbench MUST produce (or accept) a **single canonical configuration artifact**.
 
 Rules:
 
 * compiled configuration MUST be deterministic
 * compiled configuration MUST be idempotent
-* compiled configuration MUST be treated as tool-owned
-* users MUST NOT be required to hand-edit compiled configuration
+* configuration MUST be deterministic
+* users MUST NOT be required to hand-edit any tool-owned derived artifacts
 
 ### 6.1 Deterministic Compilation Inputs (Normative)
 
@@ -118,9 +117,9 @@ Workbench MUST NOT consult ambient time, randomness, network, or environment to 
 
 ## 7. Compiled Configuration Location (Normative)
 
-The compiled configuration MUST be written to:
+The canonical configuration artifact is located at:
 
-* `.paperhat/runtime/config.cdx`
+* `.paperhat/configuration.cdx`
 
 This file is authoritative for preview and build orchestration.
 

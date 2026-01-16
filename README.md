@@ -1,12 +1,13 @@
-# Paperhat Semantic Authoring System
+# Paperhat Workshop  
+A Semantic Authoring System
 
 This repository publishes the **canonical system documentation** for **Paperhat**.
 
-Paperhat is a **semantic authoring and processing system** for expressing meaning, structure, and intent independently of runtime, presentation, or delivery target.
+Paperhat Workshop is a **semantic authoring and processing system** for expressing meaning, structure, and intent independently of runtime, presentation, or delivery target.
 
 This site exists to define:
 
-* what Paperhat **is**
+* what Workshop **is**
 * what compliant systems **must do**
 * how authority, contracts, and specifications are structured
 
@@ -14,9 +15,9 @@ It is a reference repository.
 
 ---
 
-## What Paperhat Is
+## What Workshop Is
 
-**Paperhat is a semantic system**, not an application framework.
+**Workshop is a semantic system**, not an application framework.
 
 It provides:
 
@@ -26,7 +27,7 @@ It provides:
 * a deterministic, inspectable processing pipeline
 * a contract-driven architecture for composition and reasoning
 
-Paperhat enables content and systems to be authored once and realized across many targets, including (but not limited to):
+Workshop enables content and systems to be authored once and realized across many targets, including (but not limited to):
 
 * web
 * print
@@ -37,9 +38,9 @@ Paperhat enables content and systems to be authored once and realized across man
 
 ---
 
-## What Paperhat Is Not
+## What Workshop Is Not
 
-Paperhat is **not**:
+Workshop is **not**:
 
 * a web framework
 * a UI toolkit
@@ -55,7 +56,7 @@ Those concerns are intentionally external.
 
 ## Core Principles
 
-Paperhat is governed by a small number of non-negotiable principles:
+Workshop is governed by a small number of non-negotiable principles:
 
 * **Meaning is data**
 * **Presentation is planned, not embedded**
@@ -71,7 +72,7 @@ These principles are enforced through contracts, not convention.
 
 ## System Structure
 
-Paperhat is composed of:
+Workshop is composed of:
 
 * **Languages**
 
@@ -112,7 +113,7 @@ Non-normative material is explicitly labeled.
 
 ## Governance
 
-Paperhat documentation is maintained under a **formal governance model**.
+Workshop documentation is maintained under a **formal governance model**.
 
 * Authority is explicit and ordered
 * Normative documents are binding
@@ -160,7 +161,7 @@ See:
 
 ## Status
 
-Paperhat is under active development.
+Paperhat Workshop is under active development.
 
 The presence of material in this repository establishes **architectural intent and authority**, not finality.
 

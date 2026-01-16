@@ -207,8 +207,10 @@ A directory is a valid Workbench workspace root if and only if it contains:
 
 * `modules/`
 * `.paperhat/`
+* `output/`
+* `documentation/`
 
-If either directory is missing, `CheckWorkspace` MUST refuse with Diagnostics.
+If any required directory is missing, `CheckWorkspace` MUST refuse with Diagnostics.
 
 ---
 
@@ -221,16 +223,24 @@ At minimum:
 * `modules/` MUST exist and MUST be treated as the only authoring root
 * `.paperhat/` MUST exist and MUST be treated as a reserved tooling namespace
 * Workbench MUST NOT treat `.paperhat/` as an authoring module root
+* `output/` MUST exist and MUST be treated as tool-owned output root
+* `documentation/` MUST exist and MUST be treated as tool-owned documentation output root
 
 ---
 
 ### 7.5 Configuration Validation
 
-If configuration sources are present, `CheckWorkspace` MUST:
+`CheckWorkspace` MUST validate configuration conformance.
+
+For Workbench-managed workspaces, a canonical configuration file MUST exist at:
+
+* `.paperhat/configuration.cdx`
+
+If configuration is present, `CheckWorkspace` MUST:
 
 * validate configuration source presence and structure
-* validate that compiled configuration can be produced deterministically
-* refuse if configuration compilation would fail
+* validate that configuration is deterministic and complete enough for the requested operation
+* refuse if configuration validation would fail
 
 ---
 
