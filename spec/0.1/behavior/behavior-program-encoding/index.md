@@ -21,7 +21,12 @@ Behavior MUST compile to a runtime-neutral representation that can be:
 - evaluated in the Kernel (native execution)
 - evaluated in the HTML runtime (browser user-agent)
 
-This spec defines the default v0.1 encoding as a **JSON opcode tree**.
+This spec defines the default v0.1 encoding as a **Codex opcode tree**.
+
+Clarification (Normative):
+
+- The Behavior semantic value model is defined by Behavior Dialect Semantics; this document specifies how Behavior Programs and their values are represented as Codex values for interchange.
+- Implementations MAY serialize Codex values into a transport format as needed by their environment, but serialization is out of scope for this specification.
 
 ---
 
@@ -42,18 +47,22 @@ This spec defines the default v0.1 encoding as a **JSON opcode tree**.
    - the Program
   - an explicit evaluation environment (`Environment`)
 
+Diagnostic codes (Normative):
+
+- If decoding/validation of the encoded program fails, evaluators MUST produce `Invalid(...)` using the corresponding codes defined by Behavior Diagnostic Codes.
+
 ---
 
 ## 4. Program Envelope (Normative)
 
-A Behavior Program MUST be a JSON object with:
+A Behavior Program MUST be a Codex `Record` with:
 
 - `version` (string) — MUST equal `"0.1"`
 - `expression` (Expression) — the root expression node
 
 Example:
 
-```json
+```codex
 {
   "version": "0.1",
   "expression": { "operation": "And", "arguments": [ {"operation": "IsInteger", "arguments": [{"operation": "Argument"}] } ] }
@@ -64,21 +73,106 @@ Example:
 
 ## 5. Expression Node Shape (Normative)
 
-An Expression node MUST be a JSON object with:
+An Expression node MUST be a Codex `Record` with:
 
-- `operation` (string)
+- `operation` (string) — a stable token naming a Behavior Vocabulary Concept
 
 An Expression node MAY include:
 
 - `arguments` (array of Expression)
-- `value` (JSON scalar or JSON object/array, depending on operation)
+- `value` (EncodedValue, depending on operation)
 - `name` (string, for name-bearing ops)
+- `steps` (array of PathStep, for path-bearing ops)
 
 No additional fields are permitted unless explicitly defined by this spec.
 
-Implementations SHOULD validate encoded programs against the v0.1 JSON Schema:
+---
 
-- `specifications/paperhat.dev/spec/0.1/behavior-program-encoding/schema/behavior-program-encoding.schema.json`
+## 5.1 Encoded Values (`EncodedValue`) (Normative)
+
+An `EncodedValue` MUST be a valid Codex value that encodes a Behavior semantic value.
+
+Normative rules:
+
+1. `<Absent/>` MUST be encoded as a tagged Codex `Record`:
+
+```codex
+{ "@paperhat": { "concept": "Absent" } }
+```
+
+2. `Boolean` values are encoded as Codex `Boolean` values.
+3. `Text` values are encoded as Codex `Text` values.
+4. Untagged numeric literals MAY be used as an encoding for an implementation-defined `RealNumber` value.
+
+  - Because `RealNumber` is not orderable in v0.1, authors MUST use tagged numeric encodings (below) whenever ordering/comparability is required.
+
+5. `List` values are encoded as Codex `List` values whose elements are `EncodedValue`.
+6. `Record` values are encoded as Codex `Record` values whose field values are `EncodedValue`.
+
+### 5.1.1 Tagged numeric encodings (Normative)
+
+v0.1 defines tagged encodings for orderable numeric domains. These encodings MUST be used to preserve exactness and cross-runtime determinism.
+
+#### `Integer`
+
+Encoding:
+
+```codex
+{ "@paperhat": { "concept": "Integer", "value": "-12" } }
+```
+
+Rules (Normative):
+
+- `value` MUST be a base-10 integer string matching `-?(0|[1-9][0-9]*)`.
+
+#### `Fraction`
+
+Encoding:
+
+```codex
+{ "@paperhat": { "concept": "Fraction", "numerator": "-3", "denominator": "4" } }
+```
+
+Rules (Normative):
+
+- `numerator` MUST be a base-10 integer string matching `-?(0|[1-9][0-9]*)`.
+- `denominator` MUST be a base-10 integer string matching `(0|[1-9][0-9]*)`.
+- `denominator` MUST NOT be `"0"`.
+- The sign MUST be carried by `numerator`; `denominator` MUST be non-negative.
+
+Normalization (Normative):
+
+Encoders MUST emit Fractions in canonical normalized form:
+
+- Let $n$ be the integer value of `numerator` and $d$ be the integer value of `denominator`.
+- $d$ MUST be $> 0$.
+- If $n = 0$, the canonical encoding MUST be `numerator: "0"` and `denominator: "1"`.
+- Otherwise, let $g = \gcd(|n|, d)$; encoders MUST emit $n' = n/g$ and $d' = d/g$.
+
+Decoders MUST accept any well-formed Fraction encoding and MUST normalize it to the canonical semantic form before evaluation.
+
+#### `PrecisionNumber`
+
+Encoding:
+
+```codex
+{ "@paperhat": { "concept": "PrecisionNumber", "decimal": "12.3400" } }
+```
+
+Rules (Normative):
+
+- `decimal` MUST be a base-10 decimal string with an explicit scale, matching `-?(0|[1-9][0-9]*)(\.[0-9]+)?`.
+- Exponent notation MUST NOT be used.
+- Trailing zeros in the fractional part MUST be preserved; they are semantically significant for `PrecisionNumber`.
+
+Normalization (Normative):
+
+- Encoders MUST preserve the authored `decimal` string exactly.
+- Decoders MUST NOT remove trailing zeros or otherwise change the scale.
+
+Reserved tag key (Normative):
+
+- The key `"@paperhat"` is reserved for tagged encodings (like `<Absent/>`). If a Codex `Record` contains `"@paperhat"`, it MUST conform to a tagged encoding defined by this specification.
 
 ---
 
@@ -92,7 +186,7 @@ Represents the primary input value.
 
 Encoding:
 
-```json
+```codex
 { "operation": "Argument" }
 ```
 
@@ -102,7 +196,7 @@ Represents a lookup in the evaluation environment.
 
 Encoding:
 
-```json
+```codex
 { "operation": "Variable", "name": "someName" }
 ```
 
@@ -117,14 +211,49 @@ Represents a literal constant.
 
 Encoding:
 
-```json
+```codex
 { "operation": "Constant", "value": 123 }
 ```
 
 Rules:
 
 1. `value` MUST be present.
-2. `value` MUST be valid JSON.
+2. `value` MUST be a valid `EncodedValue`.
+
+### 6.4 `Field`
+
+Represents a field lookup on a Record-like value.
+
+Encoding:
+
+```codex
+{ "operation": "Field", "name": "fieldName" }
+```
+
+Rules:
+
+1. `name` MUST be present.
+
+### 6.5 `Path`
+
+Represents a bounded path traversal.
+
+Encoding:
+
+```codex
+{ "operation": "Path", "steps": [ { "field": "a" }, { "field": "b" } ] }
+```
+
+PathStep encoding (Normative):
+
+- A PathStep MUST be one of:
+  - `{ "field": "<Text>" }`
+  - `{ "index": <Integer> }`
+
+Rules:
+
+1. `steps` MUST be present.
+2. `steps` MUST be an array.
 
 ---
 
@@ -134,7 +263,7 @@ All non-reserved ops are treated as operator application nodes.
 
 Encoding:
 
-```json
+```codex
 { "operation": "And", "arguments": [ /* expressions */ ] }
 ```
 
@@ -150,11 +279,11 @@ Rules:
 
 Programs evaluate against an explicit environment map.
 
-An environment is a JSON object mapping strings to JSON values.
+An environment is a Codex `Record` mapping `Text` keys to `EncodedValue`.
 
 Example:
 
-```json
+```codex
 {
   "w": 10,
   "x": 20,
@@ -183,7 +312,7 @@ Rules:
 
 Example program fragment (conceptual):
 
-```json
+```codex
 {
   "version": "0.1",
   "expression": {

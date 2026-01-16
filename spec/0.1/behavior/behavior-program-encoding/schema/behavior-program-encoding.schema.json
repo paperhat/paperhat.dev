@@ -10,6 +10,119 @@
     "expression": { "$ref": "#/$defs/expression" }
   },
   "$defs": {
+    "encodedValue": {
+      "description": "v0.1 EncodedValue: JSON carrier for semantic values (null forbidden; <Absent/> is tagged).",
+      "anyOf": [
+        { "type": "boolean" },
+        { "type": "string" },
+        { "type": "number" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/encodedValue" }
+        },
+        {
+          "type": "object",
+          "oneOf": [
+            {
+              "description": "Tagged <Absent/> encoding",
+              "additionalProperties": false,
+              "required": ["@paperhat"],
+              "properties": {
+                "@paperhat": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["concept"],
+                  "properties": {
+                    "concept": { "const": "Absent" }
+                  }
+                }
+              }
+            },
+            {
+              "description": "Tagged Integer encoding",
+              "additionalProperties": false,
+              "required": ["@paperhat"],
+              "properties": {
+                "@paperhat": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["concept", "value"],
+                  "properties": {
+                    "concept": { "const": "Integer" },
+                    "value": { "type": "string", "pattern": "^-?(0|[1-9][0-9]*)$" }
+                  }
+                }
+              }
+            },
+            {
+              "description": "Tagged Fraction encoding",
+              "additionalProperties": false,
+              "required": ["@paperhat"],
+              "properties": {
+                "@paperhat": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["concept", "numerator", "denominator"],
+                  "properties": {
+                    "concept": { "const": "Fraction" },
+                    "numerator": { "type": "string", "pattern": "^-?(0|[1-9][0-9]*)$" },
+                    "denominator": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]*)$",
+                      "not": { "const": "0" }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "Tagged PrecisionNumber encoding",
+              "additionalProperties": false,
+              "required": ["@paperhat"],
+              "properties": {
+                "@paperhat": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["concept", "decimal"],
+                  "properties": {
+                    "concept": { "const": "PrecisionNumber" },
+                    "decimal": {
+                      "type": "string",
+                      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "Record encoding (reserved @paperhat key is not permitted here)",
+              "properties": {
+                "@paperhat": false
+              },
+              "additionalProperties": { "$ref": "#/$defs/encodedValue" }
+            }
+          ]
+        }
+      ]
+    },
+    "pathStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": ["field"],
+          "properties": {
+            "field": { "type": "string" }
+          }
+        },
+        {
+          "required": ["index"],
+          "properties": {
+            "index": { "type": "integer" }
+          }
+        }
+      ]
+    },
     "expression": {
       "type": "object",
       "required": ["operation"],
@@ -20,8 +133,13 @@
           "type": "array",
           "items": { "$ref": "#/$defs/expression" }
         },
-        "value": {},
+        "value": { "$ref": "#/$defs/encodedValue" },
         "name": { "type": "string", "minLength": 1 }
+        ,
+        "steps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/pathStep" }
+        }
       },
       "allOf": [
         {
@@ -43,6 +161,14 @@
         {
           "if": { "properties": { "operation": { "const": "Constant" } }, "required": ["operation"] },
           "then": { "required": ["value"] }
+        },
+        {
+          "if": { "properties": { "operation": { "const": "Field" } }, "required": ["operation"] },
+          "then": { "required": ["name"] }
+        },
+        {
+          "if": { "properties": { "operation": { "const": "Path" } }, "required": ["operation"] },
+          "then": { "required": ["steps"] }
         }
       ]
     }

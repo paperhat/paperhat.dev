@@ -261,7 +261,7 @@ Signatures:
 Semantics:
 
 - If either argument is `Invalid`, return `Invalid`.
-- Otherwise compare values for structural equality.
+- Otherwise compare values for structural equality as defined by Value Ordering and Structural Equality.
 
 ### 10.2 Ordering
 
@@ -280,8 +280,7 @@ Signatures:
 
 Comparable sets in v0.1:
 
-- numbers compare numerically
-- strings compare by Unicode codepoint order
+- Comparable domains are defined by Value Ordering and Structural Equality.
 
 If types do not match or are not comparable, the result MUST be `Invalid([...])`.
 
@@ -487,8 +486,7 @@ Semantics:
 
 Comparable element sets in v0.1:
 
-- numbers compare numerically
-- strings compare by Unicode codepoint order
+- Comparable domains are defined by Value Ordering and Structural Equality.
 
 If the array contains mixed or non-comparable element types, return `Invalid([...])`.
 
@@ -673,14 +671,38 @@ If any of these concepts are present as runtime operators in a Behavior Program:
 
 ## 20. Operator Inventory (Normative)
 
-This specification defines the complete set of v0.1 Behavior operators.
+The complete set of v0.1 Behavior operators is defined by:
 
-Any operator not defined by this document MUST be rejected.
+- this specification (Behavior Dialect), and
+- the v0.1 Behavior Vocabulary specifications.
+
+Any operator not defined by either:
+
+- this specification, or
+- an applicable Behavior Vocabulary specification
+
+MUST be rejected.
+
+Note (Informative): The Behavior Vocabulary includes (among others) the Math and Core Safe Transform operator families.
 
 ## 21. Relational Operators and Guards (Inventory Summary) (Normative)
 
 This section is a non-exhaustive *index* of the relational operators and guards defined elsewhere in this document.
 In case of conflict, the normative per-operator sections win.
+
+Canonical authoring surface note (Informative):
+
+- The preferred cross-spec naming surface for Predicates, Guards, and their composition is defined by the [Predicate, Guard, and Validation Composition Surface Specification](../validation/predicate-guard-and-validation-composition-surface/).
+- This dialect retains earlier operator spellings in some families. Tooling MAY accept the following as input aliases, but SHOULD normalize to the canonical spellings when emitting the canonical authoring surface:
+   - `Xor` ↔ `ExclusiveOr`
+   - `IsUnequalTo` ↔ `IsNotEqualTo`
+   - `IsMoreThan` ↔ `IsGreaterThan`
+   - `IsNoLessThan` ↔ `IsGreaterThanOrEqualTo`
+   - `IsNoMoreThan` ↔ `IsLessThanOrEqualTo`
+   - `Matches` ↔ `MatchesRegularExpression`
+   - `DoesNotMatch` ↔ `DoesNotMatchRegularExpression`
+   - `IsAfterAlphabetically` ↔ `IsAlphabeticallyAfter`
+   - `IsBeforeAlphabetically` ↔ `IsAlphabeticallyBefore`
 
 Relational operators (comparisons and relations):
 
@@ -704,7 +726,6 @@ Guards (type tests):
 
 The following operator families are common in constraint systems but are not defined in v0.1 unless explicitly added elsewhere:
 
-- Presence/missingness: `IsPresent`, `IsAbsent`
 - String relations: `StartsWith`, `EndsWith`, `ContainsSubstring`
 - Numeric ranges: `IsBetween`, `IsNotBetween`
 - Collection relations: `IsEmpty`, `IsNotEmpty`, `ContainsAll`, `ContainsAny`

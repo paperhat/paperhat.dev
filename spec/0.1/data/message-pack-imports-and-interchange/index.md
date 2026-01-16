@@ -103,10 +103,13 @@ Conforming systems MAY support one or more interchange families, including:
 
 * PO-family
 * XLIFF-family
-* JSON-family
+* tree-structured document family (records/lists/scalars)
 * TMS export artifacts
 
 Supporting an interchange family means defining a deterministic ImportMapping and validation rules for that family.
+
+Interchange families describe classes of external artifacts.
+They MUST NOT be construed as canonical representations for Paperhat.
 
 ---
 

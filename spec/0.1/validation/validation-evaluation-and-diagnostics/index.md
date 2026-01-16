@@ -18,7 +18,7 @@ It exists to ensure that:
 * “case” validations (logical OR) are explainable rather than opaque
 * the system remains closed-world, analyzable, and compilable to SHACL
 
-This specification complements the **Predicate, Guard, and Validation Composition Surface Specification**.
+This specification complements the [Predicate, Guard, and Validation Composition Surface Specification](../predicate-guard-and-validation-composition-surface/).
 
 ---
 

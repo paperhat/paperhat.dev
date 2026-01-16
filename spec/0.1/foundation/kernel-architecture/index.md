@@ -98,7 +98,7 @@ Rules:
 
 1. Kernel MUST NOT use ambient time, randomness, or network access to decide results.
 2. Kernel MUST NOT use ambient filesystem iteration order.
-3. If Kernel writes JSON outputs, it MUST use a canonical serialization policy to avoid spurious diffs.
+3. If Kernel serializes outputs, it MUST use a canonical serialization policy to avoid spurious diffs.
 
 ---
 

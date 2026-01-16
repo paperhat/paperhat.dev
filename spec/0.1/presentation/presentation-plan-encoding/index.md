@@ -5,7 +5,7 @@ Editor: Charles F. Munat
 
 # Presentation Plan Encoding
 
-This specification defines the canonical **JSON interchange encoding** for a Paperhat **Presentation Plan payload** as exchanged between:
+This specification defines the canonical **Codex interchange encoding** for a Paperhat **Presentation Plan payload** as exchanged between:
 
 - the Paperhat **Kernel** (producer)
 - the Paperhat **HTML Runtime** (consumer)
@@ -30,7 +30,7 @@ This specification defines one concrete, runtime-facing serialization for a subs
 
 This specification governs:
 
-- the JSON shape of a Presentation Plan payload consumed by HTML Runtime
+- the Codex shape of a Presentation Plan payload consumed by HTML Runtime
 - attachment encoding for `Validate`, `ShowIf`, and `EnableIf`
 - binding sources for `Argument` and `Environment` values
 
@@ -39,22 +39,22 @@ This specification does **not** govern:
 - the full Presentation Plan ontology
 - rendering, styling, or layout
 - Behavior Program semantics (owned by Behavior Dialect)
-- Behavior Program JSON opcode encoding (owned by Behavior Program Encoding)
+- any particular transport serialization of this payload
 
 ---
 
 ## 3. Determinism and Safety (Normative)
 
-1. A Presentation Plan payload MUST be pure JSON data.
+1. A Presentation Plan payload MUST be pure data.
 2. A Presentation Plan payload MUST NOT embed executable code.
 3. Evaluation inputs MUST be explicit via `argument` and `environment` bindings.
-4. For identical inputs, Kernel MUST emit byte-for-byte equivalent JSON when canonicalized (whitespace-insensitive).
+4. For identical inputs, Kernel MUST emit byte-for-byte equivalent payloads when serialized using a canonical policy.
 
 ---
 
 ## 4. Payload Envelope (Normative)
 
-A Presentation Plan payload MUST be a JSON object with:
+A Presentation Plan payload MUST be a Codex `Record` with:
 
 - `version` (string) — MUST equal `"0.1"`
 - `root` (string) — the root `nodeId`
@@ -62,7 +62,7 @@ A Presentation Plan payload MUST be a JSON object with:
 
 Example:
 
-```json
+```codex
 {
   "version": "0.1",
   "root": "n_root",
@@ -89,7 +89,7 @@ Example:
 
 ## 5. Planned Nodes (Normative)
 
-A `PlannedNode` MUST be a JSON object with:
+A `PlannedNode` MUST be a Codex `Record` with:
 
 - `id` (string) — stable within the payload
 - `children` (array of string) — ordered child `nodeId`s
@@ -109,13 +109,13 @@ Rules:
 
 ## 6. Attachments (Normative)
 
-An `Attachment` MUST be a JSON object with:
+An `Attachment` MUST be a Codex `Record` with:
 
 - `id` (string) — unique within the payload
 - `kind` (string) — MUST be one of: `Validate`, `ShowIf`, `EnableIf`
 - `program` (Behavior Program) — encoded per Behavior Program Encoding v0.1
 - `argument` (BindingSource) — provides the `Argument` value
-- `environment` (object) — maps variable names to `BindingSource`
+- `environment` (Record) — maps variable names to `BindingSource`
 
 Rules:
 
@@ -127,7 +127,7 @@ Rules:
 
 ## 7. Binding Sources (Normative)
 
-A `BindingSource` MUST be a JSON object with:
+A `BindingSource` MUST be a Codex `Record` with:
 
 - `kind` (string)
 
@@ -136,7 +136,7 @@ Supported kinds in v0.1:
 ### 7.1 `Constant`
 
 - `kind`: `"Constant"`
-- `value`: any JSON value
+- `value`: any Codex value
 
 ### 7.2 `FieldValue`
 

@@ -25,7 +25,7 @@ This spec does not define:
 
 - the operator inventory (see Behavior Vocabulary)
 - evaluation semantics (see Behavior Dialect — Semantics)
-- any particular wire format (JSON, CBOR, etc.). Wire formats, if any, are treated as encodings of this surface form.
+- any particular wire format (TOML, CBOR, etc.). Wire formats, if any, are treated as encodings of this surface form.
 
 ---
 

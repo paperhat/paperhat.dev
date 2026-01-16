@@ -46,23 +46,31 @@ For every operator Concept defined in this document, the spec MUST include:
 
 See [math/index.md](math/index.md).
 
-### 3.2 Relational and predicates
+### 3.2 Core Safe transforms
+
+See [core-safe-transforms/index.md](core-safe-transforms/index.md).
+
+### 3.3 Presence and missingness
+
+See [presence-and-missingness/index.md](presence-and-missingness/index.md).
+
+### 3.4 Relational and predicates
 
 (TBD)
 
-### 3.3 Text
+### 3.5 Text
 
 (TBD)
 
-### 3.4 Temporal
+### 3.6 Temporal
 
 (TBD)
 
-### 3.5 Formatting
+### 3.7 Formatting
 
 (TBD)
 
-### 3.6 Data shapes and validation
+### 3.8 Data shapes and validation
 
 (TBD)
 

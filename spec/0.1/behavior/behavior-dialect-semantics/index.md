@@ -169,6 +169,11 @@ A diagnostic MUST include:
 - an optional human-readable message
 - a stable location reference to the originating expression node (program-local)
 
+Code structure (Normative):
+
+- Codes MUST follow the pattern `<surfaceName>::<ISSUE_DESCRIPTION>`.
+- Where a v0.1 Behavior diagnostic code is required, it MUST use the corresponding code defined by Behavior Diagnostic Codes.
+
 Diagnostics ordering MUST be deterministic. (TBD: ordering key.)
 
 ---

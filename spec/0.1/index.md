@@ -50,6 +50,8 @@ This spec set is organized by:
 * [Behavior Dialect](behavior/behavior-dialect/)
 * [Behavior Dialect Semantics](behavior/behavior-dialect-semantics/)
 * [Behavior Vocabulary](behavior/behavior-vocabulary/)
+* [Value Ordering and Structural Equality](behavior/value-ordering-and-structural-equality/)
+* [Behavior Diagnostic Codes](behavior/behavior-diagnostic-codes/)
 * [Behavior Program Encoding](behavior/behavior-program-encoding/)
 * [Behavior Program Surface Form](behavior/behavior-program-surface-form/)
 
@@ -129,6 +131,7 @@ This spec set is organized by:
 ### 3.13 Workbench
 
 * [Workbench Contract](workbench/workbench-contract/)
+* [Workbench Core Contract](workbench/workbench-core-contract/)
 * [Workbench Workspace Filesystem Contract](workbench/workbench-workspace-filesystem-contract/)
 * [Workbench Workspace Config Format](workbench/workbench-workspace-config-format/)
 * [Workbench Template Format](workbench/workbench-template-format/)
