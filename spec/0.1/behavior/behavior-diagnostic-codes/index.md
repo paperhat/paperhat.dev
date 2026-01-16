@@ -209,6 +209,28 @@ This requirement is shared with the Diagnostic Messaging and Help Philosophy spe
 - `SelectFields::NEED_DISTINCT_FIELD_NAMES`
   - emitted when the field name list contains duplicates.
 
+### 5.5H `SplitString`
+
+- `SplitString::NEED_TEXT`
+  - emitted when the first operand is not `Text`.
+
+- `SplitString::NEED_TEXT_SEPARATOR`
+  - emitted when the separator operand is not `Text`.
+
+- `SplitString::NEED_NONEMPTY_SEPARATOR`
+  - emitted when the separator is the empty string.
+
+### 5.5I `JoinStrings`
+
+- `JoinStrings::NEED_LIST`
+  - emitted when the first operand is not a `List`.
+
+- `JoinStrings::NEED_TEXT_SEPARATOR`
+  - emitted when the separator operand is not `Text`.
+
+- `JoinStrings::NEED_TEXT_ELEMENTS`
+  - emitted when any element of the list is not `Text`.
+
 ### 5.6 `JoinCollectionsOnKey`
 
 - `JoinCollectionsOnKey::NEED_LIST`

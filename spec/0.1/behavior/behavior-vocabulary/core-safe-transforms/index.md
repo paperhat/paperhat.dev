@@ -569,6 +569,81 @@ Error behavior:
 
 ---
 
+### 3.5H `SplitString`
+
+Name: `SplitString`
+
+Arity: 2
+
+Domains:
+
+- `SplitString(textExpr, separatorExpr)`
+- `textExpr` MUST evaluate to `Valid(Text)`.
+- `separatorExpr` MUST evaluate to `Valid(Text)`.
+
+Result:
+
+- `Validation<List>`
+
+Semantics:
+
+This operator splits a string into substrings delimited by an exact separator.
+
+1. Evaluate `textExpr` and `separatorExpr`.
+2. If `separator` is the empty string, return `Invalid(...)`.
+3. Split `text` on non-overlapping occurrences of `separator`, scanning left-to-right.
+4. Return `Valid(List(parts...))` where each part is `Text`.
+
+Empty substrings are permitted.
+
+Error behavior:
+
+- If `textExpr` is not `Text`, return `Invalid(...)` with code `SplitString::NEED_TEXT`.
+- If `separatorExpr` is not `Text`, return `Invalid(...)` with code `SplitString::NEED_TEXT_SEPARATOR`.
+- If `separator` is empty, return `Invalid(...)` with code `SplitString::NEED_NONEMPTY_SEPARATOR`.
+
+Limit behavior:
+
+- Evaluators MUST enforce `maximumOutputListLength` on the emitted parts list.
+- If `maximumStringLength` or `maximumOutputStringLength` are present in the active LimitProfile, evaluators MUST enforce them. Any such limit failure MUST return `Invalid(...)` with code `CoreSafeTransforms::LIMIT_EXCEEDED`.
+
+---
+
+### 3.5I `JoinStrings`
+
+Name: `JoinStrings`
+
+Arity: 2
+
+Domains:
+
+- `JoinStrings(textListExpr, separatorExpr)`
+- `textListExpr` MUST evaluate to `Valid(List)`.
+- `separatorExpr` MUST evaluate to `Valid(Text)`.
+
+Result:
+
+- `Validation<Text>`
+
+Semantics:
+
+1. Evaluate `textListExpr` and `separatorExpr`.
+2. If any element of `textListExpr` is not `Text`, return `Invalid(...)`.
+3. Concatenate elements in list order, inserting `separator` between adjacent elements.
+4. Return the resulting `Text`.
+
+Error behavior:
+
+- If `textListExpr` is not a `List`, return `Invalid(...)` with code `JoinStrings::NEED_LIST`.
+- If `separatorExpr` is not `Text`, return `Invalid(...)` with code `JoinStrings::NEED_TEXT_SEPARATOR`.
+- If any element of `textListExpr` is not `Text`, return `Invalid(...)` with code `JoinStrings::NEED_TEXT_ELEMENTS`.
+
+Limit behavior:
+
+- If `maximumStringLength` or `maximumOutputStringLength` are present in the active LimitProfile, evaluators MUST enforce them. Any such limit failure MUST return `Invalid(...)` with code `CoreSafeTransforms::LIMIT_EXCEEDED`.
+
+---
+
 ### 3.6 `JoinCollectionsOnKey`
 
 Name: `JoinCollectionsOnKey`

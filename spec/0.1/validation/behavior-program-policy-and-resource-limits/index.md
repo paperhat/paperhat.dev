@@ -95,6 +95,11 @@ Optional limits (recommended for relational transforms):
 - `maximumGroupCount`
 - `maximumGroupSize`
 
+Optional limits (recommended for string transforms):
+
+- `maximumStringLength`
+- `maximumOutputStringLength`
+
 All limits are non-negative integers.
 
 ### 4.2 Determinism and stability
@@ -110,6 +115,8 @@ A runtime MUST enforce limits at observable boundaries:
 - before allocating or emitting an output list, validate `maximumOutputListLength`
 - before joining two lists, validate `maximumJoinInputListLength`
 - during grouping, validate `maximumGroupCount` and `maximumGroupSize` if present
+- before scanning or splitting a string, validate `maximumStringLength` if present
+- before emitting a string result, validate `maximumOutputStringLength` if present
 - before emitting or merging records, validate `maximumRecordFieldCount`
 
 ---
@@ -157,7 +164,9 @@ Example:
     "maximumIntermediateListLength": 20000,
     "maximumSortKeyEvaluationCount": 10000,
     "maximumGroupCount": 1000,
-    "maximumGroupSize": 10000
+    "maximumGroupSize": 10000,
+    "maximumStringLength": 20000,
+    "maximumOutputStringLength": 20000
   }
 }
 ```
@@ -180,6 +189,8 @@ Optional keys:
 - `maximumSortKeyEvaluationCount`
 - `maximumGroupCount`
 - `maximumGroupSize`
+- `maximumStringLength`
+- `maximumOutputStringLength`
 
 All limit values MUST be `Integer` and MUST be non-negative.
 

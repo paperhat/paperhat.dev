@@ -326,6 +326,10 @@ Signatures:
 
 The pattern language for v0.1 MUST conform to the v0.1 Regular Expression Profile.
 
+Profile reference:
+
+- The v0.1 Regular Expression Profile is defined by [Regular Expression Profile](../validation/regular-expression-profile/).
+
 If the pattern is invalid or uses an unsupported construct, the result MUST be `Invalid([...])`.
 
 ---
@@ -350,7 +354,10 @@ Signatures:
 Semantics:
 
 - If either argument is `Invalid`, return `Invalid`.
-- Otherwise compare strings by Unicode codepoint order.
+- Otherwise compare strings using the locked alphabetical ordering profile defined by the Predicate/Guard surface specification:
+   - apply Unicode Normalization Form C to both strings
+   - compare the normalized strings lexicographically by Unicode scalar value order
+   - comparison is locale-independent and case-sensitive
 
 Mapping:
 
