@@ -338,10 +338,10 @@
 }
 
 body {
-	background-color: hsl(252, 87%, 16%);
-	color: hsl(251, 98%, 91%);
+	color: hsl(252, 87%, 16%);
+	background-color: hsl(251, 98%, 91%);
 	font-family: "EB Garamond", monospace;
-	font-size: 18px;
+	font-size: 20px;
 	line-height: 1.5;
 	margin: 20px;
 	padding: 0;
