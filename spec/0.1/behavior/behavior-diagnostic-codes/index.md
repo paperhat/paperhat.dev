@@ -287,6 +287,18 @@ This requirement is shared with the Diagnostic Messaging and Help Philosophy spe
 - `Or::NEED_BOOLEAN`
   - emitted when any operand evaluates to `Valid(x)` where `x` is not `Boolean`.
 
+---
+
+## 7. Text Predicate Codes (Normative)
+
+### 7.1 Pattern predicates
+
+- `MatchesRegularExpression::INVALID_PATTERN`
+  - emitted when the pattern is invalid or uses an unsupported construct under the v0.1 Regular Expression Profile.
+
+- `DoesNotMatchRegularExpression::INVALID_PATTERN`
+  - emitted when the pattern is invalid or uses an unsupported construct under the v0.1 Regular Expression Profile.
+
 ### 5.8 `AllElementsSatisfy`
 
 - `AllElementsSatisfy::NEED_LIST`

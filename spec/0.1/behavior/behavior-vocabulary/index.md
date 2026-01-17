@@ -60,7 +60,7 @@ See [relational-and-predicates/index.md](relational-and-predicates/index.md).
 
 ### 3.5 Text
 
-(TBD)
+See [text/index.md](text/index.md).
 
 ### 3.6 Temporal
 

@@ -710,6 +710,8 @@ Canonical authoring surface note (Informative):
    - `DoesNotMatch` ↔ `DoesNotMatchRegularExpression`
    - `IsAfterAlphabetically` ↔ `IsAlphabeticallyAfter`
    - `IsBeforeAlphabetically` ↔ `IsAlphabeticallyBefore`
+   - `StartsWith` ↔ `StartsWithSubstring`
+   - `EndsWith` ↔ `EndsWithSubstring`
 
 Relational operators (comparisons and relations):
 
@@ -733,7 +735,6 @@ Guards (type tests):
 
 The following operator families are common in constraint systems but are not defined in v0.1 unless explicitly added elsewhere:
 
-- String relations: `StartsWith`, `EndsWith`, `ContainsSubstring`
 - Numeric ranges: `IsBetween`, `IsNotBetween`
 - Collection relations: `IsEmpty`, `IsNotEmpty`, `ContainsAll`, `ContainsAny`
 - Temporal relations beyond Plain types: `IsAfterInstant`, `IsBeforeInstant`, and ZonedDateTime comparisons
