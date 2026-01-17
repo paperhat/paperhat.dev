@@ -64,15 +64,15 @@ See [text/index.md](text/index.md).
 
 ### 3.6 Temporal
 
-(TBD)
+See [temporal/index.md](temporal/index.md).
 
 ### 3.7 Formatting
 
-(TBD)
+See [formatting/index.md](formatting/index.md).
 
 ### 3.8 Data shapes and validation
 
-(TBD)
+See [data-shapes-and-validation/index.md](data-shapes-and-validation/index.md).
 
 ---
 

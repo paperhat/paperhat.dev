@@ -559,7 +559,7 @@ The following encodings are used by temporal guards in v0.1:
 - `Calendar` is a calendar identifier string (for v0.1, `iso8601` MUST be recognized).
 - `Duration` is an ISO 8601 duration string (for example `P3DT4H30M`).
 
-If a value cannot be parsed according to the required encoding, temporal operators MUST return `Invalid([...])`.
+For temporal *relation* operators (date/time/date-time comparisons), if a value cannot be parsed according to the required encoding, the operator MUST return `Invalid([...])`.
 
 ### 18.2 Temporal type guards (Normative)
 

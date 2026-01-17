@@ -299,6 +299,72 @@ This requirement is shared with the Diagnostic Messaging and Help Philosophy spe
 - `DoesNotMatchRegularExpression::INVALID_PATTERN`
   - emitted when the pattern is invalid or uses an unsupported construct under the v0.1 Regular Expression Profile.
 
+---
+
+## 8. Temporal Codes (Normative)
+
+### 8.1 Temporal relations
+
+- `IsAfterDate::NEED_TEXT`
+- `IsBeforeDate::NEED_TEXT`
+- `IsNotAfterDate::NEED_TEXT`
+- `IsNotBeforeDate::NEED_TEXT`
+- `IsSameDate::NEED_TEXT`
+  - emitted when a date relation operand is not `Text`.
+
+- `IsAfterDate::INVALID_PLAIN_DATE`
+- `IsBeforeDate::INVALID_PLAIN_DATE`
+- `IsNotAfterDate::INVALID_PLAIN_DATE`
+- `IsNotBeforeDate::INVALID_PLAIN_DATE`
+- `IsSameDate::INVALID_PLAIN_DATE`
+  - emitted when a date relation operand is `Text` but does not parse as `PlainDate`.
+
+- `IsAfterTime::NEED_TEXT`
+- `IsBeforeTime::NEED_TEXT`
+- `IsNotAfterTime::NEED_TEXT`
+- `IsNotBeforeTime::NEED_TEXT`
+- `IsSameTime::NEED_TEXT`
+  - emitted when a time relation operand is not `Text`.
+
+- `IsAfterTime::INVALID_PLAIN_TIME`
+- `IsBeforeTime::INVALID_PLAIN_TIME`
+- `IsNotAfterTime::INVALID_PLAIN_TIME`
+- `IsNotBeforeTime::INVALID_PLAIN_TIME`
+- `IsSameTime::INVALID_PLAIN_TIME`
+  - emitted when a time relation operand is `Text` but does not parse as `PlainTime`.
+
+- `IsAfterDateTime::NEED_TEXT`
+- `IsBeforeDateTime::NEED_TEXT`
+- `IsNotAfterDateTime::NEED_TEXT`
+- `IsNotBeforeDateTime::NEED_TEXT`
+- `IsSameDateTime::NEED_TEXT`
+  - emitted when a date-time relation operand is not `Text`.
+
+- `IsAfterDateTime::INVALID_PLAIN_DATETIME`
+- `IsBeforeDateTime::INVALID_PLAIN_DATETIME`
+- `IsNotAfterDateTime::INVALID_PLAIN_DATETIME`
+- `IsNotBeforeDateTime::INVALID_PLAIN_DATETIME`
+- `IsSameDateTime::INVALID_PLAIN_DATETIME`
+  - emitted when a date-time relation operand is `Text` but does not parse as `PlainDateTime`.
+
+---
+
+## 9. Data Shapes and Validation Codes (Normative)
+
+### 9.1 Record satisfaction
+
+- `AllKeysSatisfy::NEED_RECORD`
+  - emitted when the first operand is not a `Record`.
+
+- `AllKeysSatisfy::NEED_BOOLEAN`
+  - emitted when any key predicate evaluation yields `Valid(x)` where `x` is not `Boolean`.
+
+- `AllValuesSatisfy::NEED_RECORD`
+  - emitted when the first operand is not a `Record`.
+
+- `AllValuesSatisfy::NEED_BOOLEAN`
+  - emitted when any value predicate evaluation yields `Valid(x)` where `x` is not `Boolean`.
+
 ### 5.8 `AllElementsSatisfy`
 
 - `AllElementsSatisfy::NEED_LIST`

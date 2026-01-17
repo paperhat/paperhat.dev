@@ -157,7 +157,12 @@ Rules (Normative):
 2. Coercion MUST be explicit (via vocabulary Concepts) unless a specific operator family defines a fixed coercion rule.
 3. Any implicit coercion rules that do exist MUST be minimal, deterministic, and specified by this document.
 
-(TBD: final coercion lattice and promotion rules. Coordinate with the mapping tables work.)
+v0.1 coercion policy (Normative):
+
+- v0.1 defines **no general implicit coercion lattice**.
+- An operator MAY accept multiple domains *only if its own vocabulary definition explicitly says so*.
+- Where ordering or equality requires comparability across numeric domains, it MUST follow the cross-domain numeric comparability rules in Value Ordering and Structural Equality (for {`Integer`, `Fraction`, `PrecisionNumber`}).
+- No implicit coercion is permitted between unrelated domains (for example `Text`  `Integer`, `Record`  `List`).
 
 ---
 
@@ -174,7 +179,15 @@ Code structure (Normative):
 - Codes MUST follow the pattern `<surfaceName>::<ISSUE_DESCRIPTION>`.
 - Where a v0.1 Behavior diagnostic code is required, it MUST use the corresponding code defined by Behavior Diagnostic Codes.
 
-Diagnostics ordering MUST be deterministic. (TBD: ordering key.)
+Diagnostics ordering MUST be deterministic.
+
+Diagnostics ordering key (Normative):
+
+1. Diagnostics MUST be ordered by the **origin expression location** in authored operand order.
+2. The origin expression location is the expression node that first produced the diagnostic.
+3. Origin expression locations MUST be ordered by a depth-first, left-to-right traversal of the program expression tree.
+4. If a single expression node produces multiple diagnostics, they MUST be ordered in the sequence they are produced by that node's normative semantics.
+5. If two diagnostics still tie (same origin expression location and same emission ordinal), they MUST be ordered by ascending diagnostic `code` (Unicode scalar value order).
 
 ---
 

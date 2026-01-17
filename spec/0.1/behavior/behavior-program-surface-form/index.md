@@ -47,7 +47,22 @@ The following Concepts are required in the Behavior Program surface form:
 - `Constant`
 - `Apply`
 
-(TBD: exact names, trait sets, and child shapes; coordinate with the sibling mapping tables.)
+v0.1 surface shape (Normative):
+
+In v0.1, the canonical surface form uses the same core node shape as Behavior Program Encoding:
+
+- A Program is a `Record` with:
+	- `version` (`Text`) equal to `"0.1"`
+	- `expression` (Expression)
+
+- An Expression is a `Record` with:
+	- `operation` (`Text`) naming a Behavior Vocabulary Concept
+	- optional `arguments` (`List<Expression>`)
+	- optional `value` (Codex value) for constant-like operations
+	- optional `name` (`Text`) for name-bearing operations
+	- optional `steps` (`List`) for path-bearing operations
+
+No additional fields are permitted unless explicitly defined by Behavior Program Encoding.
 
 ---
 
@@ -60,7 +75,18 @@ Expression nodes MUST have stable program-local identity suitable for:
 
 A node identity MUST be representable as a stable token value.
 
-(TBD: whether this is a required `id` trait on every expression node, or derived structurally.)
+v0.1 node identity rule (Normative):
+
+- Expression node identity MUST be derived structurally from the program root using an argument-path address.
+- The canonical node identity token is the JSON-Pointer-like path to the expression record, using:
+	- `/expression` for the root expression
+	- `/arguments/<index>` segments when descending into argument lists
+
+Example:
+
+- `/expression/arguments/0/arguments/2`
+
+Because identity is structural, v0.1 does not require an explicit `id` field on expression nodes.
 
 ---
 
@@ -70,7 +96,11 @@ A node identity MUST be representable as a stable token value.
 
 Operator references MUST be stable and unambiguous.
 
-(TBD: whether operator reference is by `name`, `id`, or a fixed vocabulary IRI.)
+v0.1 operator reference rule (Normative):
+
+- An `Apply` operation references its operator by the `operation` token string.
+- The token MUST match a Concept name defined by the applicable v0.1 Behavior Vocabulary specifications.
+- Any unknown `operation` token MUST be rejected.
 
 ---
 
