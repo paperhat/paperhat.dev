@@ -731,6 +731,13 @@ Guards (type tests):
 - Numeric refinements: `IsRealNumber`, `IsPrecisionNumber`
 - Temporal: `IsCalendar`, `IsTimeZone`, `IsDuration`, `IsInstant`, `IsPlainDate`, `IsPlainTime`, `IsPlainDateTime`, `IsPlainMonthDay`, `IsPlainYearMonth`, `IsYearWeek`, `IsZonedDateTime`
 
+Data shapes and validation (predicates and relations):
+
+- Collection size: `HasElementCountEqualTo`, `HasElementCountAtLeast`, `HasElementCountAtMost`, `HasElementCountBetweenInclusive`
+- Collection membership: `ContainsElement`, `DoesNotContainElement`
+- Record keys: `ContainsKey`, `DoesNotContainKey`
+- Record satisfaction: `AllKeysSatisfy`, `AllValuesSatisfy`
+
 ## 22. Candidate Additions (Informative)
 
 The following operator families are common in constraint systems but are not defined in v0.1 unless explicitly added elsewhere:
