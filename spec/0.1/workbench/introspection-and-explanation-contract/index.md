@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -76,7 +76,7 @@ Snapshots are the sole authority for explanation.
 
 The Workbench MUST support introspection of:
 
-* workspace structure
+* work structure
 * module inventory
 * assembled artifacts
 * resolved identifiers and references

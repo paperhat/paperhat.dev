@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -44,7 +44,7 @@ This specification does **not** define:
 
 ## 3. Canonical Authored State (Normative)
 
-There exists exactly one **canonical authored state** for a workspace.
+There exists exactly one **canonical authored state** for a Work.
 
 All authoring projections:
 

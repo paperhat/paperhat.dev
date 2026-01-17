@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -9,11 +9,11 @@ Editor: Charles F. Munat
 
 ## 1. Definition
 
-The **Paperhat Workbench Core** is the canonical, headless system that performs all deterministic operations required to author, inspect, preview, and produce Paperhat workspaces.
+The **Paperhat Workbench Core** is the canonical, headless system that performs all deterministic operations required to author, inspect, preview, and produce Paperhat Works.
 
 The Workbench Core is the **only authority** for:
 
-* workspace creation and validation
+* work creation and validation
 * template resolution
 * File Plan production and application
 * authoring mutation via Patches
@@ -67,7 +67,7 @@ The Workbench Core MUST NOT:
 
 All inputs to the Workbench Core MUST be explicit and include only:
 
-* workspace references
+* work references
 * template identities and contents
 * explicit user inputs
 * selected targets
@@ -93,15 +93,15 @@ All outputs MUST be deterministic given identical inputs.
 
 ---
 
-## 5. Workspace Authority (Normative)
+## 5. Work Authority (Normative)
 
-The workspace is the canonical unit of operation.
+The Work is the canonical unit of operation.
 
 The Workbench Core MUST:
 
-* operate on exactly one explicit workspace per command
-* enforce the Workbench Workspace Filesystem Contract
-* refuse operation on non-conforming workspaces
+* operate on exactly one explicit Work per command
+* enforce the Workbench Work Filesystem Contract
+* refuse operation on non-conforming Works
 
 ---
 
@@ -128,7 +128,7 @@ The Workbench Core MUST support immutable Snapshots.
 
 Snapshots:
 
-* represent read-only views of workspace state
+* represent read-only views of work state
 * MUST be deterministic
 * MUST NOT be mutated
 * MUST be the basis for all introspection, explanation, and diff operations
@@ -159,7 +159,7 @@ Semantic authority resides elsewhere.
 
 The Workbench Core MUST support read-only introspection into:
 
-* workspace structure
+* work structure
 * assembled artifacts
 * resolved identifiers and references
 * ViewModels

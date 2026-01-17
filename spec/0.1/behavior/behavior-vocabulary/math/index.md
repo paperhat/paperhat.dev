@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: DRAFT (IEEE 754 alignment in progress)  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 

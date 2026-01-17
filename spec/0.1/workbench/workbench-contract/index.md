@@ -1,11 +1,15 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
 # Workbench Contract
 
 This specification defines what the Paperhat **Workbench** is and what it MUST do.
+
+Paperhat Workshop ("Workshop") is the distributed application that contains Kernel and Workbench.
+
+This document specifies Workbench.
 
 This document is **Normative**.
 
@@ -15,7 +19,7 @@ This document is **Normative**.
 
 Workbench exists to provide a deterministic, contract-driven way to:
 
-- create new Paperhat applications (filesystem scaffold)
+- create new Paperhat Works (filesystem scaffold)
 - generate authoring boilerplate (Concepts, Traits, Assemblies, Views, etc.)
 - run Paperhat Kernel builds and target realization in **preview mode** with local preview
 
@@ -34,7 +38,7 @@ Workbench MUST treat Kernel as the semantic authority.
 
 ## 3. Filesystem Contract (Normative)
 
-A Paperhat workspace operated on by Workbench MUST have, at minimum:
+A Paperhat Work operated on by Workbench MUST have, at minimum:
 
 - `.paperhat/` — reserved for Workbench configuration and runtime artifacts
 - `modules/` — the root for authored modules
@@ -45,12 +49,12 @@ Rules:
 2. Workbench MUST NOT place authored modules outside `modules/`.
 3. `.paperhat/` is a reserved namespace; Workbench MUST NOT treat it as authored module content.
 
-Note (Normative): The Paperhat workspace root specification permits `.paperhat/` to be absent in general. Workbench is allowed to impose a stronger requirement for workspaces it manages.
+Note (Normative): The Paperhat Work root specification permits `.paperhat/` to be absent in general. Workbench is allowed to impose a stronger requirement for Works it manages.
 
 See also:
 
-- [Workspace Filesystem Root](../workspace-filesystem-root/)
-- [Module Filesystem Assembly](../module-filesystem-assembly/)
+- [Workspace and Work Filesystem Roots](../../foundation/workspace-filesystem-root/)
+- [Module Filesystem Assembly](../../foundation/module-filesystem-assembly/)
 
 ---
 
@@ -68,13 +72,21 @@ Workbench MUST be deterministic and retry-safe.
 
 Workbench MUST provide a CLI with commands sufficient to cover:
 
-- `paperhat new <name> ...` — create a new Paperhat workspace from a named template
+- `paperhat new <template> "Name of work" ...` — create a new Paperhat Work from a named template
 - `paperhat create <artifact> ...` — generate authoring boilerplate (Concept, Trait, Assembly, View, etc.)
 - `paperhat preview --target <target> ...` — run Kernel builds in watch mode and serve a preview
 - `paperhat build --target <target> ...` — produce target outputs deterministically
 - `paperhat check ...` — validate filesystem contract and inputs prior to running operations
 
 This spec does not mandate flag names or UX beyond the required capability.
+
+### 5.1 `paperhat new` Placement (Normative)
+
+`paperhat new` MUST create the Work as a new folder inside a Workspace folder selected explicitly or by explicit configuration (for example: `workspace.cdx`).
+
+The created Work MUST be a direct child folder of the Workspace root.
+
+The created Work folder name MUST be a stable kebab-case form of the provided `"Name of work"` (for example: `"Name of work"` → `name-of-work`).
 
 ---
 
@@ -92,7 +104,7 @@ A template resolution MUST produce a **file plan** that can be:
 
 ## 7. Preview Mode (Normative)
 
-Preview mode is for development, not production. It watches workspace files and updates output when they change.
+Preview mode is for development, not production. It watches work files and updates output when they change.
 
 Workbench preview mode MUST:
 

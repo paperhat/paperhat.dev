@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -194,9 +194,9 @@ Signature:
 Semantics:
 
 - Evaluate arguments left-to-right.
-- If any argument is `Valid(false)`, return `Valid(false)`.
-- If an argument is `Invalid(...)` and no earlier argument was `Valid(false)`, return `Invalid(...)`.
+- If any argument is `Invalid(...)`, return `Invalid(...)`.
 - If all arguments are `Valid(true)`, return `Valid(true)`.
+- Otherwise return `Valid(false)`.
 
 ### 9.3 `Or`
 
@@ -209,9 +209,9 @@ Signature:
 Semantics:
 
 - Evaluate arguments left-to-right.
+- If any argument is `Invalid(...)`, return `Invalid(...)`.
 - If any argument is `Valid(true)`, return `Valid(true)`.
-- If no argument is `Valid(true)` and any argument is `Invalid(...)`, return `Invalid(...)`.
-- If all arguments are `Valid(false)`, return `Valid(false)`.
+- Otherwise return `Valid(false)`.
 
 ### 9.4 `Xor`
 

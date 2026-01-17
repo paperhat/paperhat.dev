@@ -64,7 +64,7 @@ Rules:
 
 - The View dialect is governed by a **View ontology** expressed as triples plus declarative constraints.
 - The View ontology is authored in Codex using the **Schema Dialect** and compiled by Kernel.
-- Kernel selects the View dialect based on artifact role during module assembly; shell tooling MUST NOT reinterpret view semantics.
+- Kernel selects the View dialect based on artifact role during module assembly; Shell tooling treats those view semantics as authoritative and applies them deterministically.
 
 ---
 

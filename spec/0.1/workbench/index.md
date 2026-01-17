@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -22,10 +22,10 @@ This document defines the authoritative specification set for **Paperhat Workben
 - [Core Contract](./core-contract/)
 - [Core Command Protocol](./core-command-protocol/)
 
-### 2.2 Workspace, Configuration, and Orchestration
+### 2.2 Work, Configuration, and Orchestration
 
-- [Workspace Filesystem Contract](./filesystem-contract/)
-- [Workspace Configuration Contract](./workspace-configuration-contract/)
+- [Work Filesystem Contract](./filesystem-contract/)
+- [Work Configuration Contract](./workspace-configuration-contract/)
 - [Preview and Build Orchestration Contract](./preview-and-build-orchestration-contract/)
 
 ### 2.3 Templates and Authoring Support
@@ -45,8 +45,8 @@ This document defines the authoritative specification set for **Paperhat Workben
 
 ## 3. Cross-References (Non-exhaustive)
 
-- Workspace operations assume the workspace layout defined by the [Workspace Filesystem Contract](./filesystem-contract/).
-- Target definitions, target identifiers, and target selection requirements are governed by the [Workspace Configuration Contract](./workspace-configuration-contract/) and are consumed by the [Preview and Build Orchestration Contract](./preview-and-build-orchestration-contract/).
+- Work operations assume the work layout defined by the [Work Filesystem Contract](./filesystem-contract/).
+- Target definitions, target identifiers, and target selection requirements are governed by the [Work Configuration Contract](./workspace-configuration-contract/) and are consumed by the [Preview and Build Orchestration Contract](./preview-and-build-orchestration-contract/).
 - Template parsing rules are defined by [Template Format](./template-format/); template application and planned file emission are defined by [Templates and File Plans](./templates-and-file-plans/).
 - User-facing errors, refusals, and help guidance use [Diagnostic Messaging and Help](./diagnostic-messaging-and-help/).
 - Explanation and structured “why” surfaces use the [Introspection and Explanation Contract](./introspection-and-explanation-contract/).

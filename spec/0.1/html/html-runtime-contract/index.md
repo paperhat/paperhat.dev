@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -140,7 +140,7 @@ Rules:
 
 In typical preview mode operation:
 
-- Workbench watches workspace files
+- Workbench watches work files
 - Workbench invokes Kernel to rebuild outputs
 - the browser reloads or hot-refreshes
 - HTML Runtime reattaches to the updated DOM and plan

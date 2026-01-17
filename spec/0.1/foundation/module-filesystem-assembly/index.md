@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -27,9 +27,9 @@ Filesystem layout is a **normative convention** in Paperhat.
 
 This specification governs:
 
-* Paperhat projects that store authored content under a top-level `modules/` directory
+* Paperhat projects that store authored content under a top-level `modules/` folder
 * the on-disk representation of Paperhat **Modules** and their internal assemblies
-* reserved structural directories within a Module root
+* reserved structural folders within a Module root
 * the role-based Codex files used for Data, Views, and Design Policy
 
 This specification does **not** govern:
@@ -44,7 +44,7 @@ This specification does **not** govern:
 ## 3. Definitions
 
 * **Module (semantic):** A Codex `<Module>` Concept that assembles heterogeneous artifacts.
-* **Module root (filesystem):** A directory representing one Module on disk.
+* **Module root (filesystem):** A folder representing one Module on disk.
 * **Role file:** A `.cdx` file whose name indicates artifact role, not identity.
 * **Data Codex:** Codex that asserts semantic facts intended to compile to triples.
 * **View Codex:** Codex that defines projections and information architecture, producing ViewModels.
@@ -55,11 +55,11 @@ This specification does **not** govern:
 
 ## 4. Top-Level Project Layout (Normative)
 
-A Paperhat project MUST contain a top-level directory:
+A Paperhat project MUST contain a top-level folder:
 
 * `modules/`
 
-The `modules/` directory is the canonical root for authored Modules and replaces any `src/`-style code layout.
+The `modules/` folder is the canonical root for authored Modules and replaces any `src/`-style code layout.
 
 ---
 
@@ -67,8 +67,8 @@ The `modules/` directory is the canonical root for authored Modules and replaces
 
 Within `modules/`:
 
-* Each direct child directory that is a Module root MUST be named in **PascalCase**.
-* The directory name is the Module’s **filesystem identity**.
+* Each direct child folder that is a Module root MUST be named in **PascalCase**.
+* The folder name is the Module’s **filesystem identity**.
 
 Example:
 
@@ -78,7 +78,7 @@ modules/
   MealPlan/
 ```
 
-Module directory names MUST NOT be interpreted as URL paths or target routing.
+Module folder names MUST NOT be interpreted as URL paths or target routing.
 
 ---
 
@@ -118,7 +118,7 @@ Role marker Concepts:
 
 * MUST NOT be interpreted as wrapping, containing, or scoping artifacts
 * MUST NOT imply filesystem hierarchy
-* MUST NOT replace or duplicate the function of `data/`, `views/`, or `design-policies/` directories
+* MUST NOT replace or duplicate the function of `data/`, `views/`, or `design-policies/` folders
 
 Note (Normative): Role marker Concepts indicate the **dialect** of authored artifacts that will be assembled from the filesystem (Data dialect, View dialect, DesignPolicy dialect). Dialect selection is performed by Kernel based on artifact role and location.
 
@@ -132,23 +132,23 @@ Role marker Concepts exist solely to:
 
 ---
 
-## 7. Reserved Structural Directories (Normative)
+## 7. Reserved Structural Folders (Normative)
 
-A Module root MAY contain the following reserved structural directories:
+A Module root MAY contain the following reserved structural folders:
 
 * `data/`
 * `views/`
 * `design-policies/`
 * `assets/`
 
-If present, each directory has the following meaning:
+If present, each folder has the following meaning:
 
 * `data/` contains Data Codex artifacts only
 * `views/` contains View Codex artifacts only
 * `design-policies/` contains DesignPolicy Codex artifacts only
 * `assets/` contains non-Codex assets only
 
-These directory names are **structural** and have meaning only at the Module root.
+These folder names are **structural** and have meaning only at the Module root.
 
 ---
 
@@ -163,16 +163,16 @@ Within a Module root, the following names are reserved and MUST NOT be used for 
 
 This restriction applies **only** at the Module root level.
 
-Within these directories, folder names are unrestricted unless governed by other specifications.
+Within these folders, folder names are unrestricted unless governed by other specifications.
 
 ---
 
 ## 9. Data Assembly (Normative)
 
-If a Module contains a `data/` directory:
+If a Module contains a `data/` folder:
 
-* Each data artifact MUST be stored in its own directory.
-* Each such directory MUST contain exactly one file:
+* Each data artifact MUST be stored in its own folder.
+* Each such folder MUST contain exactly one file:
 
   * `data.cdx`
 
@@ -197,13 +197,13 @@ Folder names under `data/` are organizational only.
 
 ## 10. View Assembly (Normative)
 
-If a Module contains a `views/` directory:
+If a Module contains a `views/` folder:
 
 * The default view for the Module MUST be located at:
 
   * `views/view.cdx`
-* Additional view variants MUST be stored in subdirectories under `views/`.
-* Each variant directory MUST contain exactly one file:
+* Additional view variants MUST be stored in subfolders under `views/`.
+* Each variant folder MUST contain exactly one file:
 
   * `view.cdx`
 
@@ -232,13 +232,13 @@ Filesystem paths MUST NOT imply information architecture.
 
 ## 11. Design Policy Assembly (Normative)
 
-If a Module contains a `design-policies/` directory:
+If a Module contains a `design-policies/` folder:
 
 * The default Design Policy MUST be located at:
 
   * `design-policies/design-policy.cdx`
-* Additional Design Policy variants MUST be stored in subdirectories.
-* Each variant directory MUST contain exactly one file:
+* Additional Design Policy variants MUST be stored in subfolders.
+* Each variant folder MUST contain exactly one file:
 
   * `design-policy.cdx`
 
@@ -264,7 +264,7 @@ Design Policy:
 
 ## 12. Assets (Normative)
 
-If a Module contains an `assets/` directory:
+If a Module contains an `assets/` folder:
 
 * It MUST contain only non-Codex files.
 * Assets MUST NOT be parsed as Codex and MUST NOT affect semantic truth.
@@ -277,9 +277,9 @@ Assets may include images, fonts, stylesheets, scripts, or other target-specific
 
 Modules MAY be nested.
 
-A Module MAY contain additional Module roots as subdirectories, provided:
+A Module MAY contain additional Module roots as subfolders, provided:
 
-* each nested Module root is a PascalCase directory
+* each nested Module root is a PascalCase folder
 * each contains its own `module.cdx`
 * nested Modules remain independent semantic assemblies
 
@@ -365,9 +365,9 @@ This specification does not:
 A Paperhat project:
 
 * stores authored Modules under `modules/`
-* represents Modules as PascalCase directories with `module.cdx`
+* represents Modules as PascalCase folders with `module.cdx`
 * uses `<Data />`, `<Views />`, and `<DesignPolicies />` as declarative role markers
-* separates concerns via reserved directories:
+* separates concerns via reserved folders:
 
   * `data/` → `data.cdx`
   * `views/` → `view.cdx`

@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -83,7 +83,7 @@ Kernel MUST NOT derive canonical identity from:
 
 * folder names
 * file paths
-* directory depth
+* folder depth
 * filesystem timestamps
 
 Moving or renaming folders MUST NOT change canonical identity.

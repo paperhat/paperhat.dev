@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -32,8 +32,8 @@ The Workbench Core Command Protocol operates under the authority of:
 * **Paperhat Workbench Core Contract**
 * **Paperhat Workbench Principles**
 * **Paperhat Workbench Diagnostic Messaging and Help Contract**
-* **Paperhat Workbench Workspace Filesystem Contract**
-* **Paperhat Workbench Workspace Configuration Contract**
+* **Paperhat Workbench Work Filesystem Contract**
+* **Paperhat Workbench Work Configuration Contract**
 * **Paperhat Workbench Templates and File Plans Contract**
 
 All commands and responses MUST conform to those specifications.
@@ -58,17 +58,17 @@ All interaction surfaces MUST invoke the Workbench Core **exclusively** through 
 
 ## 4. Fundamental Concepts
 
-### 4.1 Workspace
+### 4.1 Work
 
-A **Workspace** is the canonical unit of operation.
+A **Work** is the canonical unit of operation.
 
-All commands operate on an explicit workspace reference.
+All commands operate on an explicit work reference.
 
 ---
 
 ### 4.2 Snapshot
 
-A **Snapshot** is an immutable view of a workspace state at a specific moment.
+A **Snapshot** is an immutable view of a work state at a specific moment.
 
 Snapshots:
 
@@ -118,11 +118,11 @@ All refusals MUST return Diagnostics conforming to the Diagnostic Messaging and 
 
 ## 6. Core Command Set (Normative)
 
-### 6.1 Workspace Commands
+### 6.1 Work Commands
 
-* `OpenWorkspace`
-* `CreateWorkspace`
-* `CheckWorkspace`
+* `OpenWork`
+* `CreateWork`
+* `CheckWork`
 
 ---
 
@@ -164,7 +164,7 @@ All refusals MUST return Diagnostics conforming to the Diagnostic Messaging and 
 
 ### 6.7 Introspection Commands
 
-* `GetWorkspaceInventory`
+* `GetWorkInventory`
 * `GetGraph`
 * `GetAssembledStructure`
 * `GetViewModel`
@@ -180,43 +180,43 @@ All refusals MUST return Diagnostics conforming to the Diagnostic Messaging and 
 
 ---
 
-## 7. Command Semantics: `CheckWorkspace` (Normative)
+## 7. Command Semantics: `CheckWork` (Normative)
 
 ### 7.1 Purpose
 
-`CheckWorkspace` is the canonical **preflight command**.
+`CheckWork` is the canonical **preflight command**.
 
-It validates that the workspace, configuration, and selected target (if any) satisfy the minimum requirements required to safely invoke other Workbench operations.
+It validates that the work, configuration, and selected target (if any) satisfy the minimum requirements required to safely invoke other Workbench operations.
 
 ---
 
 ### 7.2 Inputs
 
-`CheckWorkspace` MUST accept inputs sufficient to:
+`CheckWork` MUST accept inputs sufficient to:
 
-* select a workspace root (explicit path or current working directory context)
+* select a work root (explicit path or current working folder context)
 * optionally select a target (when checking preview/build readiness)
 
 This specification does not mandate flag names.
 
 ---
 
-### 7.3 Workspace Root Validation
+### 7.3 Work Root Validation
 
-A directory is a valid Workbench workspace root if and only if it contains:
+A folder is a valid Workbench work root if and only if it contains:
 
 * `modules/`
 * `.paperhat/`
 * `output/`
 * `documentation/`
 
-If any required directory is missing, `CheckWorkspace` MUST refuse with Diagnostics.
+If any required folder is missing, `CheckWork` MUST refuse with Diagnostics.
 
 ---
 
 ### 7.4 Filesystem Contract Validation
 
-`CheckWorkspace` MUST validate conformance to the **Workbench Workspace Filesystem Contract**.
+`CheckWork` MUST validate conformance to the **Workbench Work Filesystem Contract**.
 
 At minimum:
 
@@ -230,13 +230,13 @@ At minimum:
 
 ### 7.5 Configuration Validation
 
-`CheckWorkspace` MUST validate configuration conformance.
+`CheckWork` MUST validate configuration conformance.
 
-For Workbench-managed workspaces, a canonical configuration file MUST exist at:
+For Workbench-managed Works, a canonical configuration file MUST exist at:
 
 * `.paperhat/configuration.cdx`
 
-If configuration is present, `CheckWorkspace` MUST:
+If configuration is present, `CheckWork` MUST:
 
 * validate configuration source presence and structure
 * validate that configuration is deterministic and complete enough for the requested operation
@@ -246,7 +246,7 @@ If configuration is present, `CheckWorkspace` MUST:
 
 ### 7.6 Target Selection Validation
 
-If `CheckWorkspace` is invoked in a mode that requires a target, then:
+If `CheckWork` is invoked in a mode that requires a target, then:
 
 * target selection MUST be explicit
 * ambiguous or missing target selection MUST be refused
@@ -256,7 +256,7 @@ If `CheckWorkspace` is invoked in a mode that requires a target, then:
 
 ### 7.7 Safety and Hygiene Checks
 
-If `CheckWorkspace` is invoked as a prerequisite for an operation that would modify many files, Workbench MUST ensure that:
+If `CheckWork` is invoked as a prerequisite for an operation that would modify many files, Workbench MUST ensure that:
 
 * a dry-run mode exists for the operation
 * conflicts that would overwrite existing files are detected
@@ -270,9 +270,9 @@ On conflict, Workbench MUST either:
 
 ### 7.8 Diagnostic Requirements
 
-When `CheckWorkspace` refuses, Diagnostics MUST:
+When `CheckWork` refuses, Diagnostics MUST:
 
-* identify the workspace root that was checked
+* identify the work root that was checked
 * identify each failed rule
 * provide a constructive, non-blaming explanation for each failure
 
@@ -294,7 +294,7 @@ Responses MUST be serializable, deterministic, and inspectable.
 Given identical:
 
 * inputs
-* workspace state
+* work state
 * configuration sources
 * selected targets
 * Workbench and Kernel versions

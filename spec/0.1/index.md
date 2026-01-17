@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -42,7 +42,7 @@ This spec set is organized by:
 * [Scope, Boundaries, and Non-Goals](foundation/scope-boundaries-and-non-goals/)
 * [Kernel Architecture](foundation/kernel-architecture/)
 * [Identifier Canonicalization](foundation/identifier-canonicalization/)
-* [Workspace Filesystem Root](foundation/workspace-filesystem-root/)
+* [Workspace and Work Filesystem Roots](foundation/workspace-filesystem-root/)
 * [Module Filesystem Assembly](foundation/module-filesystem-assembly/)
 
 ### 3.2 Behavior
@@ -130,15 +130,21 @@ This spec set is organized by:
 
 ### 3.13 Workbench
 
+* [Workbench Index](workbench/)
+* [Workbench Principles](workbench/workbench-principles/)
 * [Workbench Contract](workbench/workbench-contract/)
-* [Workbench Core Contract](workbench/workbench-core-contract/)
-* [Workbench Workspace Filesystem Contract](workbench/workbench-workspace-filesystem-contract/)
-* [Workbench Workspace Config Format](workbench/workbench-workspace-config-format/)
-* [Workbench Template Format](workbench/workbench-template-format/)
-* [Workbench Templates and File Plans](workbench/workbench-templates-and-file-plans/)
-* [Workbench Preview Mode](workbench/workbench-preview-mode/)
-* [Workbench Generators](workbench/workbench-generators/)
-* [`paperhat check` Contract](workbench/workbench-paperhat-check-contract/)
+* [Core Contract](workbench/core-contract/)
+* [Core Command Protocol](workbench/core-command-protocol/)
+* [Work Filesystem Contract](workbench/filesystem-contract/)
+* [Work Configuration Contract](workbench/workspace-configuration-contract/)
+* [Preview and Build Orchestration Contract](workbench/preview-and-build-orchestration-contract/)
+* [Template Format](workbench/template-format/)
+* [Templates and File Plans](workbench/templates-and-file-plans/)
+* [ConceptForm Contract](workbench/conceptform-contract/)
+* [Authoring Projections Contract](workbench/authoring-projections-contract/)
+* [Assistive Authoring Contract](workbench/assistive-authoring-contract/)
+* [Diagnostic Messaging and Help](workbench/diagnostic-messaging-and-help/)
+* [Introspection and Explanation Contract](workbench/introspection-and-explanation-contract/)
 
 ### 3.14 Adapters
 

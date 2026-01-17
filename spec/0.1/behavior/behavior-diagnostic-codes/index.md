@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -257,6 +257,35 @@ This requirement is shared with the Diagnostic Messaging and Help Philosophy spe
 
 - `AnyElementSatisfies::NEED_BOOLEAN`
   - emitted when the predicate expression evaluates to `Valid(x)` where `x` is not `Boolean`.
+
+---
+
+## 6. Relational and Predicate Codes (Normative)
+
+### 6.1 Ordering operators
+
+- `IsLessThan::NEED_COMPARABLE_VALUES`
+  - emitted when the operands are not comparable under v0.1 Value Ordering and Structural Equality.
+
+- `IsMoreThan::NEED_COMPARABLE_VALUES`
+  - emitted when the operands are not comparable under v0.1 Value Ordering and Structural Equality.
+
+- `IsNoLessThan::NEED_COMPARABLE_VALUES`
+  - emitted when the operands are not comparable under v0.1 Value Ordering and Structural Equality.
+
+- `IsNoMoreThan::NEED_COMPARABLE_VALUES`
+  - emitted when the operands are not comparable under v0.1 Value Ordering and Structural Equality.
+
+### 6.2 Boolean predicate composition
+
+- `Not::NEED_BOOLEAN`
+  - emitted when the operand evaluates to `Valid(x)` where `x` is not `Boolean`.
+
+- `And::NEED_BOOLEAN`
+  - emitted when any operand evaluates to `Valid(x)` where `x` is not `Boolean`.
+
+- `Or::NEED_BOOLEAN`
+  - emitted when any operand evaluates to `Valid(x)` where `x` is not `Boolean`.
 
 ### 5.8 `AllElementsSatisfy`
 

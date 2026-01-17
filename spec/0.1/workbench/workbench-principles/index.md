@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -119,7 +119,7 @@ Workbench MUST support **read-only introspection** into its internal products.
 
 Introspection MAY include:
 
-* workspace structure
+* work structure
 * assembled artifacts
 * resolved identifiers and references
 * graphs and relationships

@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -13,7 +13,7 @@ This document is **Normative**.
 
 ## 1. Purpose
 
-Workbench templates exist to produce a deterministic Paperhat **workspace** scaffold.
+Workbench templates exist to produce a deterministic Paperhat **Work** scaffold.
 
 This spec exists to:
 
@@ -28,7 +28,7 @@ This spec does not define the internal semantics of Codex artifacts.
 
 ## 2. Definitions
 
-- **Template**: a named, versioned recipe for producing a workspace file tree.
+- **Template**: a named, versioned recipe for producing a work file tree.
 - **Template Manifest**: the canonical metadata file that describes a template.
 - **Template Overlay**: an optional template that is applied on top of a base template.
 - **File Plan**: a deterministic plan describing which files will be created/updated and with what contents.
@@ -37,13 +37,13 @@ This spec does not define the internal semantics of Codex artifacts.
 
 ## 3. Template Layout (Normative)
 
-A template MUST be a directory.
+A template MUST be a folder.
 
-A template directory MUST contain exactly one Template Manifest file:
+A template folder MUST contain exactly one Template Manifest file:
 
 - `template.cdx`
 
-All other files within the template directory are template inputs.
+All other files within the template folder are template inputs.
 
 ---
 
@@ -113,14 +113,14 @@ Rules:
 
 ## 8. Output Requirements (Normative)
 
-A template intended to create a workspace MUST produce a File Plan that creates, at minimum:
+A template intended to create a Work MUST produce a File Plan that creates, at minimum:
 
 - `modules/`
 - `.paperhat/`
 
 See also:
 
-- [Workbench Workspace Filesystem Contract](../workbench-workspace-filesystem-contract/)
+- [Work Filesystem Contract](../filesystem-contract/)
 
 ---
 

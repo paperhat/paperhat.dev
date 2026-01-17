@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -140,7 +140,7 @@ If assistive behavior cannot be specified, it MUST be refused.
 
 ## 9. Privacy and Boundaries (Normative)
 
-Assistive systems MUST respect workspace boundaries.
+Assistive systems MUST respect work boundaries.
 
 They MUST NOT:
 

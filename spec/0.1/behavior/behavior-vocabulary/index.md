@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: LOCKED  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 
@@ -56,7 +56,7 @@ See [presence-and-missingness/index.md](presence-and-missingness/index.md).
 
 ### 3.4 Relational and predicates
 
-(TBD)
+See [relational-and-predicates/index.md](relational-and-predicates/index.md).
 
 ### 3.5 Text
 

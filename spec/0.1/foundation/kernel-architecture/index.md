@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -27,6 +27,16 @@ This specification does **not** govern:
 * any particular programming language or runtime
 * any particular storage backend or network protocol
 * any particular developer tooling UX (CLI flag names, editor integrations)
+
+---
+
+## 1.1 Shell Tooling (Normative)
+
+A **Shell** is developer tooling that operates on a Work and invokes the Kernel to produce deterministic outputs.
+
+Workbench is a Shell.
+
+Paperhat Workshop ("Workshop") is the distributed application that contains Kernel and Workbench.
 
 ---
 
@@ -70,7 +80,7 @@ Kernel inputs MUST be explicit.
 
 At minimum, a Kernel invocation MUST be able to accept:
 
-* a workspace root (or equivalent assembly root)
+* a work root (or equivalent assembly root)
 * an explicit ordered set of pack roots (possibly empty)
 * a target context (when producing target-aware derived artifacts such as Presentation Plans)
 * context signals (typed, symbolic inputs for adaptive planning)
@@ -115,13 +125,13 @@ Rules:
 
 1. Dialect meaning MUST be defined by an ontology-as-triples plus declarative constraints.
 2. Dialect selection MUST be deterministic and MUST be based on explicit artifact role and/or explicit configuration.
-3. Shell tooling MUST NOT guess dialects or reinterpret authored meaning.
+3. Shell tooling uses Kernel-defined dialect semantics as authoritative and applies them deterministically.
 
 Common dialects (non-exhaustive):
 
 * **Data dialect** — domain facts intended to compile to the Domain Graph.
 * **View dialect** — view definitions intended to compile to the View Graph.
-* **Assembly dialect** — workspace and module assembly declarations.
+* **Assembly dialect** — work and module assembly declarations.
 * **Configuration dialect** — explicit configuration inputs for deterministic compilation and planning.
 * **DesignIntent dialect** — intent axis assignments intended to be selected by DesignPolicy and resolved into Presentation Plans.
 * **DesignPolicy dialect** — declarative planning policy (intent selection, context conditions, structural transforms) intended to produce Presentation Plans.
@@ -146,7 +156,7 @@ Rules:
 
 ## 8. Packs (Normative)
 
-Packs are versioned, explicit inputs to Kernel. A **pack** is a versioned directory of Codex artifacts.
+Packs are versioned, explicit inputs to Kernel. A **pack** is a versioned folder of Codex artifacts.
 
 Packs exist to define and distribute dialect ontologies and domain vocabularies without baking them into the Kernel.
 
@@ -170,7 +180,7 @@ Kernel MUST treat packs as explicit inputs.
 
 Rules:
 
-1. Kernel MUST accept an explicit ordered list of pack roots (directories) as input.
+1. Kernel MUST accept an explicit ordered list of pack roots (folders) as input.
 2. Kernel MUST NOT rely on ambient filesystem iteration order to determine which packs are loaded.
 3. If a pack root is present on disk but not provided as an explicit input, it MUST NOT affect outputs.
 
@@ -205,15 +215,15 @@ Rules:
 
 A Shell (such as Workbench) MAY provide:
 
-* workspace scaffolding and generators
+* work scaffolding and generators
 * file watching and incremental rebuild orchestration
 * running the Kernel and capturing diagnostics
 * invoking renderers and writing outputs
 * providing a local preview surface
 
-Shell tooling MUST treat the Kernel as the semantic authority.
+Shell tooling treats the Kernel as the semantic authority.
 
-Shell tooling MUST NOT perform its own semantic compilation.
+Shell tooling invokes the Kernel for semantic compilation, validation, and planning.
 
 ---
 

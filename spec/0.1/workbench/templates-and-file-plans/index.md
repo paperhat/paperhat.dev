@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -16,7 +16,7 @@ This specification defines Workbench’s template system at the level necessary 
 * idempotency
 * refusal-by-default safety
 
-Templates exist to produce deterministic workspace scaffolds and authored boilerplate through **File Plans**.
+Templates exist to produce deterministic Work scaffolds and authored boilerplate through **File Plans**.
 
 This document is **Normative**.
 
@@ -24,7 +24,7 @@ This document is **Normative**.
 
 ## 2. Definitions
 
-* **Template**: a named, versioned recipe for producing a workspace file tree.
+* **Template**: a named, versioned recipe for producing a work file tree.
 * **File Plan**: a deterministic plan describing which files will be created/updated and with what contents.
 
 ---
@@ -80,7 +80,7 @@ Rules:
 
 ## 7. Filesystem Placement Rules (Normative)
 
-Templates and generators MUST obey the Workbench Workspace Filesystem Contract.
+Templates and generators MUST obey the Workbench Work Filesystem Contract.
 
 Rules:
 
@@ -94,7 +94,7 @@ Tool-owned artifacts MAY be written under `.paperhat/` only when explicitly spec
 
 ## 8. Minimum Generator Capabilities (Normative)
 
-Workbench MUST support creating boilerplate sufficient to bootstrap a workspace.
+Workbench MUST support creating boilerplate sufficient to bootstrap a Work.
 
 This capability MAY be provided through templates, overlays, or explicit generator commands, but MUST be expressible as File Plans.
 

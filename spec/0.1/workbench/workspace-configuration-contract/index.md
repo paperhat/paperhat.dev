@@ -1,15 +1,15 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
-# Paperhat Workbench Workspace Configuration Contract
+# Paperhat Workbench Work Configuration Contract
 
 ---
 
 ## 1. Purpose
 
-This specification defines the **workspace configuration model** used by the Paperhat Workbench.
+This specification defines the **work configuration model** used by the Paperhat Workbench.
 
 It exists to ensure that:
 
@@ -26,7 +26,7 @@ This document is **Normative**.
 
 This specification governs:
 
-* workspace configuration sources
+* work configuration sources
 * compiled configuration artifacts
 * target definitions and selection
 * configuration compilation behavior
@@ -42,7 +42,7 @@ This specification does **not** define:
 
 ## 3. Configuration Principles (Normative)
 
-Workspace configuration MUST be:
+Work configuration MUST be:
 
 * explicit
 * deterministic
@@ -56,15 +56,87 @@ Workbench MUST NOT infer configuration from ambient environment.
 
 ## 4. Configuration Locations (Normative)
 
-Workbench workspace configuration MUST be represented as a single canonical Codex artifact at:
+Workbench work configuration MUST be represented as a single canonical Codex artifact at:
 
 * `.paperhat/configuration.cdx`
 
 This file is the authoritative configuration input for Workbench operations.
 
-### 4.1 Relationship to the Filesystem Contract (Normative)
+### 4.1 Workspace-Level Configuration (Normative)
 
-This specification assumes the workspace filesystem requirements defined by the Workspace Filesystem Contract.
+A Workspace MAY provide a Workspace-level configuration file at:
+
+* `workspace.cdx`
+
+If present, `workspace.cdx` supplies Workspace-scoped defaults (for example: defaults for `paperhat new`, template sources, and other workspace-level behavior).
+
+`workspace.cdx` is not a substitute for the authoritative Work configuration file.
+
+#### 4.1.1 `workspace.cdx` Shape (Normative)
+
+If `workspace.cdx` is present, it MUST be valid Codex and MUST conform to the following minimal shape.
+
+Recognized top-level keys:
+
+* `defaultTemplate` (string) — default template identifier used by `paperhat new` when no template is explicitly provided.
+* `templateSources` (array) — an ordered list of template source identifiers.
+* `assets` (object) — Workspace-level shared asset settings.
+
+If `assets` is present, it MUST support:
+
+* `enabled` (boolean)
+* `path` (string) — MUST be `assets/`.
+
+Rules:
+
+1. `workspace.cdx` MUST be treated as Workspace-scoped defaults only.
+2. `workspace.cdx` MUST NOT change the semantic results of a build for an existing Work.
+3. Workbench MUST refuse a `workspace.cdx` that contains unknown top-level keys.
+4. Workbench MUST treat `templateSources` ordering as authoritative.
+
+### 4.2 User-Level Configuration (Normative)
+
+A user MAY provide user-level configuration under:
+
+* `~/.paperhat/`
+
+User-level configuration supports selecting and organizing multiple Workspaces (for example: separate business and personal Workspaces) and defining user preferences.
+
+User-level configuration is convenience configuration.
+
+#### 4.2.1 Workspace Registry (Normative)
+
+If user-level configuration is used to select and organize multiple Workspaces, the canonical registry file is:
+
+* `~/.paperhat/workspaces.cdx`
+
+If present, `~/.paperhat/workspaces.cdx` MUST be valid Codex and MUST conform to the following minimal shape.
+
+Recognized top-level keys:
+
+* `workspaces` (array) — an ordered list of Workspace registrations.
+* `defaultWorkspace` (string) — the name of the default Workspace.
+
+Each entry in `workspaces` MUST contain:
+
+* `name` (string)
+* `path` (string) — an absolute path to the Workspace root folder.
+
+Selection rules:
+
+1. If a Workspace root is provided explicitly as a path input, that path is authoritative for the operation.
+2. If a Workspace is provided explicitly as a name, Workbench resolves the name using `~/.paperhat/workspaces.cdx`.
+3. If no Workspace is provided explicitly, Workbench MAY use `defaultWorkspace` if present.
+
+Rules:
+
+1. User-level configuration MUST NOT change the semantic results of a build for an existing Work.
+2. Workbench MUST refuse a registry that contains duplicate `name` entries.
+3. Workbench MUST refuse a registry entry whose `path` does not resolve to a Workspace root.
+
+### 4.3 Relationship to the Filesystem Contract (Normative)
+
+This specification assumes the work filesystem requirements defined by the Work Filesystem Contract.
 
 In particular:
 
@@ -72,7 +144,7 @@ In particular:
 * build outputs belong under `output/{target}/`
 * documentation outputs belong under `documentation/{target}/`
 
-See: [Paperhat Workbench Workspace Filesystem Contract](../filesystem-contract/).
+See: [Paperhat Workbench Work Filesystem Contract](../filesystem-contract/).
 
 ---
 
@@ -86,7 +158,18 @@ Configuration sources:
 
 Workbench MUST NOT consult time, randomness, network, or environment when interpreting configuration sources.
 
-### 5.1 Canonical Configuration File (Normative)
+### 5.1 Configuration Layering (Normative)
+
+Workbench behavior MUST be determined by explicit inputs and explicit configuration sources.
+
+Rules:
+
+1. `.paperhat/configuration.cdx` is authoritative for a Work.
+2. `workspace.cdx` MAY supply Workspace-scoped defaults for Workbench operations.
+3. User-level configuration under `~/.paperhat/` MAY supply user-scoped defaults and a registry of Workspace roots (for example: `~/.paperhat/workspaces.cdx`).
+4. User-level configuration MUST NOT change the semantic results of a build for an existing Work; it may select paths and defaults.
+
+### 5.2 Canonical Configuration File (Normative)
 
 The canonical configuration file is:
 
@@ -196,7 +279,7 @@ Configuration compilation failures MUST:
 
 * refuse the operation
 * return Diagnostics
-* identify the workspace root
+* identify the work root
 * identify failing configuration sources
 * identify the intended compiled configuration output path
 * explain unmet requirements constructively
@@ -219,7 +302,7 @@ Ad-hoc configuration behavior is forbidden.
 
 ## 14. Reality Rule (Normative)
 
-This specification defines workspace configuration **as it is**.
+This specification defines work configuration **as it is**.
 
 There is no legacy configuration format.
 There are no implicit defaults.

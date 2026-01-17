@@ -1,5 +1,5 @@
 Status: INFORMATIVE  
-Lock State: DRAFT (candidate for LOCKED)  
+Lock State: UNLOCKED  
 Version: 0.1  
 Editor: Charles F. Munat
 

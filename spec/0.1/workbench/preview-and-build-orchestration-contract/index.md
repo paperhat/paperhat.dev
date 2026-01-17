@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED  
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -70,7 +70,7 @@ Rules:
 * ambiguous or implicit target selection is forbidden
 * refusal MUST occur if no target is selected
 
-Target identifiers MUST conform to the Workspace Configuration Contract.
+Target identifiers MUST conform to the Work Configuration Contract.
 
 ---
 
@@ -83,7 +83,7 @@ In preview mode, the Workbench MUST:
 * watch authored content under `modules/` for changes
 * rebuild deterministically when watched inputs change
 * preserve authored content on failure
-* surface Diagnostics without corrupting workspace state
+* surface Diagnostics without corrupting work state
 * avoid external network dependencies for preview serving
 
 Preview mode MUST NOT:
@@ -99,10 +99,10 @@ Preview mode MUST NOT:
 
 In preview mode, Workbench MUST:
 
-* establish a deterministic watch set rooted at the workspace inputs used by the selected target
+* establish a deterministic watch set rooted at the work inputs used by the selected target
 * trigger rebuilds only from explicit observed changes
 * ensure rebuild sequencing is deterministic
-* ensure failures do not corrupt outputs or workspace
+* ensure failures do not corrupt outputs or work
 
 Workbench MUST treat “watch mode” as an orchestration concern only.
 
@@ -128,9 +128,9 @@ Build mode exists to produce **deterministic artifacts**.
 
 In build mode, the Workbench MUST:
 
-* validate the workspace and configuration
+* validate the work and configuration
 * execute the full deterministic pipeline for the selected target(s)
-* write outputs to target-specific output directories
+* write outputs to target-specific output folders
 * produce identical artifacts given identical inputs
 
 Build mode MUST NOT:
@@ -171,7 +171,7 @@ Workbench MUST NOT persist:
 
 Given identical:
 
-* workspace state
+* work state
 * configuration
 * selected target(s)
 * Workbench and Kernel versions
