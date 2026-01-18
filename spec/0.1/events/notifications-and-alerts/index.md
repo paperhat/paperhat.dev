@@ -49,11 +49,11 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Workflow Orchestration](../workflow-orchestration/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Approvals and Human-in-the-Loop](../approvals-and-human-in-the-loop/)
-* [Authentication and Authorization](../authentication-and-authorization/)
+* [Workflow Orchestration](../../workflow/workflow-orchestration/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Reliability and Failure Semantics](../../workflow/reliability-and-failure-semantics/)
+* [Approvals and Human-in-the-Loop](../../workflow/approvals-and-human-in-the-loop/)
+* [Authentication and Authorization](../../security/authentication-and-authorization/)
 
 ---
 

@@ -46,10 +46,10 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Localized Messages and Locale Resolution](../localized-messages-and-locale-resolution/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
+* [Localized Messages and Locale Resolution](../../validation/localized-messages-and-locale-resolution/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
 * [Provenance and Lineage](../provenance-and-lineage/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

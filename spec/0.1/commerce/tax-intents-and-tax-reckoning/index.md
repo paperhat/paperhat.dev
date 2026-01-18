@@ -60,8 +60,8 @@ This specification is designed to compose with:
 * [Promotions, Eligibility, and Stacking](../promotions-eligibility-and-stacking/)
 * [Stored Value Application](../stored-value-application/)
 * [Refund Policies and Refund Reckoning](../refund-policies-and-refund-reckoning/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
-* [Provenance and Lineage](../provenance-and-lineage/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
+* [Provenance and Lineage](../../data/provenance-and-lineage/)
 
 ---
 

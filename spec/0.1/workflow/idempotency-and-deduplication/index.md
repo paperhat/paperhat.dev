@@ -47,10 +47,10 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 * [Concurrency and Parallelism](../concurrency-and-parallelism/)
 * [Cancellation and Termination](../cancellation-and-termination/)
-* [Integrations and Credentials](../integrations-and-credentials/)
+* [Integrations and Credentials](../../security/integrations-and-credentials/)
 
 ---
 

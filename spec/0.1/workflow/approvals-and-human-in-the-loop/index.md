@@ -48,8 +48,8 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
-* [Authentication and Authorization](../authentication-and-authorization/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Authentication and Authorization](../../security/authentication-and-authorization/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 * [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
 
 ---

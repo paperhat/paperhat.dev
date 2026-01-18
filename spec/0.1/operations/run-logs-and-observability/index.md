@@ -48,10 +48,10 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Workflow Orchestration](../workflow-orchestration/)
-* [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Integrations and Credentials](../integrations-and-credentials/)
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
+* [Workflow Orchestration](../../workflow/workflow-orchestration/)
+* [Reliability and Failure Semantics](../../workflow/reliability-and-failure-semantics/)
+* [Integrations and Credentials](../../security/integrations-and-credentials/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
 
 ---
 

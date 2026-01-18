@@ -57,9 +57,9 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Secrets and Redaction](../secrets-and-redaction/)
-* [Search, Indexing, and Query](../search-indexing-and-query/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Secrets and Redaction](../../security/secrets-and-redaction/)
+* [Search, Indexing, and Query](../../data/search-indexing-and-query/)
 
 ---
 

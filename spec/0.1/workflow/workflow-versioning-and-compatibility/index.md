@@ -51,7 +51,7 @@ This specification is designed to compose with:
 * [Workflow Orchestration](../workflow-orchestration/)
 * [Subworkflows and Reuse](../subworkflows-and-reuse/)
 * [Triggers and Scheduling](../triggers-and-scheduling/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

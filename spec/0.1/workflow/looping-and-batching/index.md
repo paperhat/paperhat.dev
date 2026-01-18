@@ -49,11 +49,11 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
-* [Data Transformation and Mapping](../data-transformation-and-mapping/)
+* [Data Transformation and Mapping](../../data/data-transformation-and-mapping/)
 * [Conditions and Branching](../conditions-and-branching/)
 * [Concurrency and Parallelism](../concurrency-and-parallelism/)
 * [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

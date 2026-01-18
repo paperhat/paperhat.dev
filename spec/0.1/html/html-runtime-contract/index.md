@@ -38,11 +38,11 @@ HTML Runtime MUST NOT typecheck Behavior Programs.
 
 HTML Runtime MUST execute Behavior Programs exactly as encoded and as defined by:
 
-- [Behavior Program Encoding](../behavior-program-encoding/)
+- [Behavior Program Encoding](../../behavior/behavior-program-encoding/)
 
 See also:
 
-- [Presentation Plan Encoding](../presentation-plan-encoding/)
+- [Presentation Plan Encoding](../../presentation/presentation-plan-encoding/)
 
 ---
 
@@ -62,7 +62,7 @@ HTML Runtime MUST NOT depend on ambient network access.
 
 HTML Runtime MUST be able to evaluate Behavior Programs encoded according to:
 
-- [Behavior Program Encoding](../behavior-program-encoding/)
+- [Behavior Program Encoding](../../behavior/behavior-program-encoding/)
 
 HTML Runtime MUST support arbitrarily nested programs.
 

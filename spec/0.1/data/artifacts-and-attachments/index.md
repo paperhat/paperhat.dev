@@ -49,10 +49,10 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Workflow Orchestration](../workflow-orchestration/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Integrations and Credentials](../integrations-and-credentials/)
-* [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
+* [Workflow Orchestration](../../workflow/workflow-orchestration/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Integrations and Credentials](../../security/integrations-and-credentials/)
+* [Reliability and Failure Semantics](../../workflow/reliability-and-failure-semantics/)
 * [Data Stores and Shared Variables](../data-stores-and-shared-variables/)
 
 ---

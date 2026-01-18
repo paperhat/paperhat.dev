@@ -49,7 +49,7 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Workflow Orchestration](../workflow-orchestration/)
+* [Workflow Orchestration](../../workflow/workflow-orchestration/)
 * [Authentication and Authorization](../authentication-and-authorization/)
 
 ---

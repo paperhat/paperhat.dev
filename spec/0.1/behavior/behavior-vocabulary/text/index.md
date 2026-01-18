@@ -263,4 +263,10 @@ Tooling MAY accept legacy or shorthand spellings as input aliases, but SHOULD no
 
 ---
 
+## 10. Conformance Appendix (Informative)
+
+See [conformance-appendix/index.md](conformance-appendix/index.md).
+
+---
+
 **End of Behavior Vocabulary — Text v0.1**

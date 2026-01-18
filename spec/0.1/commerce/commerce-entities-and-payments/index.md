@@ -48,9 +48,9 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Reckoning and Price Transformations](../reckoning-and-price-transformations/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
-* [Provenance and Lineage](../provenance-and-lineage/)
-* [Idempotency and De-duplication](../idempotency-and-deduplication/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
+* [Provenance and Lineage](../../data/provenance-and-lineage/)
+* [Idempotency and De-duplication](../../workflow/idempotency-and-deduplication/)
 
 ---
 

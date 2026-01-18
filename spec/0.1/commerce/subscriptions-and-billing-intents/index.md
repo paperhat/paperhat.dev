@@ -50,9 +50,9 @@ This specification is designed to compose with:
 
 * [Commerce Entities and Payments](../commerce-entities-and-payments/)
 * [Reckoning and Price Transformations](../reckoning-and-price-transformations/)
-* [Idempotency and De-duplication](../idempotency-and-deduplication/)
-* [Provenance and Lineage](../provenance-and-lineage/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
+* [Idempotency and De-duplication](../../workflow/idempotency-and-deduplication/)
+* [Provenance and Lineage](../../data/provenance-and-lineage/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
 
 ---
 

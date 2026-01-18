@@ -85,9 +85,9 @@ Signature:
 
 Semantics:
 
-- If either operand is not `Text`, return `Invalid(...)` with code `<Operator>::NEED_TEXT`.
+- If either operand is not `Text`, return `Invalid(...)` with code `IsAfterDate::NEED_TEXT` / `IsBeforeDate::NEED_TEXT` / `IsNotAfterDate::NEED_TEXT` / `IsNotBeforeDate::NEED_TEXT` / `IsSameDate::NEED_TEXT`.
 - Otherwise parse both operands as `PlainDate`.
-- If parsing fails for either operand, return `Invalid(...)` with code `<Operator>::INVALID_PLAIN_DATE`.
+- If parsing fails for either operand, return `Invalid(...)` with code `IsAfterDate::INVALID_PLAIN_DATE` / `IsBeforeDate::INVALID_PLAIN_DATE` / `IsNotAfterDate::INVALID_PLAIN_DATE` / `IsNotBeforeDate::INVALID_PLAIN_DATE` / `IsSameDate::INVALID_PLAIN_DATE`.
 - Otherwise compare by chronological order.
 
 ---
@@ -110,9 +110,9 @@ Signature:
 
 Semantics:
 
-- If either operand is not `Text`, return `Invalid(...)` with code `<Operator>::NEED_TEXT`.
+- If either operand is not `Text`, return `Invalid(...)` with code `IsAfterTime::NEED_TEXT` / `IsBeforeTime::NEED_TEXT` / `IsNotAfterTime::NEED_TEXT` / `IsNotBeforeTime::NEED_TEXT` / `IsSameTime::NEED_TEXT`.
 - Otherwise parse both operands as `PlainTime`.
-- If parsing fails for either operand, return `Invalid(...)` with code `<Operator>::INVALID_PLAIN_TIME`.
+- If parsing fails for either operand, return `Invalid(...)` with code `IsAfterTime::INVALID_PLAIN_TIME` / `IsBeforeTime::INVALID_PLAIN_TIME` / `IsNotAfterTime::INVALID_PLAIN_TIME` / `IsNotBeforeTime::INVALID_PLAIN_TIME` / `IsSameTime::INVALID_PLAIN_TIME`.
 - Otherwise compare by chronological order within a day.
 
 ---
@@ -135,9 +135,9 @@ Signature:
 
 Semantics:
 
-- If either operand is not `Text`, return `Invalid(...)` with code `<Operator>::NEED_TEXT`.
+- If either operand is not `Text`, return `Invalid(...)` with code `IsAfterDateTime::NEED_TEXT` / `IsBeforeDateTime::NEED_TEXT` / `IsNotAfterDateTime::NEED_TEXT` / `IsNotBeforeDateTime::NEED_TEXT` / `IsSameDateTime::NEED_TEXT`.
 - Otherwise parse both operands as `PlainDateTime`.
-- If parsing fails for either operand, return `Invalid(...)` with code `<Operator>::INVALID_PLAIN_DATETIME`.
+- If parsing fails for either operand, return `Invalid(...)` with code `IsAfterDateTime::INVALID_PLAIN_DATETIME` / `IsBeforeDateTime::INVALID_PLAIN_DATETIME` / `IsNotAfterDateTime::INVALID_PLAIN_DATETIME` / `IsNotBeforeDateTime::INVALID_PLAIN_DATETIME` / `IsSameDateTime::INVALID_PLAIN_DATETIME`.
 - Otherwise compare by chronological order in local date-time ordering.
 
 ---
@@ -145,6 +145,12 @@ Semantics:
 ## 7. Relationship to Other Specifications
 
 - The lexical profiles are defined by Behavior Dialect §18.
+
+---
+
+## 8. Conformance Appendix (Informative)
+
+See [conformance-appendix/index.md](conformance-appendix/index.md).
 
 ---
 

@@ -557,10 +557,10 @@ New mechanisms:
 This specification MUST be read in conjunction with:
 
 * [Design Policy Definition Specification](../design-policy-definition/)
-* [Presentation Plan Definition Specification](../presentation-plan-definition/)
-* [Kernel Architecture Specification](../kernel-architecture/)
-* [View Definition Specification](../view-definition/)
-* [View Composition Specification](../view-composition-slots-fills-and-use/)
+* [Presentation Plan Definition Specification](../../presentation/presentation-plan-definition/)
+* [Kernel Architecture Specification](../../foundation/kernel-architecture/)
+* [View Definition Specification](../../presentation/view-definition/)
+* [View Composition Specification](../../presentation/view-composition-slots-fills-and-use/)
 
 Authority:
 

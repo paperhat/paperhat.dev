@@ -49,9 +49,9 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Authentication and Authorization](../authentication-and-authorization/)
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
-* [State, Commands, and Continuations](../state-commands-and-continuations/)
+* [Authentication and Authorization](../../security/authentication-and-authorization/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
+* [State, Commands, and Continuations](../../state/state-commands-and-continuations/)
 
 ---
 

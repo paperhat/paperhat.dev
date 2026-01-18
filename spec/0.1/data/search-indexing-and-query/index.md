@@ -49,11 +49,11 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Workflow Orchestration](../workflow-orchestration/)
+* [Workflow Orchestration](../../workflow/workflow-orchestration/)
 * [Data Transformation and Mapping](../data-transformation-and-mapping/)
 * [Data Stores and Shared Variables](../data-stores-and-shared-variables/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Resource Limits and Rate Limiting](../resource-limits-and-rate-limiting/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Resource Limits and Rate Limiting](../../workflow/resource-limits-and-rate-limiting/)
 
 ---
 

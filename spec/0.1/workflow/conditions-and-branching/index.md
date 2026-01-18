@@ -48,9 +48,9 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
-* [Data Transformation and Mapping](../data-transformation-and-mapping/)
-* [State, Commands, and Continuations](../state-commands-and-continuations/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Data Transformation and Mapping](../../data/data-transformation-and-mapping/)
+* [State, Commands, and Continuations](../../state/state-commands-and-continuations/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

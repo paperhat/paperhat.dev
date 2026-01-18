@@ -231,11 +231,11 @@ Shell tooling invokes the Kernel for semantic compilation, validation, and plann
 
 This specification MUST be read in conjunction with:
 
-* [Design Intent Definition Specification](../design-intent-definition/)
-* [Design Policy Definition Specification](../design-policy-definition/)
-* [Presentation Plan Definition Specification](../presentation-plan-definition/)
-* [View Definition Specification](../view-definition/)
-* [View Composition Specification](../view-composition-slots-fills-and-use/)
+* [Design Intent Definition Specification](../../design/design-intent-definition/)
+* [Design Policy Definition Specification](../../design/design-policy-definition/)
+* [Presentation Plan Definition Specification](../../presentation/presentation-plan-definition/)
+* [View Definition Specification](../../presentation/view-definition/)
+* [View Composition Specification](../../presentation/view-composition-slots-fills-and-use/)
 
 ---
 

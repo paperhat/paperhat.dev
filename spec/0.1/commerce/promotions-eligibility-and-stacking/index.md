@@ -57,9 +57,9 @@ This specification is designed to compose with:
 
 * [Reckoning and Price Transformations](../reckoning-and-price-transformations/)
 * [Commerce Entities and Payments](../commerce-entities-and-payments/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
-* [Provenance and Lineage](../provenance-and-lineage/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
+* [Provenance and Lineage](../../data/provenance-and-lineage/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

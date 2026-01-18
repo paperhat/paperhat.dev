@@ -43,7 +43,7 @@ All are Direct except where noted:
 | --------------- | ---------------------------- | ------ | ------ | ---------------- | ------------------ | ------ | --------------------------- | ------ | ------------------------- |
 | IsNotANumber(x) | Direct: `Number.isNaN(x)`    | Direct | Direct | Direct           | Direct: `isnan`    | Direct | Direct: `math.IsNaN`        | Direct | Direct                    |
 | IsFinite(x)     | Direct: `Number.isFinite(x)` | Direct | Direct | Direct (.NET 5+) | Direct: `isfinite` | Direct | Emulate: `!IsNaN && !IsInf` | Direct | Direct                    |
-| IsInfinite(x)   | Emulate: `x===Infinity || x===-Infinity` | Direct | Direct | Direct | Direct: `isinf` | Direct | Direct: `math.IsInf(x,0)` | Direct | Direct |
+| IsInfinite(x)   | Emulate: `x===Infinity \|\| x===-Infinity` | Direct | Direct | Direct | Direct: `isinf` | Direct | Direct: `math.IsInf(x,0)` | Direct | Direct |
 
 ---
 
@@ -57,7 +57,7 @@ Direct everywhere (`Math.abs`, `abs`, `fabs`, `.abs()`, etc.).
 
 | Target     | Mapping |
 | ---------- | ------- |
-| JavaScript | **Emulate** using sign-bit detection (must preserve negative zero): `CopySign(m,s) = AbsoluteValue(m) * (IsNegativeSignBit(s) ? -1 : 1)` where `IsNegativeSignBit(s)` is `s < 0 || Object.is(s, -0)`; NaN sign-bit is not reliably observable in JS—document as “best effort”. |
+| JavaScript | **Emulate** using sign-bit detection (must preserve negative zero): `CopySign(m,s) = AbsoluteValue(m) * (IsNegativeSignBit(s) ? -1 : 1)` where `IsNegativeSignBit(s)` is `s < 0 \|\| Object.is(s, -0)`; NaN sign-bit is not reliably observable in JS—document as “best effort”. |
 | Python     | Direct: `math.copysign` |
 | Java       | Direct: `Math.copySign` |
 | C#         | Direct in modern .NET: `Math.CopySign` (else emulate) |
@@ -65,7 +65,7 @@ Direct everywhere (`Math.abs`, `abs`, `fabs`, `.abs()`, etc.).
 | Rust       | Direct: `copysign` method |
 | Go         | Direct: `math.Copysign` |
 | Swift      | Direct: `copysign` (Darwin/Glibc) |
-| Kotlin     | **Emulate**: `abs(m) * if (s < 0.0 || IsNegativeZero(s)) -1.0 else 1.0` where `IsNegativeZero(s)` uses a bit check (`toBits()`). |
+| Kotlin     | **Emulate**: `abs(m) * if (s < 0.0 \|\| IsNegativeZero(s)) -1.0 else 1.0` where `IsNegativeZero(s)` uses a bit check (`toBits()`). |
 
 ### C.3 Sign
 

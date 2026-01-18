@@ -50,8 +50,8 @@ This specification is designed to compose with:
 
 * [Concurrency and Parallelism](../concurrency-and-parallelism/)
 * [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Integrations and Credentials](../integrations-and-credentials/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Integrations and Credentials](../../security/integrations-and-credentials/)
 
 ---
 

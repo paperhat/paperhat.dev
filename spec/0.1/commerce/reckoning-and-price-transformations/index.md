@@ -48,10 +48,10 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
-* [Provenance and Lineage](../provenance-and-lineage/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Idempotency and De-duplication](../idempotency-and-deduplication/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
+* [Provenance and Lineage](../../data/provenance-and-lineage/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Idempotency and De-duplication](../../workflow/idempotency-and-deduplication/)
 
 ---
 

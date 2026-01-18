@@ -217,4 +217,10 @@ Observability constraint:
 
 ---
 
+## 8. Conformance Appendix (Informative)
+
+See [conformance-appendix/index.md](conformance-appendix/index.md).
+
+---
+
 **End of Behavior Vocabulary — Data Shapes and Validation v0.1**

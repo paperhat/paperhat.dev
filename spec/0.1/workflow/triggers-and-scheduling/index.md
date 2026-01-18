@@ -50,8 +50,8 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
-* [Authentication and Authorization](../authentication-and-authorization/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
+* [Authentication and Authorization](../../security/authentication-and-authorization/)
 
 ---
 

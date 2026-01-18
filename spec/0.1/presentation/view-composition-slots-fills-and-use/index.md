@@ -45,7 +45,7 @@ Rules:
 
 ## 2.1 See Also (Informative)
 
-- Kernel responsibilities for this step: [Kernel Architecture](../kernel-architecture/)
+- Kernel responsibilities for this step: [Kernel Architecture](../../foundation/kernel-architecture/)
 
 ---
 

@@ -57,8 +57,8 @@ This specification is designed to compose with:
 * [Reckoning and Price Transformations](../reckoning-and-price-transformations/)
 * [Stored Value Application](../stored-value-application/)
 * [Promotions, Eligibility, and Stacking](../promotions-eligibility-and-stacking/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
-* [Provenance and Lineage](../provenance-and-lineage/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
+* [Provenance and Lineage](../../data/provenance-and-lineage/)
 
 ---
 

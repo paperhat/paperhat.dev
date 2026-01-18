@@ -46,11 +46,11 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Data Transformation and Mapping](../data-transformation-and-mapping/)
-* [Conditions and Branching](../conditions-and-branching/)
-* [Looping and Batching](../looping-and-batching/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Secrets and Redaction](../secrets-and-redaction/)
+* [Data Transformation and Mapping](../../data/data-transformation-and-mapping/)
+* [Conditions and Branching](../../workflow/conditions-and-branching/)
+* [Looping and Batching](../../workflow/looping-and-batching/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Secrets and Redaction](../../security/secrets-and-redaction/)
 
 ---
 

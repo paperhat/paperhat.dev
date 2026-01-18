@@ -51,8 +51,8 @@ This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
 * [Triggers and Scheduling](../triggers-and-scheduling/)
-* [Integrations and Credentials](../integrations-and-credentials/)
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
+* [Integrations and Credentials](../../security/integrations-and-credentials/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
 
 ---
 

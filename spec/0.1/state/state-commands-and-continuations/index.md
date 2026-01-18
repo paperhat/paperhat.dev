@@ -48,7 +48,7 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
 
 ---
 

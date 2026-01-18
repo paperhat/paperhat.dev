@@ -50,7 +50,7 @@ This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
 * [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 * [Workflow Versioning and Compatibility](../workflow-versioning-and-compatibility/)
 
 ---

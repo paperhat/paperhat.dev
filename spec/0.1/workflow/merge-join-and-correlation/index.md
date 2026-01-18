@@ -52,8 +52,8 @@ This specification is designed to compose with:
 * [Concurrency and Parallelism](../concurrency-and-parallelism/)
 * [Looping and Batching](../looping-and-batching/)
 * [Conditions and Branching](../conditions-and-branching/)
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

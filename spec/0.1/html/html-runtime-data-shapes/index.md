@@ -96,7 +96,7 @@ Behavior Program evaluation in the HTML runtime MUST yield a `Validation`.
 
 The Behavior Program interchange format is defined by:
 
-- [Behavior Program Encoding](../behavior-program-encoding/)
+- [Behavior Program Encoding](../../behavior/behavior-program-encoding/)
 
 ---
 

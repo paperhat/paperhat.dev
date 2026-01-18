@@ -47,12 +47,12 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 * [Data Transformation and Mapping](../data-transformation-and-mapping/)
 * [Search, Indexing, and Query](../search-indexing-and-query/)
 * [Artifacts and Attachments](../artifacts-and-attachments/)
-* [Secrets and Redaction](../secrets-and-redaction/)
-* [Data Validation and Shape Constraints](../data-validation-and-shape-constraints/)
+* [Secrets and Redaction](../../security/secrets-and-redaction/)
+* [Data Validation and Shape Constraints](../../validation/data-validation-and-shape-constraints/)
 
 ---
 

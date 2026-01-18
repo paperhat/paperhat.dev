@@ -50,8 +50,8 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Workflow Orchestration](../workflow-orchestration/)
-* [State, Commands, and Continuations](../state-commands-and-continuations/)
-* [Eventing and Event Sourcing](../eventing-and-event-sourcing/)
+* [State, Commands, and Continuations](../../state/state-commands-and-continuations/)
+* [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
 * [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
 
 ---

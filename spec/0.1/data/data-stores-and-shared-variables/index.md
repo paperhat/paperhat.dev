@@ -49,11 +49,11 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
-* [Workflow Orchestration](../workflow-orchestration/)
-* [Concurrency and Parallelism](../concurrency-and-parallelism/)
-* [Resource Limits and Rate Limiting](../resource-limits-and-rate-limiting/)
-* [Reliability and Failure Semantics](../reliability-and-failure-semantics/)
-* [Run Logs and Observability](../run-logs-and-observability/)
+* [Workflow Orchestration](../../workflow/workflow-orchestration/)
+* [Concurrency and Parallelism](../../workflow/concurrency-and-parallelism/)
+* [Resource Limits and Rate Limiting](../../workflow/resource-limits-and-rate-limiting/)
+* [Reliability and Failure Semantics](../../workflow/reliability-and-failure-semantics/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
 
 ---
 

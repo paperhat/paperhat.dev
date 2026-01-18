@@ -157,6 +157,24 @@ Dialect-only derived operators (Informative):
 - The Behavior Dialect also defines `IsNotAfterAlphabetically`, `IsNotBeforeAlphabetically`, `IsSameAlphabetically`, and `IsNotSameAlphabetically`.
 - These are intentionally omitted from the canonical authoring surface because they are definable without loss using `IsAlphabeticallyBefore` / `IsAlphabeticallyAfter` plus boolean composition (`Not`, `And`, `Equivalent`).
 
+### 4A.5 String predicates
+
+Shorthand spellings:
+
+- `StartsWithSubstring` ↔ `StartsWith`
+- `EndsWithSubstring` ↔ `EndsWith`
+
+Length mappings (Informative):
+
+- `HasLengthEqualTo` ↔ `IsLength`
+- `HasLengthAtLeast` ↔ `IsNoShorterThan`
+- `HasLengthAtMost` ↔ `IsNoLongerThan`
+
+Dialect-only derived length/size operators (Informative):
+
+- The Behavior Dialect also defines `IsNotLength`, `IsSameLength`, `IsNotSameLength`, `IsLongerThan`, and `IsShorterThan`.
+- These are intentionally omitted from the canonical authoring surface because v0.1 provides the `HasLength*` family, and because the dialect versions are defined over both Text and collections.
+
 Emission rule (Normative):
 
 - Tooling that emits the canonical authoring surface MUST NOT emit dialect-only derived operator names.

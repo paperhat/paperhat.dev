@@ -49,8 +49,8 @@ This specification does **not** govern:
 This specification is designed to compose with:
 
 * [Integrations and Credentials](../integrations-and-credentials/)
-* [Run Logs and Observability](../run-logs-and-observability/)
-* [Artifacts and Attachments](../artifacts-and-attachments/)
+* [Run Logs and Observability](../../operations/run-logs-and-observability/)
+* [Artifacts and Attachments](../../data/artifacts-and-attachments/)
 * [Authentication and Authorization](../authentication-and-authorization/)
 
 ---

@@ -290,10 +290,10 @@ If a concern affects **how something looks or behaves**, it does not belong here
 This specification MUST be read alongside:
 
 * [Codex View Definition Specification](../view-definition/)
-* [Design Intent Definition Specification](../design-intent-definition/)
-* [Design Policy Definition Specification](../design-policy-definition/)
-* [Kernel Architecture Specification](../kernel-architecture/)
-* [Paperhat System Contract](../paperhat-system-contract/)
+* [Design Intent Definition Specification](../../design/design-intent-definition/)
+* [Design Policy Definition Specification](../../design/design-policy-definition/)
+* [Kernel Architecture Specification](../../foundation/kernel-architecture/)
+* [Paperhat System Contract](../../../../contracts/PAPERHAT_SYSTEM_CONTRACT/)
 
 Authority:
 

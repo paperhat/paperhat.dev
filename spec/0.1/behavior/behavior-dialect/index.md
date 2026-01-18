@@ -328,7 +328,7 @@ The pattern language for v0.1 MUST conform to the v0.1 Regular Expression Profil
 
 Profile reference:
 
-- The v0.1 Regular Expression Profile is defined by [Regular Expression Profile](../validation/regular-expression-profile/).
+- The v0.1 Regular Expression Profile is defined by [Regular Expression Profile](../../validation/regular-expression-profile/).
 
 If the pattern is invalid or uses an unsupported construct, the result MUST be `Invalid([...])`.
 
@@ -699,7 +699,7 @@ In case of conflict, the normative per-operator sections win.
 
 Canonical authoring surface note (Informative):
 
-- The preferred cross-spec naming surface for Predicates, Guards, and their composition is defined by the [Predicate, Guard, and Validation Composition Surface Specification](../validation/predicate-guard-and-validation-composition-surface/).
+- The preferred cross-spec naming surface for Predicates, Guards, and their composition is defined by the [Predicate, Guard, and Validation Composition Surface Specification](../../validation/predicate-guard-and-validation-composition-surface/).
 - This dialect retains earlier operator spellings in some families. Tooling MAY accept the following as input aliases, but SHOULD normalize to the canonical spellings when emitting the canonical authoring surface:
    - `Xor` ↔ `ExclusiveOr`
    - `IsUnequalTo` ↔ `IsNotEqualTo`
@@ -712,13 +712,17 @@ Canonical authoring surface note (Informative):
    - `IsBeforeAlphabetically` ↔ `IsAlphabeticallyBefore`
    - `StartsWith` ↔ `StartsWithSubstring`
    - `EndsWith` ↔ `EndsWithSubstring`
+   - `IsLength` ↔ `HasLengthEqualTo`
+   - `IsNoShorterThan` ↔ `HasLengthAtLeast`
+   - `IsNoLongerThan` ↔ `HasLengthAtMost`
 
 Relational operators (comparisons and relations):
 
 - Equality: `IsEqualTo`, `IsUnequalTo`
 - Ordering (numbers/strings): `IsLessThan`, `IsMoreThan`, `IsNoLessThan`, `IsNoMoreThan`
-- Pattern: `Matches`, `DoesNotMatch`
-- Alphabetical: `IsAfterAlphabetically`, `IsBeforeAlphabetically`, `IsNotAfterAlphabetically`, `IsNotBeforeAlphabetically`, `IsSameAlphabetically`, `IsNotSameAlphabetically`
+- Pattern: `MatchesRegularExpression`, `DoesNotMatchRegularExpression` (aliases: `Matches`, `DoesNotMatch`)
+- Alphabetical: `IsAlphabeticallyAfter`, `IsAlphabeticallyBefore` (aliases: `IsAfterAlphabetically`, `IsBeforeAlphabetically`)
+- Alphabetical (dialect-only derived): `IsNotAfterAlphabetically`, `IsNotBeforeAlphabetically`, `IsSameAlphabetically`, `IsNotSameAlphabetically`
 - Length/size: `IsLength`, `IsNotLength`, `IsSameLength`, `IsNotSameLength`, `IsLongerThan`, `IsShorterThan`, `IsNoLongerThan`, `IsNoShorterThan`
 - Set/collection: `IsMember`, `InSet`, `IsSubset`, `IsSuperset`, `IsDisjointSet`, `IsOverlappingSet`
 - Sequence ordering: `IsAscending`, `IsDescending`
