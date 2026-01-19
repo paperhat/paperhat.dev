@@ -47,6 +47,7 @@ This specification does **not** govern:
 
 This specification is designed to compose with:
 
+* [Value Source Specification](../value-source/)
 * [Workflow Orchestration](../../workflow/workflow-orchestration/)
 * [State, Commands, and Continuations](../../state/state-commands-and-continuations/)
 * [Eventing and Event Sourcing](../../events/eventing-and-event-sourcing/)
@@ -76,13 +77,7 @@ A **Mapping** is a declarative rule for producing an output value from one or mo
 
 A **ValueSource** identifies where a value comes from.
 
-A ValueSource MAY refer to:
-
-* a step output
-* a state projection
-* an event payload
-* a literal value
-* a contextual value (explicitly declared)
+ValueSource categories are defined by [Value Source Specification](../value-source/).
 
 ---
 

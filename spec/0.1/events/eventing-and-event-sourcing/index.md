@@ -199,17 +199,9 @@ This specification does not require any specific user interface update mechanism
 
 Value Sources MUST be target-independent.
 
-The Kernel MUST define a minimal set of Value Source concepts.
+Value Source categories are defined by [Value Source Specification](../../data/value-source/).
 
-At minimum:
-
-* **From Binding** — obtain a named bound input
-* **From State** — obtain a value from derived state (such as a projection result)
-* **From Literal** — use a literal authored value
-* **From Event** — obtain a value from the triggering event (reactive contexts only)
-* **From Context** — obtain an explicit external input (see §9)
-
-Targets MAY provide binding policies that map “From Binding” to target details.
+Targets MAY provide binding policies that map Value Sources to target details.
 Those mappings are realization, not semantics.
 
 ---
