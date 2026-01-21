@@ -1,0 +1,1119 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:math
+	family=$Math
+	version="0.1"
+>
+	<Description>
+		Mathematical operators for the Behavior Dialect.
+		Includes arithmetic, complex numbers, rounding, powers,
+		trigonometry, statistics, and combinatorics.
+	</Description>
+
+	[ GROUP: Constants ]
+
+	<ConstantDefinition
+		name="Pi"
+		domain="RealNumber"
+		value="3.141592653589793"
+		precision=15
+	/>
+
+	<ConstantDefinition
+		name="E"
+		domain="RealNumber"
+		value="2.718281828459045"
+		precision=15
+	/>
+
+	<ConstantDefinition
+		name="Tau"
+		domain="RealNumber"
+		value="6.283185307179586"
+		precision=15
+	/>
+
+	<ConstantDefinition
+		name="GoldenRatio"
+		domain="RealNumber"
+		value="1.618033988749895"
+		precision=15
+	/>
+
+	<ConstantDefinition
+		name="ImaginaryUnit"
+		domain="Imaginary"
+		value="i"
+	/>
+
+	[ END: Constants ]
+
+	[ GROUP: Basic Arithmetic ]
+
+	<OperatorDefinition name="Add" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="operands" domain="AnyNumber" variadic=true />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="all operands are Integer" then="Integer" />
+			<DomainRule when="any operand is Fraction" then="Fraction" />
+			<DomainRule when="any operand is PrecisionNumber" then="PrecisionNumber" />
+			<DomainRule when="any operand is RealNumber" then="RealNumber" />
+			<DomainRule when="any operand is Complex or Imaginary" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Add::NEED_NUMERIC" condition="any operand is not numeric" />
+			<Error code="Add::NEED_AT_LEAST_TWO" condition="fewer than 2 operands" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate all operands left to right.</Step>
+			<Step ordinal=2>Determine result domain by promotion rules.</Step>
+			<Step ordinal=3>Return sum of all operands.</Step>
+			<SpecialCase when="empty operands">Invalid with NEED_AT_LEAST_TWO.</SpecialCase>
+		</Semantics>
+		<Examples>
+			<Example input="Add(1, 2, 3)" output="6" />
+			<Example input="Add(1.5, 2.5)" output="4.0" />
+			<Example input="Add(1, 2i)" output="Complex(1, 2)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Subtract" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="minuend" domain="AnyNumber" />
+			<Parameter name="subtrahend" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="both operands are Integer" then="Integer" />
+			<DomainRule when="any operand is Fraction" then="Fraction" />
+			<DomainRule when="any operand is PrecisionNumber" then="PrecisionNumber" />
+			<DomainRule when="any operand is RealNumber" then="RealNumber" />
+			<DomainRule when="any operand is Complex or Imaginary" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Subtract::NEED_NUMERIC" condition="any operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate minuend.</Step>
+			<Step ordinal=2>Evaluate subtrahend.</Step>
+			<Step ordinal=3>Return minuend minus subtrahend.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Subtract(5, 3)" output="2" />
+			<Example input="Subtract(1, 2i)" output="Complex(1, -2)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Multiply" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="operands" domain="AnyNumber" variadic=true />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="all operands are Integer" then="Integer" />
+			<DomainRule when="any operand is Fraction" then="Fraction" />
+			<DomainRule when="any operand is PrecisionNumber" then="PrecisionNumber" />
+			<DomainRule when="any operand is RealNumber" then="RealNumber" />
+			<DomainRule when="any operand is Complex or Imaginary" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Multiply::NEED_NUMERIC" condition="any operand is not numeric" />
+			<Error code="Multiply::NEED_AT_LEAST_TWO" condition="fewer than 2 operands" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate all operands left to right.</Step>
+			<Step ordinal=2>Determine result domain by promotion rules.</Step>
+			<Step ordinal=3>Return product of all operands.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Multiply(2, 3, 4)" output="24" />
+			<Example input="Multiply(2, 3i)" output="Complex(0, 6)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Divide" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="dividend" domain="AnyNumber" />
+			<Parameter name="divisor" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="both are Integer and divisible" then="Integer" />
+			<DomainRule when="both are Integer and not divisible" then="Fraction" />
+			<DomainRule when="any is Fraction" then="Fraction" />
+			<DomainRule when="any is PrecisionNumber" then="PrecisionNumber" />
+			<DomainRule when="any is RealNumber" then="RealNumber" />
+			<DomainRule when="any is Complex or Imaginary" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Divide::NEED_NUMERIC" condition="any operand is not numeric" />
+			<Error code="Divide::DIVISION_BY_ZERO" condition="divisor is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate dividend.</Step>
+			<Step ordinal=2>Evaluate divisor.</Step>
+			<Step ordinal=3>If divisor is zero, return Invalid.</Step>
+			<Step ordinal=4>Return dividend divided by divisor.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Divide(10, 2)" output="5" />
+			<Example input="Divide(10, 3)" output="Fraction(10, 3)" />
+			<Example input="Divide(1, 0)" output="Invalid(Divide::DIVISION_BY_ZERO)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Negate" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="operand is Integer" then="Integer" />
+			<DomainRule when="operand is Fraction" then="Fraction" />
+			<DomainRule when="operand is PrecisionNumber" then="PrecisionNumber" />
+			<DomainRule when="operand is RealNumber" then="RealNumber" />
+			<DomainRule when="operand is Imaginary" then="Imaginary" />
+			<DomainRule when="operand is Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Negate::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return negation of operand.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Negate(5)" output="-5" />
+			<Example input="Negate(-3)" output="3" />
+			<Example input="Negate(2i)" output="-2i" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Absolute" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyRealNumber">
+			<DomainRule when="operand is Integer" then="Integer" />
+			<DomainRule when="operand is Fraction" then="Fraction" />
+			<DomainRule when="operand is PrecisionNumber" then="PrecisionNumber" />
+			<DomainRule when="operand is RealNumber" then="RealNumber" />
+			<DomainRule when="operand is Imaginary or Complex" then="RealNumber" />
+		</Returns>
+		<Errors>
+			<Error code="Absolute::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>For real numbers, return non-negative value.</Step>
+			<Step ordinal=3>For complex numbers, return magnitude (sqrt of sum of squares).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Absolute(-5)" output="5" />
+			<Example input="Absolute(3 + 4i)" output="5.0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Modulo" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="dividend" domain="Integer" />
+			<Parameter name="divisor" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Modulo::NEED_INTEGER" condition="any operand is not Integer" />
+			<Error code="Modulo::DIVISION_BY_ZERO" condition="divisor is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return remainder of integer division.</Step>
+			<Step ordinal=2>Result has same sign as dividend.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Modulo(7, 3)" output="1" />
+			<Example input="Modulo(-7, 3)" output="-1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Remainder" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="dividend" domain="AnyRealNumber" />
+			<Parameter name="divisor" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="AnyRealNumber" />
+		<Errors>
+			<Error code="Remainder::NEED_REAL" condition="any operand is not a real number" />
+			<Error code="Remainder::DIVISION_BY_ZERO" condition="divisor is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return IEEE 754 remainder.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Quotient" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="dividend" domain="Integer" />
+			<Parameter name="divisor" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Quotient::NEED_INTEGER" condition="any operand is not Integer" />
+			<Error code="Quotient::DIVISION_BY_ZERO" condition="divisor is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return integer quotient (truncated toward zero).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Quotient(7, 3)" output="2" />
+			<Example input="Quotient(-7, 3)" output="-2" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Basic Arithmetic ]
+
+	[ GROUP: Complex Number Operations ]
+
+	<OperatorDefinition name="MakeComplex" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="real" domain="AnyRealNumber" />
+			<Parameter name="imaginary" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Complex" />
+		<Errors>
+			<Error code="MakeComplex::NEED_REAL" condition="any operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate real part.</Step>
+			<Step ordinal=2>Evaluate imaginary part.</Step>
+			<Step ordinal=3>Return Complex(real, imaginary).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MakeComplex(3, 4)" output="Complex(3, 4)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MakeImaginary" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="coefficient" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Imaginary" />
+		<Errors>
+			<Error code="MakeImaginary::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return Imaginary with given coefficient.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MakeImaginary(5)" output="5i" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RealPart" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Complex" />
+		</Parameters>
+		<Returns domain="AnyRealNumber" />
+		<Errors>
+			<Error code="RealPart::NEED_COMPLEX" condition="operand is not Complex" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return real component.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RealPart(3 + 4i)" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ImaginaryPart" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Complex" />
+		</Parameters>
+		<Returns domain="AnyRealNumber" />
+		<Errors>
+			<Error code="ImaginaryPart::NEED_COMPLEX" condition="operand is not Complex" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return imaginary coefficient.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ImaginaryPart(3 + 4i)" output="4" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Conjugate" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Complex" />
+		</Parameters>
+		<Returns domain="Complex" />
+		<Errors>
+			<Error code="Conjugate::NEED_COMPLEX" condition="operand is not Complex" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return complex conjugate (negate imaginary part).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Conjugate(3 + 4i)" output="Complex(3, -4)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Magnitude" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Complex" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Errors>
+			<Error code="Magnitude::NEED_COMPLEX" condition="operand is not Complex" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return sqrt(real^2 + imaginary^2).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Phase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Complex" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Errors>
+			<Error code="Phase::NEED_COMPLEX" condition="operand is not Complex" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return angle in radians (atan2(imaginary, real)).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Complex Number Operations ]
+
+	[ GROUP: Powers, Roots, and Exponentials ]
+
+	<OperatorDefinition name="Power" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="base" domain="AnyNumber" />
+			<Parameter name="exponent" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="base is Integer and exponent is non-negative Integer" then="Integer" />
+			<DomainRule when="result would be complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Power::NEED_NUMERIC" condition="any operand is not numeric" />
+			<Error code="Power::ZERO_TO_NEGATIVE" condition="base is zero and exponent is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate base.</Step>
+			<Step ordinal=2>Evaluate exponent.</Step>
+			<Step ordinal=3>Return base raised to exponent.</Step>
+			<SpecialCase when="negative base with fractional exponent">Return Complex result.</SpecialCase>
+		</Semantics>
+		<Examples>
+			<Example input="Power(2, 10)" output="1024" />
+			<Example input="Power(-1, 0.5)" output="Complex(0, 1)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SquareRoot" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="operand is non-negative real" then="RealNumber" />
+			<DomainRule when="operand is negative real" then="Imaginary" />
+			<DomainRule when="operand is Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="SquareRoot::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return principal square root.</Step>
+			<SpecialCase when="negative real operand">Return positive Imaginary.</SpecialCase>
+		</Semantics>
+		<Examples>
+			<Example input="SquareRoot(16)" output="4.0" />
+			<Example input="SquareRoot(-1)" output="Imaginary(1)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="CubeRoot" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Errors>
+			<Error code="CubeRoot::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return real cube root (preserves sign).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="CubeRoot(27)" output="3.0" />
+			<Example input="CubeRoot(-8)" output="-2.0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="NthRoot" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="NthRoot::NEED_NUMERIC" condition="operand is not numeric" />
+			<Error code="NthRoot::NEED_INTEGER" condition="n is not Integer" />
+			<Error code="NthRoot::NEED_POSITIVE_N" condition="n is not positive" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return principal nth root.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Exponential" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="operand is real" then="RealNumber" />
+			<DomainRule when="operand is Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Exponential::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return e raised to operand.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="NaturalLogarithm" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="operand is positive real" then="RealNumber" />
+			<DomainRule when="operand is non-positive real or Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="NaturalLogarithm::NEED_NUMERIC" condition="operand is not numeric" />
+			<Error code="NaturalLogarithm::ZERO" condition="operand is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return natural logarithm (base e).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Logarithm" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+			<Parameter name="base" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="Logarithm::NEED_NUMERIC" condition="operand is not numeric" />
+			<Error code="Logarithm::NEED_POSITIVE_BASE" condition="base is not positive" />
+			<Error code="Logarithm::BASE_IS_ONE" condition="base is 1" />
+			<Error code="Logarithm::ZERO" condition="operand is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return logarithm with specified base.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Log10" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="Log10::NEED_NUMERIC" condition="operand is not numeric" />
+			<Error code="Log10::ZERO" condition="operand is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return base-10 logarithm.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Log2" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="Log2::NEED_NUMERIC" condition="operand is not numeric" />
+			<Error code="Log2::ZERO" condition="operand is zero" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return base-2 logarithm.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Powers, Roots, and Exponentials ]
+
+	[ GROUP: Rounding Operations ]
+
+	<OperatorDefinition name="Floor" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Floor::NEED_REAL" condition="operand is not a real number" />
+			<Error code="Floor::INFINITY" condition="operand is infinite" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return greatest integer less than or equal to operand.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Floor(3.7)" output="3" />
+			<Example input="Floor(-3.2)" output="-4" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Ceiling" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Ceiling::NEED_REAL" condition="operand is not a real number" />
+			<Error code="Ceiling::INFINITY" condition="operand is infinite" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return least integer greater than or equal to operand.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Ceiling(3.2)" output="4" />
+			<Example input="Ceiling(-3.7)" output="-3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Round" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Round::NEED_REAL" condition="operand is not a real number" />
+			<Error code="Round::INFINITY" condition="operand is infinite" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return nearest integer using banker's rounding (round half to even).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Round(3.5)" output="4" />
+			<Example input="Round(2.5)" output="2" />
+			<Example input="Round(3.7)" output="4" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Truncate" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Truncate::NEED_REAL" condition="operand is not a real number" />
+			<Error code="Truncate::INFINITY" condition="operand is infinite" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate operand.</Step>
+			<Step ordinal=2>Return integer part (round toward zero).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Truncate(3.7)" output="3" />
+			<Example input="Truncate(-3.7)" output="-3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RoundToPlaces" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+			<Parameter name="places" domain="Integer" />
+		</Parameters>
+		<Returns domain="PrecisionNumber" />
+		<Errors>
+			<Error code="RoundToPlaces::NEED_REAL" condition="operand is not a real number" />
+			<Error code="RoundToPlaces::NEED_INTEGER" condition="places is not Integer" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Round to specified decimal places.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RoundToPlaces(3.14159, 2)" output="3.14" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Rounding Operations ]
+
+	[ GROUP: Trigonometry ]
+
+	<OperatorDefinition name="Sine" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="angle" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="angle is real" then="RealNumber" />
+			<DomainRule when="angle is Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Sine::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate angle (in radians).</Step>
+			<Step ordinal=2>Return sine of angle.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Sine(0)" output="0.0" />
+			<Example input="Sine(Pi / 2)" output="1.0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Cosine" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="angle" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="angle is real" then="RealNumber" />
+			<DomainRule when="angle is Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Cosine::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate angle (in radians).</Step>
+			<Step ordinal=2>Return cosine of angle.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Cosine(0)" output="1.0" />
+			<Example input="Cosine(Pi)" output="-1.0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Tangent" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="angle" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber">
+			<DomainRule when="angle is real" then="RealNumber" />
+			<DomainRule when="angle is Complex" then="Complex" />
+		</Returns>
+		<Errors>
+			<Error code="Tangent::NEED_NUMERIC" condition="operand is not numeric" />
+			<Error code="Tangent::UNDEFINED" condition="angle is odd multiple of Pi/2" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate angle (in radians).</Step>
+			<Step ordinal=2>Return tangent of angle.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Tangent(0)" output="0.0" />
+			<Example input="Tangent(Pi / 4)" output="1.0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ArcSine" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="ArcSine::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return arc sine in radians.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ArcCosine" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="ArcCosine::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return arc cosine in radians.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ArcTangent" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="ArcTangent::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return arc tangent in radians.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ArcTangent2" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="y" domain="AnyRealNumber" />
+			<Parameter name="x" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Errors>
+			<Error code="ArcTangent2::NEED_REAL" condition="any operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return angle in radians from positive x-axis to point (x, y).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Trigonometry ]
+
+	[ GROUP: Hyperbolic Functions ]
+
+	<OperatorDefinition name="HyperbolicSine" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="HyperbolicSine::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return hyperbolic sine.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HyperbolicCosine" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="HyperbolicCosine::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return hyperbolic cosine.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HyperbolicTangent" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="HyperbolicTangent::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return hyperbolic tangent.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Hyperbolic Functions ]
+
+	[ GROUP: Angle Conversion ]
+
+	<OperatorDefinition name="DegreesToRadians" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="degrees" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Errors>
+			<Error code="DegreesToRadians::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert degrees to radians (multiply by Pi/180).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RadiansToDegrees" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="radians" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Errors>
+			<Error code="RadiansToDegrees::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert radians to degrees (multiply by 180/Pi).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Angle Conversion ]
+
+	[ GROUP: Statistics ]
+
+	<OperatorDefinition name="Mean" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="Mean::NEED_LIST" condition="operand is not a List" />
+			<Error code="Mean::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+			<Error code="Mean::NEED_NONEMPTY" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return arithmetic mean of elements.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Median" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="Median::NEED_LIST" condition="operand is not a List" />
+			<Error code="Median::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+			<Error code="Median::NEED_NONEMPTY" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return median (middle value when sorted).</Step>
+			<Step ordinal=2>For even count, return mean of two middle values.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Mode" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="Mode::NEED_LIST" condition="operand is not a List" />
+			<Error code="Mode::NEED_NONEMPTY" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return list of most frequent values.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Variance" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="Variance::NEED_LIST" condition="operand is not a List" />
+			<Error code="Variance::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+			<Error code="Variance::NEED_NONEMPTY" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return population variance.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="StandardDeviation" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="StandardDeviation::NEED_LIST" condition="operand is not a List" />
+			<Error code="StandardDeviation::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+			<Error code="StandardDeviation::NEED_NONEMPTY" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return population standard deviation.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Statistics ]
+
+	[ GROUP: Combinatorics ]
+
+	<OperatorDefinition name="Factorial" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Factorial::NEED_INTEGER" condition="operand is not Integer" />
+			<Error code="Factorial::NEED_NONNEGATIVE" condition="operand is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return n! = n * (n-1) * ... * 1.</Step>
+			<Step ordinal=2>0! = 1.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Permutations" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="n" domain="Integer" />
+			<Parameter name="k" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Permutations::NEED_INTEGER" condition="any operand is not Integer" />
+			<Error code="Permutations::NEED_NONNEGATIVE" condition="any operand is negative" />
+			<Error code="Permutations::K_TOO_LARGE" condition="k > n" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return P(n,k) = n! / (n-k)!.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Combinations" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="n" domain="Integer" />
+			<Parameter name="k" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Combinations::NEED_INTEGER" condition="any operand is not Integer" />
+			<Error code="Combinations::NEED_NONNEGATIVE" condition="any operand is negative" />
+			<Error code="Combinations::K_TOO_LARGE" condition="k > n" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return C(n,k) = n! / (k! * (n-k)!).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="GreatestCommonDivisor" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Integer" />
+			<Parameter name="b" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="GreatestCommonDivisor::NEED_INTEGER" condition="any operand is not Integer" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return greatest common divisor.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="LeastCommonMultiple" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Integer" />
+			<Parameter name="b" domain="Integer" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="LeastCommonMultiple::NEED_INTEGER" condition="any operand is not Integer" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return least common multiple.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Combinatorics ]
+
+	[ GROUP: Sign and Classification ]
+
+	<OperatorDefinition name="Sign" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Sign::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return -1 if negative, 0 if zero, 1 if positive.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsPositive" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsPositive::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand > 0.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNegative" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsNegative::NEED_REAL" condition="operand is not a real number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand < 0.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsZero" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsZero::NEED_NUMERIC" condition="operand is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand equals zero.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsEven" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsEven::NEED_INTEGER" condition="operand is not Integer" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand is divisible by 2.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsOdd" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsOdd::NEED_INTEGER" condition="operand is not Integer" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand is not divisible by 2.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsFinite" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="RealNumber" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsFinite::NEED_REAL" condition="operand is not RealNumber" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand is not infinite and not NaN.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsInfinite" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="RealNumber" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsInfinite::NEED_REAL" condition="operand is not RealNumber" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand is positive or negative infinity.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNaN" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="operand" domain="RealNumber" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsNaN::NEED_REAL" condition="operand is not RealNumber" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if operand is NaN.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Sign and Classification ]
+</VocabularyDefinition>

@@ -1,0 +1,574 @@
+<Schema
+	id=codex:meta:behavior
+	version="0.1"
+	compatibilityClass=$BackwardCompatible
+	title="Codex Behavior Meta-Schema"
+	description="Authorizes behavior vocabulary definitions. Defines what operator definitions may declare: signatures, domains, error behavior, and semantics. Behavior is pure, deterministic, and side-effect free."
+>
+	<EnumeratedValueSets>
+		<EnumeratedValueSet name="NumericDomain">
+			<Member value="Integer" />
+			<Member value="Fraction" />
+			<Member value="PrecisionNumber" />
+			<Member value="RealNumber" />
+			<Member value="Imaginary" />
+			<Member value="Complex" />
+			<Member value="OrderableNumber" />
+			<Member value="ExactNumber" />
+			<Member value="AnyRealNumber" />
+			<Member value="AnyNumber" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="CollectionDomain">
+			<Member value="List" />
+			<Member value="Set" />
+			<Member value="Tuple" />
+			<Member value="Map" />
+			<Member value="Record" />
+			<Member value="Range" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="TemporalDomain">
+			<Member value="PlainDate" />
+			<Member value="PlainTime" />
+			<Member value="PlainDateTime" />
+			<Member value="PlainYearMonth" />
+			<Member value="PlainMonthDay" />
+			<Member value="YearWeek" />
+			<Member value="Instant" />
+			<Member value="ZonedDateTime" />
+			<Member value="Duration" />
+			<Member value="TimeZone" />
+			<Member value="Calendar" />
+			<Member value="AnyTemporal" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="ColorDomain">
+			<Member value="HexColor" />
+			<Member value="RgbColor" />
+			<Member value="HslColor" />
+			<Member value="LabColor" />
+			<Member value="LchColor" />
+			<Member value="OklabColor" />
+			<Member value="OklchColor" />
+			<Member value="ColorFunction" />
+			<Member value="AnyColor" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="ScalarDomain">
+			<Member value="Boolean" />
+			<Member value="Text" />
+			<Member value="Character" />
+			<Member value="Uuid" />
+			<Member value="IriReference" />
+			<Member value="LookupToken" />
+			<Member value="EnumeratedToken" />
+			<Member value="Absent" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="ValueDomain">
+			<Member value="Any" />
+			<Member value="Comparable" />
+			<Member value="Orderable" />
+			<Member value="Expression" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="Arity">
+			<Member value="Nullary" />
+			<Member value="Unary" />
+			<Member value="Binary" />
+			<Member value="Ternary" />
+			<Member value="Variadic" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="OperatorFamily">
+			<Member value="Math" />
+			<Member value="CoreSafeTransforms" />
+			<Member value="Text" />
+			<Member value="Temporal" />
+			<Member value="Color" />
+			<Member value="Identity" />
+			<Member value="Relational" />
+			<Member value="DataShapes" />
+			<Member value="Presence" />
+			<Member value="Formatting" />
+		</EnumeratedValueSet>
+
+		<EnumeratedValueSet name="Strictness">
+			<Member value="Strict" />
+			<Member value="ShortCircuiting" />
+			<Member value="AbsentTolerant" />
+		</EnumeratedValueSet>
+	</EnumeratedValueSets>
+
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id=codex:meta:behavior:VocabularyDefinition
+			name="VocabularyDefinition"
+			conceptKind=$Semantic
+			entityEligibility=$MustBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="family" />
+				<AllowsTrait name="version" />
+			</TraitRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="OperatorDefinition" />
+				<AllowsChildConcept conceptSelector="ConstantDefinition" />
+			</ChildRules>
+			<CollectionRules ordering=$Unordered allowsDuplicates=false />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:OperatorDefinition
+			name="OperatorDefinition"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="name" />
+				<RequiresTrait name="arity" />
+				<AllowsTrait name="strictness" />
+				<AllowsTrait name="deprecated" />
+			</TraitRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Parameters" />
+				<AllowsChildConcept conceptSelector="Returns" />
+				<AllowsChildConcept conceptSelector="Errors" />
+				<AllowsChildConcept conceptSelector="Semantics" />
+				<AllowsChildConcept conceptSelector="Examples" />
+			</ChildRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Parameters
+			name="Parameters"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Parameter" />
+			</ChildRules>
+			<CollectionRules ordering=$Ordered allowsDuplicates=false />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Parameter
+			name="Parameter"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="name" />
+				<RequiresTrait name="domain" />
+				<AllowsTrait name="optional" />
+				<AllowsTrait name="variadic" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Returns
+			name="Returns"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="domain" />
+			</TraitRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="DomainRule" />
+			</ChildRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:DomainRule
+			name="DomainRule"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="when" />
+				<RequiresTrait name="then" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Errors
+			name="Errors"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Error" />
+			</ChildRules>
+			<CollectionRules ordering=$Unordered allowsDuplicates=false />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Error
+			name="Error"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="code" />
+				<RequiresTrait name="condition" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Semantics
+			name="Semantics"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Step" />
+				<AllowsChildConcept conceptSelector="SpecialCase" />
+			</ChildRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Step
+			name="Step"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+			<TraitRules>
+				<AllowsTrait name="ordinal" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:SpecialCase
+			name="SpecialCase"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="when" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Examples
+			name="Examples"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Example" />
+			</ChildRules>
+			<CollectionRules ordering=$Ordered allowsDuplicates=false />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:Example
+			name="Example"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="input" />
+				<RequiresTrait name="output" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:behavior:ConstantDefinition
+			name="ConstantDefinition"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="name" />
+				<RequiresTrait name="domain" />
+				<RequiresTrait name="value" />
+				<AllowsTrait name="precision" />
+			</TraitRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="name"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="family"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<EnumeratedConstraint set="OperatorFamily" />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="version"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="arity"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<EnumeratedConstraint set="Arity" />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="domain"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="strictness"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<EnumeratedConstraint set="Strictness" />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="optional"
+			defaultValueType=$Boolean
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="variadic"
+			defaultValueType=$Boolean
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="deprecated"
+			defaultValueType=$Boolean
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="code"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="condition"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="when"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="then"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="ordinal"
+			defaultValueType=$Integer
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="input"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="output"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="value"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="precision"
+			defaultValueType=$Integer
+			cardinality=$Single
+		/>
+	</TraitDefinitions>
+
+	<ConstraintDefinitions>
+		<ConstraintDefinition
+			id=codex:meta:behavior:unique-operator-names
+			title="Operator names must be unique within a vocabulary"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="VocabularyDefinition" />
+			</Targets>
+			<Rule>
+				<UniqueConstraint trait="name" scope="OperatorDefinition" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:unique-constant-names
+			title="Constant names must be unique within a vocabulary"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="VocabularyDefinition" />
+			</Targets>
+			<Rule>
+				<UniqueConstraint trait="name" scope="ConstantDefinition" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:unique-parameter-names
+			title="Parameter names must be unique within an operator"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="OperatorDefinition" />
+			</Targets>
+			<Rule>
+				<UniqueConstraint trait="name" scope="Parameter" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:unique-error-codes
+			title="Error codes must be unique within an operator"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="OperatorDefinition" />
+			</Targets>
+			<Rule>
+				<UniqueConstraint trait="code" scope="Error" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:variadic-must-be-last
+			title="Variadic parameter must be last"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Parameters" />
+			</Targets>
+			<Rule>
+				<OrderConstraint type="VariadicMustBeLast" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:requires-parameters
+			title="Non-nullary operators require parameters"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="OperatorDefinition" />
+			</Targets>
+			<Rule>
+				<ConditionalConstraint>
+					<When>
+						<Not>
+							<TraitEquals trait="arity" value=$Nullary />
+						</Not>
+					</When>
+					<Then>
+						<ChildConstraint type="RequiresChildConcept" conceptSelector="Parameters" />
+					</Then>
+				</ConditionalConstraint>
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:requires-returns
+			title="Operators require return type specification"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="OperatorDefinition" />
+			</Targets>
+			<Rule>
+				<ChildConstraint type="RequiresChildConcept" conceptSelector="Returns" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:requires-semantics
+			title="Operators require semantics specification"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="OperatorDefinition" />
+			</Targets>
+			<Rule>
+				<ChildConstraint type="RequiresChildConcept" conceptSelector="Semantics" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:behavior:error-code-format
+			title="Error codes must follow naming pattern"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Error" />
+			</Targets>
+			<Rule>
+				<PatternConstraint trait="code" pattern="^[A-Z][a-zA-Z]+::[A-Z_]+$" />
+			</Rule>
+		</ConstraintDefinition>
+	</ConstraintDefinitions>
+</Schema>

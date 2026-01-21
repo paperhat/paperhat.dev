@@ -1,0 +1,2370 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:core-safe-transforms
+	family=$CoreSafeTransforms
+	version="0.1"
+>
+	<Description>
+		Type coercion and safe transformation operators for the Behavior Dialect.
+		These operations convert values between types in predictable, lossless ways
+		where possible, or return Invalid when conversion is not safe.
+	</Description>
+
+	[ GROUP: Type Coercions ]
+
+	<OperatorDefinition name="ToString" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert value to its canonical text representation.</Step>
+			<Step ordinal=2>Numbers use decimal notation without trailing zeros.</Step>
+			<Step ordinal=3>Booleans become "true" or "false".</Step>
+			<Step ordinal=4>Collections become JSON-like representation.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ToString(42)" output='"42"' />
+			<Example input="ToString(true)" output='"true"' />
+			<Example input="ToString([1, 2, 3])" output='"[1, 2, 3]"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToInteger" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="ToInteger::CANNOT_CONVERT" condition="value cannot be converted to Integer" />
+			<Error code="ToInteger::PRECISION_LOSS" condition="conversion would lose precision" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If value is Integer, return as-is.</Step>
+			<Step ordinal=2>If value is RealNumber with no fractional part, return integer portion.</Step>
+			<Step ordinal=3>If value is Text matching integer pattern, parse and return.</Step>
+			<Step ordinal=4>If value is Boolean, return 1 for true, 0 for false.</Step>
+			<Step ordinal=5>Otherwise return Invalid.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ToInteger(3.0)" output="3" />
+			<Example input='ToInteger("42")' output="42" />
+			<Example input="ToInteger(3.5)" output="Invalid(ToInteger::PRECISION_LOSS)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToNumber" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="ToNumber::CANNOT_CONVERT" condition="value cannot be converted to a number" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If value is numeric, return as-is.</Step>
+			<Step ordinal=2>If value is Text matching numeric pattern, parse and return.</Step>
+			<Step ordinal=3>If value is Boolean, return 1.0 for true, 0.0 for false.</Step>
+			<Step ordinal=4>Otherwise return Invalid.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToNumber("3.14")' output="3.14" />
+			<Example input="ToNumber(true)" output="1.0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToBoolean" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If value is Boolean, return as-is.</Step>
+			<Step ordinal=2>If value is numeric, return false for 0, true otherwise.</Step>
+			<Step ordinal=3>If value is Text, return false for empty string, true otherwise.</Step>
+			<Step ordinal=4>If value is Collection, return false for empty, true otherwise.</Step>
+			<Step ordinal=5>If value is Null, return false.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ToBoolean(0)" output="false" />
+			<Example input="ToBoolean(1)" output="true" />
+			<Example input='ToBoolean("")' output="false" />
+			<Example input='ToBoolean("hello")' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToList" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>If value is List, return as-is.</Step>
+			<Step ordinal=2>If value is Set, return elements as List (order unspecified).</Step>
+			<Step ordinal=3>If value is Map, return list of [key, value] pairs.</Step>
+			<Step ordinal=4>If value is Text, return list of characters.</Step>
+			<Step ordinal=5>Otherwise wrap value in single-element list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToList("abc")' output='["a", "b", "c"]' />
+			<Example input="ToList(42)" output="[42]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToSet" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>If value is Set, return as-is.</Step>
+			<Step ordinal=2>If value is List, return Set of unique elements.</Step>
+			<Step ordinal=3>If value is Map, return Set of keys.</Step>
+			<Step ordinal=4>Otherwise wrap value in single-element Set.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ToSet([1, 2, 2, 3])" output="Set(1, 2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToMap" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Errors>
+			<Error code="ToMap::CANNOT_CONVERT" condition="value cannot be converted to Map" />
+			<Error code="ToMap::INVALID_PAIRS" condition="list elements are not valid pairs" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If value is Map, return as-is.</Step>
+			<Step ordinal=2>If value is List of [key, value] pairs, return Map.</Step>
+			<Step ordinal=3>Otherwise return Invalid.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToMap([["a", 1], ["b", 2]])' output='Map("a" -> 1, "b" -> 2)' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Type Coercions ]
+
+	[ GROUP: Safe Conversions ]
+
+	<OperatorDefinition name="TryInteger" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Attempt conversion like ToInteger.</Step>
+			<Step ordinal=2>Return Some(result) on success, None on failure.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TryInteger(3.0)" output="Some(3)" />
+			<Example input="TryInteger(3.5)" output="None" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TryNumber" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Attempt conversion like ToNumber.</Step>
+			<Step ordinal=2>Return Some(result) on success, None on failure.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TryMap" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Attempt conversion like ToMap.</Step>
+			<Step ordinal=2>Return Some(result) on success, None on failure.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Safe Conversions ]
+
+	[ GROUP: Domain Narrowing ]
+
+	<OperatorDefinition name="AsInteger" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="AsInteger::NOT_INTEGER" condition="value is not an integer" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Assert value is Integer domain.</Step>
+			<Step ordinal=2>Return value with Integer type.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AsPositive" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="AnyRealNumber" />
+		<Errors>
+			<Error code="AsPositive::NOT_POSITIVE" condition="value is not positive" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Assert value > 0.</Step>
+			<Step ordinal=2>Return value unchanged.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AsNonNegative" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyRealNumber" />
+		</Parameters>
+		<Returns domain="AnyRealNumber" />
+		<Errors>
+			<Error code="AsNonNegative::IS_NEGATIVE" condition="value is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Assert value >= 0.</Step>
+			<Step ordinal=2>Return value unchanged.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AsNonEmpty" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Collection" />
+		</Parameters>
+		<Returns domain="Collection" />
+		<Errors>
+			<Error code="AsNonEmpty::IS_EMPTY" condition="collection is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Assert collection has at least one element.</Step>
+			<Step ordinal=2>Return collection unchanged.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Domain Narrowing ]
+
+	[ GROUP: Clamping and Bounding ]
+
+	<OperatorDefinition name="AtLeast" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="min" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Semantics>
+			<Step ordinal=1>Return max(value, min).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="AtLeast(5, 10)" output="10" />
+			<Example input="AtLeast(15, 10)" output="15" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AtMost" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="max" domain="AnyNumber" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Semantics>
+			<Step ordinal=1>Return min(value, max).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="AtMost(15, 10)" output="10" />
+			<Example input="AtMost(5, 10)" output="5" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Clamping and Bounding ]
+
+	[ GROUP: Default Values ]
+
+	<OperatorDefinition name="Default" arity=$Binary strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+			<Parameter name="fallback" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If value is not Null and not Invalid, return value.</Step>
+			<Step ordinal=2>Otherwise evaluate and return fallback.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Default(null, 42)" output="42" />
+			<Example input="Default(5, 42)" output="5" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DefaultIfEmpty" arity=$Binary strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+			<Parameter name="fallback" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If value is empty string, empty collection, Null, or Invalid, return fallback.</Step>
+			<Step ordinal=2>Otherwise return value.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='DefaultIfEmpty("", "default")' output='"default"' />
+			<Example input='DefaultIfEmpty([], [1, 2])' output="[1, 2]" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Default Values ]
+
+	[ GROUP: Optional Wrapping ]
+
+	<OperatorDefinition name="Some" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Wrap value in Some variant of Optional.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Some(42)" output="Some(42)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="None" arity=$Nullary strictness=$Strict>
+		<Parameters />
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Return None variant of Optional.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="None()" output="None" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Unwrap" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="optional" domain="Optional" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="Unwrap::IS_NONE" condition="optional is None" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If optional is Some(value), return value.</Step>
+			<Step ordinal=2>If optional is None, return Invalid.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Unwrap(Some(42))" output="42" />
+			<Example input="Unwrap(None)" output="Invalid(Unwrap::IS_NONE)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="UnwrapOr" arity=$Binary strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="optional" domain="Optional" />
+			<Parameter name="fallback" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If optional is Some(value), return value.</Step>
+			<Step ordinal=2>If optional is None, evaluate and return fallback.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="UnwrapOr(Some(42), 0)" output="42" />
+			<Example input="UnwrapOr(None, 0)" output="0" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Optional Wrapping ]
+
+	[ GROUP: Type Checking ]
+
+	<OperatorDefinition name="TypeOf" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="TypeToken" />
+		<Semantics>
+			<Step ordinal=1>Return the type token representing value's type.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TypeOf(42)" output="$Integer" />
+			<Example input='TypeOf("hello")' output="$Text" />
+			<Example input="TypeOf([1, 2, 3])" output="$List" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsType" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+			<Parameter name="type" domain="TypeToken" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is of specified type.</Step>
+			<Step ordinal=2>Type matching respects domain hierarchy.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsType(42, $Integer)" output="true" />
+			<Example input="IsType(42, $AnyNumber)" output="true" />
+			<Example input="IsType(42, $Text)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNumeric" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is any numeric type.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsText" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is Text type.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsCollection" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is List, Set, or Map.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsOptional" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is Optional (Some or None).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsSome" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Optional" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is Some variant.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNone" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Optional" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is None variant.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Type Checking ]
+
+	[ GROUP: List Operations ]
+
+	<OperatorDefinition name="MapElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="mapExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="MapElements::NEED_LIST" condition="list is not a List" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate list.</Step>
+			<Step ordinal=2>For each element in order, evaluate mapExpr with Argument := element.</Step>
+			<Step ordinal=3>Return a new List of results in the same order.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MapElements([1, 2, 3], Argument * 2)" output="[2, 4, 6]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FilterElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="FilterElements::NEED_LIST" condition="list is not a List" />
+			<Error code="FilterElements::NEED_BOOLEAN" condition="predicate returns non-Boolean" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>For each element, evaluate predicateExpr with Argument := element.</Step>
+			<Step ordinal=2>Include elements where predicate returns Valid(true).</Step>
+			<Step ordinal=3>Preserve original order.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FilterElements([1, 2, 3, 4], Argument > 2)" output="[3, 4]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ReduceElements" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="initialValue" domain="Any" />
+			<Parameter name="reduceExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="ReduceElements::NEED_LIST" condition="list is not a List" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Start with accumulator := initialValue.</Step>
+			<Step ordinal=2>For each element in order, evaluate reduceExpr with environment { accumulator, element }.</Step>
+			<Step ordinal=3>Set accumulator := result.</Step>
+			<Step ordinal=4>Return final accumulator.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ReduceElements([1, 2, 3], 0, accumulator + element)" output="6" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ReduceElementsRight" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="initialValue" domain="Any" />
+			<Parameter name="reduceExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="ReduceElementsRight::NEED_LIST" condition="list is not a List" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Same as ReduceElements but processes elements right-to-left.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FoldElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="foldExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="FoldElements::NEED_NONEMPTY_LIST" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If list is empty, return Invalid(...).</Step>
+			<Step ordinal=2>Start with accumulator := first element.</Step>
+			<Step ordinal=3>For remaining elements, evaluate foldExpr with { accumulator, element }.</Step>
+			<Step ordinal=4>Return final accumulator.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FoldElements([1, 2, 3], accumulator + element)" output="6" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FindFirstElement" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Iterate in order, evaluate predicate for each element.</Step>
+			<Step ordinal=2>Return first element where predicate is Valid(true).</Step>
+			<Step ordinal=3>If none match, return Valid(&lt;Absent/&gt;).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FindFirstElement([1, 2, 3, 4], Argument > 2)" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FindLastElement" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return last element where predicate is true.</Step>
+			<Step ordinal=2>If none match, return Valid(&lt;Absent/&gt;).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FindLastElement([1, 2, 3, 4], Argument > 2)" output="4" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FindAllElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Equivalent to FilterElements.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SortElements::NEED_COMPARABLE_ELEMENTS" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Sort elements using natural ordering.</Step>
+			<Step ordinal=2>Elements must be mutually comparable.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SortElements([3, 1, 2])" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortElementsBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="keyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SortElementsBy::NEED_COMPARABLE_KEYS" condition="keys are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>For each element, evaluate keyExpr with Argument := element.</Step>
+			<Step ordinal=2>Sort by keys (stable sort).</Step>
+			<Step ordinal=3>Elements with &lt;Absent/&gt; keys sort last.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortElementsDescending" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SortElementsDescending::NEED_COMPARABLE_ELEMENTS" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Sort elements in descending order using natural ordering.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SortElementsDescending([1, 3, 2])" output="[3, 2, 1]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortElementsByDescending" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="keyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SortElementsByDescending::NEED_COMPARABLE_KEYS" condition="keys are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>For each element, evaluate keyExpr with Argument := element.</Step>
+			<Step ordinal=2>Sort by keys in descending order (stable sort).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ReverseElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return list with elements in reverse order.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ReverseElements([1, 2, 3])" output="[3, 2, 1]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TakeFirstElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return first count elements.</Step>
+			<Step ordinal=2>If count > length, return entire list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TakeFirstElements([1, 2, 3, 4, 5], 3)" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TakeLastElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return last count elements.</Step>
+			<Step ordinal=2>If count > length, return entire list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TakeLastElements([1, 2, 3, 4, 5], 3)" output="[3, 4, 5]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TakeWhile" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Take elements from start while predicate is true.</Step>
+			<Step ordinal=2>Stop at first false.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TakeWhile([1, 2, 3, 4, 1], Argument &lt; 4)" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DropFirstElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return list with first count elements removed.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="DropFirstElements([1, 2, 3, 4, 5], 2)" output="[3, 4, 5]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DropLastElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return list with last count elements removed.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="DropLastElements([1, 2, 3, 4, 5], 2)" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DropWhile" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Drop elements from start while predicate is true.</Step>
+			<Step ordinal=2>Return remaining elements starting at first false.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="DropWhile([1, 2, 3, 4, 1], Argument &lt; 3)" output="[3, 4, 1]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SliceElements" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="startIndex" domain="Integer" />
+			<Parameter name="endIndex" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return elements from startIndex (inclusive) to endIndex (exclusive).</Step>
+			<Step ordinal=2>Indices are zero-based.</Step>
+			<Step ordinal=3>Negative indices count from end.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SliceElements([1, 2, 3, 4, 5], 1, 4)" output="[2, 3, 4]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ChunkElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="size" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Split into chunks of specified size.</Step>
+			<Step ordinal=2>Last chunk may be smaller.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ChunkElements([1, 2, 3, 4, 5], 2)" output="[[1, 2], [3, 4], [5]]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="WindowElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="size" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Sliding window of specified size.</Step>
+			<Step ordinal=2>Returns List of overlapping windows.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="WindowElements([1, 2, 3, 4], 2)" output="[[1, 2], [2, 3], [3, 4]]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DistinctElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Remove duplicates (first occurrence wins).</Step>
+			<Step ordinal=2>Preserve order of first occurrences.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="DistinctElements([1, 2, 2, 3, 1])" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DistinctElementsBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="keyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Remove duplicates by key (first occurrence wins).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FlattenElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="FlattenElements::NEED_LIST_ELEMENTS" condition="any element is not a List" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Flatten one level (List of Lists -> List).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FlattenElements([[1, 2], [3, 4]])" output="[1, 2, 3, 4]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FlatMapElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="mapExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Map then flatten.</Step>
+			<Step ordinal=2>mapExpr must return Lists.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FlatMapElements([1, 2], [Argument, Argument * 2])" output="[1, 2, 2, 4]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ZipElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list1" domain="List" />
+			<Parameter name="list2" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Combine element-wise into Tuples.</Step>
+			<Step ordinal=2>Length is minimum of inputs.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ZipElements([1, 2], [a, b])" output="[(1, a), (2, b)]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ZipElementsWith" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list1" domain="List" />
+			<Parameter name="list2" domain="List" />
+			<Parameter name="combineExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Combine using custom expression.</Step>
+			<Step ordinal=2>combineExpr receives { first, second }.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ZipElementsWith([1, 2], [3, 4], first + second)" output="[4, 6]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="UnzipElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="listOfTuples" domain="List" />
+		</Parameters>
+		<Returns domain="Tuple" />
+		<Semantics>
+			<Step ordinal=1>Inverse of zip.</Step>
+			<Step ordinal=2>Returns Tuple of two Lists.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="UnzipElements([(1, a), (2, b)])" output="([1, 2], [a, b])" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ConcatenateElements" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="lists" domain="List" variadic="true" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Concatenate all input lists into a single list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ConcatenateElements([1, 2], [3, 4], [5])" output="[1, 2, 3, 4, 5]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="InterleaveLists" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list1" domain="List" />
+			<Parameter name="list2" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Alternate elements from each list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="InterleaveLists([1, 3, 5], [2, 4, 6])" output="[1, 2, 3, 4, 5, 6]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="PartitionElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Split into two lists based on predicate.</Step>
+			<Step ordinal=2>Returns Record { passing, failing }.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="PartitionElements([1, 2, 3, 4], Argument > 2)" output="{ passing: [3, 4], failing: [1, 2] }" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="GroupElementsByKey" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="keyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="GroupElementsByKey::NEED_NONABSENT_KEY" condition="any key is &lt;Absent/&gt;" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Group elements by computed key.</Step>
+			<Step ordinal=2>Groups ordered by first appearance.</Step>
+			<Step ordinal=3>Elements within groups preserve original order.</Step>
+			<Step ordinal=4>Returns List of Record { key, elements }.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IndexElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Pair each element with its index.</Step>
+			<Step ordinal=2>Returns List of Tuple(Integer, Value).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IndexElements([a, b, c])" output="[(0, a), (1, b), (2, c)]" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: List Operations ]
+
+	[ GROUP: Aggregation ]
+
+	<OperatorDefinition name="CountElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return the number of elements in list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="CountElements([1, 2, 3])" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="CountElementsWhere" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return the count of elements where predicate is true.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="CountElementsWhere([1, 2, 3, 4], Argument > 2)" output="2" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SumElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="SumElements::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return sum of all elements.</Step>
+			<Step ordinal=2>Empty list returns 0.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SumElements([1, 2, 3])" output="6" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ProductElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="ProductElements::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return product of all elements.</Step>
+			<Step ordinal=2>Empty list returns 1.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ProductElements([2, 3, 4])" output="24" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MinimumElement" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If empty, return &lt;Absent/&gt;.</Step>
+			<Step ordinal=2>If multiple equal minimum, return first.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MinimumElement([3, 1, 2])" output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MaximumElement" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If empty, return &lt;Absent/&gt;.</Step>
+			<Step ordinal=2>If multiple equal maximum, return first.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MaximumElement([1, 3, 2])" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MinimumElementBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="keyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return element with minimum key value.</Step>
+			<Step ordinal=2>If empty, return &lt;Absent/&gt;.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MaximumElementBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="keyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return element with maximum key value.</Step>
+			<Step ordinal=2>If empty, return &lt;Absent/&gt;.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AverageElements" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="AnyNumber" />
+		<Errors>
+			<Error code="AverageElements::NEED_NUMERIC_ELEMENTS" condition="any element is not numeric" />
+			<Error code="AverageElements::NEED_NONEMPTY_LIST" condition="list is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return arithmetic mean of all elements.</Step>
+			<Step ordinal=2>Empty list returns Invalid(...).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="AverageElements([2, 4, 6])" output="4" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Aggregation ]
+
+	[ GROUP: Predicates ]
+
+	<OperatorDefinition name="AnyElementSatisfies" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if any element satisfies predicate.</Step>
+			<Step ordinal=2>Empty list returns false.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="AnyElementSatisfies([1, 2, 3], Argument > 2)" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AllElementsSatisfy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if all elements satisfy predicate.</Step>
+			<Step ordinal=2>Empty list returns true.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="AllElementsSatisfy([2, 4, 6], Argument > 0)" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="NoElementSatisfies" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if no element satisfies predicate.</Step>
+			<Step ordinal=2>Empty list returns true.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="NoElementSatisfies([1, 2, 3], Argument > 5)" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ContainsElement" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if list contains element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ContainsElement([1, 2, 3], 2)" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsEmpty" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if collection has no elements.</Step>
+			<Step ordinal=2>Works on List, Set, Map, Record.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsEmpty([])" output="true" />
+			<Example input="IsEmpty([1])" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNotEmpty" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if collection has at least one element.</Step>
+			<Step ordinal=2>Works on List, Set, Map, Record.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsNotEmpty([1])" output="true" />
+			<Example input="IsNotEmpty([])" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Predicates ]
+
+	[ GROUP: Set Operations ]
+
+	<OperatorDefinition name="SetUnion" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return set containing elements from either set.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetUnion(Set(1, 2), Set(2, 3))" output="Set(1, 2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetIntersection" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return set containing elements in both sets.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetIntersection(Set(1, 2, 3), Set(2, 3, 4))" output="Set(2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetDifference" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return elements in set1 but not in set2.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetDifference(Set(1, 2, 3), Set(2, 3, 4))" output="Set(1)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetSymmetricDifference" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return elements in either set but not both.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetSymmetricDifference(Set(1, 2, 3), Set(2, 3, 4))" output="Set(1, 4)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsSubsetOf" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if all elements of set1 are in set2.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsSubsetOf(Set(1, 2), Set(1, 2, 3))" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsSupersetOf" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if set1 contains all elements of set2.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsSupersetOf(Set(1, 2, 3), Set(1, 2))" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsProperSubsetOf" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if set1 is subset of set2 and sets are not equal.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsProperSubsetOf(Set(1, 2), Set(1, 2, 3))" output="true" />
+			<Example input="IsProperSubsetOf(Set(1, 2), Set(1, 2))" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsProperSupersetOf" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if set1 is superset of set2 and sets are not equal.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsProperSupersetOf(Set(1, 2, 3), Set(1, 2))" output="true" />
+			<Example input="IsProperSupersetOf(Set(1, 2), Set(1, 2))" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetsAreDisjoint" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if sets have no common elements.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetsAreDisjoint(Set(1, 2), Set(3, 4))" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetsOverlap" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set1" domain="Set" />
+			<Parameter name="set2" domain="Set" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if sets have at least one common element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetsOverlap(Set(1, 2), Set(2, 3))" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetContains" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set" domain="Set" />
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if set contains element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetContains(Set(1, 2, 3), 2)" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetAdd" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set" domain="Set" />
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return new Set with element added.</Step>
+			<Step ordinal=2>No-op if element already present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetAdd(Set(1, 2), 3)" output="Set(1, 2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetRemove" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set" domain="Set" />
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return new Set with element removed.</Step>
+			<Step ordinal=2>No-op if element not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetRemove(Set(1, 2, 3), 2)" output="Set(1, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetSize" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set" domain="Set" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return the number of elements in set.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetSize(Set(1, 2, 3))" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ListToSet" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Convert List to Set, removing duplicates.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ListToSet([1, 2, 2, 3])" output="Set(1, 2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SetToList" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="set" domain="Set" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Convert Set to List.</Step>
+			<Step ordinal=2>Order is deterministic but unspecified.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SetToList(Set(1, 2, 3))" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Set Operations ]
+
+	[ GROUP: Map Operations ]
+
+	<OperatorDefinition name="MapGet" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="key" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return value for key, or &lt;Absent/&gt; if not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapGet(Map("a" -> 1, "b" -> 2), "a")' output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapGetOrDefault" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="key" domain="Any" />
+			<Parameter name="defaultValue" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return value for key, or defaultValue if not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapGetOrDefault(Map("a" -> 1), "b", 0)' output="0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapContainsKey" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="key" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if map contains key.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapContainsKey(Map("a" -> 1), "a")' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapContainsValue" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if map contains value.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapContainsValue(Map("a" -> 1), 1)' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapKeys" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return Set of all keys in map.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapKeys(Map("a" -> 1, "b" -> 2))' output='Set("a", "b")' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapValues" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return List of all values in map.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapValues(Map("a" -> 1, "b" -> 2))' output="[1, 2]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapEntries" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return List of Record { key, value } for each entry.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapEntries(Map("a" -> 1))' output='[{ key: "a", value: 1 }]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapSet" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="key" domain="Any" />
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Return new Map with key set to value (insert or update).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapSet(Map("a" -> 1), "b", 2)' output='Map("a" -> 1, "b" -> 2)' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapRemove" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="key" domain="Any" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Return new Map with key removed.</Step>
+			<Step ordinal=2>No-op if key not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapRemove(Map("a" -> 1, "b" -> 2), "a")' output='Map("b" -> 2)' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapMerge" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map1" domain="Map" />
+			<Parameter name="map2" domain="Map" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Merge maps.</Step>
+			<Step ordinal=2>map2 values win on collision.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapMerge(Map("a" -> 1), Map("b" -> 2))' output='Map("a" -> 1, "b" -> 2)' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapMergeWith" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map1" domain="Map" />
+			<Parameter name="map2" domain="Map" />
+			<Parameter name="resolveExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Merge maps.</Step>
+			<Step ordinal=2>On collision, evaluate resolveExpr with { key, value1, value2 }.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapMapValues" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="mapExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Transform values, keep keys.</Step>
+			<Step ordinal=2>mapExpr receives { key, value }.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapMapValues(Map("a" -> 1, "b" -> 2), value * 2)' output='Map("a" -> 2, "b" -> 4)' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapFilterEntries" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="predicateExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Filter by predicate on entries.</Step>
+			<Step ordinal=2>predicateExpr receives { key, value }.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapFilterEntries(Map("a" -> 1, "b" -> 2), value > 1)' output='Map("b" -> 2)' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapSize" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return the number of entries in map.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapSize(Map("a" -> 1, "b" -> 2))' output="2" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapFromEntries" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Errors>
+			<Error code="MapFromEntries::DUPLICATE_KEY" condition="list contains duplicate keys" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Build Map from List of { key, value } records.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapFromEntries([{ key: "a", value: 1 }])' output='Map("a" -> 1)' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MapFromLists" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="keys" domain="List" />
+			<Parameter name="values" domain="List" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Errors>
+			<Error code="MapFromLists::LENGTH_MISMATCH" condition="lists have different lengths" />
+			<Error code="MapFromLists::DUPLICATE_KEY" condition="keys list contains duplicates" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Build Map by pairing keys and values by index.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MapFromLists(["a", "b"], [1, 2])' output='Map("a" -> 1, "b" -> 2)' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Map Operations ]
+
+	[ GROUP: Record Operations ]
+
+	<OperatorDefinition name="RecordGet" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="fieldName" domain="Text" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return value for field, or &lt;Absent/&gt; if not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RecordGet({ name: "Alice", age: 30 }, "name")' output='"Alice"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordSet" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="fieldName" domain="Text" />
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Return new Record with field set to value (insert or update).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RecordSet({ name: "Alice" }, "age", 30)' output='{ name: "Alice", age: 30 }' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordRemove" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="fieldName" domain="Text" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Return new Record with field removed.</Step>
+			<Step ordinal=2>No-op if field not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RecordRemove({ name: "Alice", age: 30 }, "age")' output='{ name: "Alice" }' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordMerge" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record1" domain="Record" />
+			<Parameter name="record2" domain="Record" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Merge records.</Step>
+			<Step ordinal=2>record2 fields win on collision.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RecordMerge({ a: 1 }, { b: 2 })' output="{ a: 1, b: 2 }" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordKeys" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return Set of all field names in record.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RecordKeys({ a: 1, b: 2 })' output='Set("a", "b")' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordValues" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return List of all values in record.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RecordValues({ a: 1, b: 2 })" output="[1, 2]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordEntries" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return List of Record { key, value } for each field.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RecordEntries({ a: 1 })" output='[{ key: "a", value: 1 }]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordHasField" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="fieldName" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if record has field.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RecordHasField({ a: 1 }, "a")' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SelectFields" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="fieldNames" domain="List" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Project to specified fields.</Step>
+			<Step ordinal=2>Missing fields become &lt;Absent/&gt;.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SelectFields({ a: 1, b: 2, c: 3 }, ["a", "c"])' output="{ a: 1, c: 3 }" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="OmitFields" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="fieldNames" domain="List" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Return record with specified fields removed.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='OmitFields({ a: 1, b: 2, c: 3 }, ["b"])' output="{ a: 1, c: 3 }" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RenameField" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="oldName" domain="Text" />
+			<Parameter name="newName" domain="Text" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Return record with field renamed.</Step>
+			<Step ordinal=2>No-op if oldName not present.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RenameField({ a: 1 }, "a", "b")' output="{ b: 1 }" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordFromMap" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+		</Parameters>
+		<Returns domain="Record" />
+		<Errors>
+			<Error code="RecordFromMap::NEED_TEXT_KEYS" condition="any key is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert Map to Record.</Step>
+			<Step ordinal=2>All keys must be Text.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RecordToMap" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+		</Parameters>
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Convert Record to Map with Text keys.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Record Operations ]
+
+	[ GROUP: Tuple Operations ]
+
+	<OperatorDefinition name="TupleGet" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="tuple" domain="Tuple" />
+			<Parameter name="index" domain="Integer" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="TupleGet::INDEX_OUT_OF_BOUNDS" condition="index is out of bounds" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return element at index (zero-based).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TupleGet((1, 2, 3), 1)" output="2" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TupleFirst" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="tuple" domain="Tuple" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="TupleFirst::EMPTY_TUPLE" condition="tuple is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return first element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TupleFirst((1, 2, 3))" output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TupleSecond" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="tuple" domain="Tuple" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="TupleSecond::NEED_AT_LEAST_TWO" condition="tuple has fewer than 2 elements" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return second element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TupleSecond((1, 2, 3))" output="2" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TupleLast" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="tuple" domain="Tuple" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="TupleLast::EMPTY_TUPLE" condition="tuple is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return last element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TupleLast((1, 2, 3))" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TupleLength" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="tuple" domain="Tuple" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return number of elements in tuple.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TupleLength((1, 2, 3))" output="3" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TupleToList" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="tuple" domain="Tuple" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Convert Tuple to List.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="TupleToList((1, 2, 3))" output="[1, 2, 3]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ListToTuple" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+		</Parameters>
+		<Returns domain="Tuple" />
+		<Semantics>
+			<Step ordinal=1>Convert List to Tuple.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ListToTuple([1, 2, 3])" output="(1, 2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MakeTuple" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="elements" domain="Any" variadic="true" />
+		</Parameters>
+		<Returns domain="Tuple" />
+		<Semantics>
+			<Step ordinal=1>Create Tuple from arguments.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MakeTuple(1, 2, 3)" output="(1, 2, 3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Tuple Operations ]
+
+	[ GROUP: Range Operations ]
+
+	<OperatorDefinition name="RangeToList" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="range" domain="Range" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="CoreSafeTransforms::LIMIT_EXCEEDED" condition="expansion exceeds limits" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Expand range to list of elements.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RangeToList(Range(1, 5))" output="[1, 2, 3, 4, 5]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RangeContains" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="range" domain="Range" />
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is within range.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RangeContains(Range(1, 10), 5)" output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RangeStart" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="range" domain="Range" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return start value of range.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RangeStart(Range(1, 10))" output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RangeEnd" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="range" domain="Range" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return end value of range.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RangeEnd(Range(1, 10))" output="10" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RangeStep" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="range" domain="Range" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Return step value of range, or &lt;Absent/&gt; if none.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RangeStep(Range(1, 10, 2))" output="2" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RangeLength" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="range" domain="Range" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return number of elements when expanded.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="RangeLength(Range(1, 5))" output="5" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MakeRange" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="start" domain="Any" />
+			<Parameter name="end" domain="Any" />
+			<Parameter name="step" domain="Any" optional="true" />
+		</Parameters>
+		<Returns domain="Range" />
+		<Semantics>
+			<Step ordinal=1>Create Range with start, end, and optional step.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="MakeRange(1, 10)" output="Range(1, 10)" />
+			<Example input="MakeRange(1, 10, 2)" output="Range(1, 10, 2)" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Range Operations ]
+
+	[ GROUP: Join Operations ]
+
+	<OperatorDefinition name="JoinCollectionsOnKey" arity=$Quaternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="left" domain="List" />
+			<Parameter name="right" domain="List" />
+			<Parameter name="leftKeyExpr" domain="Expression" />
+			<Parameter name="rightKeyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="JoinCollectionsOnKey::DUPLICATE_KEY" condition="duplicate keys on either side" />
+			<Error code="JoinCollectionsOnKey::NEED_NONABSENT_KEY" condition="any key is &lt;Absent/&gt;" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Inner join on computed keys.</Step>
+			<Step ordinal=2>Output ordered by left, then right.</Step>
+			<Step ordinal=3>Returns List of Record { left, right }.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="LeftJoinCollectionsOnKey" arity=$Quaternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="left" domain="List" />
+			<Parameter name="right" domain="List" />
+			<Parameter name="leftKeyExpr" domain="Expression" />
+			<Parameter name="rightKeyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Left outer join on computed keys.</Step>
+			<Step ordinal=2>Right is &lt;Absent/&gt; for non-matching left elements.</Step>
+			<Step ordinal=3>Returns List of Record { left, right }.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RightJoinCollectionsOnKey" arity=$Quaternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="left" domain="List" />
+			<Parameter name="right" domain="List" />
+			<Parameter name="leftKeyExpr" domain="Expression" />
+			<Parameter name="rightKeyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Right outer join on computed keys.</Step>
+			<Step ordinal=2>Left is &lt;Absent/&gt; for non-matching right elements.</Step>
+			<Step ordinal=3>Returns List of Record { left, right }.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FullJoinCollectionsOnKey" arity=$Quaternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="left" domain="List" />
+			<Parameter name="right" domain="List" />
+			<Parameter name="leftKeyExpr" domain="Expression" />
+			<Parameter name="rightKeyExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Full outer join on computed keys.</Step>
+			<Step ordinal=2>Non-matching elements have &lt;Absent/&gt; for the other side.</Step>
+			<Step ordinal=3>Returns List of Record { left, right }.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="CrossJoinCollections" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="left" domain="List" />
+			<Parameter name="right" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Cartesian product of two collections.</Step>
+			<Step ordinal=2>Returns List of Record { left, right }.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="CrossJoinCollections([1, 2], [a, b])" output="[{ left: 1, right: a }, { left: 1, right: b }, { left: 2, right: a }, { left: 2, right: b }]" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Join Operations ]
+
+	[ GROUP: String Operations ]
+
+	<OperatorDefinition name="SplitString" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="separator" domain="Text" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SplitString::NEED_NONEMPTY_SEPARATOR" condition="separator is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Split text by separator.</Step>
+			<Step ordinal=2>Return List of Text segments.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SplitString("a,b,c", ",")' output='["a", "b", "c"]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="JoinStrings" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="separator" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="JoinStrings::NEED_TEXT_ELEMENTS" condition="any element is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Join list elements with separator.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='JoinStrings(["a", "b", "c"], ",")' output='"a,b,c"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SplitStringByLength" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="length" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SplitStringByLength::NEED_POSITIVE_LENGTH" condition="length is not positive" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Split text into chunks of specified length.</Step>
+			<Step ordinal=2>Last chunk may be shorter.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SplitStringByLength("abcdefg", 3)' output='["abc", "def", "g"]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SplitStringByPattern" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="pattern" domain="Text" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Split text by regex pattern.</Step>
+			<Step ordinal=2>Return List of Text segments.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SplitStringByPattern("a1b2c3", "[0-9]")' output='["a", "b", "c", ""]' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: String Operations ]
+
+	[ GROUP: Collection Creation ]
+
+	<OperatorDefinition name="RepeatElement" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="element" domain="Any" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="RepeatElement::NEED_NONNEGATIVE_COUNT" condition="count is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Create List with element repeated count times.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='RepeatElement("x", 3)' output='["x", "x", "x"]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="GenerateElements" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="count" domain="Integer" />
+			<Parameter name="generatorExpr" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="GenerateElements::NEED_NONNEGATIVE_COUNT" condition="count is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Generate count elements.</Step>
+			<Step ordinal=2>generatorExpr receives { index }.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="GenerateElements(3, index * 2)" output="[0, 2, 4]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="EmptyList" arity=$Nullary strictness=$Strict>
+		<Parameters />
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return empty List.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="EmptyList()" output="[]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="EmptySet" arity=$Nullary strictness=$Strict>
+		<Parameters />
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return empty Set.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="EmptySet()" output="Set()" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="EmptyMap" arity=$Nullary strictness=$Strict>
+		<Parameters />
+		<Returns domain="Map" />
+		<Semantics>
+			<Step ordinal=1>Return empty Map.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="EmptyMap()" output="Map()" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="EmptyRecord" arity=$Nullary strictness=$Strict>
+		<Parameters />
+		<Returns domain="Record" />
+		<Semantics>
+			<Step ordinal=1>Return empty Record.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="EmptyRecord()" output="{}" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SingletonList" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Return List containing single element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SingletonList(42)" output="[42]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SingletonSet" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Set" />
+		<Semantics>
+			<Step ordinal=1>Return Set containing single element.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="SingletonSet(42)" output="Set(42)" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Collection Creation ]
+</VocabularyDefinition>

@@ -1,0 +1,419 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:presence
+	family=$Presence
+	version="0.1"
+>
+	<Description>
+		Presence and null-handling operators for the Behavior Dialect.
+		Provides null checks, empty checks, Optional handling,
+		and safe navigation utilities.
+	</Description>
+
+	[ GROUP: Null Checking ]
+
+	<OperatorDefinition name="IsNull" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is Null.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsNull(null)" output="true" />
+			<Example input="IsNull(0)" output="false" />
+			<Example input='IsNull("")' output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNotNull" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is not Null.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNullOrUndefined" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is Null or Undefined.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Null Checking ]
+
+	[ GROUP: Empty Checking ]
+
+	<OperatorDefinition name="IsEmpty" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>For Text: return true if length is 0.</Step>
+			<Step ordinal=2>For Collection: return true if size is 0.</Step>
+			<Step ordinal=3>For Optional: return true if None.</Step>
+			<Step ordinal=4>For Null: return true.</Step>
+			<Step ordinal=5>For other types: return false.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='IsEmpty("")' output="true" />
+			<Example input="IsEmpty([])" output="true" />
+			<Example input="IsEmpty(null)" output="true" />
+			<Example input="IsEmpty(0)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNotEmpty" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return logical negation of IsEmpty(value).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsBlank" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>For Text: return true if empty or only whitespace.</Step>
+			<Step ordinal=2>For Collection: return true if empty.</Step>
+			<Step ordinal=3>For Null: return true.</Step>
+			<Step ordinal=4>For other types: return false.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='IsBlank("   ")' output="true" />
+			<Example input='IsBlank("")' output="true" />
+			<Example input='IsBlank("a")' output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsPresent" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is not null, not undefined, and not empty.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsMissing" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is null, undefined, or empty.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Empty Checking ]
+
+	[ GROUP: Invalid Checking ]
+
+	<OperatorDefinition name="IsInvalid" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is Invalid (error result).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsValid" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is not Invalid.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="InvalidCode" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="invalid" domain="Invalid" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="InvalidCode::NOT_INVALID" condition="value is not Invalid" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Extract error code from Invalid value.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="InvalidCode(Invalid(Divide::DIVISION_BY_ZERO))" output='"Divide::DIVISION_BY_ZERO"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="InvalidMessage" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="invalid" domain="Invalid" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Extract message from Invalid if present.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Invalid Checking ]
+
+	[ GROUP: Coalescing ]
+
+	<OperatorDefinition name="Coalesce" arity=$Variadic strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="values" domain="Any" variadic=true />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Evaluate arguments left to right.</Step>
+			<Step ordinal=2>Return first non-null, non-undefined value.</Step>
+			<Step ordinal=3>Return null if all values are null/undefined.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Coalesce(null, undefined, 1, 2)" output="1" />
+			<Example input="Coalesce(null, null)" output="null" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FirstNonEmpty" arity=$Variadic strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="values" domain="Any" variadic=true />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Evaluate arguments left to right.</Step>
+			<Step ordinal=2>Return first value that is not null, not undefined, and not empty.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='FirstNonEmpty("", null, [], "hello")' output='"hello"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FirstValid" arity=$Variadic strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="values" domain="Any" variadic=true />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>Evaluate arguments left to right.</Step>
+			<Step ordinal=2>Return first value that is not Invalid.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Coalescing ]
+
+	[ GROUP: Safe Navigation ]
+
+	<OperatorDefinition name="SafeGet" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="target" domain="Any" />
+			<Parameter name="path" domain="Path" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Navigate path on target.</Step>
+			<Step ordinal=2>Return Some(value) if path exists and all intermediates are non-null.</Step>
+			<Step ordinal=3>Return None if any segment is null or path doesn't exist.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SafeGet({"a": {"b": 1}}, $.a.b)' output="Some(1)" />
+			<Example input='SafeGet({"a": null}, $.a.b)' output="None" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SafeCall" arity=$Ternary strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="target" domain="Any" />
+			<Parameter name="fn" domain="Expression" />
+			<Parameter name="fallback" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If target is null/undefined, return fallback without calling fn.</Step>
+			<Step ordinal=2>Otherwise, apply fn to target and return result.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Safe Navigation ]
+
+	[ GROUP: Conditional Presence ]
+
+	<OperatorDefinition name="WhenPresent" arity=$Binary strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+			<Parameter name="fn" domain="Expression" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>If value is present (not null/empty), apply fn and wrap in Some.</Step>
+			<Step ordinal=2>If value is not present, return None without evaluating fn.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="WhenMissing" arity=$Binary strictness=$NonStrict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+			<Parameter name="fallback" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Semantics>
+			<Step ordinal=1>If value is missing (null/undefined/empty), evaluate and return fallback.</Step>
+			<Step ordinal=2>Otherwise return value.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RequirePresent" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="RequirePresent::IS_MISSING" condition="value is null/undefined/empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If value is present, return it.</Step>
+			<Step ordinal=2>Otherwise return Invalid.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="RequireNonNull" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="RequireNonNull::IS_NULL" condition="value is null or undefined" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If value is not null/undefined, return it.</Step>
+			<Step ordinal=2>Otherwise return Invalid.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Conditional Presence ]
+
+	[ GROUP: Collection Presence ]
+
+	<OperatorDefinition name="Size" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>For Text: return character count.</Step>
+			<Step ordinal=2>For List: return element count.</Step>
+			<Step ordinal=3>For Set: return element count.</Step>
+			<Step ordinal=4>For Map: return entry count.</Step>
+			<Step ordinal=5>For Null: return 0.</Step>
+			<Step ordinal=6>For other types: return 1.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HasKey" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="map" domain="Map" />
+			<Parameter name="key" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if map contains the specified key.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HasValue" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if collection contains value (by equality).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HasIndex" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="index" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if index is valid for list.</Step>
+			<Step ordinal=2>Negative indices count from end.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Collection Presence ]
+
+	[ GROUP: Boolean Coercion ]
+
+	<OperatorDefinition name="IsTruthy" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return false for: Null, false, 0, 0.0, "", empty collections.</Step>
+			<Step ordinal=2>Return true for all other values.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsFalsy" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return logical negation of IsTruthy(value).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Boolean Coercion ]
+
+	[ GROUP: Assertion ]
+
+	<OperatorDefinition name="Assert" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="condition" domain="Boolean" />
+			<Parameter name="message" domain="Text" />
+		</Parameters>
+		<Returns domain="Null" />
+		<Errors>
+			<Error code="Assert::FAILED" condition="condition is false" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If condition is true, return Null.</Step>
+			<Step ordinal=2>If condition is false, return Invalid with message.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AssertNotNull" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Any" />
+			<Parameter name="name" domain="Text" />
+		</Parameters>
+		<Returns domain="Any" />
+		<Errors>
+			<Error code="AssertNotNull::IS_NULL" condition="value is null" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>If value is not null, return value.</Step>
+			<Step ordinal=2>If value is null, return Invalid with descriptive message.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Assertion ]
+</VocabularyDefinition>

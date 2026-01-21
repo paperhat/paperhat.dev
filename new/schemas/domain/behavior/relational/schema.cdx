@@ -1,0 +1,476 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:relational
+	family=$Relational
+	version="0.1"
+>
+	<Description>
+		Comparison and ordering operators for the Behavior Dialect.
+		Provides less-than, greater-than, between, min/max,
+		and ordering utilities for sortable types.
+	</Description>
+
+	[ GROUP: Basic Comparisons ]
+
+	<OperatorDefinition name="IsLessThan" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Comparable" />
+			<Parameter name="b" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsLessThan::NEED_COMPARABLE_VALUES" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if a is strictly less than b.</Step>
+			<Step ordinal=2>Numbers compared by mathematical value.</Step>
+			<Step ordinal=3>Text compared lexicographically by Unicode code points.</Step>
+			<Step ordinal=4>Temporal values compared chronologically.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsLessThan(1, 2)" output="true" />
+			<Example input='IsLessThan("apple", "banana")' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNoMoreThan" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Comparable" />
+			<Parameter name="b" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsNoMoreThan::NEED_COMPARABLE_VALUES" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if a is less than or equal to b.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsMoreThan" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Comparable" />
+			<Parameter name="b" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsMoreThan::NEED_COMPARABLE_VALUES" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if a is strictly greater than b.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNoLessThan" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Comparable" />
+			<Parameter name="b" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsNoLessThan::NEED_COMPARABLE_VALUES" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if a is greater than or equal to b.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Basic Comparisons ]
+
+	[ GROUP: Range Checking ]
+
+	<OperatorDefinition name="IsBetween" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Comparable" />
+			<Parameter name="min" domain="Comparable" />
+			<Parameter name="max" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsBetween::NEED_COMPARABLE_VALUES" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if min &lt;= value &lt;= max (inclusive).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="IsBetween(5, 1, 10)" output="true" />
+			<Example input="IsBetween(0, 1, 10)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsBetweenExclusive" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Comparable" />
+			<Parameter name="min" domain="Comparable" />
+			<Parameter name="max" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsBetweenExclusive::NEED_COMPARABLE_VALUES" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if min &lt; value &lt; max (exclusive).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsInRange" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Comparable" />
+			<Parameter name="range" domain="Range" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>Return true if value is within range bounds.</Step>
+			<Step ordinal=2>Range inclusivity determined by range definition.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Range Checking ]
+
+	[ GROUP: Min/Max ]
+
+	<OperatorDefinition name="Min" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="Comparable" variadic=true />
+		</Parameters>
+		<Returns domain="Comparable" />
+		<Errors>
+			<Error code="Min::NEED_AT_LEAST_ONE" condition="no values provided" />
+			<Error code="Min::NOT_COMPARABLE" condition="values are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return smallest value among arguments.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Min(3, 1, 4, 1, 5)" output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Max" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="values" domain="Comparable" variadic=true />
+		</Parameters>
+		<Returns domain="Comparable" />
+		<Errors>
+			<Error code="Max::NEED_AT_LEAST_ONE" condition="no values provided" />
+			<Error code="Max::NOT_COMPARABLE" condition="values are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return largest value among arguments.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Max(3, 1, 4, 1, 5)" output="5" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MinOf" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="MinOf::NOT_COMPARABLE" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return Some(minimum) of collection elements.</Step>
+			<Step ordinal=2>Return None if collection is empty.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MaxOf" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="MaxOf::NOT_COMPARABLE" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return Some(maximum) of collection elements.</Step>
+			<Step ordinal=2>Return None if collection is empty.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MinBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+			<Parameter name="keyFn" domain="Expression" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Return element with minimum key value.</Step>
+			<Step ordinal=2>Key function applied to extract comparison value.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='MinBy([{"a": 3}, {"a": 1}], x => x.a)' output='Some({"a": 1})' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MaxBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+			<Parameter name="keyFn" domain="Expression" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Semantics>
+			<Step ordinal=1>Return element with maximum key value.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Min/Max ]
+
+	[ GROUP: Ordering ]
+
+	<OperatorDefinition name="Compare" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Comparable" />
+			<Parameter name="b" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Compare::NOT_COMPARABLE" condition="types are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return -1 if a &lt; b, 0 if a = b, 1 if a > b.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Compare(1, 2)" output="-1" />
+			<Example input="Compare(2, 2)" output="0" />
+			<Example input="Compare(3, 2)" output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="CompareBy" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Any" />
+			<Parameter name="b" domain="Any" />
+			<Parameter name="keyFn" domain="Expression" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Extract keys using keyFn and compare.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Ordering" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="comparisons" domain="Integer" variadic=true />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Chain comparison results.</Step>
+			<Step ordinal=2>Return first non-zero comparison, or 0 if all equal.</Step>
+			<Step ordinal=3>Useful for multi-key sorting.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Ordering(0, 0, -1)" output="-1" />
+			<Example input="Ordering(0, 1, -1)" output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Ordering ]
+
+	[ GROUP: Sorting ]
+
+	<OperatorDefinition name="Sort" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="Sort::NOT_COMPARABLE" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return new list with elements in ascending order.</Step>
+			<Step ordinal=2>Sort is stable (equal elements preserve original order).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Sort([3, 1, 4, 1, 5])" output="[1, 1, 3, 4, 5]" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortDescending" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SortDescending::NOT_COMPARABLE" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return new list with elements in descending order.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortBy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+			<Parameter name="keyFn" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Sort by key extracted via keyFn in ascending order.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SortBy([{"name": "b"}, {"name": "a"}], x => x.name)' output='[{"name": "a"}, {"name": "b"}]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortByDescending" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+			<Parameter name="keyFn" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Sort by key extracted via keyFn in descending order.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SortWith" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+			<Parameter name="comparator" domain="Expression" />
+		</Parameters>
+		<Returns domain="List" />
+		<Semantics>
+			<Step ordinal=1>Sort using custom comparator function.</Step>
+			<Step ordinal=2>Comparator takes (a, b) and returns -1, 0, or 1.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Sorting ]
+
+	[ GROUP: Extrema in Collections ]
+
+	<OperatorDefinition name="Extent" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="Collection" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="Extent::NOT_COMPARABLE" condition="elements are not comparable" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return Some([min, max]) of collection.</Step>
+			<Step ordinal=2>Return None if collection is empty.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="Extent([3, 1, 4, 1, 5])" output="Some([1, 5])" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Clamp" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Comparable" />
+			<Parameter name="min" domain="Comparable" />
+			<Parameter name="max" domain="Comparable" />
+		</Parameters>
+		<Returns domain="Comparable" />
+		<Errors>
+			<Error code="Clamp::INVALID_BOUNDS" condition="min > max" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return value constrained to [min, max].</Step>
+			<Step ordinal=2>If value &lt; min, return min.</Step>
+			<Step ordinal=3>If value > max, return max.</Step>
+			<Step ordinal=4>Otherwise return value.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Extrema in Collections ]
+
+	[ GROUP: Rank and Position ]
+
+	<OperatorDefinition name="Rank" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Comparable" />
+			<Parameter name="collection" domain="List" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Return 1-based rank of value in sorted collection.</Step>
+			<Step ordinal=2>Ties receive same rank (standard competition ranking).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Percentile" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Comparable" />
+			<Parameter name="collection" domain="List" />
+		</Parameters>
+		<Returns domain="RealNumber" />
+		<Semantics>
+			<Step ordinal=1>Return percentile rank (0-100) of value in collection.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="NthLargest" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="NthLargest::NEED_POSITIVE" condition="n < 1" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return the nth largest element.</Step>
+			<Step ordinal=2>N=1 returns maximum, N=2 returns second largest, etc.</Step>
+			<Step ordinal=3>Return None if n > collection size.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="NthSmallest" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="collection" domain="List" />
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="NthSmallest::NEED_POSITIVE" condition="n < 1" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return the nth smallest element.</Step>
+			<Step ordinal=2>N=1 returns minimum, N=2 returns second smallest, etc.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Rank and Position ]
+
+	[ GROUP: Text-Specific Comparison ]
+
+	<OperatorDefinition name="CompareText" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Text" />
+			<Parameter name="b" domain="Text" />
+			<Parameter name="options" domain="TextCompareOptions" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Compare text with specified options.</Step>
+		</Semantics>
+		<EnumeratedValues name="TextCompareOptions">
+			<Member value="$CaseSensitive" description="Default comparison" />
+			<Member value="$CaseInsensitive" description="Ignore case differences" />
+			<Member value="$LocaleAware" description="Use locale-specific ordering" />
+			<Member value="$Natural" description="Numeric substrings compared as numbers" />
+		</EnumeratedValues>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="NaturalCompare" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="a" domain="Text" />
+			<Parameter name="b" domain="Text" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Semantics>
+			<Step ordinal=1>Compare with natural sorting (e.g., "item2" &lt; "item10").</Step>
+		</Semantics>
+		<Examples>
+			<Example input='NaturalCompare("item2", "item10")' output="-1" />
+			<Example input='Compare("item2", "item10")' output="1" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Text-Specific Comparison ]
+</VocabularyDefinition>

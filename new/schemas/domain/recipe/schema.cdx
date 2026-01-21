@@ -1,0 +1,293 @@
+<Schema
+	id=codex:domain:recipe
+	version="0.1"
+	compatibilityClass=$BackwardCompatible
+	title="Recipe Domain Schema"
+	description="Recipe authoring schema. Structured parts are Concepts, not Traits. schema.org projection is defined separately."
+>
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id=codex:domain:recipe:Recipe
+			name="Recipe"
+			conceptKind=$Semantic
+			entityEligibility=$MustBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Title" />
+				<AllowsChildConcept conceptSelector="Teaser" />
+				<AllowsChildConcept conceptSelector="Description" />
+				<AllowsChildConcept conceptSelector="Servings" />
+				<AllowsChildConcept conceptSelector="PreparationTime" />
+				<AllowsChildConcept conceptSelector="CookingTime" />
+				<AllowsChildConcept conceptSelector="Ingredients" />
+				<AllowsChildConcept conceptSelector="Equipment" />
+				<AllowsChildConcept conceptSelector="Instructions" />
+				<AllowsChildConcept conceptSelector="Tags" />
+				<AllowsChildConcept conceptSelector="Source" />
+			</ChildRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Servings
+			name="Servings"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="amount" />
+				<AllowsTrait name="unit" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:PreparationTime
+			name="PreparationTime"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="duration" />
+				<AllowsTrait name="unit" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:CookingTime
+			name="CookingTime"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="duration" />
+				<AllowsTrait name="unit" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Ingredients
+			name="Ingredients"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Ingredient" />
+			</ChildRules>
+			<CollectionRules ordering=$Unordered allowsDuplicates=true />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Ingredient
+			name="Ingredient"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="name" />
+				<AllowsTrait name="amount" />
+				<AllowsTrait name="unit" />
+				<AllowsTrait name="preparation" />
+				<AllowsTrait name="optional" />
+				<AllowsTrait name="toTaste" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Equipment
+			name="Equipment"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Item" />
+			</ChildRules>
+			<CollectionRules ordering=$Unordered allowsDuplicates=true />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Item
+			name="Item"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Instructions
+			name="Instructions"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Step" />
+			</ChildRules>
+			<CollectionRules ordering=$Ordered allowsDuplicates=true />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Step
+			name="Step"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+			<TraitRules>
+				<AllowsTrait name="optional" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Tags
+			name="Tags"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="Tag" />
+			</ChildRules>
+			<CollectionRules ordering=$Unordered allowsDuplicates=true />
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Tag
+			name="Tag"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:domain:recipe:Source
+			name="Source"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="name"
+			defaultValueType=$String
+			cardinality=$Single
+			priority=$Primary
+		/>
+
+		<TraitDefinition
+			name="amount"
+			defaultValueTypes=[$Number, $NumericRange]
+			cardinality=$Single
+			priority=$Primary
+		/>
+
+		<TraitDefinition
+			name="unit"
+			defaultValueType=$String
+			cardinality=$Single
+			priority=$Secondary
+		/>
+
+		<TraitDefinition
+			name="duration"
+			defaultValueTypes=[$Number, $NumericRange]
+			cardinality=$Single
+			priority=$Primary
+		/>
+
+		<TraitDefinition
+			name="preparation"
+			defaultValueType=$String
+			cardinality=$Single
+			priority=$Secondary
+		/>
+
+		<TraitDefinition
+			name="optional"
+			defaultValueType=$Boolean
+			cardinality=$Single
+			priority=$Secondary
+		/>
+
+		<TraitDefinition
+			name="toTaste"
+			defaultValueType=$Boolean
+			cardinality=$Single
+			priority=$Secondary
+		/>
+	</TraitDefinitions>
+
+	<ConstraintDefinitions>
+		<ConstraintDefinition
+			id=codex:domain:recipe:recipe-requires-title
+			title="Recipe requires Title"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Recipe" />
+			</Targets>
+			<Rule>
+				<ChildConstraint type="RequiresChildConcept" conceptSelector="Title" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:domain:recipe:recipe-requires-ingredients
+			title="Recipe requires Ingredients"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Recipe" />
+			</Targets>
+			<Rule>
+				<ChildConstraint type="RequiresChildConcept" conceptSelector="Ingredients" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:domain:recipe:recipe-requires-instructions
+			title="Recipe requires Instructions"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Recipe" />
+			</Targets>
+			<Rule>
+				<ChildConstraint type="RequiresChildConcept" conceptSelector="Instructions" />
+			</Rule>
+		</ConstraintDefinition>
+	</ConstraintDefinitions>
+</Schema>

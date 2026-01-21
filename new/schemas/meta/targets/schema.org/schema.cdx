@@ -1,0 +1,132 @@
+[
+  A schema that describes how to rename and project
+  Codex-authored meaning into schema.org vocabulary.
+]
+<Schema
+	id=codex:meta:mapping:schemaorg
+	version="0.1"
+	compatibilityClass=$BackwardCompatible
+	title="Schema.org Mapping Schema"
+	description="Defines a one-way mapping document format used to project Codex-authored data into schema.org terminology for JSON-LD, RDFa, or microdata emitters."
+>
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id=codex:meta:mapping:schemaorg:SchemaOrgMapping
+			name="SchemaOrgMapping"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="id" />
+				<RequiresTrait name="version" />
+			</TraitRules>
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="MapType" />
+				<AllowsChildConcept conceptSelector="MapContentToProperty" />
+				<AllowsChildConcept conceptSelector="MapTraitToProperty" />
+			</ChildRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:mapping:schemaorg:MapType
+			name="MapType"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="sourceConcept" />
+				<RequiresTrait name="targetType" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:mapping:schemaorg:MapContentToProperty
+			name="MapContentToProperty"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="sourceConcept" />
+				<RequiresTrait name="targetProperty" />
+			</TraitRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:mapping:schemaorg:MapTraitToProperty
+			name="MapTraitToProperty"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<TraitRules>
+				<RequiresTrait name="sourceConcept" />
+				<RequiresTrait name="sourceTrait" />
+				<RequiresTrait name="targetProperty" />
+			</TraitRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="id"
+			defaultValueType=$IriReference
+			cardinality=$Single
+			isReferenceTrait=true
+		/>
+
+		<TraitDefinition
+			name="version"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="sourceConcept"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="sourceTrait"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="targetType"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="targetProperty"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+	</TraitDefinitions>
+
+	<ConstraintDefinitions>
+		<ConstraintDefinition
+			id=codex:meta:mapping:schemaorg:root-only
+			title="Mapping document must have exactly one root SchemaOrgMapping"
+		>
+			<Targets>
+				<TargetContext contextSelector="Document" />
+			</Targets>
+			<Rule>
+				<ContextConstraint type="OnlyValidUnderContext" contextSelector="SchemaOrgMapping" />
+			</Rule>
+		</ConstraintDefinition>
+	</ConstraintDefinitions>
+</Schema>

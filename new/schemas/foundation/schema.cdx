@@ -1,0 +1,134 @@
+<Schema
+	id=codex:foundation
+	version="0.1"
+	compatibilityClass=$BackwardCompatible
+	title="Codex Foundation Schema"
+	description="Shared cross-cutting structural and semantic Concepts used by domain schemas."
+>
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id=codex:foundation:Title
+			name="Title"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:Teaser
+			name="Teaser"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:Description
+			name="Description"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:Paragraph
+			name="Paragraph"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<AllowsContent />
+			</ContentRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:Sequence
+			name="Sequence"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<CollectionRules
+				ordering=$Ordered
+				allowsDuplicates=true
+			/>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:Group
+			name="Group"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<CollectionRules
+				ordering=$Unordered
+				allowsDuplicates=true
+			/>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:OrderedList
+			name="OrderedList"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<CollectionRules
+				ordering=$Ordered
+				allowsDuplicates=true
+			/>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:UnorderedList
+			name="UnorderedList"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<CollectionRules
+				ordering=$Unordered
+				allowsDuplicates=true
+			/>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:foundation:Reference
+			name="Reference"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<TraitRules>
+				<RequiresTrait name="target" />
+			</TraitRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="label"
+			defaultValueType=$String
+			cardinality=$Single
+		/>
+	</TraitDefinitions>
+
+	<ConstraintDefinitions>
+		<ConstraintDefinition
+			id=codex:foundation:reference-target-is-entity
+			title="Reference target must be an Entity"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Reference" />
+			</Targets>
+			<Rule>
+				<ReferenceConstraint type="ReferenceTargetsEntity" />
+			</Rule>
+		</ConstraintDefinition>
+	</ConstraintDefinitions>
+</Schema>

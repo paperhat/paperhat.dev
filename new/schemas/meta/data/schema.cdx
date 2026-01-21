@@ -1,0 +1,111 @@
+<Schema
+	id=codex:meta:data
+	version="0.1"
+	compatibilityClass=$BackwardCompatible
+	title="Codex Data Meta-Schema"
+	description="Authorizes domain ontology schemas. Defines what domain schemas may declare and forbids individuals, views, policies, layout, and assembly. Content is forbidden by default and must be explicitly allowed per Concept. Sequence and Group are permitted only as ordering overrides under CollectionOverride."
+>
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id=codex:meta:data:DomainConcept
+			name="DomainConcept"
+			conceptKind=$Semantic
+			entityEligibility=$MayBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+			<CollectionRules>
+				<CollectionOrdering />
+			</CollectionRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id=codex:meta:data:CollectionOverride
+			name="CollectionOverride"
+			conceptKind=$Structural
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="id"
+			defaultValueType=$IriReference
+			cardinality=$Single
+			isReferenceTrait=true
+		/>
+
+		<TraitDefinition
+			name="priority"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $Primary, $Secondary ] />
+			</AllowedValues>
+		</TraitDefinition>
+	</TraitDefinitions>
+
+	<ConstraintDefinitions>
+		<ConstraintDefinition
+			id=codex:meta:data:no-instances
+			title="Domain schemas must not define individuals"
+		>
+			<Targets>
+				<TargetContext contextSelector="Schema" />
+			</Targets>
+			<Rule>
+				<ForAll>
+					<Not>
+						<IdentityConstraint type="MustBeEntity" />
+					</Not>
+				</ForAll>
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:data:content-opt-in
+			title="Content is forbidden by default in domain concepts"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="DomainConcept" />
+			</Targets>
+			<Rule>
+				<ContentConstraint type="ContentForbiddenUnlessAllowed" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:data:ordering-declared
+			title="Default collection ordering must be declared"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="DomainConcept" />
+			</Targets>
+			<Rule>
+				<CollectionConstraint type="CollectionOrderingDeclared" />
+			</Rule>
+		</ConstraintDefinition>
+
+		<ConstraintDefinition
+			id=codex:meta:data:override-context-only
+			title="Sequence and Group are permitted only within CollectionOverride"
+		>
+			<Targets>
+				<TargetConcept conceptSelector="Sequence" />
+				<TargetConcept conceptSelector="Group" />
+			</Targets>
+			<Rule>
+				<ContextConstraint
+					type="OnlyValidUnderContext"
+					contextSelector="CollectionOverride"
+				/>
+			</Rule>
+		</ConstraintDefinition>
+	</ConstraintDefinitions>
+</Schema>

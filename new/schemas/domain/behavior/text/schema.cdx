@@ -1,0 +1,757 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:text
+	family=$Text
+	version="0.1"
+>
+	<Description>
+		Text manipulation operators for the Behavior Dialect.
+		Includes string operations, searching, splitting, joining,
+		case conversion, and pattern matching.
+	</Description>
+
+	[ GROUP: Basic Operations ]
+
+	<OperatorDefinition name="Length" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Length::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return count of grapheme clusters in text.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Length("hello")' output="5" />
+			<Example input='Length("")' output="0" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Concatenate" arity=$Variadic strictness=$Strict>
+		<Parameters>
+			<Parameter name="parts" domain="Text" variadic=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Join all text values in order.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Concatenate("hello", " ", "world")' output='"hello world"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Repeat" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Repeat::NEED_TEXT" condition="first operand is not Text" />
+			<Error code="Repeat::NEED_NONNEGATIVE" condition="count is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return text repeated count times.</Step>
+			<Step ordinal=2>If count is 0, return empty string.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Repeat("ab", 3)' output='"ababab"' />
+			<Example input='Repeat("x", 0)' output='""' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Reverse" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Reverse::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return text with grapheme clusters in reverse order.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Reverse("hello")' output='"olleh"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Basic Operations ]
+
+	[ GROUP: Case Conversion ]
+
+	<OperatorDefinition name="Uppercase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Uppercase::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert all characters to uppercase using Unicode rules.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Uppercase("Hello World")' output='"HELLO WORLD"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Lowercase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Lowercase::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert all characters to lowercase using Unicode rules.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Lowercase("Hello World")' output='"hello world"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Capitalize" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Capitalize::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert first character to uppercase, rest to lowercase.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Capitalize("hello WORLD")' output='"Hello world"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TitleCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="TitleCase::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Convert first character of each word to uppercase.</Step>
+			<Step ordinal=2>Words are separated by whitespace.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='TitleCase("hello world")' output='"Hello World"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Case Conversion ]
+
+	[ GROUP: Trimming ]
+
+	<OperatorDefinition name="Trim" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Trim::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Remove leading and trailing whitespace.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Trim("  hello  ")' output='"hello"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TrimStart" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="TrimStart::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Remove leading whitespace.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='TrimStart("  hello  ")' output='"hello  "' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TrimEnd" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="TrimEnd::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Remove trailing whitespace.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='TrimEnd("  hello  ")' output='"  hello"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Trimming ]
+
+	[ GROUP: Substring and Slicing ]
+
+	<OperatorDefinition name="Substring" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="start" domain="Integer" />
+			<Parameter name="length" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Substring::NEED_TEXT" condition="first operand is not Text" />
+			<Error code="Substring::NEED_NONNEGATIVE_LENGTH" condition="length is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Extract length graphemes starting at position start (0-indexed).</Step>
+			<Step ordinal=2>Negative start counts from end.</Step>
+			<Step ordinal=3>If start is out of bounds, return empty string.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Substring("hello", 1, 3)' output='"ell"' />
+			<Example input='Substring("hello", -2, 2)' output='"lo"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="CharAt" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="index" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="CharAt::NEED_TEXT" condition="first operand is not Text" />
+			<Error code="CharAt::OUT_OF_BOUNDS" condition="index is out of bounds" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return grapheme at index (0-indexed).</Step>
+			<Step ordinal=2>Negative index counts from end.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='CharAt("hello", 1)' output='"e"' />
+			<Example input='CharAt("hello", -1)' output='"o"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="First" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="First::NEED_TEXT" condition="first operand is not Text" />
+			<Error code="First::NEED_NONNEGATIVE" condition="count is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return first count graphemes.</Step>
+			<Step ordinal=2>If count exceeds length, return entire text.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='First("hello", 2)' output='"he"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Last" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="count" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Last::NEED_TEXT" condition="first operand is not Text" />
+			<Error code="Last::NEED_NONNEGATIVE" condition="count is negative" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return last count graphemes.</Step>
+			<Step ordinal=2>If count exceeds length, return entire text.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Last("hello", 2)' output='"lo"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Substring and Slicing ]
+
+	[ GROUP: Searching ]
+
+	<OperatorDefinition name="Contains" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="search" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="Contains::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if text contains search as substring.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Contains("hello", "ell")' output="true" />
+			<Example input='Contains("hello", "xyz")' output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="StartsWith" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="prefix" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="StartsWith::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if text starts with prefix.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='StartsWith("hello", "he")' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="EndsWith" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="suffix" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="EndsWith::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if text ends with suffix.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='EndsWith("hello", "lo")' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IndexOf" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="search" domain="Text" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="IndexOf::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return Some(index) of first occurrence of search in text.</Step>
+			<Step ordinal=2>Return None if not found.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='IndexOf("hello", "l")' output="Some(2)" />
+			<Example input='IndexOf("hello", "x")' output="None" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="LastIndexOf" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="search" domain="Text" />
+		</Parameters>
+		<Returns domain="Optional" />
+		<Errors>
+			<Error code="LastIndexOf::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return Some(index) of last occurrence of search in text.</Step>
+			<Step ordinal=2>Return None if not found.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='LastIndexOf("hello", "l")' output="Some(3)" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Count" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="search" domain="Text" />
+		</Parameters>
+		<Returns domain="Integer" />
+		<Errors>
+			<Error code="Count::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return count of non-overlapping occurrences of search in text.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Count("mississippi", "ss")' output="2" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Searching ]
+
+	[ GROUP: Splitting and Joining ]
+
+	<OperatorDefinition name="Split" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="delimiter" domain="Text" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="Split::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Split text by delimiter into list of strings.</Step>
+			<Step ordinal=2>If delimiter is empty, split into graphemes.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Split("a,b,c", ",")' output='["a", "b", "c"]' />
+			<Example input='Split("hello", "")' output='["h", "e", "l", "l", "o"]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SplitLines" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SplitLines::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Split text by line endings (LF, CRLF, CR).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="SplitWords" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="SplitWords::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Split text by whitespace into list of words.</Step>
+			<Step ordinal=2>Consecutive whitespace treated as single separator.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='SplitWords("hello  world")' output='["hello", "world"]' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Join" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="parts" domain="List" />
+			<Parameter name="delimiter" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Join::NEED_LIST" condition="first operand is not List" />
+			<Error code="Join::NEED_TEXT_ELEMENTS" condition="list elements are not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Concatenate list elements with delimiter between each.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Join(["a", "b", "c"], ", ")' output='"a, b, c"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Splitting and Joining ]
+
+	[ GROUP: Replacement ]
+
+	<OperatorDefinition name="Replace" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="search" domain="Text" />
+			<Parameter name="replacement" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Replace::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Replace first occurrence of search with replacement.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Replace("hello", "l", "L")' output='"heLlo"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ReplaceAll" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="search" domain="Text" />
+			<Parameter name="replacement" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="ReplaceAll::NEED_TEXT" condition="any operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Replace all occurrences of search with replacement.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ReplaceAll("hello", "l", "L")' output='"heLLo"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Replacement ]
+
+	[ GROUP: Padding ]
+
+	<OperatorDefinition name="PadStart" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="length" domain="Integer" />
+			<Parameter name="pad" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="PadStart::NEED_TEXT" condition="text or pad is not Text" />
+			<Error code="PadStart::NEED_NONEMPTY_PAD" condition="pad is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Pad text at start to reach length using pad string.</Step>
+			<Step ordinal=2>If text is already >= length, return unchanged.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='PadStart("5", 3, "0")' output='"005"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="PadEnd" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="length" domain="Integer" />
+			<Parameter name="pad" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="PadEnd::NEED_TEXT" condition="text or pad is not Text" />
+			<Error code="PadEnd::NEED_NONEMPTY_PAD" condition="pad is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Pad text at end to reach length using pad string.</Step>
+			<Step ordinal=2>If text is already >= length, return unchanged.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='PadEnd("5", 3, "0")' output='"500"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="Center" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="length" domain="Integer" />
+			<Parameter name="pad" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Center::NEED_TEXT" condition="text or pad is not Text" />
+			<Error code="Center::NEED_NONEMPTY_PAD" condition="pad is empty" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Center text within length, padding both sides.</Step>
+			<Step ordinal=2>If odd padding needed, add extra to end.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Center("hi", 6, "-")' output='"--hi--"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Padding ]
+
+	[ GROUP: Character Classification ]
+
+	<OperatorDefinition name="IsAlpha" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsAlpha::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if text is non-empty and all characters are alphabetic.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsNumericText" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsNumericText::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if text is non-empty and all characters are numeric digits.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsAlphanumeric" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsAlphanumeric::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if text is non-empty and all characters are alphanumeric.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsUppercase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsUppercase::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if all cased characters are uppercase.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="IsLowercase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="IsLowercase::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if all cased characters are lowercase.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Character Classification ]
+
+	[ GROUP: Pattern Matching ]
+
+	<OperatorDefinition name="Matches" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="pattern" domain="Pattern" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="Matches::NEED_TEXT" condition="text is not Text" />
+			<Error code="Matches::NEED_PATTERN" condition="pattern is not valid Pattern" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if entire text matches pattern.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="MatchesPartial" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="pattern" domain="Pattern" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="MatchesPartial::NEED_TEXT" condition="text is not Text" />
+			<Error code="MatchesPartial::NEED_PATTERN" condition="pattern is not valid Pattern" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return true if any part of text matches pattern.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FindAll" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="pattern" domain="Pattern" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="FindAll::NEED_TEXT" condition="text is not Text" />
+			<Error code="FindAll::NEED_PATTERN" condition="pattern is not valid Pattern" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return list of all non-overlapping matches.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ReplacePattern" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="pattern" domain="Pattern" />
+			<Parameter name="replacement" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="ReplacePattern::NEED_TEXT" condition="text or replacement is not Text" />
+			<Error code="ReplacePattern::NEED_PATTERN" condition="pattern is not valid Pattern" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Replace all matches of pattern with replacement.</Step>
+			<Step ordinal=2>Replacement can reference capture groups.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Pattern Matching ]
+
+	[ GROUP: Unicode ]
+
+	<OperatorDefinition name="Normalize" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="form" domain="NormalizationForm" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="Normalize::NEED_TEXT" condition="text is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return text in specified Unicode normalization form.</Step>
+		</Semantics>
+		<EnumeratedValues name="NormalizationForm">
+			<Member value="$NFC" description="Canonical Decomposition, followed by Canonical Composition" />
+			<Member value="$NFD" description="Canonical Decomposition" />
+			<Member value="$NFKC" description="Compatibility Decomposition, followed by Canonical Composition" />
+			<Member value="$NFKD" description="Compatibility Decomposition" />
+		</EnumeratedValues>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="CodePoints" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="List" />
+		<Errors>
+			<Error code="CodePoints::NEED_TEXT" condition="operand is not Text" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Return list of Unicode code points as integers.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FromCodePoints" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="codePoints" domain="List" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Errors>
+			<Error code="FromCodePoints::NEED_LIST" condition="operand is not List" />
+			<Error code="FromCodePoints::INVALID_CODE_POINT" condition="any element is not valid code point" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Construct text from list of Unicode code points.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Unicode ]
+</VocabularyDefinition>

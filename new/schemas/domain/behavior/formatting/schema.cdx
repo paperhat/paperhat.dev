@@ -1,0 +1,507 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:formatting
+	family=$Formatting
+	version="0.1"
+>
+	<Description>
+		Display formatting operators for the Behavior Dialect.
+		Provides number formatting, date formatting, currency,
+		pluralization, and localized display utilities.
+	</Description>
+
+	[ GROUP: Number Formatting ]
+
+	<OperatorDefinition name="FormatNumber" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="options" domain="NumberFormatOptions" optional=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format number according to options.</Step>
+			<Step ordinal=2>Default: locale-appropriate with reasonable decimal places.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatNumber(1234567.89)" output='"1,234,567.89"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatInteger" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Integer" />
+			<Parameter name="options" domain="NumberFormatOptions" optional=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format integer with grouping separators.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatInteger(1234567)" output='"1,234,567"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatDecimal" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="decimalPlaces" domain="Integer" />
+			<Parameter name="options" domain="NumberFormatOptions" optional=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format number with exactly specified decimal places.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatDecimal(3.14159, 2)" output='"3.14"' />
+			<Example input="FormatDecimal(5, 2)" output='"5.00"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatPercent" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="decimalPlaces" domain="Integer" optional=true default="0" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Multiply by 100 and append percent sign.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatPercent(0.1234, 1)" output='"12.3%"' />
+			<Example input="FormatPercent(0.5)" output='"50%"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatScientific" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="significantDigits" domain="Integer" optional=true default="6" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format in scientific notation (e.g., 1.23e+10).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatScientific(12345, 3)" output='"1.23e+4"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatEngineering" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="significantDigits" domain="Integer" optional=true default="6" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format in engineering notation (exponent multiple of 3).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatEngineering(12345, 3)" output='"12.3e+3"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatCompact" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="style" domain="CompactStyle" optional=true default="$Short" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format with compact notation (K, M, B for short; thousand, million, billion for long).</Step>
+		</Semantics>
+		<EnumeratedValues name="CompactStyle">
+			<Member value="$Short" description="K, M, B, T" />
+			<Member value="$Long" description="thousand, million, billion, trillion" />
+		</EnumeratedValues>
+		<Examples>
+			<Example input="FormatCompact(1234567, $Short)" output='"1.2M"' />
+			<Example input="FormatCompact(1234567, $Long)" output='"1.2 million"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatOrdinal" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format as ordinal (1st, 2nd, 3rd, etc.).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatOrdinal(1)" output='"1st"' />
+			<Example input="FormatOrdinal(22)" output='"22nd"' />
+			<Example input="FormatOrdinal(103)" output='"103rd"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Number Formatting ]
+
+	[ GROUP: Currency Formatting ]
+
+	<OperatorDefinition name="FormatCurrency" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="currency" domain="CurrencyCode" />
+			<Parameter name="options" domain="CurrencyFormatOptions" optional=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format as currency with appropriate symbol and decimal places.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='FormatCurrency(1234.56, "USD")' output='"$1,234.56"' />
+			<Example input='FormatCurrency(1234.56, "EUR")' output='"1.234,56"' />
+			<Example input='FormatCurrency(1234, "JPY")' output='"1,234"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatAccounting" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="value" domain="AnyNumber" />
+			<Parameter name="currency" domain="CurrencyCode" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format in accounting style (negatives in parentheses).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='FormatAccounting(-1234.56, "USD")' output='"($1,234.56)"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Currency Formatting ]
+
+	[ GROUP: Date and Time Formatting ]
+
+	<OperatorDefinition name="FormatDate" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="date" domain="AnyDateLike" />
+			<Parameter name="style" domain="DateStyle" optional=true default="$Medium" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format date according to style.</Step>
+		</Semantics>
+		<EnumeratedValues name="DateStyle">
+			<Member value="$Short" description="Numeric (3/15/24)" />
+			<Member value="$Medium" description="Abbreviated (Mar 15, 2024)" />
+			<Member value="$Long" description="Full month (March 15, 2024)" />
+			<Member value="$Full" description="With day of week (Friday, March 15, 2024)" />
+		</EnumeratedValues>
+		<Examples>
+			<Example input="FormatDate(PlainDate(2024-03-15), $Short)" output='"3/15/24"' />
+			<Example input="FormatDate(PlainDate(2024-03-15), $Long)" output='"March 15, 2024"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatTime" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="time" domain="AnyTimeLike" />
+			<Parameter name="style" domain="TimeStyle" optional=true default="$Medium" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format time according to style.</Step>
+		</Semantics>
+		<EnumeratedValues name="TimeStyle">
+			<Member value="$Short" description="Hours and minutes (2:30 PM)" />
+			<Member value="$Medium" description="With seconds (2:30:45 PM)" />
+			<Member value="$Long" description="With timezone (2:30:45 PM EST)" />
+		</EnumeratedValues>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatDateTime" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="datetime" domain="AnyDateTimeLike" />
+			<Parameter name="dateStyle" domain="DateStyle" optional=true default="$Medium" />
+			<Parameter name="timeStyle" domain="TimeStyle" optional=true default="$Short" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format date and time together.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatRelativeTime" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="datetime" domain="AnyTemporal" />
+			<Parameter name="relativeTo" domain="AnyTemporal" optional=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format as relative time ("2 hours ago", "in 3 days").</Step>
+			<Step ordinal=2>If relativeTo not provided, use current time.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatRelativeTime(2hoursAgo)" output='"2 hours ago"' />
+			<Example input="FormatRelativeTime(tomorrow)" output='"in 1 day"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatDuration" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="duration" domain="Duration" />
+			<Parameter name="style" domain="DurationStyle" optional=true default="$Long" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format duration in human-readable form.</Step>
+		</Semantics>
+		<EnumeratedValues name="DurationStyle">
+			<Member value="$Short" description="Abbreviated (2h 30m)" />
+			<Member value="$Long" description="Full words (2 hours, 30 minutes)" />
+			<Member value="$Narrow" description="Compact (2:30:00)" />
+		</EnumeratedValues>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatDatePattern" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="date" domain="AnyDateLike" />
+			<Parameter name="pattern" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format using custom pattern.</Step>
+			<Step ordinal=2>Pattern tokens: YYYY (year), MM (month), DD (day), etc.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='FormatDatePattern(PlainDate(2024-03-15), "YYYY-MM-DD")' output='"2024-03-15"' />
+			<Example input='FormatDatePattern(PlainDate(2024-03-15), "DD/MM/YYYY")' output='"15/03/2024"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Date and Time Formatting ]
+
+	[ GROUP: Pluralization ]
+
+	<OperatorDefinition name="Pluralize" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="count" domain="Integer" />
+			<Parameter name="singular" domain="Text" />
+			<Parameter name="plural" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Return singular if count is 1, plural otherwise.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='Pluralize(1, "item", "items")' output='"1 item"' />
+			<Example input='Pluralize(5, "item", "items")' output='"5 items"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="PluralizeWord" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="count" domain="Integer" />
+			<Parameter name="word" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Automatically pluralize English word based on count.</Step>
+			<Step ordinal=2>Handles common irregular plurals.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='PluralizeWord(2, "child")' output='"children"' />
+			<Example input='PluralizeWord(1, "person")' output='"person"' />
+			<Example input='PluralizeWord(3, "person")' output='"people"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Pluralization ]
+
+	[ GROUP: List Formatting ]
+
+	<OperatorDefinition name="FormatList" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="items" domain="List" />
+			<Parameter name="style" domain="ListStyle" optional=true default="$Conjunction" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format list items as natural language list.</Step>
+		</Semantics>
+		<EnumeratedValues name="ListStyle">
+			<Member value="$Conjunction" description="and (A, B, and C)" />
+			<Member value="$Disjunction" description="or (A, B, or C)" />
+			<Member value="$Unit" description="no conjunction (A, B, C)" />
+		</EnumeratedValues>
+		<Examples>
+			<Example input='FormatList(["apples", "oranges", "bananas"], $Conjunction)' output='"apples, oranges, and bananas"' />
+			<Example input='FormatList(["red", "blue"], $Disjunction)' output='"red or blue"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: List Formatting ]
+
+	[ GROUP: Byte Formatting ]
+
+	<OperatorDefinition name="FormatBytes" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="bytes" domain="Integer" />
+			<Parameter name="options" domain="ByteFormatOptions" optional=true />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format byte count with appropriate unit (B, KB, MB, GB, TB).</Step>
+			<Step ordinal=2>Default uses binary units (1024-based).</Step>
+		</Semantics>
+		<Examples>
+			<Example input="FormatBytes(1024)" output='"1 KB"' />
+			<Example input="FormatBytes(1536000)" output='"1.46 MB"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="FormatBytesDecimal" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="bytes" domain="Integer" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Format using decimal units (1000-based: kB, MB, GB).</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	[ END: Byte Formatting ]
+
+	[ GROUP: Case Formatting ]
+
+	<OperatorDefinition name="ToTitleCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert to title case (capitalize major words).</Step>
+			<Step ordinal=2>Minor words (a, an, the, etc.) not capitalized unless first/last.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToTitleCase("the quick brown fox")' output='"The Quick Brown Fox"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToSentenceCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Capitalize first letter of each sentence.</Step>
+		</Semantics>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToCamelCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert to camelCase (first word lowercase, subsequent capitalized).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToCamelCase("hello world")' output='"helloWorld"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToPascalCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert to PascalCase (all words capitalized, no separators).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToPascalCase("hello world")' output='"HelloWorld"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToSnakeCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert to snake_case (lowercase with underscores).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToSnakeCase("Hello World")' output='"hello_world"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToKebabCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert to kebab-case (lowercase with hyphens).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToKebabCase("Hello World")' output='"hello-world"' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="ToConstantCase" arity=$Unary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Convert to CONSTANT_CASE (uppercase with underscores).</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ToConstantCase("Hello World")' output='"HELLO_WORLD"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Case Formatting ]
+
+	[ GROUP: Truncation ]
+
+	<OperatorDefinition name="TruncateText" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="maxLength" domain="Integer" />
+			<Parameter name="ellipsis" domain="Text" optional=true default="..." />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>If text exceeds maxLength, truncate and append ellipsis.</Step>
+			<Step ordinal=2>Ellipsis is included in maxLength count.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='TruncateText("Hello, World!", 10)' output='"Hello, ..."' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TruncateWords" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="maxWords" domain="Integer" />
+			<Parameter name="ellipsis" domain="Text" optional=true default="..." />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Truncate to maximum word count, then append ellipsis.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='TruncateWords("The quick brown fox jumps", 3)' output='"The quick brown..."' />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="TruncateMiddle" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="text" domain="Text" />
+			<Parameter name="maxLength" domain="Integer" />
+			<Parameter name="separator" domain="Text" optional=true default="..." />
+		</Parameters>
+		<Returns domain="Text" />
+		<Semantics>
+			<Step ordinal=1>Keep start and end, replace middle with separator.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='TruncateMiddle("Hello, World!", 10)' output='"Hel...ld!"' />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Truncation ]
+</VocabularyDefinition>

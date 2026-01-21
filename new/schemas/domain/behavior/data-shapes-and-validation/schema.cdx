@@ -1,0 +1,209 @@
+<VocabularyDefinition
+	id=codex:domain:behavior:data-shapes-and-validation
+	family=$DataShapes
+	version="0.1"
+>
+	<Description>
+		Data shapes and validation operators for the Behavior Dialect.
+		Provides deterministic, runtime-neutral predicates for validating
+		collection shapes, element membership, and record key predicates.
+	</Description>
+
+	[ GROUP: Collection Size Predicates ]
+
+	<OperatorDefinition name="HasElementCountEqualTo" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If list is not a List, return false.</Step>
+			<Step ordinal=2>If n is not an Integer, return false.</Step>
+			<Step ordinal=3>If n is negative, return false.</Step>
+			<Step ordinal=4>Return true if count of elements equals n.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="HasElementCountEqualTo([1, 2, 3], 3)" output="true" />
+			<Example input="HasElementCountEqualTo([1, 2], 3)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HasElementCountAtLeast" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If list is not a List, return false.</Step>
+			<Step ordinal=2>If n is not an Integer, return false.</Step>
+			<Step ordinal=3>If n is negative, return false.</Step>
+			<Step ordinal=4>Return true if count of elements is greater than or equal to n.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="HasElementCountAtLeast([1, 2, 3], 2)" output="true" />
+			<Example input="HasElementCountAtLeast([1], 2)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HasElementCountAtMost" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="n" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If list is not a List, return false.</Step>
+			<Step ordinal=2>If n is not an Integer, return false.</Step>
+			<Step ordinal=3>If n is negative, return false.</Step>
+			<Step ordinal=4>Return true if count of elements is less than or equal to n.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="HasElementCountAtMost([1, 2], 3)" output="true" />
+			<Example input="HasElementCountAtMost([1, 2, 3, 4], 3)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="HasElementCountBetweenInclusive" arity=$Ternary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="min" domain="Integer" />
+			<Parameter name="max" domain="Integer" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If list is not a List, return false.</Step>
+			<Step ordinal=2>If min or max is not an Integer, return false.</Step>
+			<Step ordinal=3>If min is negative or max is negative, return false.</Step>
+			<Step ordinal=4>If min is greater than max, return false.</Step>
+			<Step ordinal=5>Return true if min is less than or equal to count and count is less than or equal to max.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="HasElementCountBetweenInclusive([1, 2, 3], 2, 5)" output="true" />
+			<Example input="HasElementCountBetweenInclusive([1], 2, 5)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Collection Size Predicates ]
+
+	[ GROUP: Element Membership Predicates ]
+
+	<OperatorDefinition name="ContainsElement" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If list is not a List, return false.</Step>
+			<Step ordinal=2>Return true if element is structurally equal to some element of list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="ContainsElement([1, 2, 3], 2)" output="true" />
+			<Example input="ContainsElement([1, 2, 3], 4)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DoesNotContainElement" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="list" domain="List" />
+			<Parameter name="element" domain="Any" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If list is not a List, return false.</Step>
+			<Step ordinal=2>Return true if element is not structurally equal to any element of list.</Step>
+		</Semantics>
+		<Examples>
+			<Example input="DoesNotContainElement([1, 2, 3], 4)" output="true" />
+			<Example input="DoesNotContainElement([1, 2, 3], 2)" output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Element Membership Predicates ]
+
+	[ GROUP: Record Key Predicates ]
+
+	<OperatorDefinition name="ContainsKey" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="key" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If record is not a Record, return false.</Step>
+			<Step ordinal=2>If key is not Text, return false.</Step>
+			<Step ordinal=3>Return true if record has a key equal to key.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='ContainsKey({"name": "Alice", "age": 30}, "name")' output="true" />
+			<Example input='ContainsKey({"name": "Alice"}, "email")' output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="DoesNotContainKey" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="record" domain="Record" />
+			<Parameter name="key" domain="Text" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Semantics>
+			<Step ordinal=1>If record is not a Record, return false.</Step>
+			<Step ordinal=2>If key is not Text, return false.</Step>
+			<Step ordinal=3>Return true if record does not have a key equal to key.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='DoesNotContainKey({"name": "Alice"}, "email")' output="true" />
+			<Example input='DoesNotContainKey({"name": "Alice"}, "name")' output="false" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Record Key Predicates ]
+
+	[ GROUP: Higher-Order Shape Predicates ]
+
+	<OperatorDefinition name="AllKeysSatisfy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="recordExpression" domain="Record" />
+			<Parameter name="predicateExpression" domain="Expression" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="AllKeysSatisfy::NEED_RECORD" condition="recordExpression is not a Record" />
+			<Error code="AllKeysSatisfy::NEED_BOOLEAN" condition="predicate evaluation yields non-Boolean" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate recordExpression.</Step>
+			<Step ordinal=2>For each key in the record in canonical key order, evaluate predicateExpression with Argument set to the key.</Step>
+			<Step ordinal=3>If any evaluation returns false, return false.</Step>
+			<Step ordinal=4>If all evaluations return true, return true.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='AllKeysSatisfy({"ab": 1, "cd": 2}, key => Length(key) == 2)' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	<OperatorDefinition name="AllValuesSatisfy" arity=$Binary strictness=$Strict>
+		<Parameters>
+			<Parameter name="recordExpression" domain="Record" />
+			<Parameter name="predicateExpression" domain="Expression" />
+		</Parameters>
+		<Returns domain="Boolean" />
+		<Errors>
+			<Error code="AllValuesSatisfy::NEED_RECORD" condition="recordExpression is not a Record" />
+			<Error code="AllValuesSatisfy::NEED_BOOLEAN" condition="predicate evaluation yields non-Boolean" />
+		</Errors>
+		<Semantics>
+			<Step ordinal=1>Evaluate recordExpression.</Step>
+			<Step ordinal=2>For each key in the record in canonical key order, evaluate predicateExpression with Argument set to the value at that key.</Step>
+			<Step ordinal=3>If any evaluation returns false, return false.</Step>
+			<Step ordinal=4>If all evaluations return true, return true.</Step>
+		</Semantics>
+		<Examples>
+			<Example input='AllValuesSatisfy({"a": 1, "b": 2}, value => value > 0)' output="true" />
+		</Examples>
+	</OperatorDefinition>
+
+	[ END: Higher-Order Shape Predicates ]
+</VocabularyDefinition>

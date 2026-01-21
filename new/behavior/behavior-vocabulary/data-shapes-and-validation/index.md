@@ -15,9 +15,7 @@ This document is **Normative**.
 
 This family provides deterministic, runtime-neutral predicates for validating collection shapes.
 
-The canonical cross-spec naming surface for these predicates is defined by:
-
-- Predicate, Guard, and Validation Composition Surface Specification
+Naming conventions and totality rules for these predicates follow the Predicate, Guard, and Validation Composition Surface Specification.
 
 ---
 
@@ -212,7 +210,7 @@ Observability constraint:
 
 ## 7. Relationship to Other Specifications
 
-- Canonical predicate naming surface and determinism locks: Predicate, Guard, and Validation Composition Surface Specification.
+- Naming conventions and totality policy: Predicate, Guard, and Validation Composition Surface Specification.
 - Equality and ordering rules: Value Ordering and Structural Equality.
 
 ---
