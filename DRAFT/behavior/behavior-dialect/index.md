@@ -25,7 +25,6 @@ This spec exists to define:
 This spec does not define:
 
 - the complete value model (see Behavior Dialect Semantics)
-- the interchange encoding (see Behavior Program Encoding)
 - the operator inventory (see Behavior Vocabulary)
 - target-specific UI semantics (owned by runtimes/renderers)
 
@@ -102,8 +101,6 @@ The following operators are reserved and their intent is fixed:
 | `Field(name)` | Field lookup on a Record/Map |
 | `Index(n)` | Index lookup on a Tuple/List |
 | `Path(steps...)` | Bounded path traversal |
-
-Encoding is defined by the Behavior Program Encoding spec.
 
 Typing rules:
 
@@ -379,7 +376,6 @@ The Behavior Vocabulary includes:
 This specification works in conjunction with:
 
 - **Behavior Dialect Semantics** — complete value model
-- **Behavior Program Encoding** — interchange format
 - **Behavior Vocabulary** — operator inventory
 - **Value Ordering and Structural Equality** — comparison rules
 - **Behavior Diagnostic Codes** — error codes

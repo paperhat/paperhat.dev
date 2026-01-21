@@ -22,7 +22,6 @@ This spec exists to define:
 This spec does not define:
 
 - the evaluation model (see Behavior Dialect Semantics)
-- program encoding (see Behavior Program Encoding)
 
 ---
 

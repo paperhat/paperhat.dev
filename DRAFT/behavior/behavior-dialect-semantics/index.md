@@ -26,7 +26,6 @@ This spec exists to define:
 This spec does not define:
 
 - the operator vocabulary inventory (see Behavior Vocabulary)
-- the surface form / encoding of compiled behavior programs (see Behavior Program Encoding)
 - runtime integration details (owned by target runtimes)
 
 ---
@@ -377,7 +376,6 @@ This specification works in conjunction with:
 
 - Codex Naming and Value Specification (defines literal value forms)
 - Behavior Vocabulary (operator inventory and semantics per operator)
-- Behavior Program Encoding (interchange form for compiled programs)
 - Value Ordering and Structural Equality (comparison rules)
 - Target runtimes (HTML runtime, native runtime, etc.)
 
