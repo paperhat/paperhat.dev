@@ -1,5 +1,5 @@
 title: "Paperhat Workshop Semantic Authoring System"
-description: "Documentation for the Paperhat Workshop Semantic Authoring System"
+description: "Description of the Paperhat Workshop Semantic Authoring System"
 
 # Keep or remove theme - your choice
 # theme: jekyll-theme-primer
@@ -19,6 +19,3 @@ highlighter: rouge  # Disable Jekyll's highlighting since we use Prism
 exclude:
   - Gemfile
   - Gemfile.lock
-  - conformance
-  - notes
-  - tools
