@@ -1,0 +1,24 @@
+title: "Paperhat Workshop Semantic Authoring System"
+description: "Documentation for the Paperhat Workshop Semantic Authoring System"
+
+# Keep or remove theme - your choice
+# theme: jekyll-theme-primer
+
+# Use your custom layout
+defaults:
+  - scope:
+      path: ""  # All files
+    values:
+      layout: "default"
+
+# Essential Jekyll settings
+markdown: kramdown
+highlighter: rouge  # Disable Jekyll's highlighting since we use Prism
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - conformance
+  - notes
+  - tools

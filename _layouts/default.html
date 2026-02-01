@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ site.title | default: "My Site" }}</title>
+
+	<!-- Your Prism CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+	<link rel="stylesheet" href="/assets/css/style.css" media="all">
+</head>
+
+<body>
+	{{ content }}
+
+	<!-- Your Prism JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+	<script src="{{ '/assets/js/prism-cdx.js' | relative_url }}"></script>
+</body>
+
+</html>

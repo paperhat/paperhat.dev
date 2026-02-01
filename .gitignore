@@ -1,0 +1,87 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.temp
+deno.env.jsonc
+
+repl/
+.cov*/
+cov*/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs
+dist/
+build/
+out/
+# But allow docs dist for now (may change later)
+!/docs/dist/
+
+# Coverage reports
+# Ignore any coverage directories anywhere in the repo
+coverage/
+coverage-tmp/
+**/coverage/
+cov_temp/
+coverage_profile/
+# LCOV files
+*.lcov
+**/lcov.info
+# Accidental coverage output dir
+**/cov_profile/
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Environment files
+.env
+.env.*
+!.env.*.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Deno cache
+.deno/
+
+# Test artifacts
+playwright-report/
+test-results/
+
+temp/
+
+# Code generator temporary files
+.claude/generators/tmp/
