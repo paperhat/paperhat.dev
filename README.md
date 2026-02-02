@@ -36,3 +36,16 @@ Those concerns are intentionally external and out of scope.
 ## Status
 
 Paperhat Workshop is under active development.
+
+---
+
+## Licensing
+
+Paperhat Workshop is proprietary software developed by Paperhat, Limited.
+
+The underlying **Codex** and **Gloss** languages are independent, open-source specifications licensed under the Apache License 2.0:
+
+- [Codex Language Specification](https://codex-lang.dev)
+- [Gloss Language Specification](https://gloss-lang.dev)
+
+See [LICENSE](LICENSE) for licensing terms for this site.
