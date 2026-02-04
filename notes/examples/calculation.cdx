@@ -1,0 +1,31 @@
+<Calculation>
+	<DivideBy>
+	  <Subtract>
+	  	<Minuend>
+		    <Power>
+		      <Base>
+						<Variable name="a" />
+					</Base>
+		      <Exponent>
+						<Constant>2</Constant>
+					</Exponent>
+		    </Power>
+			</Minuend>
+			<Subtrahend>
+		    <Variable name="b" />
+	    </Subtrahend>
+	  </Subtract>
+	  <Divisor>
+		  <Add>
+		    <Augend>
+					<Variable name="c" />
+				</Augend>
+				<Addend>
+					<Variable name="d" />
+				</Addend>
+		  </Add>
+		</Divisor>
+	</DivideBy>
+</Calculation>
+
+<Calculation formula="(a^2 - b) / (c + d)" />
