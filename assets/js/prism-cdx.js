@@ -10,7 +10,7 @@
   const lookupToken     = /~[a-z][A-Za-z0-9]*/;
 
   // Strings
-  const stringQuoted    = /"(?:\\.|[^\\"])*"/;
+  const stringQuoted    = /"(?:\\(?:\"|u[0-9A-Fa-f]{4}|u\{[0-9A-Fa-f]{1,6}\})|\\(?!\"|u[0-9A-Fa-f]{4}|u\{[0-9A-Fa-f]{1,6}\})|[^"\\])*"/;
   const stringBacktick  = /`[\s\S]*?`/;
 
   // Characters
