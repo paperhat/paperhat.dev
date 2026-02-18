@@ -1,0 +1,83 @@
+@prefix gd:   <https://paperhat.example/ontologies/graphic-design#> .
+@prefix gdm:  <https://paperhat.example/ontologies/graphic-design-metrics#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# MetricSet well-formedness
+#####################################################################
+
+gdm:MetricSetShape a sh:NodeShape ;
+  sh:targetClass gdm:MetricSet ;
+
+  sh:property [
+    sh:path gdm:forComposition ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Composition ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:forView ;
+    sh:maxCount 1 ;
+    sh:class gd:View ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:hasMetric ;
+    sh:minCount 1 ;
+    sh:class gdm:MetricAssertion ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:algorithmId ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:inputsHash ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:computedAtEpochMs ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:long ;
+  ] .
+
+#####################################################################
+# MetricAssertion well-formedness
+#####################################################################
+
+gdm:MetricAssertionShape a sh:NodeShape ;
+  sh:targetClass gdm:MetricAssertion ;
+
+  sh:property [
+    sh:path gdm:metricType ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gdm:MetricType ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:about ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:method ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gdm:MeasurementMethod ;
+  ] ;
+
+  sh:property [
+    sh:path gdm:unit ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gdm:Unit ;
+  ] ;
+
+  # Exactly one of valueDecimal or valueInteger
+  sh:xone (
+    [ sh:property [ sh:path gdm:valueDecimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ]
+    [ sh:property [ sh:path gdm:valueInteger ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ]
+  ) .

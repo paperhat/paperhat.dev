@@ -1,0 +1,47 @@
+@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# Grid constraints (only defined here; not duplicated elsewhere)
+#####################################################################
+
+gd:GridSystemShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridSystem ;
+
+  sh:property [
+    sh:path gd:columnCount ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:rowCount ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:baselineGrid ;
+    sh:maxCount 1 ;
+    sh:class gd:BaselineGrid ;
+  ] ;
+
+  sh:property [
+    sh:path gd:hasUnit ;
+    sh:class gd:GridUnit ;
+  ] .
+
+gd:BaselineGridShape
+  a sh:NodeShape ;
+  sh:targetClass gd:BaselineGrid ;
+
+  sh:property [
+    sh:path gd:baselineStep ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] .

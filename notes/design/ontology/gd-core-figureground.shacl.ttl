@@ -1,0 +1,38 @@
+@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#####################################################################
+# Figure–Ground constraints (only defined here; not duplicated elsewhere)
+#####################################################################
+
+gd:FigureGroundShape
+  a sh:NodeShape ;
+  sh:targetClass gd:FigureGroundStatement ;
+
+  sh:property [
+    sh:path gd:principleType ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:hasValue gd:FigureGround ;
+  ] ;
+
+  sh:property [
+    sh:path gd:scope ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:participant ;
+    sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
+  ] ;
+
+  sh:property [
+    sh:path gd:foreground ;
+    sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
+  ] ;
+
+  sh:property [
+    sh:path gd:background ;
+    sh:minCount 1 ;
+  ] .

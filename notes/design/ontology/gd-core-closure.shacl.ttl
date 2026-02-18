@@ -1,0 +1,81 @@
+@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#####################################################################
+# Ownership: every node of these classes must declare ownedBy exactly once
+#####################################################################
+
+gd:ElementInstanceOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:ElementInstance ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:RectOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Rect ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:StyleOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Style ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:PaintOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Paint ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:StrokeOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Stroke ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:TypographicStyleOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:TypographicStyle ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:TransformOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Transform ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:GridSystemOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridSystem ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:GridUnitOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridUnit ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:BaselineGridOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:BaselineGrid ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:PrincipleStatementOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:PrincipleStatement ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:RegionOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Region ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:LayerOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Layer ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:CanvasOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Canvas ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:GroupInstanceOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GroupInstance ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .

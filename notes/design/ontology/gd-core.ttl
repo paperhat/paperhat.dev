@@ -1,0 +1,332 @@
+@prefix gd:   <https://paperhat.example/ontologies/graphic-design#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# Classes
+#####################################################################
+
+gd:Composition        a rdfs:Class .
+gd:Canvas             a rdfs:Class .
+gd:View               a rdfs:Class .
+
+gd:ElementType        a rdfs:Class .
+gd:ElementInstance    a rdfs:Class .
+gd:GroupInstance      a rdfs:Class .
+
+gd:Style              a rdfs:Class .
+gd:Paint              a rdfs:Class .
+gd:Stroke             a rdfs:Class .
+gd:TypographicStyle   a rdfs:Class .
+gd:Typeface           a rdfs:Class .
+
+gd:GridSystem         a rdfs:Class .
+gd:GridUnit           a rdfs:Class .
+gd:ColumnUnit         a rdfs:Class ; rdfs:subClassOf gd:GridUnit .
+gd:RowUnit            a rdfs:Class ; rdfs:subClassOf gd:GridUnit .
+gd:GutterUnit         a rdfs:Class ; rdfs:subClassOf gd:GridUnit .
+gd:BaselineGrid       a rdfs:Class .
+
+gd:Region             a rdfs:Class .
+gd:Layer              a rdfs:Class .
+
+gd:Rect               a rdfs:Class .
+gd:Transform          a rdfs:Class .
+
+gd:Principle          a rdfs:Class .
+gd:PrincipleStatement a rdfs:Class .
+gd:FigureGroundStatement a rdfs:Class ; rdfs:subClassOf gd:PrincipleStatement .
+
+gd:Role               a rdfs:Class .
+gd:CommunicativeIntent a rdfs:Class .
+
+#####################################################################
+# Controlled vocabulary instances
+#####################################################################
+
+# Principles (controlled terms)
+gd:Balance       a gd:Principle .
+gd:Symmetry      a gd:Principle .
+gd:Asymmetry     a gd:Principle .
+gd:Contrast      a gd:Principle .
+gd:FigureGround  a gd:Principle .
+gd:Closure       a gd:Principle .
+gd:Tension       a gd:Principle .
+gd:Proportion    a gd:Principle .
+gd:Movement      a gd:Principle .
+gd:Hierarchy     a gd:Principle .
+gd:Rhythm        a gd:Principle .
+gd:FramePrinciple a gd:Principle .
+
+# Roles (controlled terms)
+gd:Title       a gd:Role .
+gd:Subtitle    a gd:Role .
+gd:BodyText    a gd:Role .
+gd:Caption     a gd:Role .
+gd:Callout     a gd:Role .
+gd:Decoration  a gd:Role .
+gd:Navigation  a gd:Role .
+gd:DataInk     a gd:Role .
+
+# Communicative intents (controlled terms)
+gd:Inform      a gd:CommunicativeIntent .
+gd:Persuade    a gd:CommunicativeIntent .
+gd:Instruct    a gd:CommunicativeIntent .
+gd:Brand       a gd:CommunicativeIntent .
+gd:Warn        a gd:CommunicativeIntent .
+gd:Entertain   a gd:CommunicativeIntent .
+
+#####################################################################
+# Ownership / closure properties
+#####################################################################
+
+gd:owns
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range rdfs:Resource .
+
+gd:ownedBy
+  a rdf:Property ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range gd:Composition .
+
+#####################################################################
+# Composition structure properties
+#####################################################################
+
+gd:hasCanvas
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:Canvas .
+
+gd:hasView
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:View .
+
+gd:hasElement
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:ElementInstance .
+
+gd:hasGrid
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:GridSystem .
+
+gd:hasRegion
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:Region .
+
+gd:hasLayer
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:Layer .
+
+gd:intent
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:CommunicativeIntent .
+
+# Explicit linkage from Composition to its principle statements (reifies critique)
+gd:expresses
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:PrincipleStatement .
+
+#####################################################################
+# Instance linkage / grouping properties
+#####################################################################
+
+gd:instanceOf
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:ElementType .
+
+gd:style
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:Style .
+
+gd:frame
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:Rect .
+
+gd:transform
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:Transform .
+
+gd:zIndex
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range xsd:integer .
+
+gd:layer
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:Layer .
+
+gd:group
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:GroupInstance .
+
+gd:member
+  a rdf:Property ;
+  rdfs:domain gd:GroupInstance ;
+  rdfs:range gd:ElementInstance .
+
+gd:semanticRole
+  a rdf:Property ;
+  rdfs:domain gd:ElementInstance ;
+  rdfs:range gd:Role .
+
+#####################################################################
+# Rect properties
+#####################################################################
+
+gd:x a rdf:Property ; rdfs:domain gd:Rect ; rdfs:range xsd:decimal .
+gd:y a rdf:Property ; rdfs:domain gd:Rect ; rdfs:range xsd:decimal .
+gd:w a rdf:Property ; rdfs:domain gd:Rect ; rdfs:range xsd:decimal .
+gd:h a rdf:Property ; rdfs:domain gd:Rect ; rdfs:range xsd:decimal .
+
+#####################################################################
+# Transform properties (minimal affine)
+#####################################################################
+
+gd:tx          a rdf:Property ; rdfs:domain gd:Transform ; rdfs:range xsd:decimal .
+gd:ty          a rdf:Property ; rdfs:domain gd:Transform ; rdfs:range xsd:decimal .
+gd:rotationDeg a rdf:Property ; rdfs:domain gd:Transform ; rdfs:range xsd:decimal .
+gd:sx          a rdf:Property ; rdfs:domain gd:Transform ; rdfs:range xsd:decimal .
+gd:sy          a rdf:Property ; rdfs:domain gd:Transform ; rdfs:range xsd:decimal .
+
+#####################################################################
+# Style / paint / stroke properties
+#####################################################################
+
+gd:fill
+  a rdf:Property ;
+  rdfs:domain gd:Style ;
+  rdfs:range gd:Paint .
+
+gd:stroke
+  a rdf:Property ;
+  rdfs:domain gd:Style ;
+  rdfs:range gd:Stroke .
+
+gd:opacity
+  a rdf:Property ;
+  rdfs:domain gd:Style ;
+  rdfs:range xsd:decimal .
+
+gd:typeStyle
+  a rdf:Property ;
+  rdfs:domain gd:Style ;
+  rdfs:range gd:TypographicStyle .
+
+gd:paintKind
+  a rdf:Property ;
+  rdfs:domain gd:Paint ;
+  rdfs:range xsd:string .
+
+gd:paintValue
+  a rdf:Property ;
+  rdfs:domain gd:Paint ;
+  rdfs:range xsd:string .
+
+gd:strokeWidth
+  a rdf:Property ;
+  rdfs:domain gd:Stroke ;
+  rdfs:range xsd:decimal .
+
+#####################################################################
+# Typography properties
+#####################################################################
+
+gd:typeface
+  a rdf:Property ;
+  rdfs:domain gd:TypographicStyle ;
+  rdfs:range gd:Typeface .
+
+gd:fontSize
+  a rdf:Property ;
+  rdfs:domain gd:TypographicStyle ;
+  rdfs:range xsd:decimal .
+
+gd:fontWeight
+  a rdf:Property ;
+  rdfs:domain gd:TypographicStyle ;
+  rdfs:range xsd:integer .
+
+gd:leading
+  a rdf:Property ;
+  rdfs:domain gd:TypographicStyle ;
+  rdfs:range xsd:decimal .
+
+gd:tracking
+  a rdf:Property ;
+  rdfs:domain gd:TypographicStyle ;
+  rdfs:range xsd:decimal .
+
+#####################################################################
+# Grid properties
+#####################################################################
+
+gd:columnCount
+  a rdf:Property ;
+  rdfs:domain gd:GridSystem ;
+  rdfs:range xsd:integer .
+
+gd:rowCount
+  a rdf:Property ;
+  rdfs:domain gd:GridSystem ;
+  rdfs:range xsd:integer .
+
+gd:hasUnit
+  a rdf:Property ;
+  rdfs:domain gd:GridSystem ;
+  rdfs:range gd:GridUnit .
+
+gd:baselineGrid
+  a rdf:Property ;
+  rdfs:domain gd:GridSystem ;
+  rdfs:range gd:BaselineGrid .
+
+gd:baselineStep
+  a rdf:Property ;
+  rdfs:domain gd:BaselineGrid ;
+  rdfs:range xsd:decimal .
+
+#####################################################################
+# Principle statement properties
+#####################################################################
+
+gd:principleType
+  a rdf:Property ;
+  rdfs:domain gd:PrincipleStatement ;
+  rdfs:range gd:Principle .
+
+gd:scope
+  a rdf:Property ;
+  rdfs:domain gd:PrincipleStatement ;
+  rdfs:range rdfs:Resource .
+
+gd:participant
+  a rdf:Property ;
+  rdfs:domain gd:PrincipleStatement ;
+  rdfs:range gd:ElementInstance .
+
+# Figure–ground specialization
+gd:foreground
+  a rdf:Property ;
+  rdfs:domain gd:FigureGroundStatement ;
+  rdfs:range gd:ElementInstance .
+
+gd:background
+  a rdf:Property ;
+  rdfs:domain gd:FigureGroundStatement ;
+  rdfs:range rdfs:Resource .
