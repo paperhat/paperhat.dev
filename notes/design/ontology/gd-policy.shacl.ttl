@@ -3,7 +3,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 #####################################################################
-# Responsive/adaptive policy constraints (v0)
+# Responsive/adaptive policy constraints (1.0.0)
 #####################################################################
 
 gd:CompositionPolicyAttachmentShape
@@ -64,7 +64,7 @@ gd:PolicyShape
     sh:datatype xsd:boolean ;
   ] ;
 
-  # Duplicate priorities within the same appliesTo scope are not allowed in v0.
+  # Duplicate priorities within the same appliesTo scope are not allowed in 1.0.0.
   sh:sparql [
     a sh:SPARQLConstraint ;
     sh:message "Policy priority MUST be unique within the same gd:appliesTo scope." ;

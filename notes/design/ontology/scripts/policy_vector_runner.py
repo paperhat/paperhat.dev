@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Run executable policy evaluation vectors for POLICY_EVALUATION_V0."""
+"""Run executable policy evaluation vectors for POLICY_EVALUATION_1_0_0."""
 
 from __future__ import annotations
 
-import json
 import sys
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
+from xml.etree import ElementTree as ET
 
 from pyshacl import validate
 from rdflib import Graph, Literal, URIRef
@@ -400,9 +400,100 @@ def validate_graph(graph: Graph, shapes: Graph, ontology: Graph, stage: str) -> 
         raise EvaluationError(f"SHACL validation failed at {stage}: {results_text}")
 
 
+def _require_attr(element: ET.Element, name: str, path: str) -> str:
+    value = element.get(name)
+    if value is None or value == "":
+        raise EvaluationError(f"Missing required attribute '{name}' at {path}")
+    return value
+
+
+def _parse_cdx_vector(vector_path: Path) -> dict[str, Any]:
+    try:
+        root = ET.parse(vector_path).getroot()
+    except ET.ParseError as exc:  # noqa: PERF203
+        raise EvaluationError(f"Invalid CDX vector syntax in {vector_path}: {exc}") from exc
+
+    if root.tag != "PolicyVector":
+        raise EvaluationError(f"Root tag must be PolicyVector in {vector_path}")
+
+    vector_id = _require_attr(root, "id", "PolicyVector")
+    graph_file = _require_attr(root, "graphFile", "PolicyVector")
+    composition_iri = _require_attr(root, "compositionIri", "PolicyVector")
+    view_iri = root.get("viewIri")
+    if view_iri == "":
+        view_iri = None
+
+    context: dict[str, dict[str, Any]] = {}
+    for entry in root.findall("ContextEntry"):
+        key = _require_attr(entry, "key", "PolicyVector/ContextEntry")
+        kind = _require_attr(entry, "type", f"PolicyVector/ContextEntry[@key='{key}']")
+        raw_value = _require_attr(entry, "value", f"PolicyVector/ContextEntry[@key='{key}']")
+
+        if kind == "integer":
+            value: Any = int(raw_value)
+        elif kind == "decimal":
+            value = raw_value
+        elif kind == "boolean":
+            if raw_value not in {"true", "false"}:
+                raise EvaluationError(f"Boolean ContextEntry value must be true/false for key {key}")
+            value = raw_value == "true"
+        elif kind == "string":
+            value = raw_value
+        else:
+            raise EvaluationError(f"Unsupported ContextEntry type '{kind}' for key {key}")
+
+        context[key] = {"type": kind, "value": value}
+
+    expect_node = root.find("Expect")
+    if expect_node is None:
+        raise EvaluationError(f"Missing Expect node in {vector_path}")
+    status = _require_attr(expect_node, "status", "PolicyVector/Expect")
+    if status not in {"ok", "error"}:
+        raise EvaluationError(f"Unsupported Expect status '{status}' in {vector_path}")
+
+    expect: dict[str, Any] = {"status": status}
+
+    if status == "error":
+        expect["error"] = expect_node.get("error", "EVALUATION_ERROR")
+    else:
+        selected_actions = [
+            _require_attr(action, "iri", "PolicyVector/Expect/SelectedActions/Action")
+            for action in expect_node.findall("SelectedActions/Action")
+        ]
+
+        delta_node = expect_node.find("Delta")
+        if delta_node is None:
+            raise EvaluationError(f"Missing Delta node for status=ok in {vector_path}")
+        delta_remove = [
+            _require_attr(entry, "triple", "PolicyVector/Expect/Delta/Remove")
+            for entry in delta_node.findall("Remove")
+        ]
+        delta_add = [
+            _require_attr(entry, "triple", "PolicyVector/Expect/Delta/Add")
+            for entry in delta_node.findall("Add")
+        ]
+
+        expect["selected_actions"] = selected_actions
+        expect["delta"] = {"remove": delta_remove, "add": delta_add}
+
+    return {
+        "id": vector_id,
+        "graph_file": graph_file,
+        "composition_iri": composition_iri,
+        "view_iri": view_iri,
+        "context": context,
+        "expect": expect,
+    }
+
+
+def _load_vector(vector_path: Path) -> dict[str, Any]:
+    if vector_path.suffix == ".cdx":
+        return _parse_cdx_vector(vector_path)
+    raise EvaluationError(f"Unsupported vector file extension: {vector_path}")
+
+
 def run_vector(vector_path: Path, repo_root: Path, shapes: Graph, ontology: Graph) -> tuple[bool, str]:
-    with vector_path.open("r", encoding="utf-8") as f:
-        vector = json.load(f)
+    vector = _load_vector(vector_path)
 
     vector_id = vector.get("id", vector_path.name)
 
@@ -483,9 +574,9 @@ def main() -> int:
     repo_root = Path(__file__).resolve().parents[4]
     vector_dir = repo_root / "notes/design/ontology/policy-vectors"
 
-    vector_files = sorted(vector_dir.glob("*.json"))
+    vector_files = sorted(vector_dir.glob("*.cdx"))
     if not vector_files:
-        print("No policy vector files found.", file=sys.stderr)
+        print("No policy vector files found (.cdx).", file=sys.stderr)
         return 1
 
     shapes = Graph()

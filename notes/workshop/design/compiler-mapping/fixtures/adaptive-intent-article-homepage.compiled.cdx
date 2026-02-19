@@ -1,0 +1,39 @@
+<CompiledAdaptiveRequest intentId="codex:intent:article-homepage:phone" targetFoundry="web" policySetRef="urn:policyset:article-homepage:1.0.0">
+	<StageA compositionIri="urn:composition:article-homepage" viewIri="urn:view:article-homepage">
+		<ContextEntry key="https://paperhat.dev/ns/gd#DeviceClass" type="string" value="handset" />
+		<ContextEntry key="https://paperhat.dev/ns/gd#ReducedMotionPreference" type="boolean" value="true" />
+		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportAspectRatio" type="decimal" value="0.462085" />
+		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportHeightPx" type="integer" value="844" />
+		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportOrientation" type="string" value="portrait" />
+		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportWidthPx" type="integer" value="390" />
+	</StageA>
+	<StageB>
+		<ContextExtEntry key="colorSchemePreference" value="dark" />
+		<ContextExtEntry key="contrastPreference" value="more" />
+		<ContextExtEntry key="inputModality" value="touch" />
+		<ContextExtEntry key="interactionMode" value="scan" />
+		<ContextExtEntry key="language" value="en-US" />
+		<ContextExtEntry key="networkClass" value="constrained" />
+		<ContextExtEntry key="region" value="US" />
+		<ContextExtEntry key="scriptDirection" value="ltr" />
+		<ContextExtEntry key="zoomLevel" value="1" />
+		<ObjectiveProfile profileId="codex:profile:objective:reading-first" primaryObjective="readability" secondaryObjective="performance" densityGoal="spacious" motionGoal="minimal" brandExpressionGoal="restrained" localizationGoal="strictLocale" precedenceProfile="a11yReadabilityPerformanceBrand">
+			<PriorityWeight field="accessibilityPriority" value="1.0" />
+			<PriorityWeight field="performancePriority" value="0.7" />
+			<PriorityWeight field="readabilityPriority" value="1.0" />
+		</ObjectiveProfile>
+		<OptimizationProfile profileId="codex:profile:optimization:reading-first" solverMode="weightedSum" quantizationMode="banded" reflowMode="reoptimizeOnBandTransition" satisficeThreshold="0.8" relaxationStrategy="dropLowestWeightFirst">
+			<HardConstraint constraintKey="minReadableFont" constraintScope="global" constraintValue="16px" />
+			<HardConstraint constraintKey="mustNotOverlap" constraintScope="global" />
+			<HardConstraint constraintKey="respectReducedMotion" constraintScope="global" />
+			<SoftTerm termKey="brandExpression" weightClass="low" weight="0.25" termScope="global" />
+			<SoftTerm termKey="performance" weightClass="high" weight="0.75" termScope="global" />
+			<SoftTerm termKey="readability" weightClass="critical" weight="1.0" termScope="global" />
+			<RelaxationRule relaxOrder="1" relaxWeightClass="low" relaxationAction="dropTerm" />
+		</OptimizationProfile>
+		<OverrideSet overrideSetId="codex:override:article-homepage:phone" overrideMode="strict">
+			<OverrideConstraint overrideKind="pinVisible" targetRef="urn:node:primary-headline" overridePriority="critical" priorityRank="4" />
+			<OverrideConstraint overrideKind="hideElement" targetRef="urn:node:ambient-video" overridePriority="high" priorityRank="3" />
+		</OverrideSet>
+	</StageB>
+</CompiledAdaptiveRequest>

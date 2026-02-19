@@ -119,7 +119,7 @@ Each `gd:ElementInstance` has a `gd:style` of type `gd:Style`.
 
 * `gd:opacity` exactly once, range `[0..1]`
 
-`gd:Style` MAY specify:
+`gd:Style` MUST specify zero or one of each optional style refinement:
 
 * `gd:fill` → `gd:Paint` (at most one)
 * `gd:stroke` → `gd:Stroke` (at most one)
@@ -150,7 +150,7 @@ No implicit cascading semantics are permitted. If any style inheritance is used 
 
 ## 4.1 Grid system
 
-A composition MAY declare a grid system:
+A composition MUST declare zero or one grid system:
 
 * `gd:hasGrid` → `gd:GridSystem`
 
@@ -159,7 +159,7 @@ A `gd:GridSystem` MUST specify:
 * `gd:columnCount` exactly once (`>= 1`)
 * `gd:rowCount` exactly once (`>= 1`)
 
-A `gd:GridSystem` MAY specify:
+A `gd:GridSystem` MUST specify optional extensions with explicit cardinality:
 
 * `gd:hasUnit` → one or more `gd:GridUnit`
 * `gd:baselineGrid` → `gd:BaselineGrid` (at most one)
@@ -178,7 +178,7 @@ Grid semantics are declarative: no implicit snapping rules exist in the ontology
 
 ## 4.2 Regions and layers
 
-A composition MAY declare:
+A composition MUST declare zero or more structural scopes:
 
 * `gd:hasRegion` → `gd:Region`
 * `gd:hasLayer` → `gd:Layer`
@@ -215,7 +215,7 @@ The ontology uses explicit ownership to support closed-world sealing.
 ## 6.1 Ownership
 
 * `gd:ownedBy` links a structural node to exactly one `gd:Composition`
-* `gd:owns` is an optional forward link from `gd:Composition` to its owned nodes
+* `gd:owns` is a forward link from `gd:Composition` to owned nodes and MUST be used with explicit triples when present
 
 All structural nodes that participate in the canonical composition graph MUST declare `gd:ownedBy` explicitly.
 
@@ -301,7 +301,22 @@ Pre-`1.0.0` change handling and governance deferral rules are defined in:
 
 # 11. Responsive/adaptive policy schema
 
-The v0 rules-based policy grammar is defined in:
+The 1.0.0 rules-based policy grammar is defined in:
 
-- `POLICY_SCHEMA_V0.md`
-- `POLICY_EVALUATION_V0.md`
+- `POLICY_SCHEMA_1_0_0.md`
+- `POLICY_EVALUATION_1_0_0.md`
+
+---
+
+# 12. Workshop-level adaptive projection notes
+
+Workshop-level (Codex authoring) drafts for context/objective profiling and adaptive intent binding are defined in:
+
+- `../../workshop/design/RESPONSIVE_PROJECTION_SEMANTICS_1_0_0.md`
+- `../../workshop/design/DESIGN_POLICY_PRECEDENTS_1_0_0.md`
+- `../../workshop/design/COMPILER_MAPPING_SPEC_1_0_0.md`
+- `../../workshop/design/codex/adaptive-context-profile.schema.cdx`
+- `../../workshop/design/codex/adaptive-objective-profile.schema.cdx`
+- `../../workshop/design/codex/adaptive-optimization-profile.schema.cdx`
+- `../../workshop/design/codex/adaptive-override-set.schema.cdx`
+- `../../workshop/design/codex/adaptive-intent.schema.cdx`

@@ -79,4 +79,4 @@ Coverage semantics:
 
 1. Every SHACL-enforced clause ID MUST have exactly one row in `fixture-coverage.csv`.
 2. Each SHACL row MUST reference one positive fixture and one negative fixture file.
-3. A negative fixture is required to fail validation for the clause's enforcement layer, but it MAY also violate additional clauses unless otherwise documented.
+3. A negative fixture is required to fail validation for the clause's enforcement layer, and it MUST be permitted to violate additional clauses unless otherwise documented.

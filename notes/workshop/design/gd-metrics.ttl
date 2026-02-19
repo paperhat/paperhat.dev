@@ -5,7 +5,7 @@
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 #####################################################################
-# Perceptual Metrics v0.1 (derived artifacts)
+# Perceptual Metrics 1.0.0 (derived artifacts)
 #####################################################################
 
 gdm:MetricSet a rdfs:Class ; rdfs:label "Metric Set" .
@@ -16,7 +16,7 @@ gdm:MeasurementMethod a rdfs:Class ; rdfs:label "Measurement Method" .
 gdm:Unit a rdfs:Class ; rdfs:label "Unit" .
 
 #####################################################################
-# Metric type instances (closed list for v0.1)
+# Metric type instances (closed list for 1.0.0)
 #####################################################################
 
 gdm:SalienceScore            a gdm:MetricType ; rdfs:label "Salience Score" .
@@ -32,7 +32,7 @@ gdm:GridConformanceScore     a gdm:MetricType ; rdfs:label "Grid Conformance Sco
 gdm:TypographicRhythmScore   a gdm:MetricType ; rdfs:label "Typographic Rhythm Score" .
 
 #####################################################################
-# Minimal units (closed list for v0.1)
+# Minimal units (closed list for 1.0.0)
 #####################################################################
 
 gdm:Unitless   a gdm:Unit ; rdfs:label "Unitless" .
@@ -41,7 +41,7 @@ gdm:Pixels     a gdm:Unit ; rdfs:label "Pixels" .
 gdm:CanvasUnits a gdm:Unit ; rdfs:label "Canvas Units" .
 
 #####################################################################
-# Methods (closed list for v0.1)
+# Methods (closed list for 1.0.0)
 #####################################################################
 
 gdm:ComputedFromGeometryAndStyle a gdm:MeasurementMethod ; rdfs:label "Computed from geometry+style" .

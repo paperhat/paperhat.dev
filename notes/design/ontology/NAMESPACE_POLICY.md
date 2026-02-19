@@ -22,7 +22,7 @@ All non-test ontology, SHACL, and fixture files MUST use these namespaces.
 
 1. Validation and hashing MUST NOT depend on network dereferencing.
 2. Tooling MUST operate correctly in offline mode.
-3. Published namespace documents MAY be hosted for human-readable discovery, but runtime semantics MUST remain local and deterministic.
+3. Published namespace documents MUST be hosted only for human-readable discovery, and runtime semantics MUST remain local and deterministic.
 
 ## Forbidden Namespace Usage
 

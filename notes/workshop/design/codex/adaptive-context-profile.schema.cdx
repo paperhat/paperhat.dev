@@ -1,0 +1,174 @@
+<Schema
+	id=codex:domain:adaptive-context-profile
+	version="1.0.0"
+	versionScheme=$Semver
+	authoringMode=$SimplifiedMode
+	compatibilityClass=$Initial
+	namespace="adaptive-context"
+	title="Adaptive Context Profile Schema"
+	description="Normalized runtime context signals for deterministic responsive/adaptive policy evaluation."
+>
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id=codex:domain:adaptive-context-profile:AdaptiveContextProfile
+			name="AdaptiveContextProfile"
+			conceptKind=$Semantic
+			entityEligibility=$MustNotBeEntity
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+
+			<TraitRules>
+				<RequiresTrait name="profileId" />
+
+				<AllowsTrait name="viewportWidthPx" />
+
+				<AllowsTrait name="viewportHeightPx" />
+
+				<AllowsTrait name="zoomLevel" />
+
+				<AllowsTrait name="deviceClass" />
+
+				<AllowsTrait name="inputModality" />
+
+				<AllowsTrait name="motionPreference" />
+
+				<AllowsTrait name="contrastPreference" />
+
+				<AllowsTrait name="colorSchemePreference" />
+
+				<AllowsTrait name="language" />
+
+				<AllowsTrait name="region" />
+
+				<AllowsTrait name="scriptDirection" />
+
+				<AllowsTrait name="networkClass" />
+
+				<AllowsTrait name="interactionMode" />
+			</TraitRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="profileId"
+			defaultValueType=$IriReference
+			cardinality=$Single
+			isReferenceTrait=true
+		/>
+
+		<TraitDefinition
+			name="viewportWidthPx"
+			defaultValueType=$Number
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="viewportHeightPx"
+			defaultValueType=$Number
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="zoomLevel"
+			defaultValueType=$Number
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="deviceClass"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $handset, $tablet, $laptop, $desktop, $television, $kiosk, $watch, $automotive ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="inputModality"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $touch, $pointer, $keyboard, $voice, $remote, $stylus, $mixed ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="motionPreference"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $reduce, $noPreference ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="contrastPreference"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $more, $less, $noPreference ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="colorSchemePreference"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $light, $dark, $noPreference ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="language"
+			defaultValueType=$EnumeratedToken
+			vocabulary=codex:vocabulary:bcp-47-languages
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="region"
+			defaultValueType=$EnumeratedToken
+			vocabulary=codex:vocabulary:iso-3166
+			cardinality=$Single
+		/>
+
+		<TraitDefinition
+			name="scriptDirection"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $ltr, $rtl, $ttb ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="networkClass"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $offline, $constrained, $standard, $high ] />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="interactionMode"
+			defaultValueType=$EnumeratedToken
+			cardinality=$Single
+		>
+			<AllowedValues>
+				<ValueIsOneOf values=[ $scan, $read, $edit, $immerse ] />
+			</AllowedValues>
+		</TraitDefinition>
+	</TraitDefinitions>
+</Schema>

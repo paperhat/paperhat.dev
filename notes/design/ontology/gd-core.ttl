@@ -344,7 +344,7 @@ gd:ConflictStrategy   a rdfs:Class .
 gd:ActionMode         a rdfs:Class .
 
 #####################################################################
-# Responsive/adaptive policy controlled terms (v0)
+# Responsive/adaptive policy controlled terms (1.0.0)
 #####################################################################
 
 # Context keys

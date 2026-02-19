@@ -31,7 +31,7 @@ If checks fail, the change is not accepted.
 
 ## Decision Log (Lightweight)
 
-Major normative shifts SHOULD be recorded briefly in commit messages or PR notes with:
+Major normative shifts MUST be recorded briefly in commit messages or PR notes with:
 
 1. what changed
 2. why it changed
@@ -48,4 +48,3 @@ Full governance/versioning is activated when any one of these becomes true:
 3. explicit owner decision to freeze compatibility guarantees
 
 At that point, adopt a formal SemVer/governance model.
-

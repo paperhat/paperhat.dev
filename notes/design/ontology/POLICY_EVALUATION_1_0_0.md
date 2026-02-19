@@ -1,11 +1,15 @@
-# Responsive/Adaptive Policy Evaluation v0
+Status: WORKING
+Lock State: LOCKED
+Version: 1.0.0
+
+# Responsive/Adaptive Policy Evaluation 1.0.0
 
 This document defines deterministic execution semantics for `gd:Policy` over a validated canonical graph.
 
 Status:
 
-- Scope: execution model (v0)
-- Depends on: `POLICY_SCHEMA_V0.md`
+- Scope: execution model (1.0.0)
+- Depends on: `POLICY_SCHEMA_1_0_0.md`
 - Failure mode: fail-closed
 
 ## 1. Inputs
@@ -120,7 +124,7 @@ For identical `(G, scope, CTX)`, implementations MUST produce byte-identical act
 
 Executable test vectors are defined in:
 
-- `notes/design/ontology/policy-vectors/*.json`
+- `notes/design/ontology/policy-vectors/*.cdx`
 
 Reference graph fixtures for vectors are defined in:
 

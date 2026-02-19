@@ -41,7 +41,7 @@ ex:metricSet1
   a gdm:MetricSet ;
   gdm:forComposition ex:c1 ;
   gdm:hasMetric ex:metric1 ;
-  gdm:algorithmId "metrics-v0.1.0" ;
+  gdm:algorithmId "metrics-1.0.0.0" ;
   gdm:inputsHash "6d2d4d8b2c45aef750d3b8441f5e7f8f17c9d5d5e8f63f8cb2d3f6f3e5c1a9b0" ;
   gdm:computedAtEpochMs "1739980800000"^^xsd:long .
 

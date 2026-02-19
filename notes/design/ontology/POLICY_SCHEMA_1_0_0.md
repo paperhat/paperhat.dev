@@ -1,10 +1,14 @@
-# Responsive/Adaptive Policy Schema v0
+Status: WORKING
+Lock State: LOCKED
+Version: 1.0.0
+
+# Responsive/Adaptive Policy Schema 1.0.0
 
 This document defines the first rules-based policy grammar for responsive/adaptive behavior.
 
 Status:
 
-- Scope: schema only (v0)
+- Scope: schema only (1.0.0)
 - Enforcement: SHACL (`gd-policy.shacl.ttl`)
 - Evaluation algorithm: deferred to a separate deterministic execution spec
 
@@ -34,7 +38,7 @@ A `gd:Policy` MUST define:
 5. exactly one `gd:conflictStrategy`
 6. exactly one boolean `gd:enabled`
 
-`gd:Composition` MAY attach policies using `gd:hasPolicy`.
+`gd:Composition` MUST attach zero or more policies using `gd:hasPolicy`.
 
 ## Condition structure
 
@@ -48,7 +52,7 @@ Each `gd:Condition` MUST define:
    - `gd:conditionValueString`
    - `gd:conditionValueBoolean`
 
-v0 determinism constraints:
+1.0.0 determinism constraints:
 
 1. numeric operators (`OpLt`, `OpLte`, `OpGt`, `OpGte`) require numeric values
 2. boolean/string values are limited to equality operators (`OpEq`, `OpNe`)
@@ -67,7 +71,7 @@ Each `gd:Action` MUST define:
    - `gd:actionValueBoolean`
    - `gd:actionValueIRI`
 
-## Ambiguity constraints in v0
+## Ambiguity Constraints In 1.0.0
 
 To remove ordering ambiguity before execution semantics are specified:
 
@@ -78,4 +82,4 @@ This is enforced in `gd-policy.shacl.ttl`.
 
 Execution semantics are defined in:
 
-- `POLICY_EVALUATION_V0.md`
+- `POLICY_EVALUATION_1_0_0.md`
