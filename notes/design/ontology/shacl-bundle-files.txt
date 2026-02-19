@@ -1,6 +1,6 @@
-gd-core.shacl.ttl
-gd-policy.shacl.ttl
-gd-core-grid.shacl.ttl
-gd-core-figureground.shacl.ttl
-gd-core-closure.shacl.ttl
-gd-core-closure-seal.shacl.ttl
+wd-core.shacl.ttl
+wd-policy.shacl.ttl
+wd-core-grid.shacl.ttl
+wd-core-figureground.shacl.ttl
+wd-core-closure.shacl.ttl
+wd-core-closure-seal.shacl.ttl

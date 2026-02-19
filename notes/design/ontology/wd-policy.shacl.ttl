@@ -1,0 +1,223 @@
+@prefix wd: <https://paperhat.dev/ns/wd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# Responsive/adaptive policy constraints (1.0.0)
+#####################################################################
+
+wd:CompositionPolicyAttachmentShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Composition ;
+
+  sh:property [
+    sh:path wd:hasPolicy ;
+    sh:class wd:Policy ;
+  ] .
+
+wd:PolicyShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Policy ;
+
+  sh:property [
+    sh:path wd:appliesTo ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:or (
+      [ sh:class wd:Composition ]
+      [ sh:class wd:View ]
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path wd:hasCondition ;
+    sh:minCount 1 ;
+    sh:class wd:Condition ;
+  ] ;
+
+  sh:property [
+    sh:path wd:hasAction ;
+    sh:minCount 1 ;
+    sh:class wd:Action ;
+  ] ;
+
+  sh:property [
+    sh:path wd:priority ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path wd:conflictStrategy ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class wd:ConflictStrategy ;
+    sh:in (
+      wd:ErrorOnConflict
+      wd:HigherPriorityWins
+      wd:FirstMatchWins
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path wd:enabled ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:boolean ;
+  ] ;
+
+  # Duplicate priorities within the same appliesTo scope are not allowed in 1.0.0.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Policy priority MUST be unique within the same wd:appliesTo scope." ;
+    sh:select """
+      PREFIX wd: <https://paperhat.dev/ns/wd#>
+      SELECT $this ?other ?scope ?p
+      WHERE {
+        $this wd:appliesTo ?scope ;
+              wd:priority ?p .
+        ?other a wd:Policy ;
+               wd:appliesTo ?scope ;
+               wd:priority ?p .
+        FILTER (?other != $this)
+      }
+    """ ;
+  ] ;
+
+  # Conflict strategy MUST be uniform within the same appliesTo scope.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "All policies in the same wd:appliesTo scope MUST use the same wd:conflictStrategy." ;
+    sh:select """
+      PREFIX wd: <https://paperhat.dev/ns/wd#>
+      SELECT $this ?other ?scope ?thisStrategy ?otherStrategy
+      WHERE {
+        $this wd:appliesTo ?scope ;
+              wd:conflictStrategy ?thisStrategy .
+        ?other a wd:Policy ;
+               wd:appliesTo ?scope ;
+               wd:conflictStrategy ?otherStrategy .
+        FILTER (?other != $this)
+        FILTER (?thisStrategy != ?otherStrategy)
+      }
+    """ ;
+  ] .
+
+wd:ConditionShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Condition ;
+
+  sh:property [
+    sh:path wd:contextKey ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class wd:ContextKey ;
+    sh:in (
+      wd:ViewportWidthPx
+      wd:ViewportHeightPx
+      wd:ViewportAspectRatio
+      wd:ViewportOrientation
+      wd:DeviceClass
+      wd:ReducedMotionPreference
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path wd:operator ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class wd:ComparisonOperator ;
+    sh:in (
+      wd:OpEq
+      wd:OpNe
+      wd:OpLt
+      wd:OpLte
+      wd:OpGt
+      wd:OpGte
+    ) ;
+  ] ;
+
+  # Exactly one typed comparison value.
+  sh:xone (
+    [ sh:property [ sh:path wd:conditionValueDecimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ]
+    [ sh:property [ sh:path wd:conditionValueInteger ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ]
+    [ sh:property [ sh:path wd:conditionValueString ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ]
+    [ sh:property [ sh:path wd:conditionValueBoolean ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ]
+  ) ;
+
+  # Numeric operators require numeric condition values.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Numeric operators (OpLt/OpLte/OpGt/OpGte) require conditionValueDecimal or conditionValueInteger." ;
+    sh:select """
+      PREFIX wd: <https://paperhat.dev/ns/wd#>
+      SELECT $this
+      WHERE {
+        $this wd:operator ?op .
+        FILTER (?op IN (wd:OpLt, wd:OpLte, wd:OpGt, wd:OpGte))
+        FILTER NOT EXISTS { $this wd:conditionValueDecimal ?d . }
+        FILTER NOT EXISTS { $this wd:conditionValueInteger ?i . }
+      }
+    """ ;
+  ] ;
+
+  # Boolean and string values are constrained to equality operators.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "conditionValueBoolean requires operator OpEq or OpNe." ;
+    sh:select """
+      PREFIX wd: <https://paperhat.dev/ns/wd#>
+      SELECT $this
+      WHERE {
+        $this wd:conditionValueBoolean ?b ;
+              wd:operator ?op .
+        FILTER (?op NOT IN (wd:OpEq, wd:OpNe))
+      }
+    """ ;
+  ] ;
+
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "conditionValueString requires operator OpEq or OpNe." ;
+    sh:select """
+      PREFIX wd: <https://paperhat.dev/ns/wd#>
+      SELECT $this
+      WHERE {
+        $this wd:conditionValueString ?s ;
+              wd:operator ?op .
+        FILTER (?op NOT IN (wd:OpEq, wd:OpNe))
+      }
+    """ ;
+  ] .
+
+wd:ActionShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Action ;
+
+  sh:property [
+    sh:path wd:actionMode ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class wd:ActionMode ;
+    sh:in (
+      wd:ReplaceAll
+      wd:Add
+      wd:Remove
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path wd:targetNode ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+
+  sh:property [
+    sh:path wd:targetProperty ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+
+  # Exactly one typed action value.
+  sh:xone (
+    [ sh:property [ sh:path wd:actionValueDecimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ]
+    [ sh:property [ sh:path wd:actionValueInteger ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ]
+    [ sh:property [ sh:path wd:actionValueString ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ]
+    [ sh:property [ sh:path wd:actionValueBoolean ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ]
+    [ sh:property [ sh:path wd:actionValueIRI ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ]
+  ) .

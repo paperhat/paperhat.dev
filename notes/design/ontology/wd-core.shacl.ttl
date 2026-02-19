@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix wd: <https://paperhat.dev/ns/wd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -6,62 +6,62 @@
 # Composition
 #####################################################################
 
-gd:CompositionShape
+wd:CompositionShape
   a sh:NodeShape ;
-  sh:targetClass gd:Composition ;
+  sh:targetClass wd:Composition ;
 
   sh:property [
-    sh:path gd:hasCanvas ;
+    sh:path wd:hasCanvas ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:Canvas ;
+    sh:class wd:Canvas ;
   ] ;
 
   sh:property [
-    sh:path gd:hasElement ;
+    sh:path wd:hasElement ;
     sh:minCount 1 ;
-    sh:class gd:ElementInstance ;
+    sh:class wd:ElementInstance ;
   ] ;
 
   sh:property [
-    sh:path gd:intent ;
+    sh:path wd:intent ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:CommunicativeIntent ;
+    sh:class wd:CommunicativeIntent ;
   ] .
 
 #####################################################################
 # ElementInstance
 #####################################################################
 
-gd:ElementInstanceShape
+wd:ElementInstanceShape
   a sh:NodeShape ;
-  sh:targetClass gd:ElementInstance ;
+  sh:targetClass wd:ElementInstance ;
 
   sh:property [
-    sh:path gd:instanceOf ;
+    sh:path wd:instanceOf ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:ElementType ;
+    sh:class wd:ElementType ;
   ] ;
 
   sh:property [
-    sh:path gd:frame ;
+    sh:path wd:frame ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:Rect ;
+    sh:class wd:Rect ;
   ] ;
 
   sh:property [
-    sh:path gd:style ;
+    sh:path wd:style ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:Style ;
+    sh:class wd:Style ;
   ] ;
 
   sh:property [
-    sh:path gd:semanticRole ;
+    sh:path wd:semanticRole ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:Role ;
+    sh:class wd:Role ;
   ] ;
 
   sh:property [
-    sh:path gd:zIndex ;
+    sh:path wd:zIndex ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:integer ;
   ] .
@@ -70,31 +70,31 @@ gd:ElementInstanceShape
 # Rect
 #####################################################################
 
-gd:RectShape
+wd:RectShape
   a sh:NodeShape ;
-  sh:targetClass gd:Rect ;
+  sh:targetClass wd:Rect ;
 
   sh:property [
-    sh:path gd:x ;
+    sh:path wd:x ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
   ] ;
 
   sh:property [
-    sh:path gd:y ;
+    sh:path wd:y ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
   ] ;
 
   sh:property [
-    sh:path gd:w ;
+    sh:path wd:w ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minExclusive 0 ;
   ] ;
 
   sh:property [
-    sh:path gd:h ;
+    sh:path wd:h ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minExclusive 0 ;
@@ -104,12 +104,12 @@ gd:RectShape
 # Style / Paint / Stroke / Typography
 #####################################################################
 
-gd:StyleShape
+wd:StyleShape
   a sh:NodeShape ;
-  sh:targetClass gd:Style ;
+  sh:targetClass wd:Style ;
 
   sh:property [
-    sh:path gd:opacity ;
+    sh:path wd:opacity ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minInclusive 0 ;
@@ -117,83 +117,83 @@ gd:StyleShape
   ] ;
 
   sh:property [
-    sh:path gd:fill ;
+    sh:path wd:fill ;
     sh:maxCount 1 ;
-    sh:class gd:Paint ;
+    sh:class wd:Paint ;
   ] ;
 
   sh:property [
-    sh:path gd:stroke ;
+    sh:path wd:stroke ;
     sh:maxCount 1 ;
-    sh:class gd:Stroke ;
+    sh:class wd:Stroke ;
   ] ;
 
   sh:property [
-    sh:path gd:typeStyle ;
+    sh:path wd:typeStyle ;
     sh:maxCount 1 ;
-    sh:class gd:TypographicStyle ;
+    sh:class wd:TypographicStyle ;
   ] .
 
-gd:PaintShape
+wd:PaintShape
   a sh:NodeShape ;
-  sh:targetClass gd:Paint ;
+  sh:targetClass wd:Paint ;
 
   sh:property [
-    sh:path gd:paintKind ;
+    sh:path wd:paintKind ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:string ;
   ] ;
 
   sh:property [
-    sh:path gd:paintValue ;
+    sh:path wd:paintValue ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:string ;
   ] .
 
-gd:StrokeShape
+wd:StrokeShape
   a sh:NodeShape ;
-  sh:targetClass gd:Stroke ;
+  sh:targetClass wd:Stroke ;
 
   sh:property [
-    sh:path gd:strokeWidth ;
+    sh:path wd:strokeWidth ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minInclusive 0 ;
   ] .
 
-gd:TypographicStyleShape
+wd:TypographicStyleShape
   a sh:NodeShape ;
-  sh:targetClass gd:TypographicStyle ;
+  sh:targetClass wd:TypographicStyle ;
 
   sh:property [
-    sh:path gd:typeface ;
+    sh:path wd:typeface ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:Typeface ;
+    sh:class wd:Typeface ;
   ] ;
 
   sh:property [
-    sh:path gd:fontSize ;
+    sh:path wd:fontSize ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minExclusive 0 ;
   ] ;
 
   sh:property [
-    sh:path gd:fontWeight ;
+    sh:path wd:fontWeight ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:integer ;
     sh:minInclusive 1 ;
   ] ;
 
   sh:property [
-    sh:path gd:leading ;
+    sh:path wd:leading ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minExclusive 0 ;
   ] ;
 
   sh:property [
-    sh:path gd:tracking ;
+    sh:path wd:tracking ;
     sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
   ] .
@@ -202,23 +202,23 @@ gd:TypographicStyleShape
 # PrincipleStatement
 #####################################################################
 
-gd:PrincipleStatementShape
+wd:PrincipleStatementShape
   a sh:NodeShape ;
-  sh:targetClass gd:PrincipleStatement ;
+  sh:targetClass wd:PrincipleStatement ;
 
   sh:property [
-    sh:path gd:principleType ;
+    sh:path wd:principleType ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:class gd:Principle ;
+    sh:class wd:Principle ;
   ] ;
 
   sh:property [
-    sh:path gd:scope ;
+    sh:path wd:scope ;
     sh:minCount 1 ; sh:maxCount 1 ;
   ] ;
 
   sh:property [
-    sh:path gd:participant ;
+    sh:path wd:participant ;
     sh:minCount 1 ;
-    sh:class gd:ElementInstance ;
+    sh:class wd:ElementInstance ;
   ] .

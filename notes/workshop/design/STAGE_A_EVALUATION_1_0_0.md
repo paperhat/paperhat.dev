@@ -12,8 +12,8 @@ A conforming Stage A evaluator MUST consume:
 
 1. one compiled adaptive request (`CompiledAdaptiveRequest`)
 2. one policy graph
-3. one SHACL bundle (`gd-all.shacl.ttl`)
-4. one ontology graph (`gd-core.ttl`)
+3. one SHACL bundle (`wd-all.shacl.ttl`)
+4. one ontology graph (`wd-core.ttl`)
 
 ## 2. Preconditions
 
@@ -22,8 +22,8 @@ Evaluation MUST terminate with `EVALUATION_ERROR` if any condition below is true
 1. compiled request is malformed
 2. policy graph is malformed
 3. SHACL pre-evaluation validation fails
-4. Stage A composition IRI is missing or not typed `gd:Composition`
-5. Stage A view IRI is supplied and not typed `gd:View`
+4. Stage A composition IRI is missing or not typed `wd:Composition`
+5. Stage A view IRI is supplied and not typed `wd:View`
 6. a required context key is missing
 7. condition typing or operator semantics are invalid
 8. matched policies contain mixed conflict strategies
@@ -35,13 +35,13 @@ No partial output is allowed on error.
 Policy matching and action selection MUST follow deterministic ordering:
 
 1. candidate policy order:
-   - higher `gd:priority` first
+   - higher `wd:priority` first
    - view scope before composition scope
    - lexical policy IRI tie-break
 2. action order within policy:
    - lexical action IRI order
 3. conflict handling:
-   - strategy semantics from `gd:conflictStrategy`
+   - strategy semantics from `wd:conflictStrategy`
    - deterministic first-selected action per `(targetNode, targetProperty)` key when required
 
 ## 4. Output

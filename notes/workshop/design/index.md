@@ -4,12 +4,12 @@ Version: 1.0.0
 
 # Workshop Design Notes
 
-This directory holds Workshop-level design modeling notes that sit above the core `gd` ontology.
+This directory holds Workshop-level design modeling notes that sit above the core `wd` ontology.
 
 Current artifacts:
 
-1. `gd-metrics.ttl` - derived metrics vocabulary
-2. `gd-metrics.shacl.ttl` - SHACL constraints for metrics graphs
+1. `wd-metrics.ttl` - derived metrics vocabulary
+2. `wd-metrics.shacl.ttl` - SHACL constraints for metrics graphs
 3. `RESPONSIVE_PROJECTION_SEMANTICS_1_0_0.md` - deterministic adaptive projection model (human-first)
 4. `DESIGN_POLICY_PRECEDENTS_1_0_0.md` - Knuth-Plass + Muller-Brockmann precedents translated into requirements
 5. `COMPILER_MAPPING_SPEC_1_0_0.md` - deterministic compiler mapping contract from adaptive Codex artifacts to runtime requests

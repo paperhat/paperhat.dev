@@ -1,0 +1,81 @@
+@prefix wd: <https://paperhat.dev/ns/wd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#####################################################################
+# Ownership: every node of these classes must declare ownedBy exactly once
+#####################################################################
+
+wd:ElementInstanceOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:ElementInstance ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:RectOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Rect ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:StyleOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Style ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:PaintOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Paint ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:StrokeOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Stroke ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:TypographicStyleOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:TypographicStyle ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:TransformOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Transform ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:GridSystemOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:GridSystem ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:GridUnitOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:GridUnit ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:BaselineGridOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:BaselineGrid ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:PrincipleStatementOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:PrincipleStatement ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:RegionOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Region ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:LayerOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Layer ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:CanvasOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:Canvas ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .
+
+wd:GroupInstanceOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass wd:GroupInstance ;
+  sh:property [ sh:path wd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wd:Composition ] .

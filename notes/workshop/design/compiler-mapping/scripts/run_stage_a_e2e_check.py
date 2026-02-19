@@ -145,8 +145,8 @@ def main() -> int:
 
     shapes = Graph()
     ontology = Graph()
-    shapes.parse(repo_root / "notes/design/ontology/gd-all.shacl.ttl", format="turtle")
-    ontology.parse(repo_root / "notes/design/ontology/gd-core.ttl", format="turtle")
+    shapes.parse(repo_root / "notes/design/ontology/wd-all.shacl.ttl", format="turtle")
+    ontology.parse(repo_root / "notes/design/ontology/wd-core.ttl", format="turtle")
 
     temp_vector_path = _write_temp_vector_cdx(vector_payload)
     try:

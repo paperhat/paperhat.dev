@@ -14,52 +14,52 @@ from pyshacl import validate
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, XSD
 
-GD = "https://paperhat.dev/ns/gd#"
+WD = "https://paperhat.dev/ns/wd#"
 
-GD_POLICY = URIRef(f"{GD}Policy")
-GD_CONDITION = URIRef(f"{GD}Condition")
-GD_ACTION = URIRef(f"{GD}Action")
-GD_VIEW = URIRef(f"{GD}View")
-GD_COMPOSITION = URIRef(f"{GD}Composition")
+WD_POLICY = URIRef(f"{WD}Policy")
+WD_CONDITION = URIRef(f"{WD}Condition")
+WD_ACTION = URIRef(f"{WD}Action")
+WD_VIEW = URIRef(f"{WD}View")
+WD_COMPOSITION = URIRef(f"{WD}Composition")
 
-GD_APPLIES_TO = URIRef(f"{GD}appliesTo")
-GD_ENABLED = URIRef(f"{GD}enabled")
-GD_PRIORITY = URIRef(f"{GD}priority")
-GD_CONFLICT_STRATEGY = URIRef(f"{GD}conflictStrategy")
-GD_HAS_CONDITION = URIRef(f"{GD}hasCondition")
-GD_HAS_ACTION = URIRef(f"{GD}hasAction")
-GD_HAS_POLICY = URIRef(f"{GD}hasPolicy")
+WD_APPLIES_TO = URIRef(f"{WD}appliesTo")
+WD_ENABLED = URIRef(f"{WD}enabled")
+WD_PRIORITY = URIRef(f"{WD}priority")
+WD_CONFLICT_STRATEGY = URIRef(f"{WD}conflictStrategy")
+WD_HAS_CONDITION = URIRef(f"{WD}hasCondition")
+WD_HAS_ACTION = URIRef(f"{WD}hasAction")
+WD_HAS_POLICY = URIRef(f"{WD}hasPolicy")
 
-GD_CONTEXT_KEY = URIRef(f"{GD}contextKey")
-GD_OPERATOR = URIRef(f"{GD}operator")
-GD_CONDITION_VALUE_DECIMAL = URIRef(f"{GD}conditionValueDecimal")
-GD_CONDITION_VALUE_INTEGER = URIRef(f"{GD}conditionValueInteger")
-GD_CONDITION_VALUE_STRING = URIRef(f"{GD}conditionValueString")
-GD_CONDITION_VALUE_BOOLEAN = URIRef(f"{GD}conditionValueBoolean")
+WD_CONTEXT_KEY = URIRef(f"{WD}contextKey")
+WD_OPERATOR = URIRef(f"{WD}operator")
+WD_CONDITION_VALUE_DECIMAL = URIRef(f"{WD}conditionValueDecimal")
+WD_CONDITION_VALUE_INTEGER = URIRef(f"{WD}conditionValueInteger")
+WD_CONDITION_VALUE_STRING = URIRef(f"{WD}conditionValueString")
+WD_CONDITION_VALUE_BOOLEAN = URIRef(f"{WD}conditionValueBoolean")
 
-GD_ACTION_MODE = URIRef(f"{GD}actionMode")
-GD_TARGET_NODE = URIRef(f"{GD}targetNode")
-GD_TARGET_PROPERTY = URIRef(f"{GD}targetProperty")
-GD_ACTION_VALUE_DECIMAL = URIRef(f"{GD}actionValueDecimal")
-GD_ACTION_VALUE_INTEGER = URIRef(f"{GD}actionValueInteger")
-GD_ACTION_VALUE_STRING = URIRef(f"{GD}actionValueString")
-GD_ACTION_VALUE_BOOLEAN = URIRef(f"{GD}actionValueBoolean")
-GD_ACTION_VALUE_IRI = URIRef(f"{GD}actionValueIRI")
+WD_ACTION_MODE = URIRef(f"{WD}actionMode")
+WD_TARGET_NODE = URIRef(f"{WD}targetNode")
+WD_TARGET_PROPERTY = URIRef(f"{WD}targetProperty")
+WD_ACTION_VALUE_DECIMAL = URIRef(f"{WD}actionValueDecimal")
+WD_ACTION_VALUE_INTEGER = URIRef(f"{WD}actionValueInteger")
+WD_ACTION_VALUE_STRING = URIRef(f"{WD}actionValueString")
+WD_ACTION_VALUE_BOOLEAN = URIRef(f"{WD}actionValueBoolean")
+WD_ACTION_VALUE_IRI = URIRef(f"{WD}actionValueIRI")
 
-GD_OP_EQ = URIRef(f"{GD}OpEq")
-GD_OP_NE = URIRef(f"{GD}OpNe")
-GD_OP_LT = URIRef(f"{GD}OpLt")
-GD_OP_LTE = URIRef(f"{GD}OpLte")
-GD_OP_GT = URIRef(f"{GD}OpGt")
-GD_OP_GTE = URIRef(f"{GD}OpGte")
+WD_OP_EQ = URIRef(f"{WD}OpEq")
+WD_OP_NE = URIRef(f"{WD}OpNe")
+WD_OP_LT = URIRef(f"{WD}OpLt")
+WD_OP_LTE = URIRef(f"{WD}OpLte")
+WD_OP_GT = URIRef(f"{WD}OpGt")
+WD_OP_GTE = URIRef(f"{WD}OpGte")
 
-GD_STRATEGY_ERROR = URIRef(f"{GD}ErrorOnConflict")
-GD_STRATEGY_FIRST = URIRef(f"{GD}FirstMatchWins")
-GD_STRATEGY_PRIORITY = URIRef(f"{GD}HigherPriorityWins")
+WD_STRATEGY_ERROR = URIRef(f"{WD}ErrorOnConflict")
+WD_STRATEGY_FIRST = URIRef(f"{WD}FirstMatchWins")
+WD_STRATEGY_PRIORITY = URIRef(f"{WD}HigherPriorityWins")
 
-GD_MODE_REPLACE = URIRef(f"{GD}ReplaceAll")
-GD_MODE_ADD = URIRef(f"{GD}Add")
-GD_MODE_REMOVE = URIRef(f"{GD}Remove")
+WD_MODE_REPLACE = URIRef(f"{WD}ReplaceAll")
+WD_MODE_ADD = URIRef(f"{WD}Add")
+WD_MODE_REMOVE = URIRef(f"{WD}Remove")
 
 
 class EvaluationError(Exception):
@@ -100,10 +100,10 @@ def must_single_object(graph: Graph, subject: URIRef, predicate: URIRef) -> URIR
 def parse_condition_value(graph: Graph, condition: URIRef) -> TypedValue:
     candidates = []
     for predicate, kind in (
-        (GD_CONDITION_VALUE_DECIMAL, "decimal"),
-        (GD_CONDITION_VALUE_INTEGER, "integer"),
-        (GD_CONDITION_VALUE_STRING, "string"),
-        (GD_CONDITION_VALUE_BOOLEAN, "boolean"),
+        (WD_CONDITION_VALUE_DECIMAL, "decimal"),
+        (WD_CONDITION_VALUE_INTEGER, "integer"),
+        (WD_CONDITION_VALUE_STRING, "string"),
+        (WD_CONDITION_VALUE_BOOLEAN, "boolean"),
     ):
         for value in graph.objects(condition, predicate):
             candidates.append(TypedValue(kind, value.toPython()))
@@ -116,11 +116,11 @@ def parse_condition_value(graph: Graph, condition: URIRef) -> TypedValue:
 def parse_action_value(graph: Graph, action: URIRef) -> URIRef | Literal:
     candidates: list[URIRef | Literal] = []
     for predicate in (
-        GD_ACTION_VALUE_DECIMAL,
-        GD_ACTION_VALUE_INTEGER,
-        GD_ACTION_VALUE_STRING,
-        GD_ACTION_VALUE_BOOLEAN,
-        GD_ACTION_VALUE_IRI,
+        WD_ACTION_VALUE_DECIMAL,
+        WD_ACTION_VALUE_INTEGER,
+        WD_ACTION_VALUE_STRING,
+        WD_ACTION_VALUE_BOOLEAN,
+        WD_ACTION_VALUE_IRI,
     ):
         candidates.extend(graph.objects(action, predicate))
 
@@ -160,11 +160,11 @@ def to_numeric(value: TypedValue) -> Decimal:
 
 
 def evaluate_condition(graph: Graph, condition: URIRef, context: dict[URIRef, TypedValue]) -> bool:
-    context_key = must_single_object(graph, condition, GD_CONTEXT_KEY)
+    context_key = must_single_object(graph, condition, WD_CONTEXT_KEY)
     if not isinstance(context_key, URIRef):
         raise EvaluationError("contextKey must be an IRI")
 
-    operator = must_single_object(graph, condition, GD_OPERATOR)
+    operator = must_single_object(graph, condition, WD_OPERATOR)
     if not isinstance(operator, URIRef):
         raise EvaluationError("operator must be an IRI")
 
@@ -181,28 +181,28 @@ def evaluate_condition(graph: Graph, condition: URIRef, context: dict[URIRef, Ty
             f"Context type mismatch for {context_key}: expected {condition_value.kind}, got {context_value.kind}"
         )
 
-    if operator in {GD_OP_LT, GD_OP_LTE, GD_OP_GT, GD_OP_GTE}:
+    if operator in {WD_OP_LT, WD_OP_LTE, WD_OP_GT, WD_OP_GTE}:
         left = to_numeric(context_value)
         right = to_numeric(condition_value)
-        if operator == GD_OP_LT:
+        if operator == WD_OP_LT:
             return left < right
-        if operator == GD_OP_LTE:
+        if operator == WD_OP_LTE:
             return left <= right
-        if operator == GD_OP_GT:
+        if operator == WD_OP_GT:
             return left > right
         return left >= right
 
-    if operator == GD_OP_EQ:
+    if operator == WD_OP_EQ:
         return context_value.value == condition_value.value
 
-    if operator == GD_OP_NE:
+    if operator == WD_OP_NE:
         return context_value.value != condition_value.value
 
     raise EvaluationError(f"Unsupported operator: {operator}")
 
 
 def is_enabled(graph: Graph, policy: URIRef) -> bool:
-    enabled_literal = must_single_object(graph, policy, GD_ENABLED)
+    enabled_literal = must_single_object(graph, policy, WD_ENABLED)
     if not isinstance(enabled_literal, Literal):
         raise EvaluationError(f"Policy {policy} enabled must be a literal")
     return bool(enabled_literal.toPython())
@@ -216,8 +216,8 @@ def collect_candidates(
 ) -> list[PolicyInfo]:
     candidates: list[PolicyInfo] = []
 
-    for policy in set(graph.subjects(GD_APPLIES_TO, composition)):
-        if (policy, RDF.type, GD_POLICY) not in graph:
+    for policy in set(graph.subjects(WD_APPLIES_TO, composition)):
+        if (policy, RDF.type, WD_POLICY) not in graph:
             continue
         if not is_enabled(graph, policy):
             continue
@@ -226,8 +226,8 @@ def collect_candidates(
             candidates.append(build_policy_info(graph, policy, view))
 
     if view is not None:
-        for policy in set(graph.subjects(GD_APPLIES_TO, view)):
-            if (policy, RDF.type, GD_POLICY) not in graph:
+        for policy in set(graph.subjects(WD_APPLIES_TO, view)):
+            if (policy, RDF.type, WD_POLICY) not in graph:
                 continue
             if not is_enabled(graph, policy):
                 continue
@@ -242,9 +242,9 @@ def collect_candidates(
 
 
 def build_policy_info(graph: Graph, policy: URIRef, target_view: URIRef | None) -> PolicyInfo:
-    priority_literal = must_single_object(graph, policy, GD_PRIORITY)
-    strategy = must_single_object(graph, policy, GD_CONFLICT_STRATEGY)
-    applies_to = must_single_object(graph, policy, GD_APPLIES_TO)
+    priority_literal = must_single_object(graph, policy, WD_PRIORITY)
+    strategy = must_single_object(graph, policy, WD_CONFLICT_STRATEGY)
+    applies_to = must_single_object(graph, policy, WD_APPLIES_TO)
 
     if not isinstance(priority_literal, Literal):
         raise EvaluationError(f"Policy {policy} priority must be a literal")
@@ -264,13 +264,13 @@ def build_policy_info(graph: Graph, policy: URIRef, target_view: URIRef | None) 
 
 
 def policy_matches(graph: Graph, policy: URIRef, context: dict[URIRef, TypedValue]) -> bool:
-    conditions = list(graph.objects(policy, GD_HAS_CONDITION))
+    conditions = list(graph.objects(policy, WD_HAS_CONDITION))
     if not conditions:
         raise EvaluationError(f"Policy {policy} has no conditions")
 
     for condition in conditions:
-        if (condition, RDF.type, GD_CONDITION) not in graph:
-            raise EvaluationError(f"Condition node missing type gd:Condition: {condition}")
+        if (condition, RDF.type, WD_CONDITION) not in graph:
+            raise EvaluationError(f"Condition node missing type wd:Condition: {condition}")
         if not evaluate_condition(graph, condition, context):
             return False
 
@@ -280,17 +280,17 @@ def policy_matches(graph: Graph, policy: URIRef, context: dict[URIRef, TypedValu
 def collect_ordered_actions(graph: Graph, policies: list[PolicyInfo]) -> list[ActionInfo]:
     ordered_actions: list[ActionInfo] = []
     for policy in policies:
-        actions = sorted(graph.objects(policy.policy, GD_HAS_ACTION), key=lambda iri: str(iri))
+        actions = sorted(graph.objects(policy.policy, WD_HAS_ACTION), key=lambda iri: str(iri))
         if not actions:
             raise EvaluationError(f"Policy {policy.policy} has no actions")
 
         for action in actions:
-            if (action, RDF.type, GD_ACTION) not in graph:
-                raise EvaluationError(f"Action node missing type gd:Action: {action}")
+            if (action, RDF.type, WD_ACTION) not in graph:
+                raise EvaluationError(f"Action node missing type wd:Action: {action}")
 
-            mode = must_single_object(graph, action, GD_ACTION_MODE)
-            target_node = must_single_object(graph, action, GD_TARGET_NODE)
-            target_property = must_single_object(graph, action, GD_TARGET_PROPERTY)
+            mode = must_single_object(graph, action, WD_ACTION_MODE)
+            target_node = must_single_object(graph, action, WD_TARGET_NODE)
+            target_property = must_single_object(graph, action, WD_TARGET_PROPERTY)
             value = parse_action_value(graph, action)
 
             if not isinstance(mode, URIRef):
@@ -329,13 +329,13 @@ def resolve_conflicts(policies: list[PolicyInfo], ordered_actions: list[ActionIn
         key = (action.target_node, action.target_property)
         by_key.setdefault(key, []).append(action)
 
-    if strategy == GD_STRATEGY_ERROR:
+    if strategy == WD_STRATEGY_ERROR:
         for key, actions in by_key.items():
             if len(actions) > 1:
                 raise EvaluationError(f"Conflict under ErrorOnConflict for key {key}")
         return ordered_actions
 
-    if strategy in {GD_STRATEGY_FIRST, GD_STRATEGY_PRIORITY}:
+    if strategy in {WD_STRATEGY_FIRST, WD_STRATEGY_PRIORITY}:
         selected: list[ActionInfo] = []
         seen_keys: set[tuple[URIRef, URIRef]] = set()
         for action in ordered_actions:
@@ -363,7 +363,7 @@ def apply_actions(graph: Graph, actions: list[ActionInfo]) -> tuple[list[str], l
         obj = action.value
         new_triple = (subject, predicate, obj)
 
-        if action.mode == GD_MODE_REPLACE:
+        if action.mode == WD_MODE_REPLACE:
             existing_values = list(graph.objects(subject, predicate))
             for old in existing_values:
                 graph.remove((subject, predicate, old))
@@ -373,12 +373,12 @@ def apply_actions(graph: Graph, actions: list[ActionInfo]) -> tuple[list[str], l
                 graph.add(new_triple)
                 added.add(triple_to_nt(subject, predicate, obj))
 
-        elif action.mode == GD_MODE_ADD:
+        elif action.mode == WD_MODE_ADD:
             if new_triple not in graph:
                 graph.add(new_triple)
                 added.add(triple_to_nt(subject, predicate, obj))
 
-        elif action.mode == GD_MODE_REMOVE:
+        elif action.mode == WD_MODE_REMOVE:
             if new_triple in graph:
                 graph.remove(new_triple)
                 removed.add(triple_to_nt(subject, predicate, obj))
@@ -509,10 +509,10 @@ def run_vector(vector_path: Path, repo_root: Path, shapes: Graph, ontology: Grap
 
         validate_graph(graph, shapes, ontology, stage="pre-evaluation")
 
-        if (composition, RDF.type, GD_COMPOSITION) not in graph:
+        if (composition, RDF.type, WD_COMPOSITION) not in graph:
             raise EvaluationError(f"Composition not found or mistyped: {composition}")
 
-        if view is not None and (view, RDF.type, GD_VIEW) not in graph:
+        if view is not None and (view, RDF.type, WD_VIEW) not in graph:
             raise EvaluationError(f"View not found or mistyped: {view}")
 
         matched_policies = collect_candidates(graph, composition, view, context)
@@ -581,8 +581,8 @@ def main() -> int:
 
     shapes = Graph()
     ontology = Graph()
-    shapes.parse(repo_root / "notes/design/ontology/gd-all.shacl.ttl", format="turtle")
-    ontology.parse(repo_root / "notes/design/ontology/gd-core.ttl", format="turtle")
+    shapes.parse(repo_root / "notes/design/ontology/wd-all.shacl.ttl", format="turtle")
+    ontology.parse(repo_root / "notes/design/ontology/wd-core.ttl", format="turtle")
 
     failures = 0
 

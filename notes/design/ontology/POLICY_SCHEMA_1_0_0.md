@@ -9,48 +9,48 @@ This document defines the first rules-based policy grammar for responsive/adapti
 Status:
 
 - Scope: schema only (1.0.0)
-- Enforcement: SHACL (`gd-policy.shacl.ttl`)
+- Enforcement: SHACL (`wd-policy.shacl.ttl`)
 - Evaluation algorithm: deferred to a separate deterministic execution spec
 
 ## Model
 
 Core classes:
 
-1. `gd:Policy`
-2. `gd:Condition`
-3. `gd:Action`
-4. `gd:ConflictStrategy`
+1. `wd:Policy`
+2. `wd:Condition`
+3. `wd:Action`
+4. `wd:ConflictStrategy`
 
 Supporting controlled classes:
 
-1. `gd:ContextKey`
-2. `gd:ComparisonOperator`
-3. `gd:ActionMode`
+1. `wd:ContextKey`
+2. `wd:ComparisonOperator`
+3. `wd:ActionMode`
 
 ## Policy structure
 
-A `gd:Policy` MUST define:
+A `wd:Policy` MUST define:
 
-1. exactly one `gd:appliesTo` (`gd:Composition` or `gd:View`)
-2. one or more `gd:hasCondition`
-3. one or more `gd:hasAction`
-4. exactly one integer `gd:priority` (`>= 0`)
-5. exactly one `gd:conflictStrategy`
-6. exactly one boolean `gd:enabled`
+1. exactly one `wd:appliesTo` (`wd:Composition` or `wd:View`)
+2. one or more `wd:hasCondition`
+3. one or more `wd:hasAction`
+4. exactly one integer `wd:priority` (`>= 0`)
+5. exactly one `wd:conflictStrategy`
+6. exactly one boolean `wd:enabled`
 
-`gd:Composition` MUST attach zero or more policies using `gd:hasPolicy`.
+`wd:Composition` MUST attach zero or more policies using `wd:hasPolicy`.
 
 ## Condition structure
 
-Each `gd:Condition` MUST define:
+Each `wd:Condition` MUST define:
 
-1. exactly one `gd:contextKey`
-2. exactly one `gd:operator`
+1. exactly one `wd:contextKey`
+2. exactly one `wd:operator`
 3. exactly one typed comparison value:
-   - `gd:conditionValueDecimal`
-   - `gd:conditionValueInteger`
-   - `gd:conditionValueString`
-   - `gd:conditionValueBoolean`
+   - `wd:conditionValueDecimal`
+   - `wd:conditionValueInteger`
+   - `wd:conditionValueString`
+   - `wd:conditionValueBoolean`
 
 1.0.0 determinism constraints:
 
@@ -59,26 +59,26 @@ Each `gd:Condition` MUST define:
 
 ## Action structure
 
-Each `gd:Action` MUST define:
+Each `wd:Action` MUST define:
 
-1. exactly one `gd:actionMode`
-2. exactly one `gd:targetNode` (IRI)
-3. exactly one `gd:targetProperty` (IRI)
+1. exactly one `wd:actionMode`
+2. exactly one `wd:targetNode` (IRI)
+3. exactly one `wd:targetProperty` (IRI)
 4. exactly one typed action value:
-   - `gd:actionValueDecimal`
-   - `gd:actionValueInteger`
-   - `gd:actionValueString`
-   - `gd:actionValueBoolean`
-   - `gd:actionValueIRI`
+   - `wd:actionValueDecimal`
+   - `wd:actionValueInteger`
+   - `wd:actionValueString`
+   - `wd:actionValueBoolean`
+   - `wd:actionValueIRI`
 
 ## Ambiguity Constraints In 1.0.0
 
 To remove ordering ambiguity before execution semantics are specified:
 
-1. policy priorities MUST be unique within the same `gd:appliesTo` scope
-2. conflict strategy MUST be uniform within the same `gd:appliesTo` scope
+1. policy priorities MUST be unique within the same `wd:appliesTo` scope
+2. conflict strategy MUST be uniform within the same `wd:appliesTo` scope
 
-This is enforced in `gd-policy.shacl.ttl`.
+This is enforced in `wd-policy.shacl.ttl`.
 
 Execution semantics are defined in:
 

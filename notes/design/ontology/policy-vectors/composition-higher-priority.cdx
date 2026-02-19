@@ -3,7 +3,7 @@
 	graphFile="notes/design/ontology/fixtures/policy/vector/base-policy-graph.ttl"
 	compositionIri="https://paperhat.dev/examples/policy/vector/base#c1"
 >
-	<ContextEntry key="https://paperhat.dev/ns/gd#ViewportWidthPx" type="integer" value="1280" />
+	<ContextEntry key="https://paperhat.dev/ns/wd#ViewportWidthPx" type="integer" value="1280" />
 
 	<Expect status="ok">
 		<SelectedActions>
@@ -12,9 +12,9 @@
 		</SelectedActions>
 
 		<Delta>
-			<Remove triple="&lt;https://paperhat.dev/examples/policy/vector/base#element1&gt; &lt;https://paperhat.dev/ns/gd#zIndex&gt; &quot;1&quot;^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; ." />
-			<Add triple="&lt;https://paperhat.dev/examples/policy/vector/base#element1&gt; &lt;https://paperhat.dev/ns/gd#layer&gt; &lt;https://paperhat.dev/examples/policy/vector/base#layer1&gt; ." />
-			<Add triple="&lt;https://paperhat.dev/examples/policy/vector/base#element1&gt; &lt;https://paperhat.dev/ns/gd#zIndex&gt; &quot;20&quot;^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; ." />
+			<Remove triple="&lt;https://paperhat.dev/examples/policy/vector/base#element1&gt; &lt;https://paperhat.dev/ns/wd#zIndex&gt; &quot;1&quot;^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; ." />
+			<Add triple="&lt;https://paperhat.dev/examples/policy/vector/base#element1&gt; &lt;https://paperhat.dev/ns/wd#layer&gt; &lt;https://paperhat.dev/examples/policy/vector/base#layer1&gt; ." />
+			<Add triple="&lt;https://paperhat.dev/examples/policy/vector/base#element1&gt; &lt;https://paperhat.dev/ns/wd#zIndex&gt; &quot;20&quot;^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; ." />
 		</Delta>
 	</Expect>
 </PolicyVector>

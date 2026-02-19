@@ -16,9 +16,9 @@ if ! command -v pyshacl >/dev/null 2>&1; then
   exit 1
 fi
 
-CORE_SHAPES="notes/design/ontology/gd-all.shacl.ttl"
-CORE_ONTOLOGY="notes/design/ontology/gd-core.ttl"
-METRICS_SHAPES="notes/workshop/design/gd-metrics.shacl.ttl"
+CORE_SHAPES="notes/design/ontology/wd-all.shacl.ttl"
+CORE_ONTOLOGY="notes/design/ontology/wd-core.ttl"
+METRICS_SHAPES="notes/workshop/design/wd-metrics.shacl.ttl"
 METRICS_ONTOLOGY_TMP="$(mktemp)"
 
 cleanup() {
@@ -26,7 +26,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-cat "$CORE_ONTOLOGY" notes/workshop/design/gd-metrics.ttl > "$METRICS_ONTOLOGY_TMP"
+cat "$CORE_ONTOLOGY" notes/workshop/design/wd-metrics.ttl > "$METRICS_ONTOLOGY_TMP"
 
 run_case() {
   local mode="$1"

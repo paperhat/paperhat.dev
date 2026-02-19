@@ -4,7 +4,7 @@ Version: 1.0.0
 
 # Responsive/Adaptive Policy Evaluation 1.0.0
 
-This document defines deterministic execution semantics for `gd:Policy` over a validated canonical graph.
+This document defines deterministic execution semantics for `wd:Policy` over a validated canonical graph.
 
 Status:
 
@@ -16,13 +16,13 @@ Status:
 
 Required inputs:
 
-1. canonical RDF graph `G` for a target `gd:Composition`
+1. canonical RDF graph `G` for a target `wd:Composition`
 2. target scope:
    - composition-only, or
-   - composition + specific `gd:View`
-3. runtime context map `CTX` keyed by `gd:ContextKey`
+   - composition + specific `wd:View`
+3. runtime context map `CTX` keyed by `wd:ContextKey`
 
-`G` MUST pass SHACL validation before evaluation (`gd-all.shacl.ttl`).
+`G` MUST pass SHACL validation before evaluation (`wd-all.shacl.ttl`).
 
 ## 2. Preconditions
 
@@ -32,7 +32,7 @@ Evaluation MUST terminate with `EVALUATION_ERROR` if any condition below is true
 2. a referenced policy/condition/action node is missing from `G`
 3. a required context key for an evaluated condition is missing from `CTX`
 4. context value type does not match the condition value type
-5. matched policies use different `gd:conflictStrategy` values
+5. matched policies use different `wd:conflictStrategy` values
 
 No partial application is allowed on error.
 
@@ -40,10 +40,10 @@ No partial application is allowed on error.
 
 Given target scope:
 
-1. include enabled policies where `gd:appliesTo` is target composition
-2. if target view is provided, also include enabled policies where `gd:appliesTo` is that view
+1. include enabled policies where `wd:appliesTo` is target composition
+2. if target view is provided, also include enabled policies where `wd:appliesTo` is that view
 
-Disabled policies (`gd:enabled false`) are ignored.
+Disabled policies (`wd:enabled false`) are ignored.
 
 ## 4. Condition semantics
 
@@ -66,7 +66,7 @@ Numeric comparison domain:
 
 For matched policies, define deterministic policy order by tuple:
 
-1. descending `gd:priority`
+1. descending `wd:priority`
 2. scope specificity rank (view-specific before composition-specific)
 3. policy IRI ascending (Unicode scalar order)
 
@@ -76,13 +76,13 @@ Within a policy, actions are ordered by action IRI ascending.
 
 Each action maps to conflict key:
 
-- `(gd:targetNode, gd:targetProperty)`
+- `(wd:targetNode, wd:targetProperty)`
 
 Actions with different conflict keys do not conflict.
 
 ## 7. Conflict resolution
 
-The effective strategy is the shared `gd:conflictStrategy` across matched policies.
+The effective strategy is the shared `wd:conflictStrategy` across matched policies.
 
 If strategies are mixed, result is `EVALUATION_ERROR`.
 
@@ -112,7 +112,7 @@ Successful evaluation returns:
 1. deterministic ordered list of applied actions
 2. resulting graph `G'`
 
-`G'` MUST remain SHACL-valid under `gd-all.shacl.ttl`.
+`G'` MUST remain SHACL-valid under `wd-all.shacl.ttl`.
 
 If post-application validation fails, return `EVALUATION_ERROR`.
 

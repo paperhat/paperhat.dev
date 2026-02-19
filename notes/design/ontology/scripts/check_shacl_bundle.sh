@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ONTOLOGY_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BUNDLE_FILE="$ONTOLOGY_DIR/gd-all.shacl.ttl"
+BUNDLE_FILE="$ONTOLOGY_DIR/wd-all.shacl.ttl"
 TMP_FILE="$(mktemp)"
 
 cleanup() {
@@ -20,7 +20,7 @@ if [[ ! -f "$BUNDLE_FILE" ]]; then
 fi
 
 if ! cmp -s "$BUNDLE_FILE" "$TMP_FILE"; then
-  echo "SHACL bundle check failed: gd-all.shacl.ttl is out of sync." >&2
+  echo "SHACL bundle check failed: wd-all.shacl.ttl is out of sync." >&2
   echo "Run notes/design/ontology/scripts/build_shacl_bundle.sh and update the bundle file." >&2
   exit 1
 fi

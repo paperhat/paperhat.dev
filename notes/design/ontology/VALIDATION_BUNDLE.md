@@ -1,29 +1,29 @@
 # Validation Bundle Contract
 
-This document defines the normative SHACL loading contract for the graphic-design ontology.
+This document defines the normative SHACL loading contract for the Workshop design ontology.
 
 ## Core entrypoint
 
 The canonical validation entrypoint for core composition validity is:
 
-- `gd-all.shacl.ttl`
+- `wd-all.shacl.ttl`
 
-Validators MUST load `gd-all.shacl.ttl` for conformance decisions.
+Validators MUST load `wd-all.shacl.ttl` for conformance decisions.
 
 ## Component files
 
-`gd-all.shacl.ttl` is generated from the ordered component list in:
+`wd-all.shacl.ttl` is generated from the ordered component list in:
 
 - `shacl-bundle-files.txt`
 
 Current required component set:
 
-1. `gd-core.shacl.ttl`
-2. `gd-policy.shacl.ttl`
-3. `gd-core-grid.shacl.ttl`
-4. `gd-core-figureground.shacl.ttl`
-5. `gd-core-closure.shacl.ttl`
-6. `gd-core-closure-seal.shacl.ttl`
+1. `wd-core.shacl.ttl`
+2. `wd-policy.shacl.ttl`
+3. `wd-core-grid.shacl.ttl`
+4. `wd-core-figureground.shacl.ttl`
+5. `wd-core-closure.shacl.ttl`
+6. `wd-core-closure-seal.shacl.ttl`
 
 No subset loading is conformant.
 
@@ -63,13 +63,13 @@ notes/design/ontology/scripts/run_policy_vectors.sh
 
 Metrics constraints are an extension layer and are validated separately:
 
-- vocabulary: `notes/workshop/design/gd-metrics.ttl`
-- shapes: `notes/workshop/design/gd-metrics.shacl.ttl`
+- vocabulary: `notes/workshop/design/wd-metrics.ttl`
+- shapes: `notes/workshop/design/wd-metrics.shacl.ttl`
 
 When validating metrics, validators MUST load:
 
-1. `gd-all.shacl.ttl` (core dependency)
-2. `notes/workshop/design/gd-metrics.shacl.ttl`
+1. `wd-all.shacl.ttl` (core dependency)
+2. `notes/workshop/design/wd-metrics.shacl.ttl`
 
 Clause-to-fixture coverage for the core rules is declared in:
 

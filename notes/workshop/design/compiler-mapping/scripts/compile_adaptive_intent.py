@@ -9,14 +9,14 @@ from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
 
-GD = "https://paperhat.dev/ns/gd#"
+WD = "https://paperhat.dev/ns/wd#"
 
-GD_VIEWPORT_WIDTH = f"{GD}ViewportWidthPx"
-GD_VIEWPORT_HEIGHT = f"{GD}ViewportHeightPx"
-GD_VIEWPORT_ASPECT = f"{GD}ViewportAspectRatio"
-GD_VIEWPORT_ORIENTATION = f"{GD}ViewportOrientation"
-GD_DEVICE_CLASS = f"{GD}DeviceClass"
-GD_REDUCED_MOTION = f"{GD}ReducedMotionPreference"
+WD_VIEWPORT_WIDTH = f"{WD}ViewportWidthPx"
+WD_VIEWPORT_HEIGHT = f"{WD}ViewportHeightPx"
+WD_VIEWPORT_ASPECT = f"{WD}ViewportAspectRatio"
+WD_VIEWPORT_ORIENTATION = f"{WD}ViewportOrientation"
+WD_DEVICE_CLASS = f"{WD}DeviceClass"
+WD_REDUCED_MOTION = f"{WD}ReducedMotionPreference"
 
 OBJECTIVE_PRIORITY_WEIGHTS = {
     "must": Decimal("1.0"),
@@ -184,25 +184,25 @@ def compile_stage_a_context(profile: dict[str, Any]) -> tuple[dict[str, Any], di
     height = require_int(height_raw, "viewportHeightPx") if height_raw is not None else None
 
     if width is not None:
-        stage_a_context[GD_VIEWPORT_WIDTH] = context_entry("integer", width)
+        stage_a_context[WD_VIEWPORT_WIDTH] = context_entry("integer", width)
     if height is not None:
-        stage_a_context[GD_VIEWPORT_HEIGHT] = context_entry("integer", height)
+        stage_a_context[WD_VIEWPORT_HEIGHT] = context_entry("integer", height)
 
     if width is not None and height is not None:
         if height <= 0:
             raise CompileError("viewportHeightPx must be > 0 for aspect ratio derivation.")
         ratio = Decimal(width) / Decimal(height)
-        stage_a_context[GD_VIEWPORT_ASPECT] = context_entry("decimal", quantize_ratio(ratio))
+        stage_a_context[WD_VIEWPORT_ASPECT] = context_entry("decimal", quantize_ratio(ratio))
 
         orientation = "square"
         if width > height:
             orientation = "landscape"
         elif height > width:
             orientation = "portrait"
-        stage_a_context[GD_VIEWPORT_ORIENTATION] = context_entry("string", orientation)
+        stage_a_context[WD_VIEWPORT_ORIENTATION] = context_entry("string", orientation)
 
     if profile.get("deviceClass") is not None:
-        stage_a_context[GD_DEVICE_CLASS] = context_entry(
+        stage_a_context[WD_DEVICE_CLASS] = context_entry(
             "string",
             normalize_token(profile["deviceClass"], "deviceClass"),
         )
@@ -216,7 +216,7 @@ def compile_stage_a_context(profile: dict[str, Any]) -> tuple[dict[str, Any], di
             reduced = False
         else:
             raise CompileError("motionPreference must be $reduce or $noPreference.")
-        stage_a_context[GD_REDUCED_MOTION] = context_entry("boolean", reduced)
+        stage_a_context[WD_REDUCED_MOTION] = context_entry("boolean", reduced)
 
     for field in (
         "zoomLevel",

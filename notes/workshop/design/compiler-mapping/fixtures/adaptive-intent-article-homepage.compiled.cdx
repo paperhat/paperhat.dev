@@ -1,11 +1,11 @@
 <CompiledAdaptiveRequest intentId="codex:intent:article-homepage:phone" targetFoundry="web" policySetRef="urn:policyset:article-homepage:1.0.0">
 	<StageA compositionIri="urn:composition:article-homepage" viewIri="urn:view:article-homepage">
-		<ContextEntry key="https://paperhat.dev/ns/gd#DeviceClass" type="string" value="handset" />
-		<ContextEntry key="https://paperhat.dev/ns/gd#ReducedMotionPreference" type="boolean" value="true" />
-		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportAspectRatio" type="decimal" value="0.462085" />
-		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportHeightPx" type="integer" value="844" />
-		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportOrientation" type="string" value="portrait" />
-		<ContextEntry key="https://paperhat.dev/ns/gd#ViewportWidthPx" type="integer" value="390" />
+		<ContextEntry key="https://paperhat.dev/ns/wd#DeviceClass" type="string" value="handset" />
+		<ContextEntry key="https://paperhat.dev/ns/wd#ReducedMotionPreference" type="boolean" value="true" />
+		<ContextEntry key="https://paperhat.dev/ns/wd#ViewportAspectRatio" type="decimal" value="0.462085" />
+		<ContextEntry key="https://paperhat.dev/ns/wd#ViewportHeightPx" type="integer" value="844" />
+		<ContextEntry key="https://paperhat.dev/ns/wd#ViewportOrientation" type="string" value="portrait" />
+		<ContextEntry key="https://paperhat.dev/ns/wd#ViewportWidthPx" type="integer" value="390" />
 	</StageA>
 	<StageB>
 		<ContextExtEntry key="colorSchemePreference" value="dark" />

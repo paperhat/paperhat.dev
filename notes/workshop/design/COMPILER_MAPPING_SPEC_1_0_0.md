@@ -22,7 +22,7 @@ Input (authoring layer):
 
 Output (runtime layer):
 
-1. Stage A request (`gd:Policy` evaluator request)
+1. Stage A request (`wd:Policy` evaluator request)
 2. Stage B request (optimization/override request)
 
 The compiler output is a normalized Codex envelope.
@@ -59,14 +59,14 @@ The compiler MUST apply these rules:
    - object keys sorted lexicographically in serialized output
    - list entries sorted by deterministic tuples (defined below)
 
-## 4. Stage A mapping (`gd` policy evaluator)
+## 4. Stage A mapping (`wd` policy evaluator)
 
-`gd` context key mapping:
+`wd` context key mapping:
 
-1. `viewportWidthPx` -> `https://paperhat.dev/ns/gd#ViewportWidthPx` as `integer`
-2. `viewportHeightPx` -> `https://paperhat.dev/ns/gd#ViewportHeightPx` as `integer`
-3. `deviceClass` -> `https://paperhat.dev/ns/gd#DeviceClass` as `string`
-4. `motionPreference` -> `https://paperhat.dev/ns/gd#ReducedMotionPreference` as `boolean`
+1. `viewportWidthPx` -> `https://paperhat.dev/ns/wd#ViewportWidthPx` as `integer`
+2. `viewportHeightPx` -> `https://paperhat.dev/ns/wd#ViewportHeightPx` as `integer`
+3. `deviceClass` -> `https://paperhat.dev/ns/wd#DeviceClass` as `string`
+4. `motionPreference` -> `https://paperhat.dev/ns/wd#ReducedMotionPreference` as `boolean`
    - `$reduce` -> `true`
    - `$noPreference` -> `false`
 

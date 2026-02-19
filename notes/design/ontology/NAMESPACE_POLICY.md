@@ -1,13 +1,13 @@
 # Namespace Policy
 
-This policy defines the authoritative namespace rules for the graphic-design ontology and metrics extension.
+This policy defines the authoritative namespace rules for the Workshop design ontology and metrics extension.
 
 ## Canonical Namespaces
 
 The only production namespaces are:
 
-- `gd:` -> `https://paperhat.dev/ns/gd#`
-- `gdm:` -> `https://paperhat.dev/ns/gdm#`
+- `wd:` -> `https://paperhat.dev/ns/wd#`
+- `wdm:` -> `https://paperhat.dev/ns/wdm#`
 
 All non-test ontology, SHACL, and fixture files MUST use these namespaces.
 

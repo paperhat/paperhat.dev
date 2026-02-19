@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix wd: <https://paperhat.dev/ns/wd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -6,50 +6,50 @@
 # Grid constraints (only defined here; not duplicated elsewhere)
 #####################################################################
 
-gd:GridSystemShape
+wd:GridSystemShape
   a sh:NodeShape ;
-  sh:targetClass gd:GridSystem ;
+  sh:targetClass wd:GridSystem ;
 
   sh:property [
-    sh:path gd:columnCount ;
+    sh:path wd:columnCount ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:integer ;
     sh:minInclusive 1 ;
   ] ;
 
   sh:property [
-    sh:path gd:rowCount ;
+    sh:path wd:rowCount ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:integer ;
     sh:minInclusive 1 ;
   ] ;
 
   sh:property [
-    sh:path gd:baselineGrid ;
+    sh:path wd:baselineGrid ;
     sh:maxCount 1 ;
-    sh:class gd:BaselineGrid ;
+    sh:class wd:BaselineGrid ;
   ] ;
 
   sh:property [
-    sh:path gd:hasUnit ;
-    sh:class gd:GridUnit ;
+    sh:path wd:hasUnit ;
+    sh:class wd:GridUnit ;
   ] .
 
-gd:GridUnitShape
+wd:GridUnitShape
   a sh:NodeShape ;
-  sh:targetClass gd:GridUnit ;
+  sh:targetClass wd:GridUnit ;
   sh:xone (
-    [ sh:class gd:ColumnUnit ]
-    [ sh:class gd:RowUnit ]
-    [ sh:class gd:GutterUnit ]
+    [ sh:class wd:ColumnUnit ]
+    [ sh:class wd:RowUnit ]
+    [ sh:class wd:GutterUnit ]
   ) .
 
-gd:BaselineGridShape
+wd:BaselineGridShape
   a sh:NodeShape ;
-  sh:targetClass gd:BaselineGrid ;
+  sh:targetClass wd:BaselineGrid ;
 
   sh:property [
-    sh:path gd:baselineStep ;
+    sh:path wd:baselineStep ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:decimal ;
     sh:minExclusive 0 ;

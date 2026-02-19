@@ -12,7 +12,7 @@ Status:
 
 ## 1. Intent
 
-`gd` started as graphic design modeling, but Workshop needs a broader contract:
+`wd` started as graphic design modeling, but Workshop needs a broader contract:
 
 1. many foundries (`web`, `app`, `pdf`, `book`, etc.)
 2. dynamic targets (zoom, motion, interaction, state)
@@ -57,12 +57,12 @@ Resulting architecture rule:
      - target projection intent (must include `compositionRef`; may include `viewRef`)
 2. Compilation
    - Codex is compiled to canonical RDF graph(s)
-   - policy nodes map to `gd:Policy` / `gd:Condition` / `gd:Action`
+   - policy nodes map to `wd:Policy` / `wd:Condition` / `wd:Action`
 3. Validation
    - Codex schema validation
-   - SHACL validation (`gd-all.shacl.ttl`)
+   - SHACL validation (`wd-all.shacl.ttl`)
 4. Stage A evaluation (hard policy semantics)
-   - evaluate enabled `gd:Policy` against context
+   - evaluate enabled `wd:Policy` against context
    - resolve action conflicts deterministically
 5. Stage B evaluation (optimization semantics)
    - score candidate realizations against weighted badness terms

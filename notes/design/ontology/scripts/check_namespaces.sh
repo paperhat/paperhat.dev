@@ -16,45 +16,45 @@ then
   exit 1
 fi
 
-# Any declared gd: prefix MUST use the canonical namespace.
-if rg -n "^@prefix gd:\\s*<" \
+# Any declared wd: prefix MUST use the canonical namespace.
+if rg -n "^@prefix wd:\\s*<" \
   notes/design/ontology \
   notes/workshop/design \
   --glob '*.ttl' \
   --glob '*.shacl.ttl' \
   --glob '!**/tests/**' \
-  | rg -v "https://paperhat\\.dev/ns/gd#"
+  | rg -v "https://paperhat\\.dev/ns/wd#"
 then
-  echo "Namespace check failed: found non-canonical gd: prefix declaration." >&2
+  echo "Namespace check failed: found non-canonical wd: prefix declaration." >&2
   exit 1
 fi
 
-# Any declared gdm: prefix MUST use the canonical namespace.
-if rg -n "^@prefix gdm:\\s*<" \
+# Any declared wdm: prefix MUST use the canonical namespace.
+if rg -n "^@prefix wdm:\\s*<" \
   notes/design/ontology \
   notes/workshop/design \
   --glob '*.ttl' \
   --glob '*.shacl.ttl' \
   --glob '!**/tests/**' \
-  | rg -v "https://paperhat\\.dev/ns/gdm#"
+  | rg -v "https://paperhat\\.dev/ns/wdm#"
 then
-  echo "Namespace check failed: found non-canonical gdm: prefix declaration." >&2
+  echo "Namespace check failed: found non-canonical wdm: prefix declaration." >&2
   exit 1
 fi
 
 # Core namespaces MUST be present in the authority files.
-if ! rg -q "https://paperhat\\.dev/ns/gd#" notes/design/ontology/gd-core.ttl; then
-  echo "Namespace check failed: gd namespace missing from gd-core.ttl" >&2
+if ! rg -q "https://paperhat\\.dev/ns/wd#" notes/design/ontology/wd-core.ttl; then
+  echo "Namespace check failed: wd namespace missing from wd-core.ttl" >&2
   exit 1
 fi
 
-if ! rg -q "https://paperhat\\.dev/ns/gdm#" notes/workshop/design/gd-metrics.ttl; then
-  echo "Namespace check failed: gdm namespace missing from gd-metrics.ttl" >&2
+if ! rg -q "https://paperhat\\.dev/ns/wdm#" notes/workshop/design/wd-metrics.ttl; then
+  echo "Namespace check failed: wdm namespace missing from wd-metrics.ttl" >&2
   exit 1
 fi
 
-if ! rg -q "https://paperhat\\.dev/ns/gdm#" notes/workshop/design/gd-metrics.shacl.ttl; then
-  echo "Namespace check failed: gdm namespace missing from gd-metrics.shacl.ttl" >&2
+if ! rg -q "https://paperhat\\.dev/ns/wdm#" notes/workshop/design/wd-metrics.shacl.ttl; then
+  echo "Namespace check failed: wdm namespace missing from wd-metrics.shacl.ttl" >&2
   exit 1
 fi
 

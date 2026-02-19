@@ -120,14 +120,14 @@ def evaluate_stage_a(compiled_request_path: Path, graph_path: Path, repo_root: P
 
         shapes = Graph()
         ontology = Graph()
-        shapes.parse(repo_root / "notes/design/ontology/gd-all.shacl.ttl", format="turtle")
-        ontology.parse(repo_root / "notes/design/ontology/gd-core.ttl", format="turtle")
+        shapes.parse(repo_root / "notes/design/ontology/wd-all.shacl.ttl", format="turtle")
+        ontology.parse(repo_root / "notes/design/ontology/wd-core.ttl", format="turtle")
 
         runner.validate_graph(graph, shapes, ontology, stage="pre-evaluation")
 
-        if (composition, RDF.type, runner.GD_COMPOSITION) not in graph:
+        if (composition, RDF.type, runner.WD_COMPOSITION) not in graph:
             raise runner.EvaluationError(f"Composition not found or mistyped: {composition}")
-        if view is not None and (view, RDF.type, runner.GD_VIEW) not in graph:
+        if view is not None and (view, RDF.type, runner.WD_VIEW) not in graph:
             raise runner.EvaluationError(f"View not found or mistyped: {view}")
 
         matched_policies = runner.collect_candidates(graph, composition, view, context)

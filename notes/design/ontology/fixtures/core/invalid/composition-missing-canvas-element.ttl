@@ -1,6 +1,6 @@
-@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix wd: <https://paperhat.dev/ns/wd#> .
 @prefix ex: <https://paperhat.dev/examples/core/invalid/composition-missing-canvas-element#> .
 
 ex:c1
-  a gd:Composition ;
-  gd:intent gd:Inform .
+  a wd:Composition ;
+  wd:intent wd:Inform .

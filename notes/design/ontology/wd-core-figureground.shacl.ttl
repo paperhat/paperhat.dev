@@ -1,43 +1,43 @@
-@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix wd: <https://paperhat.dev/ns/wd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 #####################################################################
 # Figure–Ground constraints (only defined here; not duplicated elsewhere)
 #####################################################################
 
-gd:FigureGroundShape
+wd:FigureGroundShape
   a sh:NodeShape ;
-  sh:targetClass gd:FigureGroundStatement ;
+  sh:targetClass wd:FigureGroundStatement ;
 
   sh:property [
-    sh:path gd:principleType ;
+    sh:path wd:principleType ;
     sh:minCount 1 ; sh:maxCount 1 ;
-    sh:hasValue gd:FigureGround ;
+    sh:hasValue wd:FigureGround ;
   ] ;
 
   sh:property [
-    sh:path gd:scope ;
+    sh:path wd:scope ;
     sh:minCount 1 ; sh:maxCount 1 ;
   ] ;
 
   sh:property [
-    sh:path gd:participant ;
+    sh:path wd:participant ;
     sh:minCount 1 ;
-    sh:class gd:ElementInstance ;
+    sh:class wd:ElementInstance ;
   ] ;
 
   sh:property [
-    sh:path gd:foreground ;
+    sh:path wd:foreground ;
     sh:minCount 1 ;
-    sh:class gd:ElementInstance ;
+    sh:class wd:ElementInstance ;
   ] ;
 
   sh:property [
-    sh:path gd:background ;
+    sh:path wd:background ;
     sh:minCount 1 ;
     sh:or (
-      [ sh:class gd:ElementInstance ]
-      [ sh:class gd:Region ]
+      [ sh:class wd:ElementInstance ]
+      [ sh:class wd:Region ]
     ) ;
   ] ;
 
@@ -46,13 +46,13 @@ gd:FigureGroundShape
   ###################################################################
   sh:sparql [
     a sh:SPARQLConstraint ;
-    sh:message "Every gd:foreground element must also be a gd:participant of this FigureGroundStatement." ;
+    sh:message "Every wd:foreground element must also be a wd:participant of this FigureGroundStatement." ;
     sh:select """
-      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      PREFIX wd: <https://paperhat.dev/ns/wd#>
       SELECT $this ?e
       WHERE {
-        $this gd:foreground ?e .
-        FILTER NOT EXISTS { $this gd:participant ?e . }
+        $this wd:foreground ?e .
+        FILTER NOT EXISTS { $this wd:participant ?e . }
       }
     """ ;
   ] .
