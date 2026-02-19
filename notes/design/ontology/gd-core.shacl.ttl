@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix gd: <https://paperhat.dev/ns/gd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -6,84 +6,210 @@
 # Composition
 #####################################################################
 
-gd:CompositionShape a sh:NodeShape ;
+gd:CompositionShape
+  a sh:NodeShape ;
   sh:targetClass gd:Composition ;
 
   sh:property [
     sh:path gd:hasCanvas ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Canvas ;
   ] ;
 
   sh:property [
     sh:path gd:hasElement ;
     sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
   ] ;
 
   sh:property [
     sh:path gd:intent ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:CommunicativeIntent ;
   ] .
 
 #####################################################################
 # ElementInstance
 #####################################################################
 
-gd:ElementInstanceShape a sh:NodeShape ;
+gd:ElementInstanceShape
+  a sh:NodeShape ;
   sh:targetClass gd:ElementInstance ;
 
   sh:property [
     sh:path gd:instanceOf ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:ElementType ;
   ] ;
 
   sh:property [
     sh:path gd:frame ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Rect ;
   ] ;
 
   sh:property [
     sh:path gd:style ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Style ;
   ] ;
 
   sh:property [
     sh:path gd:semanticRole ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Role ;
+  ] ;
+
+  sh:property [
+    sh:path gd:zIndex ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
   ] .
 
 #####################################################################
 # Rect
 #####################################################################
 
-gd:RectShape a sh:NodeShape ;
+gd:RectShape
+  a sh:NodeShape ;
   sh:targetClass gd:Rect ;
 
-  sh:property [ sh:path gd:w ; sh:minExclusive 0 ] ;
-  sh:property [ sh:path gd:h ; sh:minExclusive 0 ] .
+  sh:property [
+    sh:path gd:x ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+  ] ;
+
+  sh:property [
+    sh:path gd:y ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+  ] ;
+
+  sh:property [
+    sh:path gd:w ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:h ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] .
 
 #####################################################################
-# Style
+# Style / Paint / Stroke / Typography
 #####################################################################
 
-gd:StyleShape a sh:NodeShape ;
+gd:StyleShape
+  a sh:NodeShape ;
   sh:targetClass gd:Style ;
 
   sh:property [
     sh:path gd:opacity ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
     sh:minInclusive 0 ;
     sh:maxInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:fill ;
+    sh:maxCount 1 ;
+    sh:class gd:Paint ;
+  ] ;
+
+  sh:property [
+    sh:path gd:stroke ;
+    sh:maxCount 1 ;
+    sh:class gd:Stroke ;
+  ] ;
+
+  sh:property [
+    sh:path gd:typeStyle ;
+    sh:maxCount 1 ;
+    sh:class gd:TypographicStyle ;
+  ] .
+
+gd:PaintShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Paint ;
+
+  sh:property [
+    sh:path gd:paintKind ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+  ] ;
+
+  sh:property [
+    sh:path gd:paintValue ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+  ] .
+
+gd:StrokeShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Stroke ;
+
+  sh:property [
+    sh:path gd:strokeWidth ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+  ] .
+
+gd:TypographicStyleShape
+  a sh:NodeShape ;
+  sh:targetClass gd:TypographicStyle ;
+
+  sh:property [
+    sh:path gd:typeface ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Typeface ;
+  ] ;
+
+  sh:property [
+    sh:path gd:fontSize ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:fontWeight ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:leading ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:tracking ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
   ] .
 
 #####################################################################
 # PrincipleStatement
 #####################################################################
 
-gd:PrincipleStatementShape a sh:NodeShape ;
+gd:PrincipleStatementShape
+  a sh:NodeShape ;
   sh:targetClass gd:PrincipleStatement ;
 
   sh:property [
     sh:path gd:principleType ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Principle ;
   ] ;
 
   sh:property [
@@ -94,4 +220,5 @@ gd:PrincipleStatementShape a sh:NodeShape ;
   sh:property [
     sh:path gd:participant ;
     sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
   ] .

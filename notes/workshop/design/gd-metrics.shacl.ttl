@@ -1,5 +1,5 @@
-@prefix gd:   <https://paperhat.example/ontologies/graphic-design#> .
-@prefix gdm:  <https://paperhat.example/ontologies/graphic-design-metrics#> .
+@prefix gd:   <https://paperhat.dev/ns/gd#> .
+@prefix gdm:  <https://paperhat.dev/ns/gdm#> .
 @prefix sh:   <http://www.w3.org/ns/shacl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
@@ -38,11 +38,12 @@ gdm:MetricSetShape a sh:NodeShape ;
     sh:path gdm:inputsHash ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:datatype xsd:string ;
+    sh:pattern "^[0-9a-f]{64}$" ;
   ] ;
 
   sh:property [
     sh:path gdm:computedAtEpochMs ;
-    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:maxCount 1 ;
     sh:datatype xsd:long ;
   ] .
 
@@ -57,23 +58,54 @@ gdm:MetricAssertionShape a sh:NodeShape ;
     sh:path gdm:metricType ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:class gdm:MetricType ;
+    sh:in (
+      gdm:SalienceScore
+      gdm:HierarchyRank
+      gdm:ReadingOrderIndex
+      gdm:BalanceDeviation
+      gdm:SymmetryScore
+      gdm:ContrastLuminance
+      gdm:FigureGroundSeparation
+      gdm:WhitespaceRatio
+      gdm:AlignmentError
+      gdm:GridConformanceScore
+      gdm:TypographicRhythmScore
+    ) ;
   ] ;
 
   sh:property [
     sh:path gdm:about ;
     sh:minCount 1 ; sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:or (
+      [ sh:class gd:ElementInstance ]
+      [ sh:class gd:Region ]
+      [ sh:class gd:Composition ]
+      [ sh:class gd:PrincipleStatement ]
+    ) ;
   ] ;
 
   sh:property [
     sh:path gdm:method ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:class gdm:MeasurementMethod ;
+    sh:in (
+      gdm:ComputedFromGeometryAndStyle
+      gdm:ComputedFromGridModel
+      gdm:ComputedFromTextMetrics
+    ) ;
   ] ;
 
   sh:property [
     sh:path gdm:unit ;
     sh:minCount 1 ; sh:maxCount 1 ;
     sh:class gdm:Unit ;
+    sh:in (
+      gdm:Unitless
+      gdm:Percent
+      gdm:Pixels
+      gdm:CanvasUnits
+    ) ;
   ] ;
 
   # Exactly one of valueDecimal or valueInteger

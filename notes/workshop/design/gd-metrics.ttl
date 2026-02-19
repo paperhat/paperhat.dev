@@ -1,5 +1,5 @@
-@prefix gd:   <https://paperhat.example/ontologies/graphic-design#> .
-@prefix gdm:  <https://paperhat.example/ontologies/graphic-design-metrics#> .
+@prefix gd:   <https://paperhat.dev/ns/gd#> .
+@prefix gdm:  <https://paperhat.dev/ns/gdm#> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
@@ -16,7 +16,7 @@ gdm:MeasurementMethod a rdfs:Class ; rdfs:label "Measurement Method" .
 gdm:Unit a rdfs:Class ; rdfs:label "Unit" .
 
 #####################################################################
-# Metric type instances (closed list starter set)
+# Metric type instances (closed list for v0.1)
 #####################################################################
 
 gdm:SalienceScore            a gdm:MetricType ; rdfs:label "Salience Score" .
@@ -32,7 +32,7 @@ gdm:GridConformanceScore     a gdm:MetricType ; rdfs:label "Grid Conformance Sco
 gdm:TypographicRhythmScore   a gdm:MetricType ; rdfs:label "Typographic Rhythm Score" .
 
 #####################################################################
-# Minimal units (closed list starter set)
+# Minimal units (closed list for v0.1)
 #####################################################################
 
 gdm:Unitless   a gdm:Unit ; rdfs:label "Unitless" .
@@ -41,7 +41,7 @@ gdm:Pixels     a gdm:Unit ; rdfs:label "Pixels" .
 gdm:CanvasUnits a gdm:Unit ; rdfs:label "Canvas Units" .
 
 #####################################################################
-# Methods (closed list starter set)
+# Methods (closed list for v0.1)
 #####################################################################
 
 gdm:ComputedFromGeometryAndStyle a gdm:MeasurementMethod ; rdfs:label "Computed from geometry+style" .
@@ -60,7 +60,7 @@ gdm:forView        a rdf:Property ; rdfs:domain gdm:MetricSet ; rdfs:range gd:Vi
 gdm:hasMetric a rdf:Property ; rdfs:domain gdm:MetricSet ; rdfs:range gdm:MetricAssertion .
 
 # What the metric is about
-gdm:about a rdf:Property ; rdfs:domain gdm:MetricAssertion ; rdfs:range rdfs:Resource .  # ElementInstance | Region | Composition | PrincipleStatement
+gdm:about a rdf:Property ; rdfs:domain gdm:MetricAssertion ; rdfs:range rdfs:Resource .  # constrained by SHACL to ElementInstance|Region|Composition|PrincipleStatement
 
 # What kind of metric it is
 gdm:metricType a rdf:Property ; rdfs:domain gdm:MetricAssertion ; rdfs:range gdm:MetricType .
@@ -74,6 +74,9 @@ gdm:unit         a rdf:Property ; rdfs:domain gdm:MetricAssertion ; rdfs:range g
 gdm:method a rdf:Property ; rdfs:domain gdm:MetricAssertion ; rdfs:range gdm:MeasurementMethod .
 
 # Determinism / reproducibility anchors
+# - algorithmId + inputsHash define deterministic replay identity.
+# - computedAtEpochMs is informational provenance metadata and MUST NOT
+#   participate in deterministic equivalence checks.
 gdm:computedAtEpochMs a rdf:Property ; rdfs:domain gdm:MetricSet ; rdfs:range xsd:long .
 gdm:algorithmId       a rdf:Property ; rdfs:domain gdm:MetricSet ; rdfs:range xsd:string .
 gdm:inputsHash        a rdf:Property ; rdfs:domain gdm:MetricSet ; rdfs:range xsd:string .

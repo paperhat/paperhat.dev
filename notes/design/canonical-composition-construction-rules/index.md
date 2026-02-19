@@ -160,7 +160,7 @@ If `C gd:hasGrid G` is present:
 
 Grid units:
 
-* `G gd:hasUnit U` MAY appear zero or more times.
+* zero or more `G gd:hasUnit U` triples are permitted.
 * If `G gd:hasUnit U` appears then:
 
   * `U gd:ownedBy C`
@@ -241,17 +241,41 @@ If an implementation provides defaults (e.g., missing `gd:strokeWidth`), default
 
 ## 5. Canonical Serialization and Hashing
 
-### 5.1 Canonical Serialization Requirement
+### 5.1 Canonical Graph Preconditions
 
-Any process that computes a hash, signature, cache key, or deterministic artifact from a `gd:Composition` MUST use a canonical serialization.
+Before canonical serialization:
 
-This document does not prescribe a specific canonicalization algorithm; it prescribes the required property:
+1. All IRIs and string literals MUST be normalized to Unicode NFC.
+2. Blank nodes MUST NOT appear in the canonical composition graph.
+3. Every triple in the canonical composition graph MUST satisfy §2–§4.
 
-* identical canonical composition graphs MUST serialize to identical bytes.
+### 5.2 Canonical Serialization Algorithm
 
-### 5.2 Hash Input Scope
+The canonical composition graph MUST be serialized as RDF 1.1 N-Triples with these deterministic rules:
 
-The hash input MUST be exactly the canonical composition graph for the specified `gd:Composition` node, and MUST NOT include any triples outside that subgraph.
+1. Each triple is serialized as exactly one N-Triples line terminated by `\n` (U+000A).
+2. No comments and no blank lines are permitted.
+3. Literal lexical forms MUST use canonical lexical representation for their datatype.
+4. Triple ordering MUST be:
+   - primary key: subject IRI (Unicode scalar value order)
+   - secondary key: predicate IRI (Unicode scalar value order)
+   - tertiary key: object with type precedence:
+     - IRI objects sort before literal objects
+     - IRI object key: IRI (Unicode scalar value order)
+     - literal object key: lexical form, then datatype IRI, then language tag (all Unicode scalar value order; empty language tag sorts first)
+5. The sorted N-Triples stream MUST be UTF-8 encoded. The resulting byte sequence is the canonical byte form.
+
+### 5.3 Hashing Algorithm
+
+The canonical hash MUST be computed as:
+
+1. Input bytes: canonical byte form from §5.2.
+2. Algorithm: SHA-256.
+3. Output format: 64-character lowercase hexadecimal string.
+
+### 5.4 Hash Input Scope
+
+The hash input MUST be exactly the canonical composition graph for the specified `gd:Composition` node and MUST NOT include triples outside that subgraph.
 
 ---
 
@@ -262,6 +286,6 @@ A `gd:Composition` is **valid** iff:
 1. It satisfies all construction rules in §3.
 2. It satisfies all ownership and sealing invariants in §2.
 3. It satisfies all normalization rules in §4.
-4. It satisfies the SHACL constraint set for this ontology.
+4. It satisfies the full SHACL validation bundle (`gd-all.shacl.ttl`).
 
 If any rule fails, the composition MUST be rejected as invalid.

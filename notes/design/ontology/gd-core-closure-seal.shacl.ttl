@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix gd: <https://paperhat.dev/ns/gd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 #####################################################################
@@ -9,8 +9,8 @@
 # Purpose:
 # - enforce same-owner sealing for the full structural footprint of a
 #   gd:Composition (closed-world, no cross-composition references)
-# - provide an enforceable approximation of full reachability closure
-#   using explicit seal constraints plus an owned-node class whitelist
+# - enforce full reverse-reachability closure for every ownable structural
+#   class using explicit structural-path constraints
 #
 # Notes:
 # - Same-owner constraints require $this binding (SHACL-SPARQL).
@@ -32,7 +32,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "The gd:hasCanvas node must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?c
       WHERE {
         $this gd:hasCanvas ?c .
@@ -48,7 +48,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:hasElement node must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?e
       WHERE {
         $this gd:hasElement ?e .
@@ -64,7 +64,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:frame Rect referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?r
       WHERE {
         $this gd:hasElement ?e .
@@ -81,7 +81,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:style referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?s
       WHERE {
         $this gd:hasElement ?e .
@@ -98,7 +98,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:transform referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?t
       WHERE {
         $this gd:hasElement ?e .
@@ -115,7 +115,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:fill Paint referenced by a Style in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?p
       WHERE {
         $this gd:hasElement ?e .
@@ -133,7 +133,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:stroke Stroke referenced by a Style in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?k
       WHERE {
         $this gd:hasElement ?e .
@@ -151,7 +151,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:typeStyle TypographicStyle referenced by a Style in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?ts
       WHERE {
         $this gd:hasElement ?e .
@@ -169,7 +169,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "If gd:hasGrid is present, the GridSystem must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?g
       WHERE {
         $this gd:hasGrid ?g .
@@ -185,7 +185,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:hasUnit GridUnit referenced by this Composition's GridSystem must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?u
       WHERE {
         $this gd:hasGrid ?g .
@@ -202,7 +202,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "If a GridSystem has gd:baselineGrid, the BaselineGrid must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?b
       WHERE {
         $this gd:hasGrid ?g .
@@ -219,7 +219,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:expresses PrincipleStatement must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?p
       WHERE {
         $this gd:expresses ?p .
@@ -235,12 +235,48 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:participant in a PrincipleStatement expressed by this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?e
       WHERE {
         $this gd:expresses ?p .
         ?p gd:participant ?e .
         FILTER NOT EXISTS { ?e gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # foreground: every foreground element of an expressed FigureGroundStatement must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:foreground element in a FigureGroundStatement expressed by this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        $this gd:expresses ?p .
+        ?p a gd:FigureGroundStatement .
+        ?p gd:foreground ?e .
+        FILTER NOT EXISTS { ?e gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # background: every background value of an expressed FigureGroundStatement must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:background value in a FigureGroundStatement expressed by this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?x
+      WHERE {
+        $this gd:expresses ?p .
+        ?p a gd:FigureGroundStatement .
+        ?p gd:background ?x .
+        FILTER NOT EXISTS { ?x gd:ownedBy $this . }
       }
     """ ;
   ] ;
@@ -252,7 +288,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:group GroupInstance referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?g
       WHERE {
         $this gd:hasElement ?e .
@@ -269,7 +305,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:hasRegion node must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?r
       WHERE {
         $this gd:hasRegion ?r .
@@ -285,7 +321,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:hasLayer node must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?l
       WHERE {
         $this gd:hasLayer ?l .
@@ -301,7 +337,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:layer referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?l
       WHERE {
         $this gd:hasElement ?e .
@@ -318,7 +354,7 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "Every gd:member referenced by a GroupInstance in this Composition must be ownedBy this Composition." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?m
       WHERE {
         $this gd:hasElement ?e .
@@ -336,12 +372,244 @@ gd:CompositionSealShape
     a sh:SPARQLConstraint ;
     sh:message "No PrincipleStatement ownedBy this Composition may be orphaned (must be linked by gd:expresses)." ;
     sh:select """
-      PREFIX gd: <https://paperhat.example/ontologies/graphic-design#>
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
       SELECT $this ?p
       WHERE {
         ?p a gd:PrincipleStatement .
         ?p gd:ownedBy $this .
         FILTER NOT EXISTS { $this gd:expresses ?p . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # Reverse reachability closure: every owned node class must be reachable
+  # from its owning Composition through an allowed structural path.
+  ###################################################################
+
+  # Canvas
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Canvas must be reachable via gd:hasCanvas from its owning Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?c
+      WHERE {
+        ?c a gd:Canvas ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasCanvas ?c . }
+      }
+    """ ;
+  ] ;
+
+  # ElementInstance
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:ElementInstance must be reachable via gd:hasElement or via GroupInstance membership rooted at gd:hasElement." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        ?e a gd:ElementInstance ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasElement ?e . }
+        FILTER NOT EXISTS {
+          $this gd:hasElement ?root .
+          ?root gd:group ?g .
+          ?g gd:member ?e .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Rect
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Rect must be reachable via gd:frame from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?r
+      WHERE {
+        ?r a gd:Rect ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:frame ?r .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Style
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Style must be reachable via gd:style from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?s
+      WHERE {
+        ?s a gd:Style ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:style ?s .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Paint
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Paint must be reachable via gd:fill from an owned gd:Style." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?p
+      WHERE {
+        ?p a gd:Paint ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?s a gd:Style ; gd:ownedBy $this ; gd:fill ?p .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Stroke
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Stroke must be reachable via gd:stroke from an owned gd:Style." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?k
+      WHERE {
+        ?k a gd:Stroke ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?s a gd:Style ; gd:ownedBy $this ; gd:stroke ?k .
+        }
+      }
+    """ ;
+  ] ;
+
+  # TypographicStyle
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:TypographicStyle must be reachable via gd:typeStyle from an owned gd:Style." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?ts
+      WHERE {
+        ?ts a gd:TypographicStyle ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?s a gd:Style ; gd:ownedBy $this ; gd:typeStyle ?ts .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Transform
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Transform must be reachable via gd:transform from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?t
+      WHERE {
+        ?t a gd:Transform ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:transform ?t .
+        }
+      }
+    """ ;
+  ] ;
+
+  # GroupInstance
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:GroupInstance must be reachable via gd:group from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?g
+      WHERE {
+        ?g a gd:GroupInstance ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:group ?g .
+        }
+      }
+    """ ;
+  ] ;
+
+  # GridSystem
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:GridSystem must be reachable via gd:hasGrid from its owning Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?g
+      WHERE {
+        ?g a gd:GridSystem ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasGrid ?g . }
+      }
+    """ ;
+  ] ;
+
+  # GridUnit
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:GridUnit must be reachable via gd:hasUnit from an owned gd:GridSystem." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?u
+      WHERE {
+        ?u a gd:GridUnit ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?g a gd:GridSystem ; gd:ownedBy $this ; gd:hasUnit ?u .
+        }
+      }
+    """ ;
+  ] ;
+
+  # BaselineGrid
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:BaselineGrid must be reachable via gd:baselineGrid from an owned gd:GridSystem." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?b
+      WHERE {
+        ?b a gd:BaselineGrid ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?g a gd:GridSystem ; gd:ownedBy $this ; gd:baselineGrid ?b .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Region
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Region must be reachable via gd:hasRegion or as gd:background in an expressed gd:FigureGroundStatement." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?r
+      WHERE {
+        ?r a gd:Region ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasRegion ?r . }
+        FILTER NOT EXISTS {
+          $this gd:expresses ?p .
+          ?p a gd:FigureGroundStatement .
+          ?p gd:background ?r .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Layer
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Layer must be reachable via gd:hasLayer or via gd:layer from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?l
+      WHERE {
+        ?l a gd:Layer ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasLayer ?l . }
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:layer ?l .
+        }
       }
     """ ;
   ] .

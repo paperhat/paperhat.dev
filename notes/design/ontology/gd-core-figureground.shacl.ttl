@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix gd: <https://paperhat.dev/ns/gd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 #####################################################################
@@ -35,4 +35,24 @@ gd:FigureGroundShape
   sh:property [
     sh:path gd:background ;
     sh:minCount 1 ;
+    sh:or (
+      [ sh:class gd:ElementInstance ]
+      [ sh:class gd:Region ]
+    ) ;
+  ] ;
+
+  ###################################################################
+  # foreground-implies-participant: every foreground must also be a participant
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:foreground element must also be a gd:participant of this FigureGroundStatement." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        $this gd:foreground ?e .
+        FILTER NOT EXISTS { $this gd:participant ?e . }
+      }
+    """ ;
   ] .

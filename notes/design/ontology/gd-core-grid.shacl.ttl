@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix gd: <https://paperhat.dev/ns/gd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -34,6 +34,15 @@ gd:GridSystemShape
     sh:path gd:hasUnit ;
     sh:class gd:GridUnit ;
   ] .
+
+gd:GridUnitShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridUnit ;
+  sh:xone (
+    [ sh:class gd:ColumnUnit ]
+    [ sh:class gd:RowUnit ]
+    [ sh:class gd:GutterUnit ]
+  ) .
 
 gd:BaselineGridShape
   a sh:NodeShape ;

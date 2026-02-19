@@ -241,10 +241,18 @@ This sealing is enforced by:
 This specification is enforced by a combination of:
 
 1. **RDF vocabulary** (`gd-core.ttl`) — defines classes and properties
-2. **SHACL constraints** — validate well-formedness and ownership rules
+2. **SHACL constraints** — validate well-formedness, ownership rules, and reachability closure
 3. **Canonical composition construction rules** — define the normative meaning of “canonical” and prohibit implicit semantics
 
-If SHACL constraints are weaker than the canonical construction rules, the canonical construction rules remain normative.
+All normative MUST-level clauses in the canonical composition construction rules MUST be enforced by the SHACL bundle. A normative clause without an enforcing SHACL constraint is non-conformant.
+
+Validation MUST load the full SHACL bundle entrypoint:
+
+- `gd-all.shacl.ttl` (component files and loading contract are defined in `VALIDATION_BUNDLE.md`)
+
+Normative coverage mapping from prose clauses to concrete constraints is defined in:
+
+- `CANONICAL_RULE_TRACEABILITY.md`
 
 ---
 
@@ -262,3 +270,16 @@ It defines only:
 * compositional structure
 * explicit declared principle statements
 * sealed, deterministic composition graphs suitable for validation and projection
+
+---
+
+# 9. Namespace policy
+
+Namespace authority and immutability rules are defined in:
+
+- `NAMESPACE_POLICY.md`
+
+The canonical production namespaces are:
+
+- `gd:` -> `https://paperhat.dev/ns/gd#`
+- `gdm:` -> `https://paperhat.dev/ns/gdm#`

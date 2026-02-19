@@ -1,4 +1,4 @@
-@prefix gd: <https://paperhat.example/ontologies/graphic-design#> .
+@prefix gd: <https://paperhat.dev/ns/gd#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 #####################################################################
