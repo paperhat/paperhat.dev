@@ -1,0 +1,39 @@
+@prefix gd:  <https://paperhat.dev/ns/gd#> .
+@prefix ex:  <https://paperhat.dev/examples/core/invalid/owned-non-structural-node#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:c1
+  a gd:Composition ;
+  gd:hasCanvas ex:canvas1 ;
+  gd:hasElement ex:element1 ;
+  gd:intent gd:Inform .
+
+ex:canvas1
+  a gd:Canvas ;
+  gd:ownedBy ex:c1 .
+
+ex:element1
+  a gd:ElementInstance ;
+  gd:ownedBy ex:c1 ;
+  gd:instanceOf ex:type1 ;
+  gd:frame ex:rect1 ;
+  gd:style ex:style1 ;
+  gd:semanticRole gd:Title ;
+  gd:zIndex 1 .
+
+ex:type1
+  a gd:ElementType ;
+  gd:ownedBy ex:c1 .
+
+ex:rect1
+  a gd:Rect ;
+  gd:ownedBy ex:c1 ;
+  gd:x "0.0"^^xsd:decimal ;
+  gd:y "0.0"^^xsd:decimal ;
+  gd:w "100.0"^^xsd:decimal ;
+  gd:h "20.0"^^xsd:decimal .
+
+ex:style1
+  a gd:Style ;
+  gd:ownedBy ex:c1 ;
+  gd:opacity "1.0"^^xsd:decimal .

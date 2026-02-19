@@ -1,0 +1,139 @@
+@prefix gd:  <https://paperhat.dev/ns/gd#> .
+@prefix ex:  <https://paperhat.dev/examples/core/valid/full#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:c1
+  a gd:Composition ;
+  gd:hasCanvas ex:canvas1 ;
+  gd:hasElement ex:titleElement, ex:bodyElement ;
+  gd:hasGrid ex:grid1 ;
+  gd:hasRegion ex:region1 ;
+  gd:hasLayer ex:layer1 ;
+  gd:intent gd:Inform ;
+  gd:expresses ex:fg1 .
+
+ex:canvas1
+  a gd:Canvas ;
+  gd:ownedBy ex:c1 .
+
+ex:titleElement
+  a gd:ElementInstance ;
+  gd:ownedBy ex:c1 ;
+  gd:instanceOf ex:titleType ;
+  gd:frame ex:titleRect ;
+  gd:style ex:titleStyle ;
+  gd:semanticRole gd:Title ;
+  gd:zIndex 10 ;
+  gd:layer ex:layer1 .
+
+ex:bodyElement
+  a gd:ElementInstance ;
+  gd:ownedBy ex:c1 ;
+  gd:instanceOf ex:bodyType ;
+  gd:frame ex:bodyRect ;
+  gd:style ex:bodyStyle ;
+  gd:semanticRole gd:BodyText ;
+  gd:zIndex 5 .
+
+ex:titleType a gd:ElementType .
+ex:bodyType a gd:ElementType .
+
+ex:titleRect
+  a gd:Rect ;
+  gd:ownedBy ex:c1 ;
+  gd:x "0.0"^^xsd:decimal ;
+  gd:y "0.0"^^xsd:decimal ;
+  gd:w "100.0"^^xsd:decimal ;
+  gd:h "20.0"^^xsd:decimal .
+
+ex:bodyRect
+  a gd:Rect ;
+  gd:ownedBy ex:c1 ;
+  gd:x "0.0"^^xsd:decimal ;
+  gd:y "24.0"^^xsd:decimal ;
+  gd:w "100.0"^^xsd:decimal ;
+  gd:h "60.0"^^xsd:decimal .
+
+ex:titleStyle
+  a gd:Style ;
+  gd:ownedBy ex:c1 ;
+  gd:opacity "1.0"^^xsd:decimal ;
+  gd:fill ex:paint1 ;
+  gd:stroke ex:stroke1 ;
+  gd:typeStyle ex:typeStyle1 .
+
+ex:bodyStyle
+  a gd:Style ;
+  gd:ownedBy ex:c1 ;
+  gd:opacity "0.95"^^xsd:decimal ;
+  gd:fill ex:paint2 .
+
+ex:paint1
+  a gd:Paint ;
+  gd:ownedBy ex:c1 ;
+  gd:paintKind "solid" ;
+  gd:paintValue "#000000" .
+
+ex:paint2
+  a gd:Paint ;
+  gd:ownedBy ex:c1 ;
+  gd:paintKind "solid" ;
+  gd:paintValue "#222222" .
+
+ex:stroke1
+  a gd:Stroke ;
+  gd:ownedBy ex:c1 ;
+  gd:strokeWidth "1.0"^^xsd:decimal .
+
+ex:typeStyle1
+  a gd:TypographicStyle ;
+  gd:ownedBy ex:c1 ;
+  gd:typeface ex:typefaceSans ;
+  gd:fontSize "16.0"^^xsd:decimal ;
+  gd:fontWeight 600 ;
+  gd:leading "20.0"^^xsd:decimal ;
+  gd:tracking "0.0"^^xsd:decimal .
+
+ex:typefaceSans a gd:Typeface .
+
+ex:grid1
+  a gd:GridSystem ;
+  gd:ownedBy ex:c1 ;
+  gd:columnCount 12 ;
+  gd:rowCount 8 ;
+  gd:hasUnit ex:gridColUnit, ex:gridRowUnit, ex:gridGutterUnit ;
+  gd:baselineGrid ex:baseline1 .
+
+ex:gridColUnit
+  a gd:GridUnit, gd:ColumnUnit ;
+  gd:ownedBy ex:c1 .
+
+ex:gridRowUnit
+  a gd:GridUnit, gd:RowUnit ;
+  gd:ownedBy ex:c1 .
+
+ex:gridGutterUnit
+  a gd:GridUnit, gd:GutterUnit ;
+  gd:ownedBy ex:c1 .
+
+ex:baseline1
+  a gd:BaselineGrid ;
+  gd:ownedBy ex:c1 ;
+  gd:baselineStep "8.0"^^xsd:decimal .
+
+ex:region1
+  a gd:Region ;
+  gd:ownedBy ex:c1 .
+
+ex:layer1
+  a gd:Layer ;
+  gd:ownedBy ex:c1 .
+
+ex:fg1
+  a gd:PrincipleStatement, gd:FigureGroundStatement ;
+  gd:ownedBy ex:c1 ;
+  gd:principleType gd:FigureGround ;
+  gd:scope ex:c1 ;
+  gd:participant ex:titleElement, ex:bodyElement ;
+  gd:foreground ex:titleElement ;
+  gd:background ex:region1 .

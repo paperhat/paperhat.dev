@@ -66,6 +66,26 @@ This applies to all properties that link Structural Nodes, including:
 * `gd:hasRegion`, `gd:hasLayer`, `gd:layer`, `gd:group`, `gd:member`
 * `gd:expresses`
 
+### 2.4 Reverse Reachability Closure
+
+Every Structural Node owned by `C` MUST be reachable from `C` through at least one allowed structural path:
+
+* `gd:Canvas`: `C gd:hasCanvas Canvas`
+* `gd:ElementInstance`: `C gd:hasElement E` or `C gd:hasElement Root ; Root gd:group G ; G gd:member E`
+* `gd:Rect`: `E gd:frame R` where `E` is an owned `gd:ElementInstance`
+* `gd:Style`: `E gd:style S` where `E` is an owned `gd:ElementInstance`
+* `gd:Paint`: `S gd:fill P` where `S` is an owned `gd:Style`
+* `gd:Stroke`: `S gd:stroke K` where `S` is an owned `gd:Style`
+* `gd:TypographicStyle`: `S gd:typeStyle TS` where `S` is an owned `gd:Style`
+* `gd:Transform`: `E gd:transform T` where `E` is an owned `gd:ElementInstance`
+* `gd:GroupInstance`: `E gd:group G` where `E` is an owned `gd:ElementInstance`
+* `gd:GridSystem`: `C gd:hasGrid G`
+* `gd:GridUnit`: `C gd:hasGrid G ; G gd:hasUnit U`
+* `gd:BaselineGrid`: `C gd:hasGrid G ; G gd:baselineGrid B`
+* `gd:PrincipleStatement`: `C gd:expresses P`
+* `gd:Region`: `C gd:hasRegion R` or `C gd:expresses FG ; FG gd:background R` where `FG` is a `gd:FigureGroundStatement`
+* `gd:Layer`: `C gd:hasLayer L` or `E gd:layer L` where `E` is an owned `gd:ElementInstance`
+
 ---
 
 ## 3. Required Construction Rules

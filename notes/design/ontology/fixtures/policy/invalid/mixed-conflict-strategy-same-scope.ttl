@@ -1,0 +1,82 @@
+@prefix gd:  <https://paperhat.dev/ns/gd#> .
+@prefix ex:  <https://paperhat.dev/examples/policy/invalid/mixed-conflict-strategy#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:c1
+  a gd:Composition ;
+  gd:hasCanvas ex:canvas1 ;
+  gd:hasElement ex:element1 ;
+  gd:intent gd:Inform ;
+  gd:hasPolicy ex:policy1, ex:policy2 .
+
+ex:canvas1
+  a gd:Canvas ;
+  gd:ownedBy ex:c1 .
+
+ex:element1
+  a gd:ElementInstance ;
+  gd:ownedBy ex:c1 ;
+  gd:instanceOf ex:type1 ;
+  gd:frame ex:rect1 ;
+  gd:style ex:style1 ;
+  gd:semanticRole gd:Title ;
+  gd:zIndex 1 .
+
+ex:type1 a gd:ElementType .
+
+ex:rect1
+  a gd:Rect ;
+  gd:ownedBy ex:c1 ;
+  gd:x "0.0"^^xsd:decimal ;
+  gd:y "0.0"^^xsd:decimal ;
+  gd:w "100.0"^^xsd:decimal ;
+  gd:h "20.0"^^xsd:decimal .
+
+ex:style1
+  a gd:Style ;
+  gd:ownedBy ex:c1 ;
+  gd:opacity "1.0"^^xsd:decimal .
+
+ex:policy1
+  a gd:Policy ;
+  gd:appliesTo ex:c1 ;
+  gd:hasCondition ex:condition1 ;
+  gd:hasAction ex:action1 ;
+  gd:priority 100 ;
+  gd:conflictStrategy gd:HigherPriorityWins ;
+  gd:enabled true .
+
+ex:policy2
+  a gd:Policy ;
+  gd:appliesTo ex:c1 ;
+  gd:hasCondition ex:condition2 ;
+  gd:hasAction ex:action2 ;
+  gd:priority 101 ;
+  gd:conflictStrategy gd:FirstMatchWins ;
+  gd:enabled true .
+
+ex:condition1
+  a gd:Condition ;
+  gd:contextKey gd:ViewportWidthPx ;
+  gd:operator gd:OpGte ;
+  gd:conditionValueInteger 1024 .
+
+ex:condition2
+  a gd:Condition ;
+  gd:contextKey gd:ViewportHeightPx ;
+  gd:operator gd:OpGte ;
+  gd:conditionValueInteger 768 .
+
+ex:action1
+  a gd:Action ;
+  gd:actionMode gd:ReplaceAll ;
+  gd:targetNode ex:element1 ;
+  gd:targetProperty gd:zIndex ;
+  gd:actionValueInteger 10 .
+
+ex:action2
+  a gd:Action ;
+  gd:actionMode gd:ReplaceAll ;
+  gd:targetNode ex:element1 ;
+  gd:targetProperty gd:zIndex ;
+  gd:actionValueInteger 20 .

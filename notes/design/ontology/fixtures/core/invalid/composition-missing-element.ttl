@@ -1,0 +1,11 @@
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix ex: <https://paperhat.dev/examples/core/invalid/composition-missing-element#> .
+
+ex:c1
+  a gd:Composition ;
+  gd:hasCanvas ex:canvas1 ;
+  gd:intent gd:Inform .
+
+ex:canvas1
+  a gd:Canvas ;
+  gd:ownedBy ex:c1 .

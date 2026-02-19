@@ -1,2 +1,0 @@
-@prefix gd: <https://paperhat.dev/ns/gd#> .
-# Vocabulary moved to gd-core.ttl (single file of record).

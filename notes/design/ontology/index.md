@@ -197,15 +197,14 @@ It MUST satisfy all `gd:PrincipleStatement` requirements, plus:
 
 * `gd:principleType` MUST be `gd:FigureGround`
 * one or more `gd:foreground` → `gd:ElementInstance`
-* one or more `gd:background` → resource
+* one or more `gd:background` → (`gd:ElementInstance` or `gd:Region`)
 
-A Figure–Ground statement’s `foreground` elements are required to also be `participant` elements (enforced normatively in the canonical rules and, where possible, via constraints).
+A Figure–Ground statement’s `foreground` elements are required to also be `participant` elements (enforced normatively in the canonical rules and in SHACL constraints).
 
-Background values may be:
+Background values are restricted to:
 
-* a `gd:Region`
-* an `gd:ElementInstance`
-* another explicit structural resource owned by the composition
+* a `gd:Region` owned by the same composition
+* an `gd:ElementInstance` owned by the same composition
 
 ---
 
@@ -244,7 +243,12 @@ This specification is enforced by a combination of:
 2. **SHACL constraints** — validate well-formedness, ownership rules, and reachability closure
 3. **Canonical composition construction rules** — define the normative meaning of “canonical” and prohibit implicit semantics
 
-All normative MUST-level clauses in the canonical composition construction rules MUST be enforced by the SHACL bundle. A normative clause without an enforcing SHACL constraint is non-conformant.
+Normative clauses are split across two enforcement layers:
+
+- SHACL-enforceable graph constraints (bundle: `gd-all.shacl.ttl`)
+- deterministic procedural constraints (canonical serialization, hashing, and validation orchestration)
+
+A normative clause without an assigned enforcement mechanism in `CANONICAL_RULE_TRACEABILITY.md` is non-conformant.
 
 Validation MUST load the full SHACL bundle entrypoint:
 
@@ -253,6 +257,7 @@ Validation MUST load the full SHACL bundle entrypoint:
 Normative coverage mapping from prose clauses to concrete constraints is defined in:
 
 - `CANONICAL_RULE_TRACEABILITY.md`
+- `fixture-coverage.csv`
 
 ---
 
@@ -283,3 +288,20 @@ The canonical production namespaces are:
 
 - `gd:` -> `https://paperhat.dev/ns/gd#`
 - `gdm:` -> `https://paperhat.dev/ns/gdm#`
+
+---
+
+# 10. Pre-1.0 working mode
+
+Pre-`1.0.0` change handling and governance deferral rules are defined in:
+
+- `PRE_1_0_POLICY.md`
+
+---
+
+# 11. Responsive/adaptive policy schema
+
+The v0 rules-based policy grammar is defined in:
+
+- `POLICY_SCHEMA_V0.md`
+- `POLICY_EVALUATION_V0.md`

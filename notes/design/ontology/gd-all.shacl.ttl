@@ -1,0 +1,1351 @@
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# gd-all.shacl.ttl
+#
+# Canonical SHACL validation bundle entrypoint for the graphic-design
+# ontology core constraints.
+#
+# Generated from files listed in shacl-bundle-files.txt using
+# scripts/build_shacl_bundle.sh.
+#####################################################################
+
+
+#####################################################################
+# BEGIN gd-core.shacl.ttl
+#####################################################################
+
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# Composition
+#####################################################################
+
+gd:CompositionShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Composition ;
+
+  sh:property [
+    sh:path gd:hasCanvas ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Canvas ;
+  ] ;
+
+  sh:property [
+    sh:path gd:hasElement ;
+    sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
+  ] ;
+
+  sh:property [
+    sh:path gd:intent ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:CommunicativeIntent ;
+  ] .
+
+#####################################################################
+# ElementInstance
+#####################################################################
+
+gd:ElementInstanceShape
+  a sh:NodeShape ;
+  sh:targetClass gd:ElementInstance ;
+
+  sh:property [
+    sh:path gd:instanceOf ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:ElementType ;
+  ] ;
+
+  sh:property [
+    sh:path gd:frame ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Rect ;
+  ] ;
+
+  sh:property [
+    sh:path gd:style ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Style ;
+  ] ;
+
+  sh:property [
+    sh:path gd:semanticRole ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Role ;
+  ] ;
+
+  sh:property [
+    sh:path gd:zIndex ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+  ] .
+
+#####################################################################
+# Rect
+#####################################################################
+
+gd:RectShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Rect ;
+
+  sh:property [
+    sh:path gd:x ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+  ] ;
+
+  sh:property [
+    sh:path gd:y ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+  ] ;
+
+  sh:property [
+    sh:path gd:w ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:h ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] .
+
+#####################################################################
+# Style / Paint / Stroke / Typography
+#####################################################################
+
+gd:StyleShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Style ;
+
+  sh:property [
+    sh:path gd:opacity ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:fill ;
+    sh:maxCount 1 ;
+    sh:class gd:Paint ;
+  ] ;
+
+  sh:property [
+    sh:path gd:stroke ;
+    sh:maxCount 1 ;
+    sh:class gd:Stroke ;
+  ] ;
+
+  sh:property [
+    sh:path gd:typeStyle ;
+    sh:maxCount 1 ;
+    sh:class gd:TypographicStyle ;
+  ] .
+
+gd:PaintShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Paint ;
+
+  sh:property [
+    sh:path gd:paintKind ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+  ] ;
+
+  sh:property [
+    sh:path gd:paintValue ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+  ] .
+
+gd:StrokeShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Stroke ;
+
+  sh:property [
+    sh:path gd:strokeWidth ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+  ] .
+
+gd:TypographicStyleShape
+  a sh:NodeShape ;
+  sh:targetClass gd:TypographicStyle ;
+
+  sh:property [
+    sh:path gd:typeface ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Typeface ;
+  ] ;
+
+  sh:property [
+    sh:path gd:fontSize ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:fontWeight ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:leading ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:tracking ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+  ] .
+
+#####################################################################
+# PrincipleStatement
+#####################################################################
+
+gd:PrincipleStatementShape
+  a sh:NodeShape ;
+  sh:targetClass gd:PrincipleStatement ;
+
+  sh:property [
+    sh:path gd:principleType ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:Principle ;
+  ] ;
+
+  sh:property [
+    sh:path gd:scope ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:participant ;
+    sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
+  ] .
+
+#####################################################################
+# END gd-core.shacl.ttl
+#####################################################################
+
+#####################################################################
+# BEGIN gd-policy.shacl.ttl
+#####################################################################
+
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# Responsive/adaptive policy constraints (v0)
+#####################################################################
+
+gd:CompositionPolicyAttachmentShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Composition ;
+
+  sh:property [
+    sh:path gd:hasPolicy ;
+    sh:class gd:Policy ;
+  ] .
+
+gd:PolicyShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Policy ;
+
+  sh:property [
+    sh:path gd:appliesTo ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:or (
+      [ sh:class gd:Composition ]
+      [ sh:class gd:View ]
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path gd:hasCondition ;
+    sh:minCount 1 ;
+    sh:class gd:Condition ;
+  ] ;
+
+  sh:property [
+    sh:path gd:hasAction ;
+    sh:minCount 1 ;
+    sh:class gd:Action ;
+  ] ;
+
+  sh:property [
+    sh:path gd:priority ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 0 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:conflictStrategy ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:ConflictStrategy ;
+    sh:in (
+      gd:ErrorOnConflict
+      gd:HigherPriorityWins
+      gd:FirstMatchWins
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path gd:enabled ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:boolean ;
+  ] ;
+
+  # Duplicate priorities within the same appliesTo scope are not allowed in v0.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Policy priority MUST be unique within the same gd:appliesTo scope." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?other ?scope ?p
+      WHERE {
+        $this gd:appliesTo ?scope ;
+              gd:priority ?p .
+        ?other a gd:Policy ;
+               gd:appliesTo ?scope ;
+               gd:priority ?p .
+        FILTER (?other != $this)
+      }
+    """ ;
+  ] ;
+
+  # Conflict strategy MUST be uniform within the same appliesTo scope.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "All policies in the same gd:appliesTo scope MUST use the same gd:conflictStrategy." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?other ?scope ?thisStrategy ?otherStrategy
+      WHERE {
+        $this gd:appliesTo ?scope ;
+              gd:conflictStrategy ?thisStrategy .
+        ?other a gd:Policy ;
+               gd:appliesTo ?scope ;
+               gd:conflictStrategy ?otherStrategy .
+        FILTER (?other != $this)
+        FILTER (?thisStrategy != ?otherStrategy)
+      }
+    """ ;
+  ] .
+
+gd:ConditionShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Condition ;
+
+  sh:property [
+    sh:path gd:contextKey ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:ContextKey ;
+    sh:in (
+      gd:ViewportWidthPx
+      gd:ViewportHeightPx
+      gd:ViewportAspectRatio
+      gd:ViewportOrientation
+      gd:DeviceClass
+      gd:ReducedMotionPreference
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path gd:operator ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:ComparisonOperator ;
+    sh:in (
+      gd:OpEq
+      gd:OpNe
+      gd:OpLt
+      gd:OpLte
+      gd:OpGt
+      gd:OpGte
+    ) ;
+  ] ;
+
+  # Exactly one typed comparison value.
+  sh:xone (
+    [ sh:property [ sh:path gd:conditionValueDecimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ]
+    [ sh:property [ sh:path gd:conditionValueInteger ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ]
+    [ sh:property [ sh:path gd:conditionValueString ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ]
+    [ sh:property [ sh:path gd:conditionValueBoolean ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ]
+  ) ;
+
+  # Numeric operators require numeric condition values.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Numeric operators (OpLt/OpLte/OpGt/OpGte) require conditionValueDecimal or conditionValueInteger." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this
+      WHERE {
+        $this gd:operator ?op .
+        FILTER (?op IN (gd:OpLt, gd:OpLte, gd:OpGt, gd:OpGte))
+        FILTER NOT EXISTS { $this gd:conditionValueDecimal ?d . }
+        FILTER NOT EXISTS { $this gd:conditionValueInteger ?i . }
+      }
+    """ ;
+  ] ;
+
+  # Boolean and string values are constrained to equality operators.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "conditionValueBoolean requires operator OpEq or OpNe." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this
+      WHERE {
+        $this gd:conditionValueBoolean ?b ;
+              gd:operator ?op .
+        FILTER (?op NOT IN (gd:OpEq, gd:OpNe))
+      }
+    """ ;
+  ] ;
+
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "conditionValueString requires operator OpEq or OpNe." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this
+      WHERE {
+        $this gd:conditionValueString ?s ;
+              gd:operator ?op .
+        FILTER (?op NOT IN (gd:OpEq, gd:OpNe))
+      }
+    """ ;
+  ] .
+
+gd:ActionShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Action ;
+
+  sh:property [
+    sh:path gd:actionMode ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:class gd:ActionMode ;
+    sh:in (
+      gd:ReplaceAll
+      gd:Add
+      gd:Remove
+    ) ;
+  ] ;
+
+  sh:property [
+    sh:path gd:targetNode ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+
+  sh:property [
+    sh:path gd:targetProperty ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+
+  # Exactly one typed action value.
+  sh:xone (
+    [ sh:property [ sh:path gd:actionValueDecimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ]
+    [ sh:property [ sh:path gd:actionValueInteger ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ]
+    [ sh:property [ sh:path gd:actionValueString ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ]
+    [ sh:property [ sh:path gd:actionValueBoolean ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ]
+    [ sh:property [ sh:path gd:actionValueIRI ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ]
+  ) .
+
+#####################################################################
+# END gd-policy.shacl.ttl
+#####################################################################
+
+#####################################################################
+# BEGIN gd-core-grid.shacl.ttl
+#####################################################################
+
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#####################################################################
+# Grid constraints (only defined here; not duplicated elsewhere)
+#####################################################################
+
+gd:GridSystemShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridSystem ;
+
+  sh:property [
+    sh:path gd:columnCount ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:rowCount ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:baselineGrid ;
+    sh:maxCount 1 ;
+    sh:class gd:BaselineGrid ;
+  ] ;
+
+  sh:property [
+    sh:path gd:hasUnit ;
+    sh:class gd:GridUnit ;
+  ] .
+
+gd:GridUnitShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridUnit ;
+  sh:xone (
+    [ sh:class gd:ColumnUnit ]
+    [ sh:class gd:RowUnit ]
+    [ sh:class gd:GutterUnit ]
+  ) .
+
+gd:BaselineGridShape
+  a sh:NodeShape ;
+  sh:targetClass gd:BaselineGrid ;
+
+  sh:property [
+    sh:path gd:baselineStep ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minExclusive 0 ;
+  ] .
+
+#####################################################################
+# END gd-core-grid.shacl.ttl
+#####################################################################
+
+#####################################################################
+# BEGIN gd-core-figureground.shacl.ttl
+#####################################################################
+
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#####################################################################
+# Figure–Ground constraints (only defined here; not duplicated elsewhere)
+#####################################################################
+
+gd:FigureGroundShape
+  a sh:NodeShape ;
+  sh:targetClass gd:FigureGroundStatement ;
+
+  sh:property [
+    sh:path gd:principleType ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+    sh:hasValue gd:FigureGround ;
+  ] ;
+
+  sh:property [
+    sh:path gd:scope ;
+    sh:minCount 1 ; sh:maxCount 1 ;
+  ] ;
+
+  sh:property [
+    sh:path gd:participant ;
+    sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
+  ] ;
+
+  sh:property [
+    sh:path gd:foreground ;
+    sh:minCount 1 ;
+    sh:class gd:ElementInstance ;
+  ] ;
+
+  sh:property [
+    sh:path gd:background ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:class gd:ElementInstance ]
+      [ sh:class gd:Region ]
+    ) ;
+  ] ;
+
+  ###################################################################
+  # foreground-implies-participant: every foreground must also be a participant
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:foreground element must also be a gd:participant of this FigureGroundStatement." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        $this gd:foreground ?e .
+        FILTER NOT EXISTS { $this gd:participant ?e . }
+      }
+    """ ;
+  ] .
+
+#####################################################################
+# END gd-core-figureground.shacl.ttl
+#####################################################################
+
+#####################################################################
+# BEGIN gd-core-closure.shacl.ttl
+#####################################################################
+
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#####################################################################
+# Ownership: every node of these classes must declare ownedBy exactly once
+#####################################################################
+
+gd:ElementInstanceOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:ElementInstance ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:RectOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Rect ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:StyleOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Style ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:PaintOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Paint ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:StrokeOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Stroke ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:TypographicStyleOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:TypographicStyle ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:TransformOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Transform ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:GridSystemOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridSystem ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:GridUnitOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GridUnit ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:BaselineGridOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:BaselineGrid ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:PrincipleStatementOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:PrincipleStatement ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:RegionOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Region ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:LayerOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Layer ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:CanvasOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Canvas ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+gd:GroupInstanceOwnershipShape
+  a sh:NodeShape ;
+  sh:targetClass gd:GroupInstance ;
+  sh:property [ sh:path gd:ownedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gd:Composition ] .
+
+#####################################################################
+# END gd-core-closure.shacl.ttl
+#####################################################################
+
+#####################################################################
+# BEGIN gd-core-closure-seal.shacl.ttl
+#####################################################################
+
+@prefix gd: <https://paperhat.dev/ns/gd#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+#####################################################################
+# gd-core-closure-seal.shacl.ttl
+#
+# Sealed Composition Graph Constraints (SHACL-SPARQL)
+#
+# Purpose:
+# - enforce same-owner sealing for the full structural footprint of a
+#   gd:Composition (closed-world, no cross-composition references)
+# - enforce full reverse-reachability closure for every ownable structural
+#   class using explicit structural-path constraints
+#
+# Notes:
+# - Same-owner constraints require $this binding (SHACL-SPARQL).
+# - Ownership-exactly-once constraints live in gd-core-closure.shacl.ttl.
+#####################################################################
+
+#####################################################################
+# Composition sealing (same-owner invariants)
+#####################################################################
+
+gd:CompositionSealShape
+  a sh:NodeShape ;
+  sh:targetClass gd:Composition ;
+
+  ###################################################################
+  # hasCanvas: the Canvas referenced by this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "The gd:hasCanvas node must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?c
+      WHERE {
+        $this gd:hasCanvas ?c .
+        FILTER NOT EXISTS { ?c gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # hasElement: every ElementInstance referenced by this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:hasElement node must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        $this gd:hasElement ?e .
+        FILTER NOT EXISTS { ?e gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # element.frame: every Rect referenced by an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:frame Rect referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?r
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:frame ?r .
+        FILTER NOT EXISTS { ?r gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # element.style: every Style referenced by an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:style referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?s
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:style ?s .
+        FILTER NOT EXISTS { ?s gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # element.transform: every Transform referenced by an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:transform referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?t
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:transform ?t .
+        FILTER NOT EXISTS { ?t gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # style.fill: every Paint referenced by a Style of an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:fill Paint referenced by a Style in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?p
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:style ?s .
+        ?s gd:fill ?p .
+        FILTER NOT EXISTS { ?p gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # style.stroke: every Stroke referenced by a Style of an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:stroke Stroke referenced by a Style in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?k
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:style ?s .
+        ?s gd:stroke ?k .
+        FILTER NOT EXISTS { ?k gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # style.typeStyle: every TypographicStyle referenced by a Style of an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:typeStyle TypographicStyle referenced by a Style in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?ts
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:style ?s .
+        ?s gd:typeStyle ?ts .
+        FILTER NOT EXISTS { ?ts gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # hasGrid: the GridSystem referenced by this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "If gd:hasGrid is present, the GridSystem must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?g
+      WHERE {
+        $this gd:hasGrid ?g .
+        FILTER NOT EXISTS { ?g gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # grid.hasUnit: every GridUnit referenced by hasUnit must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:hasUnit GridUnit referenced by this Composition's GridSystem must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?u
+      WHERE {
+        $this gd:hasGrid ?g .
+        ?g gd:hasUnit ?u .
+        FILTER NOT EXISTS { ?u gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # grid.baselineGrid: if a GridSystem has baselineGrid, the BaselineGrid must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "If a GridSystem has gd:baselineGrid, the BaselineGrid must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?b
+      WHERE {
+        $this gd:hasGrid ?g .
+        ?g gd:baselineGrid ?b .
+        FILTER NOT EXISTS { ?b gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # expresses: every PrincipleStatement linked by expresses must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:expresses PrincipleStatement must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?p
+      WHERE {
+        $this gd:expresses ?p .
+        FILTER NOT EXISTS { ?p gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # participant: every participant of an expressed PrincipleStatement must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:participant in a PrincipleStatement expressed by this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        $this gd:expresses ?p .
+        ?p gd:participant ?e .
+        FILTER NOT EXISTS { ?e gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # foreground: every foreground element of an expressed FigureGroundStatement must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:foreground element in a FigureGroundStatement expressed by this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        $this gd:expresses ?p .
+        ?p a gd:FigureGroundStatement .
+        ?p gd:foreground ?e .
+        FILTER NOT EXISTS { ?e gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # background: every background value of an expressed FigureGroundStatement must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:background value in a FigureGroundStatement expressed by this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?x
+      WHERE {
+        $this gd:expresses ?p .
+        ?p a gd:FigureGroundStatement .
+        ?p gd:background ?x .
+        FILTER NOT EXISTS { ?x gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # group: every GroupInstance referenced by an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:group GroupInstance referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?g
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:group ?g .
+        FILTER NOT EXISTS { ?g gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # hasRegion: every Region referenced by this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:hasRegion node must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?r
+      WHERE {
+        $this gd:hasRegion ?r .
+        FILTER NOT EXISTS { ?r gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # hasLayer: every Layer referenced by this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:hasLayer node must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?l
+      WHERE {
+        $this gd:hasLayer ?l .
+        FILTER NOT EXISTS { ?l gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # element.layer: every Layer referenced by an ElementInstance in this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:layer referenced by an ElementInstance in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?l
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:layer ?l .
+        FILTER NOT EXISTS { ?l gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # member: every ElementInstance referenced by a GroupInstance reachable from this Composition must be ownedBy this Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every gd:member referenced by a GroupInstance in this Composition must be ownedBy this Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?m
+      WHERE {
+        $this gd:hasElement ?e .
+        ?e gd:group ?g .
+        ?g gd:member ?m .
+        FILTER NOT EXISTS { ?m gd:ownedBy $this . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # Orphaned PrincipleStatements: no owned PrincipleStatement may exist that is not linked by expresses from its owning Composition
+  ###################################################################
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "No PrincipleStatement ownedBy this Composition may be orphaned (must be linked by gd:expresses)." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?p
+      WHERE {
+        ?p a gd:PrincipleStatement .
+        ?p gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:expresses ?p . }
+      }
+    """ ;
+  ] ;
+
+  ###################################################################
+  # Reverse reachability closure: every owned node class must be reachable
+  # from its owning Composition through an allowed structural path.
+  ###################################################################
+
+  # Canvas
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Canvas must be reachable via gd:hasCanvas from its owning Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?c
+      WHERE {
+        ?c a gd:Canvas ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasCanvas ?c . }
+      }
+    """ ;
+  ] ;
+
+  # ElementInstance
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:ElementInstance must be reachable via gd:hasElement or via GroupInstance membership rooted at gd:hasElement." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?e
+      WHERE {
+        ?e a gd:ElementInstance ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasElement ?e . }
+        FILTER NOT EXISTS {
+          $this gd:hasElement ?root .
+          ?root gd:group ?g .
+          ?g gd:member ?e .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Rect
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Rect must be reachable via gd:frame from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?r
+      WHERE {
+        ?r a gd:Rect ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:frame ?r .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Style
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Style must be reachable via gd:style from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?s
+      WHERE {
+        ?s a gd:Style ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:style ?s .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Paint
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Paint must be reachable via gd:fill from an owned gd:Style." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?p
+      WHERE {
+        ?p a gd:Paint ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?s a gd:Style ; gd:ownedBy $this ; gd:fill ?p .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Stroke
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Stroke must be reachable via gd:stroke from an owned gd:Style." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?k
+      WHERE {
+        ?k a gd:Stroke ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?s a gd:Style ; gd:ownedBy $this ; gd:stroke ?k .
+        }
+      }
+    """ ;
+  ] ;
+
+  # TypographicStyle
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:TypographicStyle must be reachable via gd:typeStyle from an owned gd:Style." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?ts
+      WHERE {
+        ?ts a gd:TypographicStyle ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?s a gd:Style ; gd:ownedBy $this ; gd:typeStyle ?ts .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Transform
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Transform must be reachable via gd:transform from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?t
+      WHERE {
+        ?t a gd:Transform ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:transform ?t .
+        }
+      }
+    """ ;
+  ] ;
+
+  # GroupInstance
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:GroupInstance must be reachable via gd:group from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?g
+      WHERE {
+        ?g a gd:GroupInstance ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:group ?g .
+        }
+      }
+    """ ;
+  ] ;
+
+  # GridSystem
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:GridSystem must be reachable via gd:hasGrid from its owning Composition." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?g
+      WHERE {
+        ?g a gd:GridSystem ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasGrid ?g . }
+      }
+    """ ;
+  ] ;
+
+  # GridUnit
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:GridUnit must be reachable via gd:hasUnit from an owned gd:GridSystem." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?u
+      WHERE {
+        ?u a gd:GridUnit ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?g a gd:GridSystem ; gd:ownedBy $this ; gd:hasUnit ?u .
+        }
+      }
+    """ ;
+  ] ;
+
+  # BaselineGrid
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:BaselineGrid must be reachable via gd:baselineGrid from an owned gd:GridSystem." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?b
+      WHERE {
+        ?b a gd:BaselineGrid ; gd:ownedBy $this .
+        FILTER NOT EXISTS {
+          ?g a gd:GridSystem ; gd:ownedBy $this ; gd:baselineGrid ?b .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Region
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Region must be reachable via gd:hasRegion or as gd:background in an expressed gd:FigureGroundStatement." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?r
+      WHERE {
+        ?r a gd:Region ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasRegion ?r . }
+        FILTER NOT EXISTS {
+          $this gd:expresses ?p .
+          ?p a gd:FigureGroundStatement .
+          ?p gd:background ?r .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Layer
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Every owned gd:Layer must be reachable via gd:hasLayer or via gd:layer from an owned gd:ElementInstance." ;
+    sh:select """
+      PREFIX gd: <https://paperhat.dev/ns/gd#>
+      SELECT $this ?l
+      WHERE {
+        ?l a gd:Layer ; gd:ownedBy $this .
+        FILTER NOT EXISTS { $this gd:hasLayer ?l . }
+        FILTER NOT EXISTS {
+          ?e a gd:ElementInstance ; gd:ownedBy $this ; gd:layer ?l .
+        }
+      }
+    """ ;
+  ] .
+
+#####################################################################
+# Owned node whitelist (enforceable closure boundary)
+#####################################################################
+
+gd:OwnedNodeClassWhitelistShape
+  a sh:NodeShape ;
+  sh:targetSubjectsOf gd:ownedBy ;
+
+  sh:or (
+    [ sh:class gd:ElementInstance ]
+    [ sh:class gd:Rect ]
+    [ sh:class gd:Style ]
+    [ sh:class gd:Paint ]
+    [ sh:class gd:Stroke ]
+    [ sh:class gd:TypographicStyle ]
+    [ sh:class gd:Transform ]
+    [ sh:class gd:GroupInstance ]
+    [ sh:class gd:GridSystem ]
+    [ sh:class gd:GridUnit ]
+    [ sh:class gd:BaselineGrid ]
+    [ sh:class gd:PrincipleStatement ]
+    [ sh:class gd:Region ]
+    [ sh:class gd:Layer ]
+    [ sh:class gd:Canvas ]
+  ) .
+
+#####################################################################
+# END gd-core-closure-seal.shacl.ttl
+#####################################################################

@@ -1,0 +1,6 @@
+gd-core.shacl.ttl
+gd-policy.shacl.ttl
+gd-core-grid.shacl.ttl
+gd-core-figureground.shacl.ttl
+gd-core-closure.shacl.ttl
+gd-core-closure-seal.shacl.ttl

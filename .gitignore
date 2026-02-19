@@ -73,6 +73,8 @@ pids
 # Cache directories
 .cache/
 .parcel-cache/
+__pycache__/
+*.pyc
 
 # Deno cache
 .deno/

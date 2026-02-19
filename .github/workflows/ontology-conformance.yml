@@ -1,0 +1,38 @@
+name: Ontology Conformance
+
+on:
+  push:
+    paths:
+      - "notes/design/**"
+      - "notes/workshop/design/**"
+      - ".github/workflows/ontology-conformance.yml"
+  pull_request:
+    paths:
+      - "notes/design/**"
+      - "notes/workshop/design/**"
+      - ".github/workflows/ontology-conformance.yml"
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install SHACL tooling
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pyshacl
+
+      - name: Run ontology contract checks
+        run: |
+          notes/design/ontology/scripts/check_ontology_contract.sh
+
+      - name: Run conformance fixtures
+        run: |
+          notes/design/ontology/scripts/run_conformance_tests.sh

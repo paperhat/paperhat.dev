@@ -1,0 +1,135 @@
+@prefix gd:  <https://paperhat.dev/ns/gd#> .
+@prefix ex:  <https://paperhat.dev/examples/policy/vector/base#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:c1
+  a gd:Composition ;
+  gd:hasCanvas ex:canvas1 ;
+  gd:hasElement ex:element1 ;
+  gd:hasLayer ex:layer1 ;
+  gd:hasView ex:view1 ;
+  gd:intent gd:Inform ;
+  gd:hasPolicy ex:policyComp100, ex:policyComp150, ex:policyComp200, ex:policyView200 .
+
+ex:canvas1
+  a gd:Canvas ;
+  gd:ownedBy ex:c1 .
+
+ex:layer1
+  a gd:Layer ;
+  gd:ownedBy ex:c1 .
+
+ex:view1
+  a gd:View .
+
+ex:element1
+  a gd:ElementInstance ;
+  gd:ownedBy ex:c1 ;
+  gd:instanceOf ex:type1 ;
+  gd:frame ex:rect1 ;
+  gd:style ex:style1 ;
+  gd:semanticRole gd:Title ;
+  gd:zIndex 1 .
+
+ex:type1 a gd:ElementType .
+
+ex:rect1
+  a gd:Rect ;
+  gd:ownedBy ex:c1 ;
+  gd:x "0.0"^^xsd:decimal ;
+  gd:y "0.0"^^xsd:decimal ;
+  gd:w "100.0"^^xsd:decimal ;
+  gd:h "20.0"^^xsd:decimal .
+
+ex:style1
+  a gd:Style ;
+  gd:ownedBy ex:c1 ;
+  gd:opacity "1.0"^^xsd:decimal .
+
+ex:policyComp100
+  a gd:Policy ;
+  gd:appliesTo ex:c1 ;
+  gd:hasCondition ex:conditionComp100 ;
+  gd:hasAction ex:actionComp100 ;
+  gd:priority 100 ;
+  gd:conflictStrategy gd:HigherPriorityWins ;
+  gd:enabled true .
+
+ex:conditionComp100
+  a gd:Condition ;
+  gd:contextKey gd:ViewportWidthPx ;
+  gd:operator gd:OpGte ;
+  gd:conditionValueInteger 1024 .
+
+ex:actionComp100
+  a gd:Action ;
+  gd:actionMode gd:ReplaceAll ;
+  gd:targetNode ex:element1 ;
+  gd:targetProperty gd:zIndex ;
+  gd:actionValueInteger 10 .
+
+ex:policyComp150
+  a gd:Policy ;
+  gd:appliesTo ex:c1 ;
+  gd:hasCondition ex:conditionComp150 ;
+  gd:hasAction ex:actionComp150 ;
+  gd:priority 150 ;
+  gd:conflictStrategy gd:HigherPriorityWins ;
+  gd:enabled true .
+
+ex:conditionComp150
+  a gd:Condition ;
+  gd:contextKey gd:ViewportWidthPx ;
+  gd:operator gd:OpGte ;
+  gd:conditionValueInteger 1024 .
+
+ex:actionComp150
+  a gd:Action ;
+  gd:actionMode gd:Add ;
+  gd:targetNode ex:element1 ;
+  gd:targetProperty gd:layer ;
+  gd:actionValueIRI ex:layer1 .
+
+ex:policyComp200
+  a gd:Policy ;
+  gd:appliesTo ex:c1 ;
+  gd:hasCondition ex:conditionComp200 ;
+  gd:hasAction ex:actionComp200 ;
+  gd:priority 200 ;
+  gd:conflictStrategy gd:HigherPriorityWins ;
+  gd:enabled true .
+
+ex:conditionComp200
+  a gd:Condition ;
+  gd:contextKey gd:ViewportWidthPx ;
+  gd:operator gd:OpGte ;
+  gd:conditionValueInteger 1200 .
+
+ex:actionComp200
+  a gd:Action ;
+  gd:actionMode gd:ReplaceAll ;
+  gd:targetNode ex:element1 ;
+  gd:targetProperty gd:zIndex ;
+  gd:actionValueInteger 20 .
+
+ex:policyView200
+  a gd:Policy ;
+  gd:appliesTo ex:view1 ;
+  gd:hasCondition ex:conditionView200 ;
+  gd:hasAction ex:actionView200 ;
+  gd:priority 200 ;
+  gd:conflictStrategy gd:HigherPriorityWins ;
+  gd:enabled true .
+
+ex:conditionView200
+  a gd:Condition ;
+  gd:contextKey gd:ViewportWidthPx ;
+  gd:operator gd:OpGte ;
+  gd:conditionValueInteger 1200 .
+
+ex:actionView200
+  a gd:Action ;
+  gd:actionMode gd:ReplaceAll ;
+  gd:targetNode ex:element1 ;
+  gd:targetProperty gd:zIndex ;
+  gd:actionValueInteger 30 .

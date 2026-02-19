@@ -330,3 +330,154 @@ gd:background
   a rdf:Property ;
   rdfs:domain gd:FigureGroundStatement ;
   rdfs:range rdfs:Resource .
+
+#####################################################################
+# Responsive/adaptive policy classes
+#####################################################################
+
+gd:Policy             a rdfs:Class .
+gd:Condition          a rdfs:Class .
+gd:Action             a rdfs:Class .
+gd:ContextKey         a rdfs:Class .
+gd:ComparisonOperator a rdfs:Class .
+gd:ConflictStrategy   a rdfs:Class .
+gd:ActionMode         a rdfs:Class .
+
+#####################################################################
+# Responsive/adaptive policy controlled terms (v0)
+#####################################################################
+
+# Context keys
+gd:ViewportWidthPx        a gd:ContextKey .
+gd:ViewportHeightPx       a gd:ContextKey .
+gd:ViewportAspectRatio    a gd:ContextKey .
+gd:ViewportOrientation    a gd:ContextKey .
+gd:DeviceClass            a gd:ContextKey .
+gd:ReducedMotionPreference a gd:ContextKey .
+
+# Comparison operators
+gd:OpEq  a gd:ComparisonOperator .
+gd:OpNe  a gd:ComparisonOperator .
+gd:OpLt  a gd:ComparisonOperator .
+gd:OpLte a gd:ComparisonOperator .
+gd:OpGt  a gd:ComparisonOperator .
+gd:OpGte a gd:ComparisonOperator .
+
+# Conflict strategies
+gd:ErrorOnConflict    a gd:ConflictStrategy .
+gd:HigherPriorityWins a gd:ConflictStrategy .
+gd:FirstMatchWins     a gd:ConflictStrategy .
+
+# Action modes
+gd:ReplaceAll a gd:ActionMode .
+gd:Add        a gd:ActionMode .
+gd:Remove     a gd:ActionMode .
+
+#####################################################################
+# Responsive/adaptive policy properties
+#####################################################################
+
+gd:hasPolicy
+  a rdf:Property ;
+  rdfs:domain gd:Composition ;
+  rdfs:range gd:Policy .
+
+gd:appliesTo
+  a rdf:Property ;
+  rdfs:domain gd:Policy ;
+  rdfs:range rdfs:Resource .
+
+gd:hasCondition
+  a rdf:Property ;
+  rdfs:domain gd:Policy ;
+  rdfs:range gd:Condition .
+
+gd:hasAction
+  a rdf:Property ;
+  rdfs:domain gd:Policy ;
+  rdfs:range gd:Action .
+
+gd:priority
+  a rdf:Property ;
+  rdfs:domain gd:Policy ;
+  rdfs:range xsd:integer .
+
+gd:conflictStrategy
+  a rdf:Property ;
+  rdfs:domain gd:Policy ;
+  rdfs:range gd:ConflictStrategy .
+
+gd:enabled
+  a rdf:Property ;
+  rdfs:domain gd:Policy ;
+  rdfs:range xsd:boolean .
+
+gd:contextKey
+  a rdf:Property ;
+  rdfs:domain gd:Condition ;
+  rdfs:range gd:ContextKey .
+
+gd:operator
+  a rdf:Property ;
+  rdfs:domain gd:Condition ;
+  rdfs:range gd:ComparisonOperator .
+
+gd:conditionValueDecimal
+  a rdf:Property ;
+  rdfs:domain gd:Condition ;
+  rdfs:range xsd:decimal .
+
+gd:conditionValueInteger
+  a rdf:Property ;
+  rdfs:domain gd:Condition ;
+  rdfs:range xsd:integer .
+
+gd:conditionValueString
+  a rdf:Property ;
+  rdfs:domain gd:Condition ;
+  rdfs:range xsd:string .
+
+gd:conditionValueBoolean
+  a rdf:Property ;
+  rdfs:domain gd:Condition ;
+  rdfs:range xsd:boolean .
+
+gd:actionMode
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range gd:ActionMode .
+
+gd:targetNode
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range rdfs:Resource .
+
+gd:targetProperty
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range rdf:Property .
+
+gd:actionValueDecimal
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range xsd:decimal .
+
+gd:actionValueInteger
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range xsd:integer .
+
+gd:actionValueString
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range xsd:string .
+
+gd:actionValueBoolean
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range xsd:boolean .
+
+gd:actionValueIRI
+  a rdf:Property ;
+  rdfs:domain gd:Action ;
+  rdfs:range rdfs:Resource .
