@@ -1,0 +1,9 @@
+<StageBCandidates id="stage-a-e2e">
+	<Candidate id="candidate-a">
+		<SoftTermScore key="readability" value="0.9" />
+	</Candidate>
+
+	<Candidate id="candidate-b">
+		<SoftTermScore key="readability" value="0.7" />
+	</Candidate>
+</StageBCandidates>

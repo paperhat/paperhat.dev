@@ -85,6 +85,14 @@ Intent fields:
 1. `AdaptiveIntent.compositionRef` -> `stage_a.composition_iri`
 2. `AdaptiveIntent.viewRef` -> `stage_a.view_iri` (nullable)
 
+Stage A executable output envelope:
+
+1. `StageAResult status="ok"` with ordered:
+   - `SelectedActions/Action[@iri]`
+   - `Delta/Remove[@triple]`
+   - `Delta/Add[@triple]`
+2. `StageAResult status="error" error="EVALUATION_ERROR"` on fail-closed evaluation
+
 ## 5. Stage B mapping (optimization/override evaluator)
 
 `context_ext` includes normalized context profile traits not consumed by Stage A:
@@ -172,6 +180,14 @@ Sort tuple:
 2. `targetRef`
 3. `overrideKind`
 
+Stage B executable output envelope:
+
+1. `StageBResult status="ok"` with:
+   - `selectedCandidate`
+   - `selectedScore`
+   - ordered `AppliedRelaxation`
+2. `StageBResult status="error" error="EVALUATION_ERROR"` on fail-closed evaluation
+
 ## 6. Stage C mapping (plan emission)
 
 Stage C emits the foundry handoff envelope from:
@@ -246,19 +262,35 @@ Reference files:
     - `compiler-mapping/fixtures/adaptive-plan-widen-threshold.expect.cdx`
 12. Stage C expected plan fixture (error):
     - `compiler-mapping/fixtures/adaptive-plan-error-stage-b.expect.cdx`
-13. Stage B vectors:
-   - `compiler-mapping/stage-b-vectors/*.cdx`
-14. Stage C vectors:
+13. Stage B candidates fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+    - `compiler-mapping/fixtures/stage-b-candidates-stage-a-e2e.cdx`
+14. Stage A expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+    - `compiler-mapping/fixtures/stage-a-result-stage-a-e2e.expect.cdx`
+15. Stage B expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+    - `compiler-mapping/fixtures/stage-b-result-stage-a-e2e.expect.cdx`
+16. Stage C expected plan fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+    - `compiler-mapping/fixtures/adaptive-plan-stage-a-e2e.expect.cdx`
+17. Stage B vectors:
+    - `compiler-mapping/stage-b-vectors/*.cdx`
+18. Stage C vectors:
     - `compiler-mapping/stage-c-vectors/*.cdx`
-15. compiler script:
+19. Adaptive pipeline vectors:
+    - `compiler-mapping/pipeline-vectors/*.cdx`
+20. compiler script:
    - `compiler-mapping/scripts/compile_adaptive_intent.py`
-16. Stage C emitter script:
+21. Stage A emitter script:
+    - `compiler-mapping/scripts/evaluate_stage_a.py`
+22. Stage B emitter script:
+    - `compiler-mapping/scripts/evaluate_stage_b.py`
+23. Stage C emitter script:
     - `compiler-mapping/scripts/emit_adaptive_plan.py`
-17. Stage A end-to-end runner:
+24. Stage A end-to-end runner:
    - `compiler-mapping/scripts/run_stage_a_e2e_checks.sh`
-18. Stage B vector runner:
+25. Stage B vector runner:
    - `compiler-mapping/scripts/run_stage_b_vectors.sh`
-19. Stage C vector runner:
+26. Stage C vector runner:
     - `compiler-mapping/scripts/run_stage_c_vectors.sh`
-20. check runner:
-   - `compiler-mapping/scripts/run_compiler_mapping_checks.sh`
+27. Adaptive pipeline e2e runner:
+    - `compiler-mapping/scripts/run_adaptive_pipeline_e2e_checks.sh`
+28. check runner:
+    - `compiler-mapping/scripts/run_compiler_mapping_checks.sh`

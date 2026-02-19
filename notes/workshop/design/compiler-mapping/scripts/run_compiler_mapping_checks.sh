@@ -28,5 +28,6 @@ diff -u "$EXPECTED_FILE" "$TMP_FILE"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_a_e2e_checks.sh"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_b_vectors.sh"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_c_vectors.sh"
+PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_adaptive_pipeline_e2e_checks.sh"
 
 echo "Compiler mapping checks passed."
