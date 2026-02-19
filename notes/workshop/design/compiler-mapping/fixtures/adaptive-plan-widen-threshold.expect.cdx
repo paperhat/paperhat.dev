@@ -1,0 +1,10 @@
+<AdaptivePlanResult status="ok" intentId="codex:intent:stage-b:widen-threshold" targetFoundry="web" policySetRef="urn:policyset:stage-b:1.0.0">
+	<PlanScope compositionIri="urn:composition:stage-b:widen-threshold" />
+	<StageAOutcome>
+		<SelectedActions />
+		<Delta />
+	</StageAOutcome>
+	<StageBOutcome selectedCandidate="candidate-a" selectedScore="0.9">
+		<AppliedRelaxation relaxOrder="1" relaxWeightClass="low" relaxationAction="widenThreshold" />
+	</StageBOutcome>
+</AdaptivePlanResult>

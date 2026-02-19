@@ -1,0 +1,25 @@
+<StageBVector id="tie-break-candidate-id-ascending" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
+	<Candidate id="candidate-002">
+		<HardConstraintResult key="minReadableFont" satisfied="true" />
+		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
+		<HardConstraintResult key="respectReducedMotion" satisfied="true" />
+		<SoftTermScore key="brandExpression" value="0.9" />
+		<SoftTermScore key="performance" value="0.9" />
+		<SoftTermScore key="readability" value="0.9" />
+		<OverrideResult kind="hideElement" targetRef="urn:node:ambient-video" satisfied="true" />
+		<OverrideResult kind="pinVisible" targetRef="urn:node:primary-headline" satisfied="true" />
+	</Candidate>
+
+	<Candidate id="candidate-001">
+		<HardConstraintResult key="minReadableFont" satisfied="true" />
+		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
+		<HardConstraintResult key="respectReducedMotion" satisfied="true" />
+		<SoftTermScore key="brandExpression" value="0.9" />
+		<SoftTermScore key="performance" value="0.9" />
+		<SoftTermScore key="readability" value="0.9" />
+		<OverrideResult kind="hideElement" targetRef="urn:node:ambient-video" satisfied="true" />
+		<OverrideResult kind="pinVisible" targetRef="urn:node:primary-headline" satisfied="true" />
+	</Candidate>
+
+	<Expect status="ok" selectedCandidate="candidate-001" />
+</StageBVector>

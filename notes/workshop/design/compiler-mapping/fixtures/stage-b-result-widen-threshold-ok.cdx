@@ -1,0 +1,3 @@
+<StageBResult id="stage-b-result:widen-threshold" status="ok" selectedCandidate="candidate-a" selectedScore="0.9">
+	<AppliedRelaxation relaxOrder="1" relaxWeightClass="low" relaxationAction="widenThreshold" />
+</StageBResult>

@@ -1,0 +1,3 @@
+<StageBVector id="empty-candidate-set-error" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
+	<Expect status="error" error="EVALUATION_ERROR" />
+</StageBVector>

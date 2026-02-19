@@ -1,0 +1,8 @@
+<StageBVector id="malformed-compiled-request-error" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-stage-b-malformed.compiled.cdx">
+	<Candidate id="candidate-a">
+		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
+		<SoftTermScore key="readability" value="0.9" />
+	</Candidate>
+
+	<Expect status="error" error="EVALUATION_ERROR" />
+</StageBVector>

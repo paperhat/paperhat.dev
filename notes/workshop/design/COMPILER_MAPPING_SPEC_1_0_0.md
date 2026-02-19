@@ -172,7 +172,41 @@ Sort tuple:
 2. `targetRef`
 3. `overrideKind`
 
-## 6. Compiler errors
+## 6. Stage C mapping (plan emission)
+
+Stage C emits the foundry handoff envelope from:
+
+1. one `CompiledAdaptiveRequest`
+2. one `StageAResult`
+3. one `StageBResult`
+
+Success output:
+
+1. root `AdaptivePlanResult status="ok"`
+2. copy:
+   - `intentId`
+   - `targetFoundry`
+   - `policySetRef`
+3. emit plan scope:
+   - `compositionIri` from `CompiledAdaptiveRequest/StageA`
+   - `viewIri` when present
+4. emit Stage A outcome:
+   - ordered `SelectedActions`
+   - ordered `Delta Remove/Add` triples
+5. emit Stage B outcome:
+   - `selectedCandidate`
+   - `selectedScore`
+   - ordered `AppliedRelaxation`
+
+Error propagation:
+
+1. if `StageAResult.status=error`, emit:
+   - `AdaptivePlanResult status="error" error="EVALUATION_ERROR" failedStage="stageA"`
+2. else if `StageBResult.status=error`, emit:
+   - `AdaptivePlanResult status="error" error="EVALUATION_ERROR" failedStage="stageB"`
+3. no success output is allowed when either upstream stage reports error
+
+## 7. Compiler errors
 
 Compilation MUST fail if:
 
@@ -184,7 +218,7 @@ Compilation MUST fail if:
 
 No partial output is allowed on compile failure.
 
-## 7. Executable reference
+## 8. Executable reference
 
 Reference files:
 
@@ -196,9 +230,35 @@ Reference files:
    - `compiler-mapping/fixtures/adaptive-intent-stage-a-e2e.input.cdx`
 4. Stage A end-to-end expectation:
    - `compiler-mapping/fixtures/adaptive-intent-stage-a-e2e.expect.cdx`
-5. compiler script:
+5. Stage B fixture (allow group split):
+   - `compiler-mapping/fixtures/adaptive-intent-stage-b-allow-group-split.compiled.cdx`
+6. Stage B fixture (widen threshold):
+   - `compiler-mapping/fixtures/adaptive-intent-stage-b-widen-threshold.compiled.cdx`
+7. Stage B malformed fixture:
+   - `compiler-mapping/fixtures/adaptive-intent-stage-b-malformed.compiled.cdx`
+8. Stage C Stage A result fixture:
+   - `compiler-mapping/fixtures/stage-a-result-empty-ok.cdx`
+9. Stage C Stage B result fixture (ok):
+   - `compiler-mapping/fixtures/stage-b-result-widen-threshold-ok.cdx`
+10. Stage C Stage B result fixture (error):
+    - `compiler-mapping/fixtures/stage-b-result-error.cdx`
+11. Stage C expected plan fixture (ok):
+    - `compiler-mapping/fixtures/adaptive-plan-widen-threshold.expect.cdx`
+12. Stage C expected plan fixture (error):
+    - `compiler-mapping/fixtures/adaptive-plan-error-stage-b.expect.cdx`
+13. Stage B vectors:
+   - `compiler-mapping/stage-b-vectors/*.cdx`
+14. Stage C vectors:
+    - `compiler-mapping/stage-c-vectors/*.cdx`
+15. compiler script:
    - `compiler-mapping/scripts/compile_adaptive_intent.py`
-6. Stage A end-to-end runner:
+16. Stage C emitter script:
+    - `compiler-mapping/scripts/emit_adaptive_plan.py`
+17. Stage A end-to-end runner:
    - `compiler-mapping/scripts/run_stage_a_e2e_checks.sh`
-7. check runner:
+18. Stage B vector runner:
+   - `compiler-mapping/scripts/run_stage_b_vectors.sh`
+19. Stage C vector runner:
+    - `compiler-mapping/scripts/run_stage_c_vectors.sh`
+20. check runner:
    - `compiler-mapping/scripts/run_compiler_mapping_checks.sh`

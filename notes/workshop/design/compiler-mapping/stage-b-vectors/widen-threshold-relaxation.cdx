@@ -1,0 +1,17 @@
+<StageBVector id="widen-threshold-relaxation" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-stage-b-widen-threshold.compiled.cdx">
+	<Candidate id="candidate-a">
+		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
+		<SoftTermScore key="performance" value="0.9" />
+		<SoftTermScore key="readability" value="0.9" />
+	</Candidate>
+
+	<Candidate id="candidate-b">
+		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
+		<SoftTermScore key="performance" value="0.84" />
+		<SoftTermScore key="readability" value="0.84" />
+	</Candidate>
+
+	<Expect status="ok" selectedCandidate="candidate-a">
+		<AppliedRelaxation relaxOrder="1" relaxWeightClass="low" relaxationAction="widenThreshold" />
+	</Expect>
+</StageBVector>

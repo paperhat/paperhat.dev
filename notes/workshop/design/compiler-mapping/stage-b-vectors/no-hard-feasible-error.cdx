@@ -1,0 +1,14 @@
+<StageBVector id="no-hard-feasible-error" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
+	<Candidate id="candidate-a">
+		<HardConstraintResult key="minReadableFont" satisfied="false" />
+		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
+		<HardConstraintResult key="respectReducedMotion" satisfied="true" />
+		<SoftTermScore key="brandExpression" value="1.0" />
+		<SoftTermScore key="performance" value="1.0" />
+		<SoftTermScore key="readability" value="1.0" />
+		<OverrideResult kind="hideElement" targetRef="urn:node:ambient-video" satisfied="true" />
+		<OverrideResult kind="pinVisible" targetRef="urn:node:primary-headline" satisfied="true" />
+	</Candidate>
+
+	<Expect status="error" error="EVALUATION_ERROR" />
+</StageBVector>

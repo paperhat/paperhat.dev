@@ -1,0 +1,11 @@
+<CompiledAdaptiveRequest intentId="codex:intent:stage-b:widen-threshold" targetFoundry="web" policySetRef="urn:policyset:stage-b:1.0.0">
+	<StageA compositionIri="urn:composition:stage-b:widen-threshold" />
+	<StageB>
+		<OptimizationProfile profileId="codex:profile:optimization:widen-threshold" solverMode="weightedSum" quantizationMode="banded" reflowMode="reoptimizeOnBandTransition" satisficeThreshold="0.95" relaxationStrategy="ordered">
+			<HardConstraint constraintKey="mustNotOverlap" constraintScope="global" />
+			<SoftTerm termKey="performance" weightClass="high" weight="0.75" termScope="global" />
+			<SoftTerm termKey="readability" weightClass="critical" weight="1.0" termScope="global" />
+			<RelaxationRule relaxOrder="1" relaxWeightClass="low" relaxationAction="widenThreshold" />
+		</OptimizationProfile>
+	</StageB>
+</CompiledAdaptiveRequest>
