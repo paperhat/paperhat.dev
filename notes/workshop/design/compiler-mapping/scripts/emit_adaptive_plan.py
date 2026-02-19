@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+from validate_output_schema import OutputSchemaValidationError, validate_rendered_cdx_against_schema
+
 EVALUATION_ERROR = "EVALUATION_ERROR"
 
 
@@ -245,6 +247,9 @@ def main() -> int:
     stage_a = load_stage_a_result(args.stage_a_result)
     stage_b = load_stage_b_result(args.stage_b_result)
     rendered = emit_plan(compiled, stage_a, stage_b)
+    repo_root = Path(__file__).resolve().parents[5]
+    schema_path = repo_root / "notes/workshop/design/codex/adaptive-plan-result.schema.cdx"
+    validate_rendered_cdx_against_schema(rendered, schema_path)
 
     if args.output is not None:
         args.output.write_text(rendered, encoding="utf-8")
@@ -258,3 +263,5 @@ if __name__ == "__main__":
         raise SystemExit(main())
     except EmitError as exc:
         raise SystemExit(f"[emit-error] {exc}")
+    except OutputSchemaValidationError as exc:
+        raise SystemExit(f"[plan-schema-error] {exc}")

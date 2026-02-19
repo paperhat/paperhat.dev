@@ -55,6 +55,10 @@ If Stage A and Stage B are both `ok`, output MUST be:
    - `selectedScore`
    - ordered `AppliedRelaxation` entries
 
+Every emitted `AdaptivePlanResult` MUST validate against:
+
+1. `notes/workshop/design/codex/adaptive-plan-result.schema.cdx`
+
 ## 5. Determinism requirements
 
 The emitter MUST preserve source order for:

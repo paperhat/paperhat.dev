@@ -14,6 +14,7 @@ from run_stage_b_vectors import (
     load_stage_b_request,
     parse_candidate,
 )
+from validate_output_schema import OutputSchemaValidationError, validate_rendered_cdx_against_schema
 
 
 class StageBEmitError(Exception):
@@ -100,6 +101,9 @@ def main() -> int:
 
     result = evaluate_stage_b(args.compiled_request, args.candidates)
     rendered = render_stage_b_result(result)
+    repo_root = Path(__file__).resolve().parents[5]
+    schema_path = repo_root / "notes/workshop/design/codex/stage-b-result.schema.cdx"
+    validate_rendered_cdx_against_schema(rendered, schema_path)
 
     if args.output is not None:
         args.output.write_text(rendered, encoding="utf-8")
@@ -113,3 +117,5 @@ if __name__ == "__main__":
         raise SystemExit(main())
     except StageBEmitError as exc:
         raise SystemExit(f"[stage-b-emit-error] {exc}")
+    except OutputSchemaValidationError as exc:
+        raise SystemExit(f"[stage-b-schema-error] {exc}")

@@ -90,6 +90,10 @@ Failure MUST return:
 1. `status=error`
 2. `error=EVALUATION_ERROR`
 
+Every emitted `StageBResult` MUST validate against:
+
+1. `notes/workshop/design/codex/stage-b-result.schema.cdx`
+
 ## 7. Executable vectors
 
 Executable vectors are defined in:

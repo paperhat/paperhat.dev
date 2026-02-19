@@ -25,6 +25,7 @@ fi
 "$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/compile_adaptive_intent.py" "$INPUT_FILE" -o "$TMP_FILE"
 diff -u "$EXPECTED_FILE" "$TMP_FILE"
 
+PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_output_schema_checks.sh"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_a_e2e_checks.sh"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_b_vectors.sh"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_c_vectors.sh"

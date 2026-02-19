@@ -25,22 +25,31 @@ Artifacts:
 15. `fixtures/stage-a-result-stage-a-e2e.expect.cdx` - expected emitted Stage A result for e2e
 16. `fixtures/stage-b-result-stage-a-e2e.expect.cdx` - expected emitted Stage B result for e2e
 17. `fixtures/adaptive-plan-stage-a-e2e.expect.cdx` - expected emitted adaptive plan for e2e
-18. `stage-b-vectors/*.cdx` - executable Stage B vectors
-19. `stage-c-vectors/*.cdx` - executable Stage C vectors
-20. `pipeline-vectors/*.cdx` - executable compile -> Stage A -> Stage B -> Stage C vectors
-21. `scripts/compile_adaptive_intent.py` - reference compiler
-22. `scripts/evaluate_stage_a.py` - Stage A evaluator and StageAResult emitter
-23. `scripts/evaluate_stage_b.py` - Stage B evaluator and StageBResult emitter
-24. `scripts/emit_adaptive_plan.py` - Stage C plan emission reference
-25. `scripts/run_stage_a_e2e_check.py` - compile -> Stage A vector -> evaluator assertion runner
-26. `scripts/run_stage_a_e2e_checks.sh` - Stage A end-to-end check entrypoint
-27. `scripts/run_stage_b_vectors.py` - Stage B vector evaluator
-28. `scripts/run_stage_b_vectors.sh` - Stage B vector check entrypoint
-29. `scripts/run_stage_c_vectors.py` - Stage C vector evaluator
-30. `scripts/run_stage_c_vectors.sh` - Stage C vector check entrypoint
-31. `scripts/run_adaptive_pipeline_e2e_check.py` - compile -> Stage A -> Stage B -> Stage C e2e vector runner
-32. `scripts/run_adaptive_pipeline_e2e_checks.sh` - compile -> Stage A -> Stage B -> Stage C e2e check entrypoint
-33. `scripts/run_compiler_mapping_checks.sh` - deterministic fixture + Stage A + Stage B + Stage C + pipeline e2e runner
+18. `fixtures/adaptive-intent-stage-a-error.input.cdx` - Stage A error-propagation fixture source
+19. `fixtures/stage-b-candidates-stage-a-error.cdx` - Stage B candidates fixture for Stage A error-propagation e2e
+20. `fixtures/stage-b-candidates-malformed.cdx` - malformed Stage B candidates fixture for fail-closed propagation
+21. `fixtures/stage-a-result-stage-a-error.expect.cdx` - expected emitted Stage A error result for e2e
+22. `fixtures/stage-b-result-stage-a-error.expect.cdx` - expected emitted Stage B result for Stage A error-propagation e2e
+23. `fixtures/adaptive-plan-error-stage-a.expect.cdx` - expected emitted adaptive plan for Stage A error propagation
+24. `stage-b-vectors/*.cdx` - executable Stage B vectors
+25. `stage-c-vectors/*.cdx` - executable Stage C vectors
+26. `pipeline-vectors/*.cdx` - executable compile -> Stage A -> Stage B -> Stage C vectors
+27. `scripts/compile_adaptive_intent.py` - reference compiler
+28. `scripts/evaluate_stage_a.py` - Stage A evaluator and StageAResult emitter
+29. `scripts/evaluate_stage_b.py` - Stage B evaluator and StageBResult emitter
+30. `scripts/emit_adaptive_plan.py` - Stage C plan emission reference
+31. `scripts/validate_output_schema.py` - output envelope schema validator
+32. `scripts/run_output_schema_checks.py` - validates Stage A/B/Plan output fixtures against Codex schemas
+33. `scripts/run_output_schema_checks.sh` - output schema check entrypoint
+34. `scripts/run_stage_a_e2e_check.py` - compile -> Stage A vector -> evaluator assertion runner
+35. `scripts/run_stage_a_e2e_checks.sh` - Stage A end-to-end check entrypoint
+36. `scripts/run_stage_b_vectors.py` - Stage B vector evaluator
+37. `scripts/run_stage_b_vectors.sh` - Stage B vector check entrypoint
+38. `scripts/run_stage_c_vectors.py` - Stage C vector evaluator
+39. `scripts/run_stage_c_vectors.sh` - Stage C vector check entrypoint
+40. `scripts/run_adaptive_pipeline_e2e_check.py` - compile -> Stage A -> Stage B -> Stage C e2e vector runner
+41. `scripts/run_adaptive_pipeline_e2e_checks.sh` - compile -> Stage A -> Stage B -> Stage C e2e check entrypoint
+42. `scripts/run_compiler_mapping_checks.sh` - deterministic fixture + output schemas + Stage A + Stage B + Stage C + pipeline e2e runner
 
 Run checks:
 

@@ -320,3 +320,6 @@ Workshop-level (Codex authoring) drafts for context/objective profiling and adap
 - `../../workshop/design/codex/adaptive-optimization-profile.schema.cdx`
 - `../../workshop/design/codex/adaptive-override-set.schema.cdx`
 - `../../workshop/design/codex/adaptive-intent.schema.cdx`
+- `../../workshop/design/codex/stage-a-result.schema.cdx`
+- `../../workshop/design/codex/stage-b-result.schema.cdx`
+- `../../workshop/design/codex/adaptive-plan-result.schema.cdx`

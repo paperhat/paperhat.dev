@@ -136,6 +136,9 @@ Codex artifacts:
 3. `codex/adaptive-optimization-profile.schema.cdx`
 4. `codex/adaptive-override-set.schema.cdx`
 5. `codex/adaptive-intent.schema.cdx`
+6. `codex/stage-a-result.schema.cdx`
+7. `codex/stage-b-result.schema.cdx`
+8. `codex/adaptive-plan-result.schema.cdx`
 
 Example authoring package:
 

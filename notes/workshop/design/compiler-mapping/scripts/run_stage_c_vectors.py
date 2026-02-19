@@ -8,6 +8,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 from emit_adaptive_plan import EmitError, emit_plan, load_compiled_request, load_stage_a_result, load_stage_b_result
+from validate_output_schema import OutputSchemaValidationError, validate_rendered_cdx_against_schema
 
 
 def _require_attr(element: ET.Element, name: str, path: str) -> str:
@@ -35,6 +36,7 @@ def run_vector(path: Path, repo_root: Path) -> tuple[bool, str]:
     stage_a_path = repo_root / _require_attr(root, "stageAResultFile", "StageCVector")
     stage_b_path = repo_root / _require_attr(root, "stageBResultFile", "StageCVector")
     expected_path = repo_root / _require_attr(root, "expectPlanFile", "StageCVector")
+    schema_path = repo_root / "notes/workshop/design/codex/adaptive-plan-result.schema.cdx"
 
     try:
         rendered = emit_plan(
@@ -42,7 +44,8 @@ def run_vector(path: Path, repo_root: Path) -> tuple[bool, str]:
             load_stage_a_result(stage_a_path),
             load_stage_b_result(stage_b_path),
         )
-    except EmitError as exc:
+        validate_rendered_cdx_against_schema(rendered, schema_path)
+    except (EmitError, OutputSchemaValidationError) as exc:
         return False, str(exc)
 
     expected = expected_path.read_text(encoding="utf-8")

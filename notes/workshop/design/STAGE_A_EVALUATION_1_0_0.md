@@ -55,6 +55,10 @@ Successful evaluation MUST emit `StageAResult status="ok"` with:
 
 Failure MUST emit `StageAResult status="error" error="EVALUATION_ERROR"`.
 
+Every emitted `StageAResult` MUST validate against:
+
+1. `notes/workshop/design/codex/stage-a-result.schema.cdx`
+
 ## 5. Executable vectors
 
 Executable vectors for Stage A semantics are defined in:

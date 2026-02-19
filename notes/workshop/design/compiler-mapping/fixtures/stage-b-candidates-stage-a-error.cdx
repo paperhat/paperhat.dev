@@ -1,0 +1,5 @@
+<StageBCandidates id="stage-a-error">
+	<Candidate id="candidate-a">
+		<SoftTermScore key="readability" value="0.85" />
+	</Candidate>
+</StageBCandidates>

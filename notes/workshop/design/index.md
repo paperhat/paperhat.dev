@@ -22,4 +22,7 @@ Current artifacts:
 12. `codex/adaptive-optimization-profile.schema.cdx` - cost-function and relaxation controls
 13. `codex/adaptive-override-set.schema.cdx` - explicit human override constraints
 14. `codex/adaptive-intent.schema.cdx` - binding model linking context + objectives + optimization + overrides + policy set + target
-15. `codex/examples/adaptive-intent-article-homepage.example.cdx` - worked authoring example
+15. `codex/stage-a-result.schema.cdx` - Stage A result envelope schema
+16. `codex/stage-b-result.schema.cdx` - Stage B result envelope schema
+17. `codex/adaptive-plan-result.schema.cdx` - Stage C adaptive plan envelope schema
+18. `codex/examples/adaptive-intent-article-homepage.example.cdx` - worked authoring example

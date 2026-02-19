@@ -92,6 +92,8 @@ Stage A executable output envelope:
    - `Delta/Remove[@triple]`
    - `Delta/Add[@triple]`
 2. `StageAResult status="error" error="EVALUATION_ERROR"` on fail-closed evaluation
+3. emitted `StageAResult` MUST validate against:
+   - `codex/stage-a-result.schema.cdx`
 
 ## 5. Stage B mapping (optimization/override evaluator)
 
@@ -187,6 +189,8 @@ Stage B executable output envelope:
    - `selectedScore`
    - ordered `AppliedRelaxation`
 2. `StageBResult status="error" error="EVALUATION_ERROR"` on fail-closed evaluation
+3. emitted `StageBResult` MUST validate against:
+   - `codex/stage-b-result.schema.cdx`
 
 ## 6. Stage C mapping (plan emission)
 
@@ -221,6 +225,8 @@ Error propagation:
 2. else if `StageBResult.status=error`, emit:
    - `AdaptivePlanResult status="error" error="EVALUATION_ERROR" failedStage="stageB"`
 3. no success output is allowed when either upstream stage reports error
+4. emitted `AdaptivePlanResult` MUST validate against:
+   - `codex/adaptive-plan-result.schema.cdx`
 
 ## 7. Compiler errors
 
@@ -246,51 +252,71 @@ Reference files:
    - `compiler-mapping/fixtures/adaptive-intent-stage-a-e2e.input.cdx`
 4. Stage A end-to-end expectation:
    - `compiler-mapping/fixtures/adaptive-intent-stage-a-e2e.expect.cdx`
-5. Stage B fixture (allow group split):
+5. Stage A error-propagation fixture:
+   - `compiler-mapping/fixtures/adaptive-intent-stage-a-error.input.cdx`
+6. Stage B fixture (allow group split):
    - `compiler-mapping/fixtures/adaptive-intent-stage-b-allow-group-split.compiled.cdx`
-6. Stage B fixture (widen threshold):
+7. Stage B fixture (widen threshold):
    - `compiler-mapping/fixtures/adaptive-intent-stage-b-widen-threshold.compiled.cdx`
-7. Stage B malformed fixture:
+8. Stage B malformed fixture:
    - `compiler-mapping/fixtures/adaptive-intent-stage-b-malformed.compiled.cdx`
-8. Stage C Stage A result fixture:
+9. Stage C Stage A result fixture:
    - `compiler-mapping/fixtures/stage-a-result-empty-ok.cdx`
-9. Stage C Stage B result fixture (ok):
+10. Stage C Stage B result fixture (ok):
    - `compiler-mapping/fixtures/stage-b-result-widen-threshold-ok.cdx`
-10. Stage C Stage B result fixture (error):
+11. Stage C Stage B result fixture (error):
     - `compiler-mapping/fixtures/stage-b-result-error.cdx`
-11. Stage C expected plan fixture (ok):
+12. Stage C expected plan fixture (ok):
     - `compiler-mapping/fixtures/adaptive-plan-widen-threshold.expect.cdx`
-12. Stage C expected plan fixture (error):
+13. Stage C expected plan fixture (error):
     - `compiler-mapping/fixtures/adaptive-plan-error-stage-b.expect.cdx`
-13. Stage B candidates fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+14. Stage C expected plan fixture (Stage A error):
+    - `compiler-mapping/fixtures/adaptive-plan-error-stage-a.expect.cdx`
+15. Stage B candidates fixture (compile -> Stage A -> Stage B -> Stage C e2e):
     - `compiler-mapping/fixtures/stage-b-candidates-stage-a-e2e.cdx`
-14. Stage A expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+16. Stage B candidates fixture (Stage A error propagation e2e):
+    - `compiler-mapping/fixtures/stage-b-candidates-stage-a-error.cdx`
+17. Stage B candidates malformed fixture (Stage B fail-closed propagation e2e):
+    - `compiler-mapping/fixtures/stage-b-candidates-malformed.cdx`
+18. Stage A expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
     - `compiler-mapping/fixtures/stage-a-result-stage-a-e2e.expect.cdx`
-15. Stage B expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+19. Stage B expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
     - `compiler-mapping/fixtures/stage-b-result-stage-a-e2e.expect.cdx`
-16. Stage C expected plan fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+20. Stage C expected plan fixture (compile -> Stage A -> Stage B -> Stage C e2e):
     - `compiler-mapping/fixtures/adaptive-plan-stage-a-e2e.expect.cdx`
-17. Stage B vectors:
+21. Stage A expected error result fixture (Stage A error propagation e2e):
+    - `compiler-mapping/fixtures/stage-a-result-stage-a-error.expect.cdx`
+22. Stage B expected result fixture (Stage A error propagation e2e):
+    - `compiler-mapping/fixtures/stage-b-result-stage-a-error.expect.cdx`
+23. Stage B vectors:
     - `compiler-mapping/stage-b-vectors/*.cdx`
-18. Stage C vectors:
+24. Stage C vectors:
     - `compiler-mapping/stage-c-vectors/*.cdx`
-19. Adaptive pipeline vectors:
+25. Adaptive pipeline vectors:
     - `compiler-mapping/pipeline-vectors/*.cdx`
-20. compiler script:
+26. output envelope schemas:
+    - `codex/stage-a-result.schema.cdx`
+    - `codex/stage-b-result.schema.cdx`
+    - `codex/adaptive-plan-result.schema.cdx`
+27. compiler script:
    - `compiler-mapping/scripts/compile_adaptive_intent.py`
-21. Stage A emitter script:
+28. Stage A emitter script:
     - `compiler-mapping/scripts/evaluate_stage_a.py`
-22. Stage B emitter script:
+29. Stage B emitter script:
     - `compiler-mapping/scripts/evaluate_stage_b.py`
-23. Stage C emitter script:
+30. Stage C emitter script:
     - `compiler-mapping/scripts/emit_adaptive_plan.py`
-24. Stage A end-to-end runner:
+31. output schema validator:
+    - `compiler-mapping/scripts/validate_output_schema.py`
+32. output schema check runner:
+    - `compiler-mapping/scripts/run_output_schema_checks.sh`
+33. Stage A end-to-end runner:
    - `compiler-mapping/scripts/run_stage_a_e2e_checks.sh`
-25. Stage B vector runner:
+34. Stage B vector runner:
    - `compiler-mapping/scripts/run_stage_b_vectors.sh`
-26. Stage C vector runner:
+35. Stage C vector runner:
     - `compiler-mapping/scripts/run_stage_c_vectors.sh`
-27. Adaptive pipeline e2e runner:
+36. Adaptive pipeline e2e runner:
     - `compiler-mapping/scripts/run_adaptive_pipeline_e2e_checks.sh`
-28. check runner:
+37. check runner:
     - `compiler-mapping/scripts/run_compiler_mapping_checks.sh`

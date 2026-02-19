@@ -13,6 +13,8 @@ from xml.etree import ElementTree as ET
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDF
 
+from validate_output_schema import OutputSchemaValidationError, validate_rendered_cdx_against_schema
+
 EVALUATION_ERROR = "EVALUATION_ERROR"
 
 
@@ -189,6 +191,8 @@ def main() -> int:
     repo_root = Path(__file__).resolve().parents[5]
     result = evaluate_stage_a(args.compiled_request, args.policy_graph, repo_root)
     rendered = render_stage_a_result(result)
+    schema_path = repo_root / "notes/workshop/design/codex/stage-a-result.schema.cdx"
+    validate_rendered_cdx_against_schema(rendered, schema_path)
 
     if args.output is not None:
         args.output.write_text(rendered, encoding="utf-8")
@@ -202,3 +206,5 @@ if __name__ == "__main__":
         raise SystemExit(main())
     except StageAEmitError as exc:
         raise SystemExit(f"[stage-a-emit-error] {exc}")
+    except OutputSchemaValidationError as exc:
+        raise SystemExit(f"[stage-a-schema-error] {exc}")
