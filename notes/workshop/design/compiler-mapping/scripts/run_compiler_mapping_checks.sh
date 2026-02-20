@@ -22,13 +22,23 @@ if [[ -z "$PYTHON_BIN" ]]; then
   fi
 fi
 
+echo "[check] deterministic compile fixture"
 "$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/compile_adaptive_intent.py" "$INPUT_FILE" -o "$TMP_FILE"
 diff -u "$EXPECTED_FILE" "$TMP_FILE"
 
+echo "[check] output schemas and package/report linkage"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_output_schema_checks.sh"
+
+echo "[check] stage-a vectors"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_a_e2e_checks.sh"
+
+echo "[check] stage-b vectors"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_b_vectors.sh"
+
+echo "[check] stage-c vectors (package/report deterministic comparisons)"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_stage_c_vectors.sh"
+
+echo "[check] adaptive pipeline vectors (package/report deterministic comparisons)"
 PYTHON_BIN="$PYTHON_BIN" "$ROOT_DIR/compiler-mapping/scripts/run_adaptive_pipeline_e2e_checks.sh"
 
 echo "Compiler mapping checks passed."

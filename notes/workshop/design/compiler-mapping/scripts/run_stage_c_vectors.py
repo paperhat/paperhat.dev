@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run Stage C plan emission vectors defined in CDX."""
+"""Run Stage C package/report emission vectors defined in CDX."""
 
 from __future__ import annotations
 
@@ -7,8 +7,22 @@ import difflib
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from emit_adaptive_plan import EmitError, emit_plan, load_compiled_request, load_stage_a_result, load_stage_b_result
-from validate_output_schema import OutputSchemaValidationError, validate_rendered_cdx_against_schema
+from emit_adaptive_plan import (
+    EmitError,
+    emit_stage_c_outputs,
+    load_compiled_request,
+    load_stage_a_result,
+    load_stage_b_result,
+)
+from validate_output_schema import (
+    OutputSchemaValidationError,
+    parse_rendered_cdx,
+    validate_rendered_cdx_against_schema,
+)
+
+
+CANONICAL_ONTOLOGY_PREFIX = "spec/1.0.0/validation/design/ontology/"
+CANONICAL_WORKSHOP_PREFIX = "spec/1.0.0/validation/design/workshop/"
 
 
 def _require_attr(element: ET.Element, name: str, path: str) -> str:
@@ -18,12 +32,22 @@ def _require_attr(element: ET.Element, name: str, path: str) -> str:
     return value
 
 
+def _parse_bool_attr(element: ET.Element, name: str, default: bool) -> bool:
+    raw_value = element.get(name)
+    if raw_value is None:
+        return default
+    normalized = raw_value.strip().lower()
+    if normalized in {"true", "1", "yes"}:
+        return True
+    if normalized in {"false", "0", "no"}:
+        return False
+    raise EmitError(
+        f"Attribute '{name}' must be boolean (true|false) but was '{raw_value}'"
+    )
+
+
 def _canonical_text(value: str) -> str:
     return value.rstrip() + "\n"
-
-
-CANONICAL_ONTOLOGY_PREFIX = "spec/1.0.0/validation/design/ontology/"
-CANONICAL_WORKSHOP_PREFIX = "spec/1.0.0/validation/design/workshop/"
 
 
 def _discover_repo_root(start: Path) -> Path:
@@ -60,6 +84,25 @@ def _resolve_repo_relative_path(repo_root: Path, relative_path: str) -> Path:
     return primary
 
 
+def _extract_linkage_hashes(package_rendered: str, report_rendered: str) -> tuple[str, str]:
+    package_root = parse_rendered_cdx(package_rendered)
+    report_root = parse_rendered_cdx(report_rendered)
+
+    if package_root.tag != "AdaptivePlanPackage":
+        raise EmitError(f"Expected AdaptivePlanPackage root, found '{package_root.tag}'")
+    if report_root.tag != "AdaptiveDecisionReport":
+        raise EmitError(f"Expected AdaptiveDecisionReport root, found '{report_root.tag}'")
+
+    package_hash = package_root.get("adaptivePlanPackageContentHash")
+    report_hash = report_root.get("adaptivePlanPackageContentHash")
+    if not package_hash:
+        raise EmitError("AdaptivePlanPackage is missing adaptivePlanPackageContentHash")
+    if not report_hash:
+        raise EmitError("AdaptiveDecisionReport is missing adaptivePlanPackageContentHash")
+
+    return package_hash, report_hash
+
+
 def run_vector(path: Path, repo_root: Path) -> tuple[bool, str]:
     try:
         root = ET.parse(path).getroot()
@@ -82,37 +125,107 @@ def run_vector(path: Path, repo_root: Path) -> tuple[bool, str]:
         repo_root,
         _require_attr(root, "stageBResultFile", "StageCVector"),
     )
-    expected_path = _resolve_repo_relative_path(
-        repo_root,
-        _require_attr(root, "expectPlanFile", "StageCVector"),
+
+    expect_no_package = _parse_bool_attr(root, "expectNoPackage", default=False)
+    expect_package_report_linkage = _parse_bool_attr(
+        root,
+        "expectPackageReportLinkage",
+        default=False,
     )
-    schema_path = _resolve_repo_relative_path(
+
+    expected_package_file_attr = root.get("expectPackageFile")
+    expected_report_path = _resolve_repo_relative_path(
         repo_root,
-        "spec/1.0.0/validation/design/workshop/codex/adaptive-plan-result.schema.cdx",
+        _require_attr(root, "expectDecisionReportFile", "StageCVector"),
+    )
+
+    if expect_no_package and expected_package_file_attr:
+        return False, "expectNoPackage=true is incompatible with expectPackageFile"
+
+    if expect_package_report_linkage and expect_no_package:
+        return False, "expectPackageReportLinkage=true requires an expected package"
+
+    if not expect_no_package and not expected_package_file_attr:
+        return False, "Missing required attribute 'expectPackageFile' when expectNoPackage is false"
+
+    expected_package_path = (
+        _resolve_repo_relative_path(repo_root, expected_package_file_attr)
+        if expected_package_file_attr
+        else None
+    )
+
+    package_schema_path = _resolve_repo_relative_path(
+        repo_root,
+        "spec/1.0.0/validation/design/workshop/codex/adaptive-plan-package.schema.cdx",
+    )
+    decision_report_schema_path = _resolve_repo_relative_path(
+        repo_root,
+        "spec/1.0.0/validation/design/workshop/codex/adaptive-decision-report.schema.cdx",
     )
 
     try:
-        rendered = emit_plan(
+        outputs = emit_stage_c_outputs(
             load_compiled_request(compiled_path),
             load_stage_a_result(stage_a_path),
             load_stage_b_result(stage_b_path),
         )
-        validate_rendered_cdx_against_schema(rendered, schema_path)
+        validate_rendered_cdx_against_schema(outputs.decision_report, decision_report_schema_path)
+        if outputs.package is not None:
+            validate_rendered_cdx_against_schema(outputs.package, package_schema_path)
     except (EmitError, OutputSchemaValidationError) as exc:
         return False, str(exc)
 
-    expected = expected_path.read_text(encoding="utf-8")
-    if _canonical_text(rendered) != _canonical_text(expected):
+    expected_report = expected_report_path.read_text(encoding="utf-8")
+    if _canonical_text(outputs.decision_report) != _canonical_text(expected_report):
         diff = "\n".join(
             difflib.unified_diff(
-                _canonical_text(expected).splitlines(),
-                _canonical_text(rendered).splitlines(),
-                fromfile=f"expected:{expected_path.name}",
-                tofile=f"actual:{path.name}",
+                _canonical_text(expected_report).splitlines(),
+                _canonical_text(outputs.decision_report).splitlines(),
+                fromfile=f"expected:{expected_report_path.name}",
+                tofile=f"actual:{path.name}:decision-report",
                 lineterm="",
             )
         )
-        return False, f"Rendered plan mismatch for vector '{vector_id}'.\n{diff}"
+        return False, f"Rendered decision report mismatch for vector '{vector_id}'.\n{diff}"
+
+    if expect_no_package:
+        if outputs.package is not None:
+            return False, f"Vector '{vector_id}' expected no package output, but package was emitted"
+        return True, vector_id
+
+    if outputs.package is None:
+        return False, f"Vector '{vector_id}' expected package output, but none was emitted"
+
+    if expected_package_path is None:
+        return False, "Internal vector configuration error: expected_package_path was not resolved"
+
+    expected_package = expected_package_path.read_text(encoding="utf-8")
+    if _canonical_text(outputs.package) != _canonical_text(expected_package):
+        diff = "\n".join(
+            difflib.unified_diff(
+                _canonical_text(expected_package).splitlines(),
+                _canonical_text(outputs.package).splitlines(),
+                fromfile=f"expected:{expected_package_path.name}",
+                tofile=f"actual:{path.name}:package",
+                lineterm="",
+            )
+        )
+        return False, f"Rendered package mismatch for vector '{vector_id}'.\n{diff}"
+
+    if expect_package_report_linkage:
+        try:
+            package_hash, report_hash = _extract_linkage_hashes(
+                outputs.package,
+                outputs.decision_report,
+            )
+        except (EmitError, OutputSchemaValidationError) as exc:
+            return False, str(exc)
+        if package_hash != report_hash:
+            return (
+                False,
+                f"Package/report linkage hash mismatch for vector '{vector_id}': "
+                f"package={package_hash} report={report_hash}",
+            )
 
     return True, vector_id
 

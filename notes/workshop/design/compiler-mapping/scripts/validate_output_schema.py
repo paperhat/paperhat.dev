@@ -275,9 +275,21 @@ def validate_root_element_against_schema(root: ET.Element, schema_path: Path) ->
     _validate_node(root, root.tag, concept_rules, trait_rules)
 
 
-def validate_rendered_cdx_against_schema(rendered_cdx: str, schema_path: Path) -> None:
+def parse_rendered_cdx(rendered_cdx: str) -> ET.Element:
     try:
-        root = ET.fromstring(rendered_cdx)
+        return ET.fromstring(rendered_cdx)
     except ET.ParseError as exc:
         raise OutputSchemaValidationError("Rendered CDX is not well-formed XML") from exc
+
+
+def load_cdx_root(path: Path) -> ET.Element:
+    try:
+        rendered = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise OutputSchemaValidationError(f"Unable to read rendered CDX file: {path}") from exc
+    return parse_rendered_cdx(rendered)
+
+
+def validate_rendered_cdx_against_schema(rendered_cdx: str, schema_path: Path) -> None:
+    root = parse_rendered_cdx(rendered_cdx)
     validate_root_element_against_schema(root, schema_path)

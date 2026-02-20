@@ -1,8 +1,26 @@
-Status: DRAFT
-Lock State: UNLOCKED
+Status: READY
+Lock State: LOCKED
 Version: 1.0.0
 
 # Adaptive Plan Reconciliation Execution Plan 1.0.0
+
+## 0. Execution State (2026-02-20)
+
+Decision state:
+
+1. terminology is fixed: `AdaptiveDecisionReport` is the only report term
+2. `AdaptivePlanPackage` is fixed as the sole foundry semantic input artifact
+3. `AdaptivePlanResult` is deprecated for foundry handoff semantics
+
+Workstream state:
+
+1. Workstream A: COMPLETE in paperhat.dev notes and schema staging artifacts
+2. Workstream B: COMPLETE
+3. Workstream C: COMPLETE
+4. Workstream D: PENDING (transfer gate)
+
+This document is now decision-resolved. Remaining items are execution tasks, not open architectural decisions.
+Four previously identified external audit issues remain deferred outside Workstreams A-C and are still pending follow-up.
 
 ## 1. Objective
 
@@ -35,7 +53,7 @@ The following names are authoritative after reconciliation:
 
 1. `AdaptivePlanPackage`
 2. `AdaptivePlanPayloadRecord`
-3. `AdaptiveDecisionReport` (or `AdaptiveExecutionReport`; pick one and use only one term)
+3. `AdaptiveDecisionReport`
 4. `StageAResult` and `StageBResult` as internal stage outputs, not foundry input artifacts
 
 Deprecated terms to remove from normative usage:
@@ -61,9 +79,13 @@ Out of scope:
 
 ## 5. Workstream A: Paperhat.dev Authoritative Drafting and Validation
 
+Status: COMPLETE
+
 All changes in this workstream stay in paperhat.dev first because paperhat.dev is the active design-authoring source during this reconciliation window.
 
 ### A1. Update normative design notes
+
+Status: COMPLETE
 
 Update:
 
@@ -81,11 +103,13 @@ Required text outcomes:
 
 ### A2. Rename/replace Stage C output schema
 
+Status: COMPLETE
+
 Current schema to retire from handoff semantics:
 
 1. `notes/workshop/design/codex/adaptive-plan-result.schema.cdx`
 
-Create replacement schema for report semantics (name to finalize, one choice only):
+Create replacement schema for report semantics:
 
 1. `notes/workshop/design/codex/adaptive-decision-report.schema.cdx`
 
@@ -97,6 +121,8 @@ Schema requirements:
 
 ### A3. Keep Stage A/B schemas as stage artifacts
 
+Status: COMPLETE
+
 Review and tighten:
 
 1. `notes/workshop/design/codex/stage-a-result.schema.cdx`
@@ -107,6 +133,8 @@ Required outcome:
 1. no wording that implies these are foundry semantic inputs
 
 ### A4. Add/align canonical package schema artifact in paperhat.dev staging set
+
+Status: COMPLETE
 
 Add schema representing package contract for the reconciled model; update Workshop `§20.10` to match this model during transfer.
 
@@ -125,7 +153,11 @@ Required fields to encode:
 
 ## 6. Workstream B: Fixtures and Vectors
 
+Status: COMPLETE
+
 ### B1. Replace Stage C fixture contract
+
+Status: COMPLETE
 
 Current fixture family that assumes plan == report must be split:
 
@@ -140,6 +172,8 @@ Update paths under:
 
 ### B2. Update vector semantics
 
+Status: COMPLETE
+
 Stage C and pipeline vectors must assert:
 
 1. package emission correctness and determinism
@@ -148,11 +182,17 @@ Stage C and pipeline vectors must assert:
 
 ### B3. Remove ambiguous expected outputs
 
+Status: COMPLETE
+
 Retire expected fixtures that encode report-only as adaptive plan handoff.
 
 ## 7. Workstream C: Script and Validator Refactor
 
+Status: COMPLETE
+
 ### C1. Stage C emitter and orchestration scripts
+
+Status: COMPLETE
 
 Refactor:
 
@@ -169,6 +209,8 @@ Required behavior:
 
 ### C2. Output schema validator updates
 
+Status: COMPLETE
+
 Update:
 
 1. `notes/workshop/design/compiler-mapping/scripts/validate_output_schema.py`
@@ -182,6 +224,8 @@ Required checks:
 
 ### C3. Aggregate check runner updates
 
+Status: COMPLETE
+
 Update:
 
 1. `notes/workshop/design/compiler-mapping/scripts/run_compiler_mapping_checks.sh`
@@ -189,6 +233,8 @@ Update:
 Runner must fail if any package/report deterministic comparison fails.
 
 ## 8. Workstream D: Workshop Spec Update Transfer Plan (Deferred Until Active Workshop Edit Window Closes)
+
+Status: PENDING
 
 After current Workshop editing activity reaches a safe sync point, port the reconciled contract into Workshop and replace conflicting older wording.
 
@@ -217,7 +263,7 @@ Reconciliation is complete only if all checks below pass:
 
 ## 10. Cleanup Rules
 
-Before marking READY:
+Before marking reconciliation COMPLETE:
 
 1. remove obsolete fixtures/scripts/schemas that preserve old plan==report semantics
 2. remove stale references in index files and note cross-links
@@ -245,5 +291,11 @@ Required deliverables from this plan:
 3. migrated fixtures/vectors
 4. updated script/tooling path and schema checks
 5. explicit transfer checklist for Workshop adoption
+
+Current completion snapshot:
+
+1. deliverables (1) and (2): COMPLETE
+2. deliverables (3) and (4): COMPLETE
+3. deliverable (5): PENDING
 
 **End of Adaptive Plan Reconciliation Execution Plan v1.0.0**

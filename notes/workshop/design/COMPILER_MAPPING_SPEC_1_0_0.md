@@ -201,7 +201,7 @@ Stage B executable output envelope:
 
 ## 6. Stage C mapping (plan emission)
 
-Stage C emits the foundry handoff envelope from:
+Stage C emits two artifacts from:
 
 1. one `CompiledAdaptiveRequest`
 2. one `StageAResult`
@@ -209,18 +209,32 @@ Stage C emits the foundry handoff envelope from:
 
 Success output:
 
-1. root `AdaptivePlanResult status="ok"`
-2. copy:
-   - `intentId`
-   - `targetFoundry`
-   - `policySetRef`
-3. emit plan scope:
+1. one canonical `AdaptivePlanPackage` (sole foundry semantic input):
+   - include:
+     - `workshopVersion`
+     - `closureHash`
+     - `adaptivePlanProjectionDefinitionClosureHash`
+     - `contentHashAlgorithm` (fixed to `SHA-256`)
+   - emit ordered `AdaptivePlanPayloadRecord` entries:
+     - `projectionIdentifier`
+     - `projectionDefinitionClosureHash`
+     - `parameterHash`
+     - `payloadContentHash`
+     - `payloadCanonicalBytes`
+2. one `AdaptiveDecisionReport status="ok"` (non-authoritative decision trace):
+   - include:
+     - `intentId`
+     - `targetFoundry`
+     - `policySetRef`
+   - include package linkage:
+     - `adaptivePlanPackageContentHash`
+3. emit decision-report scope:
    - `compositionIri` from `CompiledAdaptiveRequest/StageA`
    - `viewIri` when present
-4. emit Stage A outcome:
+4. emit decision-report Stage A outcome:
    - ordered `SelectedActions`
    - ordered `Delta Remove/Add` triples
-5. emit Stage B outcome:
+5. emit decision-report Stage B outcome:
    - `selectedCandidate`
    - `selectedScore`
    - ordered `AppliedRelaxation`
@@ -228,12 +242,18 @@ Success output:
 Error propagation:
 
 1. if `StageAResult.status=error`, emit:
-   - `AdaptivePlanResult status="error" error="EVALUATION_ERROR" failedStage="stageA"`
+   - `AdaptiveDecisionReport status="error" error="EVALUATION_ERROR" failedStage="stageA"`
 2. else if `StageBResult.status=error`, emit:
-   - `AdaptivePlanResult status="error" error="EVALUATION_ERROR" failedStage="stageB"`
-3. no success output is allowed when either upstream stage reports error
-4. emitted `AdaptivePlanResult` MUST validate against:
-   - `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
+   - `AdaptiveDecisionReport status="error" error="EVALUATION_ERROR" failedStage="stageB"`
+3. no `AdaptivePlanPackage` success output is allowed when either upstream stage reports error
+4. emitted `AdaptivePlanPackage` MUST validate against:
+   - `codex/adaptive-plan-package.schema.cdx`
+5. emitted `AdaptiveDecisionReport` MUST validate against:
+   - `codex/adaptive-decision-report.schema.cdx`
+
+Deprecated term:
+
+1. `AdaptivePlanResult` MUST NOT be used to represent foundry handoff semantics.
 
 ## 7. Compiler errors
 
@@ -274,12 +294,12 @@ Reference files:
    - `compiler-mapping/fixtures/stage-b-result-widen-threshold-ok.cdx`
 11. Stage C Stage B result fixture (error):
     - `compiler-mapping/fixtures/stage-b-result-error.cdx`
-12. Stage C expected plan fixture (ok):
-    - `compiler-mapping/fixtures/adaptive-plan-widen-threshold.expect.cdx`
-13. Stage C expected plan fixture (error):
-    - `compiler-mapping/fixtures/adaptive-plan-error-stage-b.expect.cdx`
-14. Stage C expected plan fixture (Stage A error):
-    - `compiler-mapping/fixtures/adaptive-plan-error-stage-a.expect.cdx`
+12. Stage C expected package fixture (ok):
+    - `compiler-mapping/fixtures/adaptive-plan-package-widen-threshold.expect.cdx`
+13. Stage C expected decision-report fixture (ok):
+    - `compiler-mapping/fixtures/adaptive-decision-report-widen-threshold.expect.cdx`
+14. Stage C expected decision-report fixture (Stage B error):
+    - `compiler-mapping/fixtures/adaptive-decision-report-error-stage-b.expect.cdx`
 15. Stage B candidates fixture (compile -> Stage A -> Stage B -> Stage C e2e):
     - `compiler-mapping/fixtures/stage-b-candidates-stage-a-e2e.cdx`
 16. Stage B candidates fixture (Stage A error propagation e2e):
@@ -290,41 +310,46 @@ Reference files:
     - `compiler-mapping/fixtures/stage-a-result-stage-a-e2e.expect.cdx`
 19. Stage B expected result fixture (compile -> Stage A -> Stage B -> Stage C e2e):
     - `compiler-mapping/fixtures/stage-b-result-stage-a-e2e.expect.cdx`
-20. Stage C expected plan fixture (compile -> Stage A -> Stage B -> Stage C e2e):
-    - `compiler-mapping/fixtures/adaptive-plan-stage-a-e2e.expect.cdx`
-21. Stage A expected error result fixture (Stage A error propagation e2e):
+20. Stage C expected package fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+    - `compiler-mapping/fixtures/adaptive-plan-package-stage-a-e2e.expect.cdx`
+21. Stage C expected decision-report fixture (compile -> Stage A -> Stage B -> Stage C e2e):
+    - `compiler-mapping/fixtures/adaptive-decision-report-stage-a-e2e.expect.cdx`
+22. Stage A expected error result fixture (Stage A error propagation e2e):
     - `compiler-mapping/fixtures/stage-a-result-stage-a-error.expect.cdx`
-22. Stage B expected result fixture (Stage A error propagation e2e):
+23. Stage B expected result fixture (Stage A error propagation e2e):
     - `compiler-mapping/fixtures/stage-b-result-stage-a-error.expect.cdx`
-23. Stage B vectors:
+24. Stage C expected decision-report fixture (Stage A error propagation e2e):
+    - `compiler-mapping/fixtures/adaptive-decision-report-error-stage-a.expect.cdx`
+25. Stage B vectors:
     - `compiler-mapping/stage-b-vectors/*.cdx`
-24. Stage C vectors:
+26. Stage C vectors:
     - `compiler-mapping/stage-c-vectors/*.cdx`
-25. Adaptive pipeline vectors:
+27. Adaptive pipeline vectors:
     - `compiler-mapping/pipeline-vectors/*.cdx`
-26. output envelope schemas:
+28. output envelope schemas:
     - `codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
     - `codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
-    - `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
-27. compiler script:
+    - `codex/adaptive-plan-package.schema.cdx`
+    - `codex/adaptive-decision-report.schema.cdx`
+29. compiler script:
    - `compiler-mapping/scripts/compile_adaptive_intent.py`
-28. Stage A emitter script:
+30. Stage A emitter script:
     - `compiler-mapping/scripts/evaluate_stage_a.py`
-29. Stage B emitter script:
+31. Stage B emitter script:
     - `compiler-mapping/scripts/evaluate_stage_b.py`
-30. Stage C emitter script:
+32. Stage C emitter script:
     - `compiler-mapping/scripts/emit_adaptive_plan.py`
-31. output schema validator:
+33. output schema validator:
     - `compiler-mapping/scripts/validate_output_schema.py`
-32. output schema check runner:
+34. output schema check runner:
     - `compiler-mapping/scripts/run_output_schema_checks.sh`
-33. Stage A end-to-end runner:
+35. Stage A end-to-end runner:
    - `compiler-mapping/scripts/run_stage_a_e2e_checks.sh`
-34. Stage B vector runner:
+36. Stage B vector runner:
    - `compiler-mapping/scripts/run_stage_b_vectors.sh`
-35. Stage C vector runner:
+37. Stage C vector runner:
     - `compiler-mapping/scripts/run_stage_c_vectors.sh`
-36. Adaptive pipeline e2e runner:
+38. Adaptive pipeline e2e runner:
     - `compiler-mapping/scripts/run_adaptive_pipeline_e2e_checks.sh`
-37. check runner:
+39. check runner:
     - `compiler-mapping/scripts/run_compiler_mapping_checks.sh`

@@ -23,7 +23,7 @@ This document resolves family assignment decisions for normalized Codex design s
 
 1. `design-intent` receives authoring artifacts that declare adaptation intent and objective posture (`AdaptiveContextProfile`, `AdaptiveObjectiveProfile`, `AdaptiveIntent`).
 2. `design-policy` receives deterministic constraint/optimization policy artifacts (`AdaptiveOptimizationProfile`, `AdaptiveOverrideSet`).
-3. `assembly` receives stage output envelope artifacts that package resolved decisions for downstream realization (`StageAResult`, `StageBResult`, `AdaptivePlanResult`).
+3. `assembly` receives stage output envelope artifacts for deterministic internal stage exchange (`StageAResult`, `StageBResult`); `AdaptivePlanResult` is retained only as a legacy transitional schema during contract migration.
 
 ## Normalization rules applied
 
@@ -39,3 +39,6 @@ This document resolves family assignment decisions for normalized Codex design s
    - `codex:design-policy:*`
    - `codex:assembly:*`
 3. Source files under `notes/workshop/design/codex/` are retained as legacy staging inputs until Workshop transfer is executed.
+4. Canonical Stage C handoff semantics are now split in `notes/workshop/design/codex/` as:
+   - `adaptive-plan-package.schema.cdx` (foundry semantic input)
+   - `adaptive-decision-report.schema.cdx` (decision trace, non-authoritative)

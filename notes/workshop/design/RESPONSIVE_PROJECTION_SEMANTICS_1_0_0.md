@@ -138,7 +138,8 @@ Codex artifacts:
 5. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-intent/schema.cdx`
 6. `codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
 7. `codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
-8. `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
+8. `codex/adaptive-plan-package.schema.cdx`
+9. `codex/adaptive-decision-report.schema.cdx`
 
 Example authoring package:
 

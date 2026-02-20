@@ -1,4 +1,4 @@
-<AdaptivePlanResult status="ok" intentId="codex:intent:stage-b:widen-threshold" targetFoundry="web" policySetRef="urn:policyset:stage-b:1.0.0">
+<AdaptiveDecisionReport status="ok" intentId="codex:intent:stage-b:widen-threshold" targetFoundry="web" policySetRef="urn:policyset:stage-b:1.0.0" adaptivePlanPackageContentHash="357f1551b4efba483544c3d50647def23e51eb4b3d6f065ff86b1585bcef6868">
 	<PlanScope compositionIri="urn:composition:stage-b:widen-threshold" />
 	<StageAOutcome>
 		<SelectedActions />
@@ -7,4 +7,4 @@
 	<StageBOutcome selectedCandidate="candidate-a" selectedScore="0.9">
 		<AppliedRelaxation relaxOrder="1" relaxWeightClass="low" relaxationAction="widenThreshold" />
 	</StageBOutcome>
-</AdaptivePlanResult>
+</AdaptiveDecisionReport>

@@ -1,4 +1,4 @@
-<AdaptivePlanResult status="ok" intentId="codex:intent:stage-a-e2e" targetFoundry="web" policySetRef="urn:policyset:stage-a-e2e:1.0.0">
+<AdaptiveDecisionReport status="ok" intentId="codex:intent:stage-a-e2e" targetFoundry="web" policySetRef="urn:policyset:stage-a-e2e:1.0.0" adaptivePlanPackageContentHash="e029dc86330ccac3414cbd53307b50bcc02f8734716fcfda4160196cee575b9c">
 	<PlanScope compositionIri="https://paperhat.dev/examples/policy/vector/base#c1" />
 	<StageAOutcome>
 		<SelectedActions>
@@ -12,4 +12,4 @@
 		</Delta>
 	</StageAOutcome>
 	<StageBOutcome selectedCandidate="candidate-a" selectedScore="0.9" />
-</AdaptivePlanResult>
+</AdaptiveDecisionReport>

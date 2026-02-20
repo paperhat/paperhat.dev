@@ -9,10 +9,19 @@ from tempfile import TemporaryDirectory
 from xml.etree import ElementTree as ET
 
 from compile_adaptive_intent import compile_fixture, load_fixture, render_compiled_cdx
-from emit_adaptive_plan import emit_plan, load_compiled_request, load_stage_a_result, load_stage_b_result
+from emit_adaptive_plan import (
+    emit_stage_c_outputs,
+    load_compiled_request,
+    load_stage_a_result,
+    load_stage_b_result,
+)
 from evaluate_stage_a import evaluate_stage_a, render_stage_a_result
 from evaluate_stage_b import evaluate_stage_b, render_stage_b_result
-from validate_output_schema import OutputSchemaValidationError, validate_rendered_cdx_against_schema
+from validate_output_schema import (
+    OutputSchemaValidationError,
+    parse_rendered_cdx,
+    validate_rendered_cdx_against_schema,
+)
 
 
 class PipelineE2EError(Exception):
@@ -64,6 +73,20 @@ def _require_attr(element: ET.Element, name: str, path: str) -> str:
     return value
 
 
+def _parse_bool_attr(element: ET.Element, name: str, default: bool) -> bool:
+    raw_value = element.get(name)
+    if raw_value is None:
+        return default
+    normalized = raw_value.strip().lower()
+    if normalized in {"true", "1", "yes"}:
+        return True
+    if normalized in {"false", "0", "no"}:
+        return False
+    raise PipelineE2EError(
+        f"Attribute '{name}' must be boolean (true|false) but was '{raw_value}'"
+    )
+
+
 def _canonical(text: str) -> str:
     return text.rstrip() + "\n"
 
@@ -78,6 +101,26 @@ def _diff(expected: str, actual: str, expected_name: str, actual_name: str) -> s
             lineterm="",
         )
     )
+
+
+def _extract_linkage_hashes(package_rendered: str, report_rendered: str) -> tuple[str, str]:
+    package_root = parse_rendered_cdx(package_rendered)
+    report_root = parse_rendered_cdx(report_rendered)
+
+    if package_root.tag != "AdaptivePlanPackage":
+        raise PipelineE2EError(f"Expected AdaptivePlanPackage root, found '{package_root.tag}'")
+    if report_root.tag != "AdaptiveDecisionReport":
+        raise PipelineE2EError(f"Expected AdaptiveDecisionReport root, found '{report_root.tag}'")
+
+    package_hash = package_root.get("adaptivePlanPackageContentHash")
+    report_hash = report_root.get("adaptivePlanPackageContentHash")
+
+    if not package_hash:
+        raise PipelineE2EError("AdaptivePlanPackage is missing adaptivePlanPackageContentHash")
+    if not report_hash:
+        raise PipelineE2EError("AdaptiveDecisionReport is missing adaptivePlanPackageContentHash")
+
+    return package_hash, report_hash
 
 
 def run_vector(vector_path: Path, repo_root: Path) -> tuple[bool, str]:
@@ -111,9 +154,32 @@ def run_vector(vector_path: Path, repo_root: Path) -> tuple[bool, str]:
             repo_root,
             _require_attr(root, "expectStageBFile", "AdaptivePipelineVector"),
         )
-        expect_plan_file = _resolve_repo_relative_path(
+        expect_decision_report_file = _resolve_repo_relative_path(
             repo_root,
-            _require_attr(root, "expectPlanFile", "AdaptivePipelineVector"),
+            _require_attr(root, "expectDecisionReportFile", "AdaptivePipelineVector"),
+        )
+
+        expect_no_package = _parse_bool_attr(root, "expectNoPackage", default=False)
+        expect_package_report_linkage = _parse_bool_attr(
+            root,
+            "expectPackageReportLinkage",
+            default=False,
+        )
+        expect_package_file_attr = root.get("expectPackageFile")
+
+        if expect_no_package and expect_package_file_attr:
+            return False, "expectNoPackage=true is incompatible with expectPackageFile"
+
+        if expect_package_report_linkage and expect_no_package:
+            return False, "expectPackageReportLinkage=true requires an expected package"
+
+        if not expect_no_package and not expect_package_file_attr:
+            return False, "Missing required attribute 'expectPackageFile' when expectNoPackage is false"
+
+        expect_package_file = (
+            _resolve_repo_relative_path(repo_root, expect_package_file_attr)
+            if expect_package_file_attr
+            else None
         )
 
         compiled = compile_fixture(load_fixture(input_fixture_file))
@@ -126,9 +192,13 @@ def run_vector(vector_path: Path, repo_root: Path) -> tuple[bool, str]:
             repo_root,
             "spec/1.0.0/validation/design/workshop/codex/stage-b-result.schema.cdx",
         )
-        plan_schema = _resolve_repo_relative_path(
+        package_schema = _resolve_repo_relative_path(
             repo_root,
-            "spec/1.0.0/validation/design/workshop/codex/adaptive-plan-result.schema.cdx",
+            "spec/1.0.0/validation/design/workshop/codex/adaptive-plan-package.schema.cdx",
+        )
+        decision_report_schema = _resolve_repo_relative_path(
+            repo_root,
+            "spec/1.0.0/validation/design/workshop/codex/adaptive-decision-report.schema.cdx",
         )
 
         with TemporaryDirectory(prefix="adaptive-pipeline-e2e-") as tmp_dir:
@@ -149,19 +219,29 @@ def run_vector(vector_path: Path, repo_root: Path) -> tuple[bool, str]:
             validate_rendered_cdx_against_schema(stage_b_text, stage_b_schema)
             stage_b_file.write_text(stage_b_text, encoding="utf-8")
 
-            emitted_plan_text = emit_plan(
+            stage_c_outputs = emit_stage_c_outputs(
                 load_compiled_request(compiled_file),
                 load_stage_a_result(stage_a_file),
                 load_stage_b_result(stage_b_file),
             )
-            validate_rendered_cdx_against_schema(emitted_plan_text, plan_schema)
+            validate_rendered_cdx_against_schema(
+                stage_c_outputs.decision_report,
+                decision_report_schema,
+            )
+            if stage_c_outputs.package is not None:
+                validate_rendered_cdx_against_schema(stage_c_outputs.package, package_schema)
 
         expected_stage_a = expect_stage_a_file.read_text(encoding="utf-8")
         if _canonical(stage_a_text) != _canonical(expected_stage_a):
             return (
                 False,
                 "StageAResult mismatch.\n"
-                + _diff(expected_stage_a, stage_a_text, f"expected:{expect_stage_a_file.name}", f"actual:{vector_id}:stage-a"),
+                + _diff(
+                    expected_stage_a,
+                    stage_a_text,
+                    f"expected:{expect_stage_a_file.name}",
+                    f"actual:{vector_id}:stage-a",
+                ),
             )
 
         expected_stage_b = expect_stage_b_file.read_text(encoding="utf-8")
@@ -169,16 +249,62 @@ def run_vector(vector_path: Path, repo_root: Path) -> tuple[bool, str]:
             return (
                 False,
                 "StageBResult mismatch.\n"
-                + _diff(expected_stage_b, stage_b_text, f"expected:{expect_stage_b_file.name}", f"actual:{vector_id}:stage-b"),
+                + _diff(
+                    expected_stage_b,
+                    stage_b_text,
+                    f"expected:{expect_stage_b_file.name}",
+                    f"actual:{vector_id}:stage-b",
+                ),
             )
 
-        expected_plan = expect_plan_file.read_text(encoding="utf-8")
-        if _canonical(emitted_plan_text) != _canonical(expected_plan):
+        expected_decision_report = expect_decision_report_file.read_text(encoding="utf-8")
+        if _canonical(stage_c_outputs.decision_report) != _canonical(expected_decision_report):
             return (
                 False,
-                "AdaptivePlanResult mismatch.\n"
-                + _diff(expected_plan, emitted_plan_text, f"expected:{expect_plan_file.name}", f"actual:{vector_id}:plan"),
+                "AdaptiveDecisionReport mismatch.\n"
+                + _diff(
+                    expected_decision_report,
+                    stage_c_outputs.decision_report,
+                    f"expected:{expect_decision_report_file.name}",
+                    f"actual:{vector_id}:decision-report",
+                ),
             )
+
+        if expect_no_package:
+            if stage_c_outputs.package is not None:
+                return False, "AdaptivePlanPackage mismatch. Expected no package, but package was emitted."
+            return True, vector_id
+
+        if stage_c_outputs.package is None:
+            return False, "AdaptivePlanPackage mismatch. Expected package output, but no package was emitted."
+
+        if expect_package_file is None:
+            return False, "Internal vector configuration error: expected package file was not resolved"
+
+        expected_package = expect_package_file.read_text(encoding="utf-8")
+        if _canonical(stage_c_outputs.package) != _canonical(expected_package):
+            return (
+                False,
+                "AdaptivePlanPackage mismatch.\n"
+                + _diff(
+                    expected_package,
+                    stage_c_outputs.package,
+                    f"expected:{expect_package_file.name}",
+                    f"actual:{vector_id}:package",
+                ),
+            )
+
+        if expect_package_report_linkage:
+            package_hash, report_hash = _extract_linkage_hashes(
+                stage_c_outputs.package,
+                stage_c_outputs.decision_report,
+            )
+            if package_hash != report_hash:
+                return (
+                    False,
+                    "Package/report linkage mismatch. "
+                    f"package={package_hash} report={report_hash}",
+                )
 
         return True, vector_id
     except (PipelineE2EError, OutputSchemaValidationError, ValueError, Exception) as exc:

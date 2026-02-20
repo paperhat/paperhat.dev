@@ -4,7 +4,7 @@ Version: 1.0.0
 
 # Stage C Plan Emission 1.0.0
 
-This document defines deterministic Stage C plan emission semantics for foundry handoff.
+This document defines deterministic Stage C emission semantics for canonical foundry handoff and decision trace reporting.
 
 ## 1. Inputs
 
@@ -30,34 +30,55 @@ No partial output is allowed on precondition failure.
 
 If Stage A or Stage B reports error status:
 
-1. output MUST be `AdaptivePlanResult status="error"`
-2. output MUST include `error="EVALUATION_ERROR"`
-3. output MUST include `failedStage="stageA"` or `failedStage="stageB"`
-4. `stageA` failure MUST take precedence over `stageB` failure
+1. Stage C MUST NOT emit an `AdaptivePlanPackage`
+2. Stage C MUST emit `AdaptiveDecisionReport status="error"`
+3. output report MUST include `error="EVALUATION_ERROR"`
+4. output report MUST include `failedStage="stageA"` or `failedStage="stageB"`
+5. `stageA` failure MUST take precedence over `stageB` failure
 
 ## 4. Success emission
 
 If Stage A and Stage B are both `ok`, output MUST be:
 
-1. `AdaptivePlanResult status="ok"`
-2. include top-level identity fields from `CompiledAdaptiveRequest`:
-   - `intentId`
-   - `targetFoundry`
-   - `policySetRef`
-3. include plan scope:
-   - `compositionIri` from `CompiledAdaptiveRequest/StageA`
-   - optional `viewIri` when present
-4. include Stage A outcome section:
-   - ordered `SelectedActions`
-   - ordered `Delta Remove/Add` triples
-5. include Stage B outcome section:
-   - `selectedCandidate`
-   - `selectedScore`
-   - ordered `AppliedRelaxation` entries
+1. an `AdaptivePlanPackage` artifact:
+   - includes package fields:
+     - `workshopVersion`
+     - `closureHash`
+     - `adaptivePlanProjectionDefinitionClosureHash`
+     - `contentHashAlgorithm` (fixed to `SHA-256`)
+   - includes ordered `AdaptivePlanPayloadRecord` children with:
+     - `projectionIdentifier`
+     - `projectionDefinitionClosureHash`
+     - `parameterHash`
+     - `payloadContentHash`
+     - `payloadCanonicalBytes`
+2. an `AdaptiveDecisionReport status="ok"` artifact:
+   - includes top-level identity fields from `CompiledAdaptiveRequest`:
+     - `intentId`
+     - `targetFoundry`
+     - `policySetRef`
+   - includes package linkage:
+     - `adaptivePlanPackageContentHash`
+   - includes plan scope:
+     - `compositionIri` from `CompiledAdaptiveRequest/StageA`
+     - optional `viewIri` when present
+   - includes Stage A outcome section:
+     - ordered `SelectedActions`
+     - ordered `Delta Remove/Add` triples
+   - includes Stage B outcome section:
+     - `selectedCandidate`
+     - `selectedScore`
+     - ordered `AppliedRelaxation` entries
 
-Every emitted `AdaptivePlanResult` MUST validate against:
+Every emitted `AdaptivePlanPackage` MUST validate against:
 
-1. `notes/workshop/design/codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
+1. `notes/workshop/design/codex/adaptive-plan-package.schema.cdx`
+
+Every emitted `AdaptiveDecisionReport` MUST validate against:
+
+1. `notes/workshop/design/codex/adaptive-decision-report.schema.cdx`
+
+`AdaptivePlanResult` is deprecated for Stage C handoff semantics and MUST NOT be used as the foundry semantic input artifact.
 
 ## 5. Determinism requirements
 
@@ -66,6 +87,7 @@ The emitter MUST preserve source order for:
 1. selected actions
 2. Stage A delta triples
 3. Stage B applied relaxations
+4. adaptive-plan payload records (ordered by `(projectionIdentifier, projectionDefinitionClosureHash, parameterHash)`)
 
 The emitter MUST NOT inject non-deterministic values (timestamps, random identifiers, host metadata).
 

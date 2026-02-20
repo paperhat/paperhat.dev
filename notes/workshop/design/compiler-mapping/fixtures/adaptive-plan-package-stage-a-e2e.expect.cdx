@@ -1,0 +1,5 @@
+<AdaptivePlanPackage workshopVersion="1.0.0" closureHash="15c4085efec640b92cf002eea595e040c267926047e1ed78713916d3656b2ba0" adaptivePlanProjectionDefinitionClosureHash="28df0ad0ec374c93322782adc79be8d654799081caa6bfea532822e0d9f40691" contentHashAlgorithm="SHA256" adaptivePlanPackageContentHash="e029dc86330ccac3414cbd53307b50bcc02f8734716fcfda4160196cee575b9c">
+	<PayloadRecords>
+		<AdaptivePlanPayloadRecord projectionIdentifier="urn:projection:adaptive-plan:web:stage-a-e2e" projectionDefinitionClosureHash="28df0ad0ec374c93322782adc79be8d654799081caa6bfea532822e0d9f40691" parameterHash="c18276de9103af5b80b1ec1891204a2a781047c20d9ed06cc25d53e466fd6c39" payloadContentHash="d38a2c2cc3fb1a905d2e5deb1162565dc47d18f850822e8e1f48d2e4023d0226" payloadCanonicalBytes="projection=urn:projection:adaptive-plan:web:stage-a-e2e;selectedCandidate=candidate-a;selectedScore=0.9;actionCount=2;deltaRemoveCount=1;deltaAddCount=2" />
+	</PayloadRecords>
+</AdaptivePlanPackage>
