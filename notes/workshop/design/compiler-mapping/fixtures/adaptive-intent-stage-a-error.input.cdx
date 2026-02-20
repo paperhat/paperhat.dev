@@ -13,6 +13,7 @@
 
 	<AdaptiveOptimizationProfile
 		profileId="codex:profile:optimization:stage-a-error"
+		solverMode="$weightedSum"
 	>
 		<OptimizationSoftTerm termKey="$readability" weightClass="$high" />
 	</AdaptiveOptimizationProfile>

@@ -17,6 +17,44 @@ class EmitError(Exception):
     """Stage C plan emission error."""
 
 
+CANONICAL_ONTOLOGY_PREFIX = "spec/1.0.0/validation/design/ontology/"
+CANONICAL_WORKSHOP_PREFIX = "spec/1.0.0/validation/design/workshop/"
+
+
+def _discover_repo_root(start: Path) -> Path:
+    for candidate in (start, *start.parents):
+        if (candidate / ".git").exists():
+            return candidate
+    raise RuntimeError(f"Unable to locate repository root from {start}")
+
+
+def _local_design_roots(script_path: Path) -> tuple[Path, Path]:
+    workshop_root = script_path.parents[2]
+    ontology_root = script_path.parents[4] / "design" / "ontology"
+    return ontology_root, workshop_root
+
+
+def _resolve_repo_relative_path(repo_root: Path, relative_path: str) -> Path:
+    """Resolve a repo-relative path against paperhat.dev or sibling workshop repo."""
+    primary = repo_root / relative_path
+    if primary.exists():
+        return primary
+    sibling_workshop = repo_root.parent / "workshop" / relative_path
+    if sibling_workshop.exists():
+        return sibling_workshop
+
+    ontology_root, workshop_root = _local_design_roots(Path(__file__).resolve())
+    if relative_path.startswith(CANONICAL_ONTOLOGY_PREFIX):
+        local_ontology = ontology_root / relative_path[len(CANONICAL_ONTOLOGY_PREFIX) :]
+        if local_ontology.exists():
+            return local_ontology
+    if relative_path.startswith(CANONICAL_WORKSHOP_PREFIX):
+        local_workshop = workshop_root / relative_path[len(CANONICAL_WORKSHOP_PREFIX) :]
+        if local_workshop.exists():
+            return local_workshop
+    return primary
+
+
 @dataclass(frozen=True)
 class StageAResult:
     status: str
@@ -247,8 +285,11 @@ def main() -> int:
     stage_a = load_stage_a_result(args.stage_a_result)
     stage_b = load_stage_b_result(args.stage_b_result)
     rendered = emit_plan(compiled, stage_a, stage_b)
-    repo_root = Path(__file__).resolve().parents[5]
-    schema_path = repo_root / "notes/workshop/design/codex/adaptive-plan-result.schema.cdx"
+    repo_root = _discover_repo_root(Path(__file__).resolve())
+    schema_path = _resolve_repo_relative_path(
+        repo_root,
+        "spec/1.0.0/validation/design/workshop/codex/adaptive-plan-result.schema.cdx",
+    )
     validate_rendered_cdx_against_schema(rendered, schema_path)
 
     if args.output is not None:

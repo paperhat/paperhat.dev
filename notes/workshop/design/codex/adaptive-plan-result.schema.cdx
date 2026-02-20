@@ -278,11 +278,11 @@
 			cardinality="$Single"
 		/>
 
-		<TraitDefinition
-			name="selectedScore"
-			defaultValueType="$Text"
-			cardinality="$Single"
-		/>
+			<TraitDefinition
+				name="selectedScore"
+				defaultValueType="$Number"
+				cardinality="$Single"
+			/>
 
 		<TraitDefinition
 			name="relaxOrder"

@@ -1,0 +1,120 @@
+<Schema
+	id="codex:assembly:stage-b-result"
+	version="1.0.0"
+	versionScheme="$Semver"
+	authoringMode="$SimplifiedMode"
+	compatibilityClass="$Initial"
+	namespace="adaptive-stage-b-result"
+	title="Stage B Result Schema"
+	description="Deterministic Stage B output envelope."
+>
+	<ConceptDefinitions>
+		<ConceptDefinition
+			id="codex:assembly:stage-b-result:StageBResult"
+			name="StageBResult"
+			conceptKind="$Semantic"
+			entityEligibility="$MustNotBeEntity"
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+
+			<TraitRules>
+				<RequiresTrait name="id" />
+
+				<RequiresTrait name="status" />
+
+				<AllowsTrait name="error" />
+
+				<AllowsTrait name="selectedCandidate" />
+
+				<AllowsTrait name="selectedScore" />
+			</TraitRules>
+
+			<ChildRules>
+				<AllowsChildConcept conceptSelector="AppliedRelaxation" />
+			</ChildRules>
+		</ConceptDefinition>
+
+		<ConceptDefinition
+			id="codex:assembly:stage-b-result:AppliedRelaxation"
+			name="AppliedRelaxation"
+			conceptKind="$Structural"
+			entityEligibility="$MustNotBeEntity"
+		>
+			<ContentRules>
+				<ForbidsContent />
+			</ContentRules>
+
+			<TraitRules>
+				<RequiresTrait name="relaxOrder" />
+
+				<AllowsTrait name="relaxWeightClass" />
+
+				<RequiresTrait name="relaxationAction" />
+			</TraitRules>
+		</ConceptDefinition>
+	</ConceptDefinitions>
+
+	<TraitDefinitions>
+		<TraitDefinition
+			name="id"
+			defaultValueType="$Text"
+			cardinality="$Single"
+		/>
+
+		<TraitDefinition
+			name="status"
+			defaultValueType="$EnumeratedToken"
+			cardinality="$Single"
+		>
+			<AllowedValues>
+				<ValueIsOneOf values="$ok,$error" />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="error"
+			defaultValueType="$Text"
+			cardinality="$Single"
+		/>
+
+		<TraitDefinition
+			name="selectedCandidate"
+			defaultValueType="$Text"
+			cardinality="$Single"
+		/>
+
+			<TraitDefinition
+				name="selectedScore"
+				defaultValueType="$Number"
+				cardinality="$Single"
+			/>
+
+		<TraitDefinition
+			name="relaxOrder"
+			defaultValueType="$Number"
+			cardinality="$Single"
+		/>
+
+		<TraitDefinition
+			name="relaxWeightClass"
+			defaultValueType="$EnumeratedToken"
+			cardinality="$Single"
+		>
+			<AllowedValues>
+				<ValueIsOneOf values="$critical,$high,$medium,$low" />
+			</AllowedValues>
+		</TraitDefinition>
+
+		<TraitDefinition
+			name="relaxationAction"
+			defaultValueType="$EnumeratedToken"
+			cardinality="$Single"
+		>
+			<AllowedValues>
+				<ValueIsOneOf values="$dropTerm,$widenThreshold,$allowGroupSplit" />
+			</AllowedValues>
+		</TraitDefinition>
+	</TraitDefinitions>
+</Schema>

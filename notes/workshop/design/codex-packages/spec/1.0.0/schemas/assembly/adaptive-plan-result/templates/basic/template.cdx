@@ -1,0 +1,3 @@
+<AdaptivePlanResult status="ok" intentId="codex:intent:ID" targetFoundry="web" policySetRef="urn:policyset:ID:1.0.0">
+	<PlanScope compositionIri="urn:composition:ID" />
+</AdaptivePlanResult>

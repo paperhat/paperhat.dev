@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 
@@ -6,7 +6,7 @@ Version: 1.0.0
 
 Status:
 
-- scope: `1.0.0` internal compiler contract
+- scope: `1.0.0` compiler contract
 - purpose: deterministic mapping from adaptive Codex authoring artifacts to executable evaluation requests
 - failure mode: fail-closed
 
@@ -93,7 +93,7 @@ Stage A executable output envelope:
    - `Delta/Add[@triple]`
 2. `StageAResult status="error" error="EVALUATION_ERROR"` on fail-closed evaluation
 3. emitted `StageAResult` MUST validate against:
-   - `codex/stage-a-result.schema.cdx`
+   - `codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
 
 ## 5. Stage B mapping (optimization/override evaluator)
 
@@ -133,6 +133,11 @@ Profile fields:
 4. `satisficeThreshold`
 5. `relaxationStrategy`
 
+`solverMode` constraints in 1.0.0:
+
+1. `solverMode` is required
+2. only `weightedSum` is supported
+
 `OptimizationHardConstraint` compilation:
 
 1. fields: `constraintKey`, `constraintScope`, `targetRef`, `constraintValue`
@@ -141,17 +146,19 @@ Profile fields:
 `OptimizationSoftTerm` compilation:
 
 1. fields: `termKey`, `weightClass`, `termScope`, `targetRef`, `minimumSatisfaction`
-2. derived `weight`:
+2. `weightClass` is required in 1.0.0
+3. derived `weight`:
    - `critical=1.0`
    - `high=0.75`
    - `medium=0.5`
    - `low=0.25`
-3. sort tuple: `(termKey, termScope, targetRef, weightClass)`
+4. sort tuple: `(termKey, termScope, targetRef, weightClass)`
 
 `RelaxationRule` compilation:
 
 1. fields: `relaxOrder`, `relaxWeightClass`, `relaxationAction`
-2. sort tuple: `(relaxOrder, relaxWeightClass, relaxationAction)`
+2. `relaxationAction` is required in 1.0.0
+3. sort tuple: `(relaxOrder, relaxWeightClass, relaxationAction)`
 
 ### 5.3 Override set mapping
 
@@ -190,7 +197,7 @@ Stage B executable output envelope:
    - ordered `AppliedRelaxation`
 2. `StageBResult status="error" error="EVALUATION_ERROR"` on fail-closed evaluation
 3. emitted `StageBResult` MUST validate against:
-   - `codex/stage-b-result.schema.cdx`
+   - `codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
 
 ## 6. Stage C mapping (plan emission)
 
@@ -226,7 +233,7 @@ Error propagation:
    - `AdaptivePlanResult status="error" error="EVALUATION_ERROR" failedStage="stageB"`
 3. no success output is allowed when either upstream stage reports error
 4. emitted `AdaptivePlanResult` MUST validate against:
-   - `codex/adaptive-plan-result.schema.cdx`
+   - `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
 
 ## 7. Compiler errors
 
@@ -237,6 +244,7 @@ Compilation MUST fail if:
 3. `viewportHeightPx <= 0` when aspect ratio derivation is attempted
 4. unknown priority token is supplied for objective or override weight mapping
 5. unknown relaxation or weight class token is supplied where required
+6. `solverMode` is missing or not `weightedSum`
 
 No partial output is allowed on compile failure.
 
@@ -295,9 +303,9 @@ Reference files:
 25. Adaptive pipeline vectors:
     - `compiler-mapping/pipeline-vectors/*.cdx`
 26. output envelope schemas:
-    - `codex/stage-a-result.schema.cdx`
-    - `codex/stage-b-result.schema.cdx`
-    - `codex/adaptive-plan-result.schema.cdx`
+    - `codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
+    - `codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
+    - `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
 27. compiler script:
    - `compiler-mapping/scripts/compile_adaptive_intent.py`
 28. Stage A emitter script:

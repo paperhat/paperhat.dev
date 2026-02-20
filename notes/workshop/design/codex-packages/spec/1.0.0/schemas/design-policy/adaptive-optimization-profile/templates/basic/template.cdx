@@ -1,0 +1,16 @@
+<AdaptiveOptimizationProfile
+	profileId=codex:profile:optimization:PROFILE_NAME
+	solverMode=$weightedSum
+	relaxationStrategy=$dropLowestWeightFirst
+>
+	<OptimizationHardConstraint
+		constraintKey=$mustNotOverlap
+		constraintScope=$global
+	/>
+
+	<OptimizationSoftTerm
+		termKey=$readability
+		weightClass=$critical
+		termScope=$global
+	/>
+</AdaptiveOptimizationProfile>

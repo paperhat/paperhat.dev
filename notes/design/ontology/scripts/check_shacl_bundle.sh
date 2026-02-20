@@ -15,13 +15,13 @@ trap cleanup EXIT
 
 if [[ ! -f "$BUNDLE_FILE" ]]; then
   echo "SHACL bundle check failed: $BUNDLE_FILE does not exist." >&2
-  echo "Run notes/design/ontology/scripts/build_shacl_bundle.sh." >&2
+  echo "Run $SCRIPT_DIR/build_shacl_bundle.sh." >&2
   exit 1
 fi
 
 if ! cmp -s "$BUNDLE_FILE" "$TMP_FILE"; then
   echo "SHACL bundle check failed: wd-all.shacl.ttl is out of sync." >&2
-  echo "Run notes/design/ontology/scripts/build_shacl_bundle.sh and update the bundle file." >&2
+  echo "Run $SCRIPT_DIR/build_shacl_bundle.sh and update the bundle file." >&2
   exit 1
 fi
 

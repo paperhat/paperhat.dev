@@ -20,6 +20,44 @@ class StageBEvaluationError(Exception):
     """Stage B evaluation input/precondition failure."""
 
 
+CANONICAL_ONTOLOGY_PREFIX = "spec/1.0.0/validation/design/ontology/"
+CANONICAL_WORKSHOP_PREFIX = "spec/1.0.0/validation/design/workshop/"
+
+
+def _discover_repo_root(start: Path) -> Path:
+    for candidate in (start, *start.parents):
+        if (candidate / ".git").exists():
+            return candidate
+    raise RuntimeError(f"Unable to locate repository root from {start}")
+
+
+def _local_design_roots(script_path: Path) -> tuple[Path, Path]:
+    workshop_root = script_path.parents[2]
+    ontology_root = script_path.parents[4] / "design" / "ontology"
+    return ontology_root, workshop_root
+
+
+def _resolve_repo_relative_path(repo_root: Path, relative_path: str) -> Path:
+    """Resolve a repo-relative path against paperhat.dev or sibling workshop repo."""
+    primary = repo_root / relative_path
+    if primary.exists():
+        return primary
+    sibling_workshop = repo_root.parent / "workshop" / relative_path
+    if sibling_workshop.exists():
+        return sibling_workshop
+
+    ontology_root, workshop_root = _local_design_roots(Path(__file__).resolve())
+    if relative_path.startswith(CANONICAL_ONTOLOGY_PREFIX):
+        local_ontology = ontology_root / relative_path[len(CANONICAL_ONTOLOGY_PREFIX) :]
+        if local_ontology.exists():
+            return local_ontology
+    if relative_path.startswith(CANONICAL_WORKSHOP_PREFIX):
+        local_workshop = workshop_root / relative_path[len(CANONICAL_WORKSHOP_PREFIX) :]
+        if local_workshop.exists():
+            return local_workshop
+    return primary
+
+
 @dataclass(frozen=True)
 class SoftTerm:
     key: str
@@ -121,6 +159,11 @@ def _load_expectation(root: ET.Element, vector_id: str) -> dict[str, Any]:
         "selectedCandidate",
         f"StageBVector[@id='{vector_id}']/Expect",
     )
+    expected["selected_score"] = _require_attr(
+        expect_node,
+        "selectedScore",
+        f"StageBVector[@id='{vector_id}']/Expect",
+    )
     relaxes: list[tuple[int, str | None, str]] = []
     for node in expect_node.findall("AppliedRelaxation"):
         order_raw = _require_attr(
@@ -163,6 +206,15 @@ def load_stage_b_request(path: Path) -> StageBRequest:
     optimization = stage_b.find("OptimizationProfile")
     if optimization is None:
         raise StageBEvaluationError(f"Missing OptimizationProfile node in {path}")
+
+    solver_mode = _require_attr(
+        optimization,
+        "solverMode",
+        "CompiledAdaptiveRequest/StageB/OptimizationProfile",
+        StageBEvaluationError,
+    )
+    if solver_mode != "weightedSum":
+        raise StageBEvaluationError(f"Unsupported solverMode '{solver_mode}' in 1.0.0")
 
     hard_keys = tuple(
         _require_attr(
@@ -383,7 +435,7 @@ def load_vector(path: Path, repo_root: Path) -> VectorCase:
     candidates: list[Candidate] = []
 
     try:
-        request = load_stage_b_request(repo_root / request_file)
+        request = load_stage_b_request(_resolve_repo_relative_path(repo_root, request_file))
     except StageBEvaluationError:
         precondition_error = True
         request = None
@@ -569,6 +621,12 @@ def run_vector(path: Path, repo_root: Path) -> tuple[bool, str]:
             f"expected={expected.get('selected_candidate')} actual={actual.get('selected_candidate')}"
         )
 
+    if actual.get("selected_score") != expected.get("selected_score"):
+        return False, (
+            "selected_score mismatch "
+            f"expected={expected.get('selected_score')} actual={actual.get('selected_score')}"
+        )
+
     expected_relax = expected.get("applied_relaxations", [])
     actual_relax = actual.get("applied_relaxations", [])
     if expected_relax != actual_relax:
@@ -578,8 +636,11 @@ def run_vector(path: Path, repo_root: Path) -> tuple[bool, str]:
 
 
 def main() -> int:
-    repo_root = Path(__file__).resolve().parents[5]
-    vector_dir = repo_root / "notes/workshop/design/compiler-mapping/stage-b-vectors"
+    repo_root = _discover_repo_root(Path(__file__).resolve())
+    vector_dir = _resolve_repo_relative_path(
+        repo_root,
+        "spec/1.0.0/validation/design/workshop/compiler-mapping/stage-b-vectors",
+    )
     vectors = sorted(vector_dir.glob("*.cdx"))
     if not vectors:
         print("No Stage B vectors found (.cdx).")

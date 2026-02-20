@@ -19,10 +19,10 @@
 				<ForbidsContent />
 			</ContentRules>
 
-			<TraitRules>
-				<RequiresTrait name="profileId" />
+				<TraitRules>
+					<RequiresTrait name="profileId" />
 
-				<AllowsTrait name="solverMode" />
+					<RequiresTrait name="solverMode" />
 
 				<AllowsTrait name="quantizationMode" />
 
@@ -75,10 +75,10 @@
 				<ForbidsContent />
 			</ContentRules>
 
-			<TraitRules>
-				<RequiresTrait name="termKey" />
+				<TraitRules>
+					<RequiresTrait name="termKey" />
 
-				<AllowsTrait name="weightClass" />
+					<RequiresTrait name="weightClass" />
 
 				<AllowsTrait name="termScope" />
 
@@ -98,13 +98,13 @@
 				<ForbidsContent />
 			</ContentRules>
 
-			<TraitRules>
-				<RequiresTrait name="relaxOrder" />
+				<TraitRules>
+					<RequiresTrait name="relaxOrder" />
 
-				<RequiresTrait name="relaxWeightClass" />
+					<RequiresTrait name="relaxWeightClass" />
 
-				<AllowsTrait name="relaxationAction" />
-			</TraitRules>
+					<RequiresTrait name="relaxationAction" />
+				</TraitRules>
 		</ConceptDefinition>
 	</ConceptDefinitions>
 
@@ -116,15 +116,15 @@
 			isReferenceTrait=true
 		/>
 
-		<TraitDefinition
-			name="solverMode"
-			defaultValueType=$EnumeratedToken
-			cardinality=$Single
-		>
-			<AllowedValues>
-				<ValueIsOneOf values=[ $weightedSum, $deterministicLexicographic ] />
-			</AllowedValues>
-		</TraitDefinition>
+			<TraitDefinition
+				name="solverMode"
+				defaultValueType=$EnumeratedToken
+				cardinality=$Single
+			>
+				<AllowedValues>
+					<ValueIsOneOf values=[ $weightedSum ] />
+				</AllowedValues>
+			</TraitDefinition>
 
 		<TraitDefinition
 			name="quantizationMode"

@@ -1,0 +1,5 @@
+{
+  "clause": "C6-2",
+  "kind": "validation_contract",
+  "input": "notes/design/ontology/fixtures/core/invalid/participant-cross-owner.ttl"
+}

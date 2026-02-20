@@ -1,0 +1,12 @@
+<DesignIntentPackageManifest
+	packageName="workshop-design-intent-adaptive-context-profile"
+	packageVersion="1.0.0"
+	primaryDocument="schema.cdx"
+	closureHash="44048e3b74343c68368635542b060abafb49953642e89594fe9548455d22796c"
+	description="Packaged Codex schema for adaptive-context-profile in the design-intent family."
+	author="Paperhat"
+	requiredCodexVersion=">=1.0.0 <2.0.0"
+	requiredWorkshopVersion=">=1.0.0 <2.0.0"
+	license="Apache-2.0"
+	copyright="Copyright 2026 Paperhat"
+/>

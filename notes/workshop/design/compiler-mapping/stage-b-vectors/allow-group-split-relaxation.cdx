@@ -1,4 +1,4 @@
-<StageBVector id="allow-group-split-relaxation" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-stage-b-allow-group-split.compiled.cdx">
+<StageBVector id="allow-group-split-relaxation" compiledRequestFile="spec/1.0.0/validation/design/workshop/compiler-mapping/fixtures/adaptive-intent-stage-b-allow-group-split.compiled.cdx">
 	<Candidate id="candidate-a">
 		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
 		<HardConstraintResult key="preserveGroupCohesion" satisfied="false" />
@@ -13,7 +13,7 @@
 		<SoftTermScore key="readability" value="0.8" />
 	</Candidate>
 
-	<Expect status="ok" selectedCandidate="candidate-a">
-		<AppliedRelaxation relaxOrder="1" relaxWeightClass="high" relaxationAction="allowGroupSplit" />
-	</Expect>
+		<Expect status="ok" selectedCandidate="candidate-a" selectedScore="0.95">
+			<AppliedRelaxation relaxOrder="1" relaxWeightClass="high" relaxationAction="allowGroupSplit" />
+		</Expect>
 </StageBVector>

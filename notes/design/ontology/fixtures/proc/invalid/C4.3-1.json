@@ -1,0 +1,5 @@
+{
+  "clause": "C4.3-1",
+  "kind": "defaults_materialized",
+  "input": "notes/design/ontology/fixtures/proc/data/defaults-not-materialized.ttl"
+}

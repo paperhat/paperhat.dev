@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 

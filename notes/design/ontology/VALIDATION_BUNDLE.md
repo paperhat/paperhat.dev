@@ -41,7 +41,7 @@ Check bundle sync:
 notes/design/ontology/scripts/check_shacl_bundle.sh
 ```
 
-Run contract checks (namespaces, bundle sync, traceability, fixture coverage):
+Run contract checks (namespaces, repo token guard, bundle sync, traceability, fixture coverage):
 
 ```bash
 notes/design/ontology/scripts/check_ontology_contract.sh
@@ -51,6 +51,12 @@ Run SHACL conformance fixtures (requires `pyshacl`):
 
 ```bash
 notes/design/ontology/scripts/run_conformance_tests.sh
+```
+
+Run procedural conformance fixtures (PROC-enforced clauses):
+
+```bash
+notes/design/ontology/scripts/run_proc_conformance_tests.sh
 ```
 
 Run policy evaluation vectors:
@@ -78,5 +84,6 @@ Clause-to-fixture coverage for the core rules is declared in:
 Coverage semantics:
 
 1. Every SHACL-enforced clause ID MUST have exactly one row in `fixture-coverage.csv`.
-2. Each SHACL row MUST reference one positive fixture and one negative fixture file.
-3. A negative fixture is required to fail validation for the clause's enforcement layer, and it MUST be permitted to violate additional clauses unless otherwise documented.
+2. Every PROC-enforced clause ID MUST have exactly one row in `fixture-coverage.csv`.
+3. Each row MUST reference one positive fixture and one negative fixture file (no `N/A` placeholders).
+4. A negative fixture is required to fail validation for the clause's enforcement layer, and it MUST be permitted to violate additional clauses unless otherwise documented.

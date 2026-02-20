@@ -1,4 +1,4 @@
-<StageBVector id="missing-strict-override-result-error" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
+<StageBVector id="missing-strict-override-result-error" compiledRequestFile="spec/1.0.0/validation/design/workshop/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
 	<Candidate id="candidate-a">
 		<HardConstraintResult key="minReadableFont" satisfied="true" />
 		<HardConstraintResult key="mustNotOverlap" satisfied="true" />

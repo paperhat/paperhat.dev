@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 
@@ -6,8 +6,8 @@ Version: 1.0.0
 
 Status:
 
-- scope: Workshop design architecture draft
-- maturity: internal working model
+- scope: Workshop design architecture specification
+- maturity: publication-ready
 - audience: human authors and implementers
 
 ## 1. Intent
@@ -96,7 +96,7 @@ Optimization in 1.0.0 is constrained by declarative profiles:
 2. soft weighted terms
    - examples: proximity, contrast, readability, performance, density, localization fidelity
 3. aggregation mode
-   - weighted sum or deterministic lexicographic mode
+   - weighted mean (`weightedSum`) in 1.0.0
 4. satisfice threshold
    - target minimum score before accepting a plan
 5. relaxation policy
@@ -131,18 +131,18 @@ Rules:
 
 Codex artifacts:
 
-1. `codex/adaptive-context-profile.schema.cdx`
-2. `codex/adaptive-objective-profile.schema.cdx`
-3. `codex/adaptive-optimization-profile.schema.cdx`
-4. `codex/adaptive-override-set.schema.cdx`
-5. `codex/adaptive-intent.schema.cdx`
-6. `codex/stage-a-result.schema.cdx`
-7. `codex/stage-b-result.schema.cdx`
-8. `codex/adaptive-plan-result.schema.cdx`
+1. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-context-profile/schema.cdx`
+2. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-objective-profile/schema.cdx`
+3. `codex-packages/spec/1.0.0/schemas/design-policy/adaptive-optimization-profile/schema.cdx`
+4. `codex-packages/spec/1.0.0/schemas/design-policy/adaptive-override-set/schema.cdx`
+5. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-intent/schema.cdx`
+6. `codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
+7. `codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
+8. `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
 
 Example authoring package:
 
-1. `codex/examples/adaptive-intent-article-homepage.example.cdx`
+1. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-intent/examples/default/example.cdx`
 
 ## 10. Cultural and individual adaptation model
 

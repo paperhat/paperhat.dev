@@ -59,17 +59,17 @@
 			isReferenceTrait=true
 		/>
 
-		<TraitDefinition
-			name="viewportWidthPx"
-			defaultValueType=$Number
-			cardinality=$Single
-		/>
+			<TraitDefinition
+				name="viewportWidthPx"
+				defaultValueType=$Integer
+				cardinality=$Single
+			/>
 
-		<TraitDefinition
-			name="viewportHeightPx"
-			defaultValueType=$Number
-			cardinality=$Single
-		/>
+			<TraitDefinition
+				name="viewportHeightPx"
+				defaultValueType=$Integer
+				cardinality=$Single
+			/>
 
 		<TraitDefinition
 			name="zoomLevel"

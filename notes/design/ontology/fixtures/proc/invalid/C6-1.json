@@ -1,0 +1,5 @@
+{
+  "clause": "C6-1",
+  "kind": "validation_contract",
+  "input": "notes/design/ontology/fixtures/core/invalid/composition-missing-intent.ttl"
+}

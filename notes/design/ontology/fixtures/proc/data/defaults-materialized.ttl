@@ -1,0 +1,7 @@
+@prefix wd: <https://paperhat.dev/ns/wd#> .
+
+<urn:stroke:proc:1> a wd:Stroke ;
+  wd:strokeWidth "0"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+
+<urn:baseline:proc:1> a wd:BaselineGrid ;
+  wd:baselineStep "8"^^<http://www.w3.org/2001/XMLSchema#decimal> .

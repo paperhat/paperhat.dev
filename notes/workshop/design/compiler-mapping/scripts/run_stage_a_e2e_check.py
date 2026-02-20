@@ -25,6 +25,44 @@ def load_module(path: Path, name: str):
     return module
 
 
+CANONICAL_ONTOLOGY_PREFIX = "spec/1.0.0/validation/design/ontology/"
+CANONICAL_WORKSHOP_PREFIX = "spec/1.0.0/validation/design/workshop/"
+
+
+def _discover_repo_root(start: Path) -> Path:
+    for candidate in (start, *start.parents):
+        if (candidate / ".git").exists():
+            return candidate
+    raise RuntimeError(f"Unable to locate repository root from {start}")
+
+
+def _local_design_roots(script_path: Path) -> tuple[Path, Path]:
+    workshop_root = script_path.parents[2]
+    ontology_root = script_path.parents[4] / "design" / "ontology"
+    return ontology_root, workshop_root
+
+
+def _resolve_repo_relative_path(repo_root: Path, relative_path: str) -> Path:
+    """Resolve a repo-relative path against paperhat.dev or sibling workshop repo."""
+    primary = repo_root / relative_path
+    if primary.exists():
+        return primary
+    sibling_workshop = repo_root.parent / "workshop" / relative_path
+    if sibling_workshop.exists():
+        return sibling_workshop
+
+    ontology_root, workshop_root = _local_design_roots(Path(__file__).resolve())
+    if relative_path.startswith(CANONICAL_ONTOLOGY_PREFIX):
+        local_ontology = ontology_root / relative_path[len(CANONICAL_ONTOLOGY_PREFIX) :]
+        if local_ontology.exists():
+            return local_ontology
+    if relative_path.startswith(CANONICAL_WORKSHOP_PREFIX):
+        local_workshop = workshop_root / relative_path[len(CANONICAL_WORKSHOP_PREFIX) :]
+        if local_workshop.exists():
+            return local_workshop
+    return primary
+
+
 def _require_attr(element: ET.Element, name: str, path: str) -> str:
     value = element.get(name)
     if value is None or value == "":
@@ -122,8 +160,11 @@ def _write_temp_vector_cdx(vector_payload: dict[str, Any]) -> Path:
 
 
 def main() -> int:
-    repo_root = Path(__file__).resolve().parents[5]
-    fixtures_dir = repo_root / "notes/workshop/design/compiler-mapping/fixtures"
+    repo_root = _discover_repo_root(Path(__file__).resolve())
+    fixtures_dir = _resolve_repo_relative_path(
+        repo_root,
+        "spec/1.0.0/validation/design/workshop/compiler-mapping/fixtures",
+    )
 
     input_fixture = load_fixture(fixtures_dir / "adaptive-intent-stage-a-e2e.input.cdx")
     expectation = load_stage_a_expectation(fixtures_dir / "adaptive-intent-stage-a-e2e.expect.cdx")
@@ -139,14 +180,29 @@ def main() -> int:
     }
 
     runner = load_module(
-        repo_root / "notes/design/ontology/scripts/policy_vector_runner.py",
+        _resolve_repo_relative_path(
+            repo_root,
+            "spec/1.0.0/validation/design/ontology/scripts/policy_vector_runner.py",
+        ),
         "policy_vector_runner",
     )
 
     shapes = Graph()
     ontology = Graph()
-    shapes.parse(repo_root / "notes/design/ontology/wd-all.shacl.ttl", format="turtle")
-    ontology.parse(repo_root / "notes/design/ontology/wd-core.ttl", format="turtle")
+    shapes.parse(
+        _resolve_repo_relative_path(
+            repo_root,
+            "spec/1.0.0/validation/design/ontology/wd-all.shacl.ttl",
+        ),
+        format="turtle",
+    )
+    ontology.parse(
+        _resolve_repo_relative_path(
+            repo_root,
+            "spec/1.0.0/validation/design/ontology/wd-core.ttl",
+        ),
+        format="turtle",
+    )
 
     temp_vector_path = _write_temp_vector_cdx(vector_payload)
     try:

@@ -1,10 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+find_repo_root() {
+  local dir="$1"
+  while [[ "$dir" != "/" ]]; do
+    if [[ -d "$dir/.git" ]]; then
+      printf "%s" "$dir"
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+  done
+  return 1
+}
+ROOT_DIR="$(find_repo_root "$SCRIPT_DIR")"
+if [[ -z "$ROOT_DIR" ]]; then
+  echo "Unable to locate repository root from $SCRIPT_DIR" >&2
+  exit 1
+fi
 cd "$ROOT_DIR"
 
-MATRIX="notes/design/ontology/CANONICAL_RULE_TRACEABILITY.md"
+WORKSHOP_ROOT="${WORKSHOP_ROOT:-$ROOT_DIR/../workshop}"
+DESIGN_VALIDATION_ROOT="${DESIGN_VALIDATION_ROOT:-$WORKSHOP_ROOT/spec/1.0.0/validation/design}"
+ONTOLOGY_ROOT="$DESIGN_VALIDATION_ROOT/ontology"
+if [[ ! -d "$ONTOLOGY_ROOT" ]]; then
+  ONTOLOGY_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+fi
+
+MATRIX="$ONTOLOGY_ROOT/CANONICAL_RULE_TRACEABILITY.md"
 
 if [[ ! -f "$MATRIX" ]]; then
   echo "Traceability check failed: missing $MATRIX" >&2

@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 
@@ -30,6 +30,7 @@ Evaluation MUST terminate with `EVALUATION_ERROR` if any condition below is true
 5. a required strict override result is missing for any candidate
 6. a soft term score is outside `[0, 1]`
 7. a required numeric value cannot be parsed as decimal
+8. `solverMode` is missing or not `weightedSum`
 
 No partial output is allowed on error.
 
@@ -92,7 +93,7 @@ Failure MUST return:
 
 Every emitted `StageBResult` MUST validate against:
 
-1. `notes/workshop/design/codex/stage-b-result.schema.cdx`
+1. `notes/workshop/design/codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
 
 ## 7. Executable vectors
 

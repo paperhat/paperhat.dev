@@ -1,10 +1,40 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+find_repo_root() {
+  local dir="$1"
+  while [[ "$dir" != "/" ]]; do
+    if [[ -d "$dir/.git" ]]; then
+      printf "%s" "$dir"
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+  done
+  return 1
+}
+ROOT_DIR="$(find_repo_root "$SCRIPT_DIR")"
+if [[ -z "$ROOT_DIR" ]]; then
+  echo "Unable to locate repository root from $SCRIPT_DIR" >&2
+  exit 1
+fi
 cd "$ROOT_DIR"
 
-COVERAGE="notes/design/ontology/fixture-coverage.csv"
+WORKSHOP_ROOT="${WORKSHOP_ROOT:-$ROOT_DIR/../workshop}"
+DESIGN_VALIDATION_ROOT="${DESIGN_VALIDATION_ROOT:-$WORKSHOP_ROOT/spec/1.0.0/validation/design}"
+ONTOLOGY_ROOT="$DESIGN_VALIDATION_ROOT/ontology"
+if [[ ! -d "$ONTOLOGY_ROOT" ]]; then
+  ONTOLOGY_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+fi
+WORKSHOP_DESIGN_ROOT="$DESIGN_VALIDATION_ROOT/workshop"
+if [[ ! -d "$WORKSHOP_DESIGN_ROOT" ]]; then
+  if [[ -d "$ONTOLOGY_ROOT/../workshop" ]]; then
+    WORKSHOP_DESIGN_ROOT="$(cd "$ONTOLOGY_ROOT/../workshop" && pwd)"
+  elif [[ -d "$ONTOLOGY_ROOT/../../workshop/design" ]]; then
+    WORKSHOP_DESIGN_ROOT="$(cd "$ONTOLOGY_ROOT/../../workshop/design" && pwd)"
+  fi
+fi
+COVERAGE="$ONTOLOGY_ROOT/fixture-coverage.csv"
 
 if [[ ! -f "$COVERAGE" ]]; then
   echo "Fixture coverage check failed: missing $COVERAGE" >&2
@@ -67,19 +97,53 @@ done
 tail -n +2 "$COVERAGE" | while IFS=',' read -r clause enforcement positive negative; do
   [[ -z "$clause" ]] && continue
 
-  if [[ "$enforcement" == "SHACL" ]]; then
-    if [[ "$positive" == "N/A" || "$negative" == "N/A" ]]; then
-      echo "Fixture coverage check failed: SHACL clause ${clause} cannot use N/A coverage." >&2
-      exit 1
+  resolve_fixture_path() {
+    local rel="$1"
+    local canonical_ontology_prefix="spec/1.0.0/validation/design/ontology/"
+    local canonical_workshop_prefix="spec/1.0.0/validation/design/workshop/"
+    if [[ "$rel" == spec/* ]]; then
+      local workshop_candidate="$WORKSHOP_ROOT/$rel"
+      if [[ -f "$workshop_candidate" ]]; then
+        printf "%s" "$workshop_candidate"
+        return
+      fi
+
+      if [[ "$rel" == "$canonical_ontology_prefix"* ]]; then
+        local local_ontology_candidate="$ONTOLOGY_ROOT/${rel#"$canonical_ontology_prefix"}"
+        if [[ -f "$local_ontology_candidate" ]]; then
+          printf "%s" "$local_ontology_candidate"
+          return
+        fi
+      fi
+
+      if [[ "$rel" == "$canonical_workshop_prefix"* ]]; then
+        local local_workshop_candidate="$WORKSHOP_DESIGN_ROOT/${rel#"$canonical_workshop_prefix"}"
+        if [[ -f "$local_workshop_candidate" ]]; then
+          printf "%s" "$local_workshop_candidate"
+          return
+        fi
+      fi
+
+      printf "%s" "$workshop_candidate"
+      return
     fi
+    printf "%s/%s" "$ROOT_DIR" "$rel"
+  }
+
+  if [[ "$positive" == "N/A" || "$negative" == "N/A" ]]; then
+    echo "Fixture coverage check failed: clause ${clause} cannot use N/A coverage." >&2
+    exit 1
   fi
 
-  if [[ "$positive" != "N/A" && ! -f "$positive" ]]; then
+  positive_path="$(resolve_fixture_path "$positive")"
+  negative_path="$(resolve_fixture_path "$negative")"
+
+  if [[ ! -f "$positive_path" ]]; then
     echo "Fixture coverage check failed: missing positive fixture for ${clause}: ${positive}" >&2
     exit 1
   fi
 
-  if [[ "$negative" != "N/A" && ! -f "$negative" ]]; then
+  if [[ ! -f "$negative_path" ]]; then
     echo "Fixture coverage check failed: missing negative fixture for ${clause}: ${negative}" >&2
     exit 1
   fi

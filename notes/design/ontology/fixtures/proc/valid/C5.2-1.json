@@ -1,0 +1,6 @@
+{
+  "clause": "C5.2-1",
+  "kind": "canonical_serialization",
+  "input": "notes/design/ontology/fixtures/proc/data/canonical-order-input.nt",
+  "expected": "notes/design/ontology/fixtures/proc/data/canonical-order.expected.nt"
+}

@@ -1,0 +1,7 @@
+<LocalizationBundle
+	schema=codex:design-policy:adaptive-override-set
+	schemaVersion="1.0.0"
+	language=$en
+>
+	<ConceptLocalization identifier="AdaptiveOverrideSet" label="AdaptiveOverrideSet" />
+</LocalizationBundle>

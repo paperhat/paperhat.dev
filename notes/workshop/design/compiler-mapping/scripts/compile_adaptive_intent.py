@@ -288,7 +288,15 @@ def compile_optimization_profile(profile: dict[str, Any]) -> dict[str, Any]:
         "profile_id": require_iri(require_field(profile, "profileId"), "optimizationProfile.profileId"),
     }
 
-    for token_field in ("solverMode", "quantizationMode", "reflowMode", "relaxationStrategy"):
+    solver_mode = normalize_token(
+        require_field(profile, "solverMode"),
+        "optimizationProfile.solverMode",
+    )
+    if solver_mode != "weightedSum":
+        raise CompileError(f"Unsupported solverMode in 1.0.0: {solver_mode}")
+    compiled["solverMode"] = solver_mode
+
+    for token_field in ("quantizationMode", "reflowMode", "relaxationStrategy"):
         value = profile.get(token_field)
         if value is not None:
             compiled[token_field] = normalize_token(value, f"optimizationProfile.{token_field}")
@@ -325,12 +333,13 @@ def compile_optimization_profile(profile: dict[str, Any]) -> dict[str, Any]:
     for row in profile.get("softTerms", []):
         if not isinstance(row, dict):
             raise CompileError("softTerms entries must be objects.")
-        weight_class = normalize_optional_token(row.get("weightClass"), "softTerms.weightClass")
-        weight = None
-        if weight_class is not None:
-            if weight_class not in SOFT_TERM_WEIGHTS:
-                raise CompileError(f"Unknown soft term weight class: {weight_class}")
-            weight = format(SOFT_TERM_WEIGHTS[weight_class], "f")
+        weight_class = normalize_token(
+            require_field(row, "weightClass"),
+            "softTerms.weightClass",
+        )
+        if weight_class not in SOFT_TERM_WEIGHTS:
+            raise CompileError(f"Unknown soft term weight class: {weight_class}")
+        weight = format(SOFT_TERM_WEIGHTS[weight_class], "f")
 
         minimum_satisfaction = row.get("minimumSatisfaction")
         min_value = None
@@ -373,12 +382,14 @@ def compile_optimization_profile(profile: dict[str, Any]) -> dict[str, Any]:
             {
                 "relax_order": relax_order,
                 "relax_weight_class": relax_weight_class,
-                "relaxation_action": normalize_optional_token(
-                    row.get("relaxationAction"),
+                "relaxation_action": normalize_token(
+                    require_field(row, "relaxationAction"),
                     "relaxationRules.relaxationAction",
                 ),
             }
         )
+        if relaxation_rules[-1]["relaxation_action"] not in {"dropTerm", "widenThreshold", "allowGroupSplit"}:
+            raise CompileError(f"Unknown relaxationAction: {relaxation_rules[-1]['relaxation_action']}")
 
     relaxation_rules.sort(
         key=lambda x: (x["relax_order"], x["relax_weight_class"], x["relaxation_action"] or "")

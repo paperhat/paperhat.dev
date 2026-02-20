@@ -1,6 +1,6 @@
 <StageAE2EExpectation
 	id="adaptive-intent-stage-a-e2e"
-	graphFile="notes/design/ontology/fixtures/policy/vector/base-policy-graph.ttl"
+	graphFile="spec/1.0.0/validation/design/ontology/fixtures/policy/vector/base-policy-graph.ttl"
 >
 	<Expect status="ok">
 		<SelectedActions>

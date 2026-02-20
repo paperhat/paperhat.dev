@@ -1,0 +1,7 @@
+<LocalizationBundle
+	schema=codex:design-policy:adaptive-optimization-profile
+	schemaVersion="1.0.0"
+	language=$en
+>
+	<ConceptLocalization identifier="AdaptiveOptimizationProfile" label="AdaptiveOptimizationProfile" />
+</LocalizationBundle>

@@ -19,16 +19,16 @@
 				<ForbidsContent />
 			</ContentRules>
 
-			<TraitRules>
-				<RequiresTrait name="intentId" />
+				<TraitRules>
+					<RequiresTrait name="intentId" />
 
 				<RequiresTrait name="compositionRef" />
 
 				<RequiresTrait name="contextProfileRef" />
 
-				<RequiresTrait name="objectiveProfileRef" />
+					<RequiresTrait name="objectiveProfileRef" />
 
-				<AllowsTrait name="optimizationProfileRef" />
+					<RequiresTrait name="optimizationProfileRef" />
 
 				<AllowsTrait name="overrideSetRef" />
 

@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 
@@ -57,7 +57,7 @@ Failure MUST emit `StageAResult status="error" error="EVALUATION_ERROR"`.
 
 Every emitted `StageAResult` MUST validate against:
 
-1. `notes/workshop/design/codex/stage-a-result.schema.cdx`
+1. `notes/workshop/design/codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
 
 ## 5. Executable vectors
 

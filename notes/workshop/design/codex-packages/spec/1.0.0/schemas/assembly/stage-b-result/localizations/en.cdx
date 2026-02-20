@@ -1,0 +1,7 @@
+<LocalizationBundle
+	schema=codex:assembly:stage-b-result
+	schemaVersion="1.0.0"
+	language=$en
+>
+	<ConceptLocalization identifier="StageBResult" label="StageBResult" />
+</LocalizationBundle>

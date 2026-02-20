@@ -1,0 +1,5 @@
+@prefix wd: <https://paperhat.dev/ns/wd#> .
+
+<urn:stroke:proc:1> a wd:Stroke .
+
+<urn:baseline:proc:1> a wd:BaselineGrid .

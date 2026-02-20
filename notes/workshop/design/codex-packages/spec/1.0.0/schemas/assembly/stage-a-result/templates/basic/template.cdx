@@ -1,0 +1,5 @@
+<StageAResult id="stage-a-result:ID" status="ok">
+	<SelectedActions>
+		<Action iri="urn:action:ACTION_ID" />
+	</SelectedActions>
+</StageAResult>

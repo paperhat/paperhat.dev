@@ -61,6 +61,9 @@ WD_MODE_REPLACE = URIRef(f"{WD}ReplaceAll")
 WD_MODE_ADD = URIRef(f"{WD}Add")
 WD_MODE_REMOVE = URIRef(f"{WD}Remove")
 
+CANONICAL_ONTOLOGY_PREFIX = "spec/1.0.0/validation/design/ontology/"
+CANONICAL_WORKSHOP_PREFIX = "spec/1.0.0/validation/design/workshop/"
+
 
 class EvaluationError(Exception):
     """Evaluation failed under fail-closed rules."""
@@ -88,6 +91,49 @@ class ActionInfo:
     target_property: URIRef
     value: URIRef | Literal
     policy: PolicyInfo
+
+
+def discover_repo_root(start: Path) -> Path:
+    """Find repository root by walking ancestors until a .git directory is found."""
+    for candidate in (start, *start.parents):
+        if (candidate / ".git").exists():
+            return candidate
+    raise EvaluationError(f"Unable to locate repository root from {start}")
+
+
+def _local_design_roots(script_path: Path) -> tuple[Path, Path]:
+    """Resolve local ontology/workshop roots for legacy and canonical layouts."""
+    ontology_root = script_path.parent.parent
+    workshop_candidates = (
+        ontology_root.parent / "workshop",
+        ontology_root.parent.parent / "workshop" / "design",
+    )
+    for candidate in workshop_candidates:
+        if candidate.exists():
+            return ontology_root, candidate
+    return ontology_root, workshop_candidates[0]
+
+
+def resolve_repo_relative_path(repo_root: Path, relative_path: str) -> Path:
+    """Resolve a repo-relative path against paperhat.dev or sibling workshop repo."""
+    primary = repo_root / relative_path
+    if primary.exists():
+        return primary
+    sibling_workshop = repo_root.parent / "workshop" / relative_path
+    if sibling_workshop.exists():
+        return sibling_workshop
+
+    script_path = Path(__file__).resolve()
+    ontology_root, workshop_root = _local_design_roots(script_path)
+    if relative_path.startswith(CANONICAL_ONTOLOGY_PREFIX):
+        local_ontology = ontology_root / relative_path[len(CANONICAL_ONTOLOGY_PREFIX) :]
+        if local_ontology.exists():
+            return local_ontology
+    if relative_path.startswith(CANONICAL_WORKSHOP_PREFIX):
+        local_workshop = workshop_root / relative_path[len(CANONICAL_WORKSHOP_PREFIX) :]
+        if local_workshop.exists():
+            return local_workshop
+    return primary
 
 
 def must_single_object(graph: Graph, subject: URIRef, predicate: URIRef) -> URIRef | Literal:
@@ -498,7 +544,7 @@ def run_vector(vector_path: Path, repo_root: Path, shapes: Graph, ontology: Grap
     vector_id = vector.get("id", vector_path.name)
 
     try:
-        graph_file = repo_root / vector["graph_file"]
+        graph_file = resolve_repo_relative_path(repo_root, vector["graph_file"])
         composition = URIRef(vector["composition_iri"])
         view_value = vector.get("view_iri")
         view = URIRef(view_value) if view_value else None
@@ -571,8 +617,11 @@ def run_vector(vector_path: Path, repo_root: Path, shapes: Graph, ontology: Grap
 
 
 def main() -> int:
-    repo_root = Path(__file__).resolve().parents[4]
-    vector_dir = repo_root / "notes/design/ontology/policy-vectors"
+    repo_root = discover_repo_root(Path(__file__).resolve())
+    vector_dir = resolve_repo_relative_path(
+        repo_root,
+        "spec/1.0.0/validation/design/ontology/policy-vectors",
+    )
 
     vector_files = sorted(vector_dir.glob("*.cdx"))
     if not vector_files:
@@ -581,8 +630,20 @@ def main() -> int:
 
     shapes = Graph()
     ontology = Graph()
-    shapes.parse(repo_root / "notes/design/ontology/wd-all.shacl.ttl", format="turtle")
-    ontology.parse(repo_root / "notes/design/ontology/wd-core.ttl", format="turtle")
+    shapes.parse(
+        resolve_repo_relative_path(
+            repo_root,
+            "spec/1.0.0/validation/design/ontology/wd-all.shacl.ttl",
+        ),
+        format="turtle",
+    )
+    ontology.parse(
+        resolve_repo_relative_path(
+            repo_root,
+            "spec/1.0.0/validation/design/ontology/wd-core.ttl",
+        ),
+        format="turtle",
+    )
 
     failures = 0
 

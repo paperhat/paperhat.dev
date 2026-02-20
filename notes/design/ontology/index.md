@@ -310,16 +310,16 @@ The 1.0.0 rules-based policy grammar is defined in:
 
 # 12. Workshop-level adaptive projection notes
 
-Workshop-level (Codex authoring) drafts for context/objective profiling and adaptive intent binding are defined in:
+Workshop-level (Codex authoring) specifications for context/objective profiling and adaptive intent binding are defined in:
 
 - `../../workshop/design/RESPONSIVE_PROJECTION_SEMANTICS_1_0_0.md`
 - `../../workshop/design/DESIGN_POLICY_PRECEDENTS_1_0_0.md`
 - `../../workshop/design/COMPILER_MAPPING_SPEC_1_0_0.md`
-- `../../workshop/design/codex/adaptive-context-profile.schema.cdx`
-- `../../workshop/design/codex/adaptive-objective-profile.schema.cdx`
-- `../../workshop/design/codex/adaptive-optimization-profile.schema.cdx`
-- `../../workshop/design/codex/adaptive-override-set.schema.cdx`
-- `../../workshop/design/codex/adaptive-intent.schema.cdx`
-- `../../workshop/design/codex/stage-a-result.schema.cdx`
-- `../../workshop/design/codex/stage-b-result.schema.cdx`
-- `../../workshop/design/codex/adaptive-plan-result.schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/design-intent/adaptive-context-profile/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/design-intent/adaptive-objective-profile/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/design-policy/adaptive-optimization-profile/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/design-policy/adaptive-override-set/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/design-intent/adaptive-intent/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx`
+- `../../workshop/design/codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`

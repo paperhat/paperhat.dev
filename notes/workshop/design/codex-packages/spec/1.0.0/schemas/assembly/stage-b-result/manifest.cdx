@@ -1,0 +1,12 @@
+<AssemblyPackageManifest
+	packageName="workshop-assembly-stage-b-result"
+	packageVersion="1.0.0"
+	primaryDocument="schema.cdx"
+	closureHash="5e65e70756b5858cb56b6415780d84c6da06f34ac5834a3a6f7385f18eb04ec7"
+	description="Packaged Codex schema for stage-b-result in the assembly family."
+	author="Paperhat"
+	requiredCodexVersion=">=1.0.0 <2.0.0"
+	requiredWorkshopVersion=">=1.0.0 <2.0.0"
+	license="Apache-2.0"
+	copyright="Copyright 2026 Paperhat"
+/>

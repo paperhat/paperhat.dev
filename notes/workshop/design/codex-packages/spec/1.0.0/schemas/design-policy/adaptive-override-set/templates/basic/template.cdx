@@ -1,0 +1,10 @@
+<AdaptiveOverrideSet
+	overrideSetId=codex:override:OVERRIDE_SET_NAME
+	overrideMode=$advisory
+>
+	<OverrideConstraint
+		overrideKind=$pinVisible
+		targetRef=urn:node:TARGET_NODE
+		overridePriority=$high
+	/>
+</AdaptiveOverrideSet>

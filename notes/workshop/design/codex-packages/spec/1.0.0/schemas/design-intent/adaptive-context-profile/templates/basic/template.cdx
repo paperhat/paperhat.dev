@@ -1,0 +1,12 @@
+<AdaptiveContextProfile
+	profileId=codex:profile:context:PROFILE_NAME
+	viewportWidthPx=WIDTH_PX
+	viewportHeightPx=HEIGHT_PX
+	deviceClass=$desktop
+	inputModality=$pointer
+	motionPreference=$noPreference
+	contrastPreference=$noPreference
+	colorSchemePreference=$light
+	scriptDirection=$ltr
+	interactionMode=$read
+/>

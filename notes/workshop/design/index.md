@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 
@@ -17,12 +17,16 @@ Current artifacts:
 7. `STAGE_B_EVALUATION_1_0_0.md` - deterministic Stage B evaluation contract and vector semantics
 8. `STAGE_C_PLAN_EMISSION_1_0_0.md` - deterministic Stage C foundry handoff plan emission contract
 9. `compiler-mapping/index.md` - executable mapping fixtures and check runner
-10. `codex/adaptive-context-profile.schema.cdx` - context taxonomy for adaptive evaluation inputs
-11. `codex/adaptive-objective-profile.schema.cdx` - objective taxonomy for adaptive intent
-12. `codex/adaptive-optimization-profile.schema.cdx` - cost-function and relaxation controls
-13. `codex/adaptive-override-set.schema.cdx` - explicit human override constraints
-14. `codex/adaptive-intent.schema.cdx` - binding model linking context + objectives + optimization + overrides + policy set + target
-15. `codex/stage-a-result.schema.cdx` - Stage A result envelope schema
-16. `codex/stage-b-result.schema.cdx` - Stage B result envelope schema
-17. `codex/adaptive-plan-result.schema.cdx` - Stage C adaptive plan envelope schema
-18. `codex/examples/adaptive-intent-article-homepage.example.cdx` - worked authoring example
+10. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-context-profile/schema.cdx` - context taxonomy for adaptive evaluation inputs
+11. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-objective-profile/schema.cdx` - objective taxonomy for adaptive intent
+12. `codex-packages/spec/1.0.0/schemas/design-policy/adaptive-optimization-profile/schema.cdx` - cost-function and relaxation controls
+13. `codex-packages/spec/1.0.0/schemas/design-policy/adaptive-override-set/schema.cdx` - explicit human override constraints
+14. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-intent/schema.cdx` - binding model linking context + objectives + optimization + overrides + policy set + target
+15. `codex-packages/spec/1.0.0/schemas/assembly/stage-a-result/schema.cdx` - Stage A result envelope schema
+16. `codex-packages/spec/1.0.0/schemas/assembly/stage-b-result/schema.cdx` - Stage B result envelope schema
+17. `codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx` - Stage C adaptive plan envelope schema
+18. `codex-packages/spec/1.0.0/schemas/design-intent/adaptive-intent/examples/default/example.cdx` - worked authoring example
+19. `codex-packages/FAMILY_ASSIGNMENTS_1_0_0.md` - normalized Workshop family assignment decisions for Codex design schemas
+20. `codex-packages/spec/1.0.0/schemas/design-intent/*` - package-structured design-intent schema staging packages
+21. `codex-packages/spec/1.0.0/schemas/design-policy/*` - package-structured design-policy schema staging packages
+22. `codex-packages/spec/1.0.0/schemas/assembly/*` - package-structured assembly schema staging packages

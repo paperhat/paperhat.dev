@@ -1,0 +1,5 @@
+{
+  "clause": "C5.1-2",
+  "kind": "no_blank_nodes",
+  "input": "notes/design/ontology/fixtures/proc/data/has-blank-node.nt"
+}

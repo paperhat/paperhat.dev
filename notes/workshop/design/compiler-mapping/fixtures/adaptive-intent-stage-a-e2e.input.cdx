@@ -14,6 +14,7 @@
 
 	<AdaptiveOptimizationProfile
 		profileId="codex:profile:optimization:stage-a-e2e"
+		solverMode="$weightedSum"
 	>
 		<OptimizationSoftTerm termKey="$readability" weightClass="$high" />
 	</AdaptiveOptimizationProfile>

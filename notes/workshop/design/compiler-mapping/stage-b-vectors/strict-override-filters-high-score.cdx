@@ -1,4 +1,4 @@
-<StageBVector id="strict-override-filters-high-score" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
+<StageBVector id="strict-override-filters-high-score" compiledRequestFile="spec/1.0.0/validation/design/workshop/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
 	<Candidate id="candidate-high-override-fail">
 		<HardConstraintResult key="minReadableFont" satisfied="true" />
 		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
@@ -21,5 +21,5 @@
 		<OverrideResult kind="pinVisible" targetRef="urn:node:primary-headline" satisfied="true" />
 	</Candidate>
 
-	<Expect status="ok" selectedCandidate="candidate-lower-override-pass" />
+		<Expect status="ok" selectedCandidate="candidate-lower-override-pass" selectedScore="0.84375" />
 </StageBVector>

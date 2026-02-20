@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -21,6 +22,12 @@ class ConceptRule:
     forbids_content: bool
 
 
+@dataclass(frozen=True)
+class TraitRule:
+    value_type: str | None
+    allowed_values: frozenset[str] | None
+
+
 def _require_attr(element: ET.Element, name: str, path: str) -> str:
     value = element.get(name)
     if value is None or value == "":
@@ -28,7 +35,30 @@ def _require_attr(element: ET.Element, name: str, path: str) -> str:
     return value
 
 
-def _parse_schema(schema_path: Path) -> dict[str, ConceptRule]:
+def _normalize_enum_value(value: str) -> str:
+    token = value.strip()
+    if token.startswith("$"):
+        token = token[1:]
+    return token
+
+
+def _parse_allowed_values(raw: str) -> frozenset[str]:
+    payload = raw.strip()
+    if payload.startswith("[") and payload.endswith("]"):
+        payload = payload[1:-1]
+
+    values: set[str] = set()
+    for part in payload.split(","):
+        token = part.strip()
+        if not token:
+            continue
+        if token.startswith('"') and token.endswith('"') and len(token) >= 2:
+            token = token[1:-1]
+        values.add(_normalize_enum_value(token))
+    return frozenset(values)
+
+
+def _parse_schema(schema_path: Path) -> tuple[dict[str, ConceptRule], dict[str, TraitRule]]:
     try:
         root = ET.parse(schema_path).getroot()
     except ET.ParseError as exc:
@@ -37,9 +67,13 @@ def _parse_schema(schema_path: Path) -> dict[str, ConceptRule]:
     if root.tag != "Schema":
         raise OutputSchemaValidationError(f"Root tag must be Schema in {schema_path}")
 
-    rules: dict[str, ConceptRule] = {}
+    concept_rules: dict[str, ConceptRule] = {}
     for concept in root.findall("ConceptDefinitions/ConceptDefinition"):
-        concept_name = _require_attr(concept, "name", f"Schema/ConceptDefinitions/ConceptDefinition in {schema_path}")
+        concept_name = _require_attr(
+            concept,
+            "name",
+            f"Schema/ConceptDefinitions/ConceptDefinition in {schema_path}",
+        )
         required_traits: set[str] = set()
         allowed_traits: set[str] = set()
         required_children: set[str] = set()
@@ -80,7 +114,7 @@ def _parse_schema(schema_path: Path) -> dict[str, ConceptRule]:
             )
             allowed_children.add(child_name)
 
-        rules[concept_name] = ConceptRule(
+        concept_rules[concept_name] = ConceptRule(
             required_traits=frozenset(required_traits),
             allowed_traits=frozenset(allowed_traits),
             required_children=frozenset(required_children),
@@ -88,26 +122,111 @@ def _parse_schema(schema_path: Path) -> dict[str, ConceptRule]:
             forbids_content=forbids_content,
         )
 
-    if not rules:
+    if not concept_rules:
         raise OutputSchemaValidationError(f"Schema has no ConceptDefinition entries: {schema_path}")
-    return rules
+
+    trait_rules: dict[str, TraitRule] = {}
+    for trait in root.findall("TraitDefinitions/TraitDefinition"):
+        trait_name = _require_attr(
+            trait,
+            "name",
+            f"Schema/TraitDefinitions/TraitDefinition in {schema_path}",
+        )
+        value_type = trait.get("defaultValueType")
+        allowed_values_node = trait.find("AllowedValues/ValueIsOneOf")
+        allowed_values = None
+        if allowed_values_node is not None:
+            raw_values = _require_attr(
+                allowed_values_node,
+                "values",
+                f"Schema/TraitDefinitions/TraitDefinition[@name='{trait_name}']/AllowedValues/ValueIsOneOf",
+            )
+            allowed_values = _parse_allowed_values(raw_values)
+
+        trait_rules[trait_name] = TraitRule(
+            value_type=value_type,
+            allowed_values=allowed_values,
+        )
+
+    return concept_rules, trait_rules
 
 
-def _validate_node(node: ET.Element, path: str, rules: dict[str, ConceptRule]) -> None:
+def _validate_trait_type(trait_name: str, trait_value: str, trait_rule: TraitRule, path: str) -> None:
+    value_type = trait_rule.value_type
+    if value_type is None:
+        return
+
+    if trait_value == "":
+        raise OutputSchemaValidationError(f"Trait '{trait_name}' at {path} MUST NOT be empty")
+
+    if value_type == "$Text":
+        pass
+    elif value_type == "$IriReference":
+        if ":" not in trait_value or any(ch.isspace() for ch in trait_value):
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} MUST be a non-whitespace IRI reference"
+            )
+    elif value_type == "$Boolean":
+        if trait_value not in {"true", "false"}:
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} MUST be true or false"
+            )
+    elif value_type == "$Integer":
+        try:
+            decimal = Decimal(trait_value)
+        except InvalidOperation as exc:
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} MUST be an integer"
+            ) from exc
+        if decimal != decimal.to_integral_value():
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} MUST be an integer"
+            )
+    elif value_type == "$Number":
+        try:
+            Decimal(trait_value)
+        except InvalidOperation as exc:
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} MUST be numeric"
+            ) from exc
+    elif value_type == "$EnumeratedToken":
+        normalized = _normalize_enum_value(trait_value)
+        if normalized == "":
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} MUST be a non-empty token"
+            )
+    # Other Codex value types are not currently required for output-envelope validation.
+
+    if trait_rule.allowed_values is not None:
+        normalized = _normalize_enum_value(trait_value)
+        if normalized not in trait_rule.allowed_values:
+            allowed_values = ", ".join(sorted(trait_rule.allowed_values))
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} has invalid value '{trait_value}'. "
+                f"Allowed values: {allowed_values}"
+            )
+
+
+def _validate_node(
+    node: ET.Element,
+    path: str,
+    concept_rules: dict[str, ConceptRule],
+    trait_rules: dict[str, TraitRule],
+) -> None:
     concept = node.tag
-    if concept not in rules:
+    if concept not in concept_rules:
         raise OutputSchemaValidationError(f"Concept '{concept}' at {path} is not defined in schema")
 
-    rule = rules[concept]
+    concept_rule = concept_rules[concept]
     attrs = set(node.attrib.keys())
-    missing_traits = sorted(rule.required_traits - attrs)
+    missing_traits = sorted(concept_rule.required_traits - attrs)
     if missing_traits:
         raise OutputSchemaValidationError(
             f"Concept '{concept}' at {path} is missing required trait(s): {', '.join(missing_traits)}"
         )
 
-    if rule.allowed_traits:
-        unknown_attrs = sorted(attrs - rule.allowed_traits)
+    if concept_rule.allowed_traits:
+        unknown_attrs = sorted(attrs - concept_rule.allowed_traits)
         if unknown_attrs:
             raise OutputSchemaValidationError(
                 f"Concept '{concept}' at {path} has unknown trait(s): {', '.join(unknown_attrs)}"
@@ -115,20 +234,32 @@ def _validate_node(node: ET.Element, path: str, rules: dict[str, ConceptRule]) -
     elif attrs:
         raise OutputSchemaValidationError(f"Concept '{concept}' at {path} MUST NOT define traits")
 
-    if rule.forbids_content and (node.text or "").strip():
+    for trait_name in sorted(attrs):
+        if trait_name not in trait_rules:
+            raise OutputSchemaValidationError(
+                f"Trait '{trait_name}' at {path} is not defined in schema TraitDefinitions"
+            )
+        _validate_trait_type(
+            trait_name,
+            node.attrib[trait_name],
+            trait_rules[trait_name],
+            f"{path}/@{trait_name}",
+        )
+
+    if concept_rule.forbids_content and (node.text or "").strip():
         raise OutputSchemaValidationError(f"Concept '{concept}' at {path} forbids content text")
 
     child_names = [child.tag for child in node]
-    if rule.allowed_children:
+    if concept_rule.allowed_children:
         for child in node:
-            if child.tag not in rule.allowed_children:
+            if child.tag not in concept_rule.allowed_children:
                 raise OutputSchemaValidationError(
                     f"Concept '{concept}' at {path} has disallowed child concept '{child.tag}'"
                 )
     elif child_names:
         raise OutputSchemaValidationError(f"Concept '{concept}' at {path} MUST NOT define child concepts")
 
-    for required_child in sorted(rule.required_children):
+    for required_child in sorted(concept_rule.required_children):
         if required_child not in child_names:
             raise OutputSchemaValidationError(
                 f"Concept '{concept}' at {path} is missing required child concept '{required_child}'"
@@ -136,12 +267,12 @@ def _validate_node(node: ET.Element, path: str, rules: dict[str, ConceptRule]) -
 
     for index, child in enumerate(node):
         child_path = f"{path}/{child.tag}[{index}]"
-        _validate_node(child, child_path, rules)
+        _validate_node(child, child_path, concept_rules, trait_rules)
 
 
 def validate_root_element_against_schema(root: ET.Element, schema_path: Path) -> None:
-    rules = _parse_schema(schema_path)
-    _validate_node(root, root.tag, rules)
+    concept_rules, trait_rules = _parse_schema(schema_path)
+    _validate_node(root, root.tag, concept_rules, trait_rules)
 
 
 def validate_rendered_cdx_against_schema(rendered_cdx: str, schema_path: Path) -> None:

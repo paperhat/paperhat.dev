@@ -1,0 +1,7 @@
+<LocalizationBundle
+	schema=codex:design-intent:adaptive-intent
+	schemaVersion="1.0.0"
+	language=$en
+>
+	<ConceptLocalization identifier="AdaptiveIntent" label="AdaptiveIntent" />
+</LocalizationBundle>

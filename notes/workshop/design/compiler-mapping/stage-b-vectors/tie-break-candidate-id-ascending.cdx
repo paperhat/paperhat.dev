@@ -1,4 +1,4 @@
-<StageBVector id="tie-break-candidate-id-ascending" compiledRequestFile="notes/workshop/design/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
+<StageBVector id="tie-break-candidate-id-ascending" compiledRequestFile="spec/1.0.0/validation/design/workshop/compiler-mapping/fixtures/adaptive-intent-article-homepage.compiled.cdx">
 	<Candidate id="candidate-002">
 		<HardConstraintResult key="minReadableFont" satisfied="true" />
 		<HardConstraintResult key="mustNotOverlap" satisfied="true" />
@@ -21,5 +21,5 @@
 		<OverrideResult kind="pinVisible" targetRef="urn:node:primary-headline" satisfied="true" />
 	</Candidate>
 
-	<Expect status="ok" selectedCandidate="candidate-001" />
+		<Expect status="ok" selectedCandidate="candidate-001" selectedScore="0.9" />
 </StageBVector>

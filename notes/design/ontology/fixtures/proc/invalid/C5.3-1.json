@@ -1,0 +1,6 @@
+{
+  "clause": "C5.3-1",
+  "kind": "sha256_hash",
+  "input": "notes/design/ontology/fixtures/proc/data/hash-input.nt",
+  "expected": "notes/design/ontology/fixtures/proc/data/hash.bad.expected.txt"
+}

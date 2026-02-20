@@ -1,4 +1,4 @@
-Status: WORKING
+Status: READY
 Lock State: LOCKED
 Version: 1.0.0
 
@@ -57,7 +57,7 @@ If Stage A and Stage B are both `ok`, output MUST be:
 
 Every emitted `AdaptivePlanResult` MUST validate against:
 
-1. `notes/workshop/design/codex/adaptive-plan-result.schema.cdx`
+1. `notes/workshop/design/codex-packages/spec/1.0.0/schemas/assembly/adaptive-plan-result/schema.cdx`
 
 ## 5. Determinism requirements
 
