@@ -1,7 +1,0 @@
-{
-  "clause": "C5.4-1",
-  "kind": "scoped_hash",
-  "input": "notes/design/ontology/fixtures/proc/data/scope-hash-input.ttl",
-  "composition": "urn:comp:1",
-  "expected": "notes/design/ontology/fixtures/proc/data/scope-hash.bad.expected.txt"
-}

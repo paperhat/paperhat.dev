@@ -1,3 +1,0 @@
-<StageBResult id="stage-b-result:default" status="ok" selectedCandidate="candidate-1" selectedScore="0.75">
-	<AppliedRelaxation relaxOrder="1" relaxWeightClass="low" relaxationAction="dropTerm" />
-</StageBResult>

@@ -1,5 +1,0 @@
-{
-  "clause": "C4.2-1",
-  "kind": "no_implicit_semantics",
-  "input": "notes/design/ontology/fixtures/proc/data/implicit-semantics.ttl"
-}

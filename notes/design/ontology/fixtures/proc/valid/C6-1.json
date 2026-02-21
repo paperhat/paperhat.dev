@@ -1,5 +1,0 @@
-{
-  "clause": "C6-1",
-  "kind": "validation_contract",
-  "input": "notes/design/ontology/fixtures/core/valid/full-composition.ttl"
-}

@@ -1,8 +1,0 @@
-<StageAResult id="stage-a-result:default" status="ok">
-	<SelectedActions>
-		<Action iri="urn:action:default" />
-	</SelectedActions>
-	<Delta>
-		<Add triple="<urn:a> <urn:b> <urn:c> ." />
-	</Delta>
-</StageAResult>

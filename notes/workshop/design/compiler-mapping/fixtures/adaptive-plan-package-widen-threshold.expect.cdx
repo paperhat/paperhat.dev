@@ -1,5 +1,0 @@
-<AdaptivePlanPackage workshopVersion="1.0.0" closureHash="fa0d5b5d8195656cce0da5155a26ce51a2e3071ac30fd0eef0e16c6ddbd0bbad" adaptivePlanProjectionDefinitionClosureHash="28df0ad0ec374c93322782adc79be8d654799081caa6bfea532822e0d9f40691" contentHashAlgorithm="SHA256" adaptivePlanPackageContentHash="357f1551b4efba483544c3d50647def23e51eb4b3d6f065ff86b1585bcef6868">
-	<PayloadRecords>
-		<AdaptivePlanPayloadRecord projectionIdentifier="urn:projection:adaptive-plan:web:widen-threshold" projectionDefinitionClosureHash="28df0ad0ec374c93322782adc79be8d654799081caa6bfea532822e0d9f40691" parameterHash="c8b383bb8ec5b31fbfe0f97f03438cd16b326ddf97d9e870a30a9505fe17c028" payloadContentHash="b6b985a7ef070d5eaae180144a270dd0e3d50f2186d254824c224d89c7cb47a5" payloadCanonicalBytes="projection=urn:projection:adaptive-plan:web:widen-threshold;selectedCandidate=candidate-a;selectedScore=0.9;relaxation=widenThreshold" />
-	</PayloadRecords>
-</AdaptivePlanPackage>

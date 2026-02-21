@@ -1,8 +1,0 @@
-@prefix wd: <https://paperhat.dev/ns/wd#> .
-
-<urn:composition:proc:1> a wd:Composition ;
-  wd:hasElement <urn:element:proc:1> .
-
-<urn:element:proc:1> a wd:ElementInstance ;
-  wd:ownedBy <urn:composition:proc:1> ;
-  wd:inheritsStyleFrom <urn:element:proc:0> .

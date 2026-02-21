@@ -1,7 +1,0 @@
-<PolicyVector
-	id="error-missing-context"
-	graphFile="spec/1.0.0/validation/design/ontology/fixtures/policy/vector/base-policy-graph.ttl"
-	compositionIri="https://paperhat.dev/examples/policy/vector/base#c1"
->
-	<Expect status="error" error="EVALUATION_ERROR" />
-</PolicyVector>

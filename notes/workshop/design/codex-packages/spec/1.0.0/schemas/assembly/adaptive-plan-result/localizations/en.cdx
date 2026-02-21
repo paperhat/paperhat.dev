@@ -1,7 +1,0 @@
-<LocalizationBundle
-	schema=codex:assembly:adaptive-plan-result
-	schemaVersion="1.0.0"
-	language=$en
->
-	<ConceptLocalization identifier="AdaptivePlanResult" label="AdaptivePlanResult" />
-</LocalizationBundle>

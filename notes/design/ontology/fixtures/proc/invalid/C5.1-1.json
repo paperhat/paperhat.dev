@@ -1,5 +1,0 @@
-{
-  "clause": "C5.1-1",
-  "kind": "nfc_graph",
-  "input": "notes/design/ontology/fixtures/proc/data/nfc-not-normalized.nt"
-}

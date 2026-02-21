@@ -1,9 +1,0 @@
-<AdaptiveIntent
-	intentId=codex:intent:INTENT_NAME
-	compositionRef=urn:composition:COMPOSITION_NAME
-	contextProfileRef=codex:profile:context:PROFILE_NAME
-	objectiveProfileRef=codex:profile:objective:PROFILE_NAME
-	optimizationProfileRef=codex:profile:optimization:PROFILE_NAME
-	policySetRef=urn:policyset:POLICYSET_NAME:1.0.0
-	targetFoundry=$web
-/>

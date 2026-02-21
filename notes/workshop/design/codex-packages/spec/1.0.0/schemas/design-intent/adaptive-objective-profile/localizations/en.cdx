@@ -1,7 +1,0 @@
-<LocalizationBundle
-	schema=codex:design-intent:adaptive-objective-profile
-	schemaVersion="1.0.0"
-	language=$en
->
-	<ConceptLocalization identifier="AdaptiveObjectiveProfile" label="AdaptiveObjectiveProfile" />
-</LocalizationBundle>
