@@ -169,7 +169,7 @@ A pragmatic design language should express not just:
 
 Pragmatic rules operate above semantic tokens and components.
 
-- **Syntactic layer** defines visual grammar (spacing, type, contrast).
+- **Syntactic layer** defines visual grammar as relationships and constraints (contrast hierarchy, proximity, alignment, repetition, negative space), not fixed values; renderers resolve concrete values at runtime.
 - **Semantic layer** defines role grammar (`primary_action`, `warning`, `identity_chip`).
 - **Pragmatic layer** defines use grammar (`first_time_checkout`, `urgent_recovery`, `high_error_risk`).
 
@@ -312,3 +312,214 @@ Implement PDL-0 as a design-time simulator before production use:
 - verify that adaptation improves completion and reduces error.
 
 Ship only rules that survive this test loop.
+
+---
+
+## Pragmatic Design Language v3 (Engineering Mapping)
+
+### Objective
+
+Translate the theory into implementation artifacts that product design, frontend, and data teams can share.
+
+### 1) Constraint Stack Mapping
+
+Use three stacked rule layers. Concrete values are renderer outputs, not author inputs.
+
+#### Syntactic Constraints (visual relations)
+
+- Express relations and priorities, not pixels.
+- Core operators: `proximity`, `contrast`, `alignment`, `repetition`, `foregrounding`, `negative_space`, `grouping`, `separation`.
+- Example declarations:
+    - `relate(order_total, shipping_cost).proximity = close`
+    - `importance(place_order) > importance(cancel)`
+    - `separate(payment_section, promo_section) = clear`
+
+#### Semantic Constraints (role relations)
+
+- Bind interface elements to meaning and role.
+- Example declarations:
+    - `role(place_order) = primary_action`
+    - `role(delete_card) = destructive_action`
+    - `role(help_link) = help_entry`
+
+#### Pragmatic Constraints (use relations)
+
+- Gate how semantic and syntactic constraints are reweighted by context.
+- Example declarations:
+    - `when intent=checkout and state=rushing => weight(proximity, summary_to_cta)=high`
+    - `when confidence<0.45 => freeze(reordering)`
+
+Renderer responsibility:
+
+- solve constraints against device, modality, locale, and accessibility profile,
+- emit concrete values (spacing, size, order, emphasis) at render time.
+
+### 2) Component Contract Mapping
+
+Each component should expose three prop groups:
+
+```ts
+type ComponentProps = {
+    semanticRole: SemanticRole;
+    pragmaticProfile?: PragmaticProfile;
+    syntacticConstraints?: SyntacticConstraintSet;
+    adaptationPolicy?: AdaptationPolicy;
+};
+```
+
+Recommended baseline interfaces:
+
+```ts
+type SemanticRole =
+    | "primary_action"
+    | "secondary_action"
+    | "destructive_action"
+    | "status_info"
+    | "help_entry";
+
+type PragmaticProfile =
+    | "default"
+    | "checkout_rushing"
+    | "research_mobile"
+    | "recovery_low_confidence";
+
+type AdaptationPolicy = {
+    mutable: Array<"layout" | "density" | "copy" | "emphasis" | "order">;
+    maxDelta: number;
+    cooldownMs: number;
+    requireExplanation: boolean;
+};
+
+type SyntacticConstraintSet = {
+    proximity?: Array<{ a: string; b: string; level: "tight" | "near" | "far" }>;
+    contrast?: Array<{ higher: string; lower: string; level: "low" | "medium" | "high" }>;
+    alignment?: Array<{ items: string[]; axis: "x" | "y" | "baseline" }>;
+    separation?: Array<{ a: string; b: string; level: "soft" | "clear" | "strong" }>;
+    foregrounding?: Array<{ item: string; priority: "normal" | "prominent" | "dominant" }>;
+};
+```
+
+### 3) State Machine Mapping
+
+Model adaptation as an explicit state machine, not ad hoc conditionals.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Baseline
+    Baseline --> InferredIntent: intent_detected
+    InferredIntent --> Adapted: confidence >= threshold && policy_ok
+    InferredIntent --> Baseline: confidence < threshold
+    Adapted --> Stabilized: cooldown_elapsed
+    Adapted --> Baseline: user_override
+    Stabilized --> Baseline: intent_changed || confidence_drop
+```
+
+State invariants:
+
+- `Baseline`: semantic defaults only.
+- `Adapted`: bounded pragmatic deltas active.
+- `Stabilized`: no major visual changes until next valid transition.
+
+### 4) Rule Execution Pipeline
+
+Use deterministic execution order per render cycle:
+
+1. ingest signals,
+2. infer intent,
+3. compute confidence,
+4. validate policy + constraints,
+5. resolve conflict between candidate rules,
+6. solve constraint graph into concrete render decisions,
+7. render,
+8. emit explanation + telemetry.
+
+Conflict resolution priority:
+
+1. safety constraints,
+2. accessibility constraints,
+3. explicit user settings,
+4. pragmatic rule score,
+5. recency.
+
+### 5) Telemetry Schema (Minimum Viable)
+
+Capture adaptation outcomes with enough detail to audit and tune.
+
+```json
+{
+    "event": "ui_adaptation_applied",
+    "timestamp": "2026-02-25T12:00:00Z",
+    "session_id": "...",
+    "view_id": "checkout",
+    "intent": "checkout",
+    "phase": "commit",
+    "confidence": 0.82,
+    "rule_ids": ["rush_mode_targets"],
+    "constraint_set": {
+        "proximity": [{ "a": "order_total", "b": "place_order", "level": "tight" }],
+        "contrast": [{ "higher": "place_order", "lower": "cancel", "level": "high" }],
+        "separation": [{ "a": "payment_section", "b": "promo_section", "level": "clear" }]
+    },
+    "render_decisions": {
+        "device": "mobile",
+        "spacing_scale": 1.125,
+        "cta_size": "48px",
+        "section_gap": "24px",
+        "resolved_order": ["order_summary", "payment", "place_order", "cancel"]
+    },
+    "policy": {
+        "max_delta": 0.25,
+        "cooldown_ms": 3000
+    },
+    "explanation_shown": true,
+    "user_override": false,
+    "outcome": {
+        "task_completed": true,
+        "error_count": 0,
+        "time_to_complete_ms": 42000
+    }
+}
+```
+
+### 6) Explanation UX Pattern
+
+Use short, non-disruptive disclosure for major adaptations.
+
+- Inline microcopy: “Adjusted layout for faster completion.”
+- Settings trail: “Why this changed” panel with last 3 adaptations.
+- One-click control: “Use stable layout for this task.”
+
+Add one technical line in explanation metadata:
+
+- `based_on: intent + confidence + constraint_profile`
+
+### 7) Reference Implementation Slice
+
+Start with one bounded domain: checkout.
+
+- Components: `Button`, `FormSection`, `ErrorSummary`.
+- Intents: `checkout`, `recover_checkout`.
+- Profiles: `checkout_rushing`, `checkout_low_confidence`.
+- Syntactic relations: `cta > cancel` (contrast), `summary ~ cta` (proximity), `payment ⟂ promo` (separation).
+- Success metrics: completion rate, error rate, abandon rate, override rate.
+
+Exit criteria for rollout:
+
+- completion improves,
+- errors do not increase,
+- accessibility audits pass,
+- override rate stays below agreed threshold.
+
+### 8) Governance Checklist (Ship Gate)
+
+Before enabling any pragmatic rule in production:
+
+1. rule has owner,
+2. rule has measurable hypothesis,
+3. fallback is defined,
+4. explanation copy is approved,
+5. accessibility review is passed,
+6. telemetry fields are present,
+7. rollback switch exists.
+
+If any item fails, the rule remains simulation-only.
