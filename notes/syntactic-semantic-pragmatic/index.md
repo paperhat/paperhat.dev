@@ -167,10 +167,10 @@ A pragmatic design language should express not just:
 
 ### Scope Boundary
 
-Pragmatic rules operate above semantic tokens and components.
+Pragmatic rules operate above semantic roles and components.
 
 - **Syntactic layer** defines visual grammar as relationships and constraints (contrast hierarchy, proximity, alignment, repetition, negative space), not fixed values; renderers resolve concrete values at runtime.
-- **Semantic layer** defines role grammar (`primary_action`, `warning`, `identity_chip`).
+- **Semantic layer** defines role grammar (`primary_action`, `warning`, `identity_chip`) and role obligations.
 - **Pragmatic layer** defines use grammar (`first_time_checkout`, `urgent_recovery`, `high_error_risk`).
 
 ### Four Primitives
@@ -233,6 +233,51 @@ Default fallback:
 
 ### First-Pass Formal Grammar (PDL-0)
 
+PDL-0 has two linked parts:
+
+- **SDL** (Syntactic Description Language): author-facing relational constraints.
+- **PrDL** (Pragmatic Description Language): context rules that reweight, freeze, or relax SDL constraints.
+
+Concrete values are not authored. They are solved.
+
+#### SDL Grammar (relations)
+
+```ebnf
+SDLProgram        = { SConstraint "." } ;
+
+SConstraint       = Proximity
+                  | Contrast
+                  | Alignment
+                  | Repetition
+                  | Separation
+                  | Foregrounding
+                  | Grouping
+                  | NegativeSpace ;
+
+Proximity         = "proximity" "(" Node "," Node ")" "=" Distance ;
+Contrast          = "importance" "(" Node ")" RelOp "importance" "(" Node ")" ;
+Alignment         = "align" "(" NodeList ")" "on" Axis ;
+Repetition        = "repeat" "(" NodeList ")" "by" RepeatFeature ;
+Separation        = "separate" "(" Node "," Node ")" "=" SeparationLevel ;
+Foregrounding     = "foreground" "(" Node ")" "=" ForegroundLevel ;
+Grouping          = "group" "(" NodeList ")" "=" GroupLevel ;
+NegativeSpace     = "negative_space" "(" Node "," Node ")" "=" SpaceLevel ;
+
+NodeList          = Node { "," Node } ;
+Node              = Identifier ;
+Distance          = "tight" | "near" | "far" ;
+Axis              = "x" | "y" | "baseline" ;
+RepeatFeature     = "shape" | "rhythm" | "alignment" ;
+SeparationLevel   = "soft" | "clear" | "strong" ;
+ForegroundLevel   = "normal" | "prominent" | "dominant" ;
+GroupLevel        = "loose" | "cohesive" | "locked" ;
+SpaceLevel        = "low" | "medium" | "high" ;
+RelOp             = ">" | ">=" | "<" | "<=" ;
+Identifier        = Letter { Letter | Digit | "_" } ;
+```
+
+#### PrDL Grammar (use rules)
+
 ```ebnf
 Program          = { Rule } ;
 
@@ -243,28 +288,27 @@ Trigger          = "when" Condition { ("and" | "or") Condition } ;
 Condition        = Predicate | "(" Trigger ")" ;
 
 Predicate        = Field Operator Value
-                                 | "confidence" RelOp Number
-                                 | "intent" "is" Identifier
-                                 | "phase" "is" Identifier ;
+                 | "confidence" RelOp Number
+                 | "intent" "is" Identifier
+                 | "phase" "is" Identifier ;
 
 Operator         = "==" | "!=" | "in" | "contains" ;
 RelOp            = ">" | ">=" | "<" | "<=" ;
 
 Outcome          = "apply" "{" { Action ";" } "}" [ Explain ] ;
 
-Action           = SetAction | PrioritizeAction | ComposeAction | GuardAction ;
+Action           = WeightAction | FreezeAction | RelaxAction | GuardAction ;
 
-SetAction        = "set" Field "=" Value ;
-PrioritizeAction = "prioritize" Component ["by" Number] ;
-ComposeAction    = "compose" View "with" Profile ;
+WeightAction     = "weight" ConstraintRef "=" WeightLevel ;
+FreezeAction     = "freeze" ConstraintRef ;
+RelaxAction      = "relax" ConstraintRef ["by" Number] ;
 GuardAction      = "guard" Constraint ;
 
 Explain          = "explain" String ;
 
 Field            = Identifier { "." Identifier } ;
-Component        = Identifier ;
-View             = Identifier ;
-Profile          = Identifier ;
+ConstraintRef    = Identifier ;
+WeightLevel      = "low" | "medium" | "high" ;
 Constraint       = Identifier ;
 Identifier       = Letter { Letter | Digit | "_" } ;
 Value            = String | Number | Boolean | Identifier ;
@@ -276,17 +320,17 @@ Value            = String | Number | Boolean | Identifier ;
 rule rush_mode_targets:
 when intent is checkout and user.state == rushing and confidence >= 0.75
 => apply {
-    set controls.touch_target = large;
-    set cta.emphasis = high;
+    weight summary_to_cta_proximity = high;
+    weight cta_over_cancel_contrast = high;
     guard preserve_wcag_aa;
 } explain "Adjusted controls for faster and safer completion.".
 
 rule low_confidence_fallback:
 when intent is recover_account and confidence < 0.45
 => apply {
-    set layout.mode = semantic_baseline;
-    prioritize support_option by 2;
-    guard freeze_reordering;
+    freeze major_reordering;
+    weight help_entry_foregrounding = medium;
+    guard preserve_semantic_order;
 } explain "Using stable layout until your goal is clearer.".
 ```
 
@@ -297,8 +341,9 @@ At runtime, the engine should execute in this order:
 1. infer intent,
 2. compute confidence,
 3. evaluate policy constraints,
-4. apply bounded adaptations,
-5. emit explanation and audit event.
+4. apply bounded reweighting/freeze rules,
+5. solve syntactic constraints into concrete render decisions,
+6. emit explanation and audit event.
 
 This order prevents a common failure: adapting first, then justifying later.
 
@@ -330,7 +375,7 @@ Use three stacked rule layers. Concrete values are renderer outputs, not author 
 - Express relations and priorities, not pixels.
 - Core operators: `proximity`, `contrast`, `alignment`, `repetition`, `foregrounding`, `negative_space`, `grouping`, `separation`.
 - Example declarations:
-    - `relate(order_total, shipping_cost).proximity = close`
+    - `proximity(order_total, shipping_cost) = near`
     - `importance(place_order) > importance(cancel)`
     - `separate(payment_section, promo_section) = clear`
 
@@ -346,7 +391,7 @@ Use three stacked rule layers. Concrete values are renderer outputs, not author 
 
 - Gate how semantic and syntactic constraints are reweighted by context.
 - Example declarations:
-    - `when intent=checkout and state=rushing => weight(proximity, summary_to_cta)=high`
+    - `when intent=checkout and state=rushing => weight summary_to_cta_proximity = high`
     - `when confidence<0.45 => freeze(reordering)`
 
 Renderer responsibility:
@@ -361,7 +406,7 @@ Each component should expose three prop groups:
 ```ts
 type ComponentProps = {
     semanticRole: SemanticRole;
-    pragmaticProfile?: PragmaticProfile;
+    pragmaticContext?: PragmaticContext;
     syntacticConstraints?: SyntacticConstraintSet;
     adaptationPolicy?: AdaptationPolicy;
 };
@@ -377,11 +422,11 @@ type SemanticRole =
     | "status_info"
     | "help_entry";
 
-type PragmaticProfile =
-    | "default"
-    | "checkout_rushing"
-    | "research_mobile"
-    | "recovery_low_confidence";
+type PragmaticContext = {
+    intent: "checkout" | "research" | "recover_account";
+    phase: "discover" | "decide" | "commit" | "recover";
+    confidence: number;
+};
 
 type AdaptationPolicy = {
     mutable: Array<"layout" | "density" | "copy" | "emphasis" | "order">;
@@ -394,8 +439,26 @@ type SyntacticConstraintSet = {
     proximity?: Array<{ a: string; b: string; level: "tight" | "near" | "far" }>;
     contrast?: Array<{ higher: string; lower: string; level: "low" | "medium" | "high" }>;
     alignment?: Array<{ items: string[]; axis: "x" | "y" | "baseline" }>;
+    repetition?: Array<{ items: string[]; feature: "shape" | "rhythm" | "alignment" }>;
+    grouping?: Array<{ items: string[]; level: "loose" | "cohesive" | "locked" }>;
+    negativeSpace?: Array<{ a: string; b: string; level: "low" | "medium" | "high" }>;
     separation?: Array<{ a: string; b: string; level: "soft" | "clear" | "strong" }>;
     foregrounding?: Array<{ item: string; priority: "normal" | "prominent" | "dominant" }>;
+};
+```
+
+Add a renderer capability profile so constraint solving remains portable:
+
+```ts
+type RendererCapabilities = {
+    platform: "web" | "ios" | "android" | "desktop";
+    viewportClass: "compact" | "regular" | "expanded";
+    inputMode: "touch" | "pointer" | "keyboard" | "mixed";
+    accessibility: {
+        minContrast: number;
+        textScale: number;
+        reducedMotion: boolean;
+    };
 };
 ```
 
@@ -432,6 +495,13 @@ Use deterministic execution order per render cycle:
 6. solve constraint graph into concrete render decisions,
 7. render,
 8. emit explanation + telemetry.
+
+Solver objective order:
+
+1. satisfy hard constraints (safety, accessibility, policy),
+2. maximize semantic fidelity,
+3. maximize pragmatic utility,
+4. minimize visual surprise from previous frame.
 
 Conflict resolution priority:
 
@@ -523,3 +593,120 @@ Before enabling any pragmatic rule in production:
 7. rollback switch exists.
 
 If any item fails, the rule remains simulation-only.
+
+### 9) Solver Semantics (Implementation-Ready)
+
+This section defines how renderers must interpret and solve constraints.
+
+#### Constraint Classes
+
+Classify every constraint as one of the following:
+
+- **Hard constraints**: must always be satisfied.
+    - accessibility minima,
+    - safety and compliance rules,
+    - explicit user overrides,
+    - platform technical limits.
+- **Soft constraints**: preferred, but violable with penalty.
+    - proximity targets,
+    - foregrounding preferences,
+    - repetition style coherence,
+    - pragmatic emphasis shifts.
+
+Any solution that violates a hard constraint is invalid.
+
+#### Normalized Objective Function
+
+Among valid solutions, choose the one that minimizes total penalty:
+
+$$
+	ext{score}(S) = \sum_{i \in \text{soft}} w_i \cdot p_i(S) + \lambda \cdot \Delta_{prev}(S)
+$$
+
+Where:
+
+- $S$ is a candidate render solution,
+- $w_i$ is the effective weight of soft constraint $i$ after pragmatic reweighting,
+- $p_i(S) \in [0,1]$ is normalized violation penalty,
+- $\Delta_{prev}(S)$ is visual surprise from previous frame,
+- $\lambda$ is stability coefficient from policy.
+
+Interpretation:
+
+- lower score is better,
+- pragmatic rules modify $w_i$, not hard constraints.
+
+#### Hard-Constraint Precedence
+
+When hard constraints conflict, use this order:
+
+1. legal/compliance,
+2. accessibility,
+3. explicit user controls,
+4. safety,
+5. platform limits.
+
+If still unsatisfiable, fallback to semantic baseline and emit diagnostic telemetry.
+
+#### Soft-Constraint Tie-Breaking
+
+If candidate scores are equal within epsilon ($\varepsilon$), apply deterministic tie-breakers:
+
+1. maximize semantic-role fidelity,
+2. minimize structural movement,
+3. minimize text reflow,
+4. preserve prior element order,
+5. stable lexical order of node IDs.
+
+This guarantees the same input state yields the same output layout.
+
+#### Temporal Stability Rules
+
+To prevent adaptation thrash:
+
+- enforce `cooldownMs` before major structural updates,
+- allow micro-adjustments inside cooldown only if hard constraints require them,
+- cap per-frame structural delta by `maxDelta`,
+- freeze pragmatic reweighting when confidence volatility exceeds threshold.
+
+#### Confidence-Gated Reweighting
+
+Reweighting should be proportional to confidence:
+
+$$
+w_i' = w_i \cdot (1 + \alpha_i \cdot c)
+$$
+
+Where:
+
+- $c \in [0,1]$ is intent confidence,
+- $\alpha_i$ is per-constraint sensitivity.
+
+For low confidence, set bounded reweighting floor/ceiling and prefer baseline semantics.
+
+#### Determinism Contract
+
+Renderer implementation should be deterministic under fixed inputs:
+
+- same constraints,
+- same context signals,
+- same capability profile,
+- same previous frame snapshot.
+
+Required output artifacts per solve cycle:
+
+1. selected candidate ID,
+2. hard constraints satisfied list,
+3. soft penalties by constraint,
+4. final score,
+5. tie-break path (if used),
+6. emitted explanation key.
+
+#### Failure Handling
+
+If solver fails to produce a valid solution in time budget:
+
+1. return semantic baseline,
+2. disable non-essential pragmatic reweighting for this cycle,
+3. emit `solver_timeout_fallback` telemetry,
+4. preserve user action continuity over visual optimization.
