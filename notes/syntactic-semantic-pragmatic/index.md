@@ -141,3 +141,174 @@ Their toolkit would include:
 - **A New Kind of Governance:** The challenge becomes preventing the interface from becoming a chaotic, unpredictable mess. The design language would need strong rules to ensure that while the UI is dynamic, it still feels coherent and on-brand. The *brand*, then, is no longer a static look, but a set of behavioral principles.
 
 In essence, a Pragmatic Design Language is the ultimate expression of user-centered design. It's a system that doesn't just *say* it puts the user first; it *proves* it by reorganizing itself around them in real-time. It would be the closest we've come to an interface that feels genuinely alive and intelligent.
+
+---
+
+## Pragmatic Design Language v2 (Draft)
+
+### Mini Manifesto
+
+Design language evolves in three layers:
+
+1. **Syntactic**: rules for form.
+2. **Semantic**: rules for meaning.
+3. **Pragmatic**: rules for use under real conditions.
+
+Pragmatic design is not personalization theater. It is behavior under constraint. It adapts only when adaptation improves task success, comprehension, safety, or trust.
+
+### Core Thesis
+
+A pragmatic design language should express not just:
+
+- what an element **is** (semantic), but
+- what a user is **trying to do**,
+- how sure the system is about that goal, and
+- which adaptations are **allowed** in this context.
+
+### Scope Boundary
+
+Pragmatic rules operate above semantic tokens and components.
+
+- **Syntactic layer** defines visual grammar (spacing, type, contrast).
+- **Semantic layer** defines role grammar (`primary_action`, `warning`, `identity_chip`).
+- **Pragmatic layer** defines use grammar (`first_time_checkout`, `urgent_recovery`, `high_error_risk`).
+
+### Four Primitives
+
+#### 1) Intent Model
+
+Represents the user task now.
+
+- `intent.name`: canonical task (`checkout`, `compare_options`, `recover_account`)
+- `intent.phase`: stage in task (`discover`, `decide`, `commit`, `recover`)
+- `intent.priority`: relative urgency (`low | medium | high`)
+
+#### 2) Confidence Model
+
+Represents certainty about inferred intent.
+
+- `confidence.value`: numeric (`0.0..1.0`)
+- `confidence.source`: observed signals (`explicit_choice`, `history`, `sequence_pattern`)
+- `confidence.window`: freshness window in seconds
+
+#### 3) Adaptation Policy
+
+Declares what may change, by how much, and how quickly.
+
+- `policy.mutable`: allowed dimensions (`layout`, `density`, `copy`, `emphasis`, `order`)
+- `policy.max_delta`: bounded change per render cycle
+- `policy.cooldown_ms`: minimum interval between visible shifts
+
+#### 4) Explanation Contract
+
+Provides plain-language accountability when behavior changes.
+
+- `explain.required`: whether explanation is mandatory
+- `explain.mode`: inline hint, activity log, or settings note
+- `explain.template`: human-readable reason string
+
+### Safety and Governance Constraints
+
+Any pragmatic engine must satisfy these invariants:
+
+1. **Predictability**: no abrupt, high-amplitude UI jumps.
+2. **Agency**: user can override major adaptations.
+3. **Reversibility**: user can restore default presentation.
+4. **Accessibility**: adaptation may not reduce WCAG compliance.
+5. **Non-deception**: adaptation cannot obscure cost, risk, or consent.
+6. **Auditability**: significant adaptations are logged.
+
+### Failure Modes and Safe Fallbacks
+
+If intent confidence is low, degrade gracefully:
+
+- freeze structural adaptation,
+- keep semantic consistency,
+- expose explicit user controls,
+- ask one clarifying question when needed.
+
+Default fallback:
+
+- `semantic baseline + minimal pragmatic hints`
+
+### First-Pass Formal Grammar (PDL-0)
+
+```ebnf
+Program          = { Rule } ;
+
+Rule             = "rule" Identifier ":" Trigger "=>" Outcome ["else" Outcome] "." ;
+
+Trigger          = "when" Condition { ("and" | "or") Condition } ;
+
+Condition        = Predicate | "(" Trigger ")" ;
+
+Predicate        = Field Operator Value
+                                 | "confidence" RelOp Number
+                                 | "intent" "is" Identifier
+                                 | "phase" "is" Identifier ;
+
+Operator         = "==" | "!=" | "in" | "contains" ;
+RelOp            = ">" | ">=" | "<" | "<=" ;
+
+Outcome          = "apply" "{" { Action ";" } "}" [ Explain ] ;
+
+Action           = SetAction | PrioritizeAction | ComposeAction | GuardAction ;
+
+SetAction        = "set" Field "=" Value ;
+PrioritizeAction = "prioritize" Component ["by" Number] ;
+ComposeAction    = "compose" View "with" Profile ;
+GuardAction      = "guard" Constraint ;
+
+Explain          = "explain" String ;
+
+Field            = Identifier { "." Identifier } ;
+Component        = Identifier ;
+View             = Identifier ;
+Profile          = Identifier ;
+Constraint       = Identifier ;
+Identifier       = Letter { Letter | Digit | "_" } ;
+Value            = String | Number | Boolean | Identifier ;
+```
+
+### Example Rules
+
+```pdl
+rule rush_mode_targets:
+when intent is checkout and user.state == rushing and confidence >= 0.75
+=> apply {
+    set controls.touch_target = large;
+    set cta.emphasis = high;
+    guard preserve_wcag_aa;
+} explain "Adjusted controls for faster and safer completion.".
+
+rule low_confidence_fallback:
+when intent is recover_account and confidence < 0.45
+=> apply {
+    set layout.mode = semantic_baseline;
+    prioritize support_option by 2;
+    guard freeze_reordering;
+} explain "Using stable layout until your goal is clearer.".
+```
+
+### Operational Model
+
+At runtime, the engine should execute in this order:
+
+1. infer intent,
+2. compute confidence,
+3. evaluate policy constraints,
+4. apply bounded adaptations,
+5. emit explanation and audit event.
+
+This order prevents a common failure: adapting first, then justifying later.
+
+### Practical Next Step
+
+Implement PDL-0 as a design-time simulator before production use:
+
+- feed it recorded interaction traces,
+- inspect adaptation logs,
+- tune confidence thresholds,
+- verify that adaptation improves completion and reduces error.
+
+Ship only rules that survive this test loop.
