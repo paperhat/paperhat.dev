@@ -6,7 +6,7 @@ This repository is proprietary. Use of its contents does **not** grant permissio
 
 ## Permitted Use
 
-You may use the names **Codex** and **Gloss** in a descriptive manner to indicate compatibility with, or support for, the corresponding specifications, provided that such use is accurate and does not imply endorsement.
+Descriptive use of the names **Codex** and **Gloss** to indicate compatibility with, or support for, the corresponding specifications is permitted, provided that such use is accurate and does not imply endorsement.
 
 Examples of permitted descriptive use include:
 
@@ -16,7 +16,7 @@ Examples of permitted descriptive use include:
 
 ## Restricted Use
 
-You may not use the trademarks in a way that suggests:
+The trademarks must not be used in a way that suggests:
 
 - endorsement, sponsorship, or certification by Paperhat, Limited
 - that your product is the official implementation
@@ -26,7 +26,7 @@ Use of the trademarks in product names, domain names, marketing materials, or lo
 
 ## Certification and Conformance
 
-Paperhat, Limited may define certification marks, conformance programs, or compatibility requirements associated with the Codex and Gloss specifications. Participation in any such program is optional and governed by separate terms.
+Paperhat, Limited reserves the right to define certification marks, conformance programs, or compatibility requirements associated with the Codex and Gloss specifications. Participation in any such program is optional and governed by separate terms.
 
 ## No Effect on License
 
